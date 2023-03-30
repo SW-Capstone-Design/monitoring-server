@@ -1,4 +1,4 @@
 package kr.co.monitoringserver.persistence;
 
-public class User {
+public class BaseEntity {
 }
