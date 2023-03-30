@@ -2,6 +2,7 @@ package kr.co.monitoringserver.persistence.entity;
 
 import jakarta.persistence.*;
 import kr.co.monitoringserver.persistence.BaseEntity;
+import kr.co.monitoringserver.service.model.request.UserRequest;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,4 +27,15 @@ public class User extends BaseEntity {
     private String phone;
 
     private String department;
+
+
+    public static User of(UserRequest userRequest) {
+        return User.builder()
+                .identity(userRequest.getIdentity())
+                .password(userRequest.getPassword())
+                .name(userRequest.getName())
+                .phone(userRequest.getPhone())
+                .department(userRequest.getDepartment())
+                .build();
+    }
 }
