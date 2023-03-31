@@ -20,7 +20,7 @@ import java.sql.Timestamp;
 public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long users_id;
+    private long usersId;
     @Column(nullable = false, length = 30, unique = true)
     private String identity;
     @NotBlank

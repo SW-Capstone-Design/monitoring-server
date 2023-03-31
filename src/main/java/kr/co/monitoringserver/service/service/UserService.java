@@ -2,7 +2,7 @@ package kr.co.monitoringserver.service.service;
 
 
 
-import kr.co.monitoringserver.dto.UserRuquestDto;
+import kr.co.monitoringserver.dto.request.UserRuquestDto;
 import kr.co.monitoringserver.persistence.repository.UserRepository;
 import kr.co.monitoringserver.persistence.entity.RoleType;
 import kr.co.monitoringserver.persistence.entity.Users;

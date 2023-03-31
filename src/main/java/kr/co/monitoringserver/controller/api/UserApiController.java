@@ -2,9 +2,8 @@ package kr.co.monitoringserver.controller.api;
 
 
 import jakarta.validation.Valid;
-import kr.co.monitoringserver.dto.UserRuquestDto;
+import kr.co.monitoringserver.dto.request.UserRuquestDto;
 import kr.co.monitoringserver.dto.ResponseDto;
-import kr.co.monitoringserver.persistence.entity.Users;
 import kr.co.monitoringserver.service.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

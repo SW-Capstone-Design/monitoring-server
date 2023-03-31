@@ -36,7 +36,7 @@
 				<ul class="navbar-nav">
 				            <li class="nav-item"><a class="nav-link" href="#">출결관리</a></li>
 							<li class="nav-item"><a class="nav-link" href="#">비콘관리</a></li>
-        					<li class="nav-item"><a class="nav-link" href="#">사용자정보관리</a></li>
+        					<li class="nav-item"><a class="nav-link" href="/admin/info">사용자정보관리</a></li>
         					<li class="nav-item"><a class="nav-link" href="/logout">로그아웃</a></li>
 				</ul>
 			</c:otherwise>
