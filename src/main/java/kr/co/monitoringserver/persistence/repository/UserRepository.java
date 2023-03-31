@@ -1,6 +1,6 @@
 package kr.co.monitoringserver.persistence.repository;
 
-import kr.co.monitoringserver.service.model.Users;
+import kr.co.monitoringserver.persistence.entity.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

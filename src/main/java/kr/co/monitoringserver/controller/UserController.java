@@ -18,12 +18,15 @@ public class UserController {
         return "user/loginForm";
     }
 
-    @Controller
-    public class AdminController {
-        @GetMapping("/auth/beaconForm")
-        public String beaconForm() {
+    @GetMapping("/user/updateForm")
+    public String updateForm() {
 
-            return "user/beaconForm";
-        }
+        return "user/updateForm";
+    }
+
+    @GetMapping("/auth/beaconForm")
+    public String beaconForm() {
+
+        return "user/beaconForm";
     }
 }

@@ -36,7 +36,7 @@
 				<ul class="navbar-nav">
 				            <li class="nav-item"><a class="nav-link" href="#">출결등록</a></li>
 							<li class="nav-item"><a class="nav-link" href="/auth/beaconForm">비콘등록</a></li>
-        					<li class="nav-item"><a class="nav-link" href="#">회원정보</a></li>
+        					<li class="nav-item"><a class="nav-link" href="/user/updateForm">회원정보</a></li>
         					<li class="nav-item"><a class="nav-link" href="/admin/">관리자페이지</a></li>
         					<li class="nav-item"><a class="nav-link" href="/logout">로그아웃</a></li>
 				</ul>

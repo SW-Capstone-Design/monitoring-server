@@ -1,6 +1,7 @@
 package kr.co.monitoringserver.infra.config.auth;
 
-import kr.co.monitoringserver.service.model.Users;
+import kr.co.monitoringserver.persistence.entity.Users;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -10,6 +11,7 @@ import java.util.Collection;
 
 public class PrincipalDetail implements UserDetails {
 
+    @Getter
     private Users users;
 
     public PrincipalDetail(Users users) {
