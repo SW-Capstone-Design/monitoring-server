@@ -68,4 +68,9 @@ public class AdminService {
         return validatorResult;
     }
 
+    public Page<Users> userSearchList(String searchKeyword, Pageable pageable) {
+
+        return userRepository.findByIdentityContaining(searchKeyword, pageable);
+    }
+
 }

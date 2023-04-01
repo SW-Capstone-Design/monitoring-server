@@ -1,7 +1,9 @@
 package kr.co.monitoringserver.controller;
 
+import kr.co.monitoringserver.persistence.entity.Users;
 import kr.co.monitoringserver.service.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -23,8 +25,14 @@ public class AdminController {
     }
 
     @GetMapping("/admin/info")
-    public String list(Model model, @PageableDefault(size=10, sort="usersId", direction = Sort.Direction.ASC) Pageable pageable){
-        model.addAttribute("lists", adminService.list(pageable));
+    public String list(Model model, @PageableDefault(size=3, sort="usersId", direction = Sort.Direction.ASC) Pageable pageable,
+                       String searchKeyword){
+
+        if(searchKeyword == null) {
+            model.addAttribute("lists", adminService.list(pageable));
+        }else{
+            model.addAttribute("lists", adminService.userSearchList(searchKeyword, pageable));
+        }
 
         return "admin/info/list";
     }

@@ -4,7 +4,13 @@
 
 <div class="container">
   <h2>회원정보관리</h2>
-  <p>회원정보 조회 및 수정</p>
+  <span>
+    회원정보 조회 및 수정
+  </span>
+  <form style="text-align:right;" action="info" method="get">
+    <input type="text" name="searchKeyword" placeholder="Enter Id">
+    <button type="submit" class="btn btn-primary">검색</button>
+  <form>
   <table class="table table-hover">
     <thead>
       <tr>
@@ -47,7 +53,14 @@
   	</c:choose>
 
   	<c:forEach var="i" begin="1" end="${lists.totalPages}">
-       <li class="page-item"><a class="page-link" href="?page=${i-1}">${i}</a></li>
+  	<c:choose>
+      		<c:when test="${!empty param.searchKeyword}">
+      		    <li class="page-item"><a class="page-link" href="?page=${i-1}&searchKeyword=${param.searchKeyword}">${i}</a></li>
+      		</c:when>
+      		<c:otherwise>
+      	        <li class="page-item"><a class="page-link" href="?page=${i-1}">${i}</a></li>
+      		</c:otherwise>
+      	</c:choose>
     </c:forEach>
 
   	<c:choose>
@@ -60,7 +73,5 @@
   	</c:choose>
 
 </div>
-
-
 
 <%@ include file="../../layout/admin/footer.jsp"%>

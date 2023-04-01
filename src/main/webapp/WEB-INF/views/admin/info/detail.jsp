@@ -31,7 +31,7 @@
         <p id="valid_phone"></p>
        <div class="form-group">
             <label for="role_type">Role_type [USER1, USER2, USER3]</label>
-            <input type="role_type" value="${list.role_type}" class="form-control" placeholder="USER1, USER2, USER3" id="role_type">
+            <input type="role_type" value="${list.role_type}" class="form-control" placeholder="Enter Role_type" id="role_type">
 
        </div>
 	</form>
