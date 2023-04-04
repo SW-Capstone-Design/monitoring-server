@@ -1,7 +1,6 @@
 package kr.co.monitoringserver.service.service;
 
-import kr.co.monitoringserver.dto.request.AdminRuquestDto;
-import kr.co.monitoringserver.dto.request.UserRuquestDto;
+import kr.co.monitoringserver.dto.request.AdminRequestDto;
 import kr.co.monitoringserver.persistence.entity.Users;
 import kr.co.monitoringserver.persistence.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +40,7 @@ public class AdminService {
     }
 
     @Transactional
-    public void update(AdminRuquestDto adminDto) {
+    public void update(AdminRequestDto adminDto) {
         Users persistence = userRepository.findByIdentity(adminDto.getIdentity())
                 .orElseThrow(()->{
                     return new IllegalArgumentException("회원 찾기 실패");

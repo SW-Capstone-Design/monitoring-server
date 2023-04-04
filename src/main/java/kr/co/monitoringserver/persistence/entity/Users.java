@@ -3,6 +3,7 @@ package kr.co.monitoringserver.persistence.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import kr.co.monitoringserver.service.enums.RoleType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

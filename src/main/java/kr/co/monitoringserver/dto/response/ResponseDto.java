@@ -1,4 +1,4 @@
-package kr.co.monitoringserver.dto;
+package kr.co.monitoringserver.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
