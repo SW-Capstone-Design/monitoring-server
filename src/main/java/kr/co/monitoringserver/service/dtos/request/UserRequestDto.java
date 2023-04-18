@@ -1,8 +1,7 @@
-package kr.co.monitoringserver.dto.request;
+package kr.co.monitoringserver.service.dtos.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
-import kr.co.monitoringserver.service.enums.RoleType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class AdminRequestDto {
+public class UserRequestDto {
     @NotBlank(message = "아이디는 필수 입력값입니다.")
     private String identity;
 
@@ -29,6 +28,4 @@ public class AdminRequestDto {
     @NotBlank(message = "핸드폰 번호는 필수 입력값입니다.")
     @Pattern(regexp = "^\\d{2,3}-\\d{3,4}-\\d{4}$", message = "10~11자리의 숫자만 입력가능합니다")
     private String phone;
-
-    private RoleType role_type;
 }

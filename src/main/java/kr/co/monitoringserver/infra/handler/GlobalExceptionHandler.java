@@ -1,7 +1,7 @@
 package kr.co.monitoringserver.infra.handler;
 
 
-import kr.co.monitoringserver.dto.response.ResponseDto;
+import kr.co.monitoringserver.service.dtos.response.ResponseDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
