@@ -1,26 +1,27 @@
-package kr.co.monitoringserver.service.service.attend;
+package kr.co.monitoringserver.service.service.attendance;
 
 import kr.co.monitoringserver.persistence.entity.Attendance;
-import kr.co.monitoringserver.persistence.entity.User;
 import kr.co.monitoringserver.persistence.repository.UserRepository;
 import kr.co.monitoringserver.service.dtos.request.AttendanceReqDTO;
 import kr.co.monitoringserver.persistence.repository.AttendanceRepository;
 import kr.co.monitoringserver.service.dtos.response.AttendanceResDTO;
-import kr.co.monitoringserver.service.enums.AttendanceStatus;
+import kr.co.monitoringserver.service.enums.AttendanceType;
 import kr.co.monitoringserver.service.mappers.AttendanceMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Duration;
-import java.time.LocalDate;
-import java.time.chrono.ChronoLocalDate;
-import java.time.temporal.Temporal;
+import java.time.LocalTime;
 
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class AttendanceService {
+
+    /**
+     * 출석 서비스
+     * 출석 기록과 출석 상태 간의 관계를 설정하고, 이를 활용하여 출석 상태를 출력하는 기능
+     */
 
     private final AttendanceRepository attendanceRepository;
 
@@ -31,7 +32,12 @@ public class AttendanceService {
     @Transactional
     public void createAttendance(AttendanceReqDTO.CREATE create) {
 
-        Attendance attendance = attendanceMapper.toAttendacneEntity(create);
+        LocalTime enterTime = create.getEnterTime();
+        LocalTime leaveTime = create.getLeaveTime();
+
+        AttendanceType attendanceType = calculateAttendanceStatus(enterTime, leaveTime);
+
+        Attendance attendance = attendanceMapper.toAttendacneEntity(create, attendanceType);
 
         attendanceRepository.save(attendance);
     }
@@ -44,31 +50,22 @@ public class AttendanceService {
         return attendanceMapper.toAttendacneReadDto(attendance);
     }
 
-    public void updateAttendance(AttendanceReqDTO.UPDATE update) {
-
-        final User user = userRepository.findById(update.getUserId())
-                .orElseThrow(() -> new RuntimeException("Not Found User"));
 
 
-    }
+    private AttendanceType calculateAttendanceStatus(LocalTime enterTime,
+                                                     LocalTime leaveTime) {
 
+        LocalTime startTime = LocalTime.parse("09:00:00");
+        LocalTime endTime = LocalTime.parse("18:00:00");
 
-    private AttendanceStatus calculateAttendanceStatus(LocalDate inTime,
-                                                       LocalDate outTime) {
-
-        LocalDate startTime = LocalDate.parse("09:00:00");
-        LocalDate endTime = LocalDate.parse("18:00:00");
-
-        LocalDate currentTime = LocalDate.now();
-
-        if (currentTime.isBefore((ChronoLocalDate) startTime.plus(Duration.ofMinutes(10))) {
-            // 출근 처리
-        } else if (currentTime.isBefore((ChronoLocalDate) startTime.plus(Duration.ofMinutes(30))) {
-            // 지각 처리
-        } else if (currentTime.isBefore(endTime.minusMinutes(30))) {
-            // 조퇴 처리
+        if (enterTime.isBefore(startTime.plusMinutes(10))) {
+            return AttendanceType.GO_WORK;
+        } else if (enterTime.isBefore(startTime.plusMinutes(30))) {
+            return AttendanceType.TARDINESS;
+        } else if (leaveTime.isBefore(endTime.minusMinutes(30))) {
+            return AttendanceType.EARLY_LEAVE;
         } else {
-            // 퇴근 처리
+            return AttendanceType.LEAVE_WORD;
         }
     }
 }

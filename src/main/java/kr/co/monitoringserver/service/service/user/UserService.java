@@ -31,9 +31,9 @@ public class UserService {
                 .identity(userDto.getIdentity())
                 .password(encoder.encode(userDto.getPassword()))
                 .name(userDto.getName())
-                .phone(userDto.getPhone())
+                .telephone(userDto.getPhone())
                 .department(userDto.getDepartment())
-                .role_type(RoleType.USER1)
+                .roleType(RoleType.USER1)
                 .build();
 
         userRepository.save(user);
@@ -63,6 +63,6 @@ public class UserService {
             persistance.setPassword(encPassword);
             persistance.setName(userDto.getName());
             persistance.setDepartment(userDto.getDepartment());
-            persistance.setPhone(userDto.getPhone());
+            persistance.setTelephone(userDto.getPhone());
     }
 }

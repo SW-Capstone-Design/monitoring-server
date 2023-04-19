@@ -51,8 +51,8 @@ public class AdminService {
         persistence.setPassword(encPassword);
         persistence.setName(adminDto.getName());
         persistence.setDepartment(adminDto.getDepartment());
-        persistence.setPhone(adminDto.getPhone());
-        persistence.setRole_type(adminDto.getRole_type());
+        persistence.setTelephone(adminDto.getPhone());
+        persistence.setRoleType(adminDto.getRole_type());
     }
 
     @Transactional(readOnly = true)

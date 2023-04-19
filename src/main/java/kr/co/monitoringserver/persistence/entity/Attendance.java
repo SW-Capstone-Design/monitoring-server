@@ -2,20 +2,23 @@ package kr.co.monitoringserver.persistence.entity;
 
 import jakarta.persistence.*;
 import kr.co.monitoringserver.persistence.BaseEntity;
-import kr.co.monitoringserver.service.enums.AttendanceStatus;
 import lombok.*;
 
-import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(name = "tbl_attendance")
+@Table(name = "tbl_attendances")
 @AttributeOverride(
         name = "id",
         column = @Column(name = "attendance_id", length = 4))
 public class Attendance extends BaseEntity {
+
+    /** 출석 엔티티
+     *  특정 사용자의 출석 기록을 저장하는 역할
+     *  즉, 사용자와 날짜 정보를 갖음
+     */
 
     @Column(name = "enter_time")
     private LocalTime enterTime;
@@ -23,31 +26,32 @@ public class Attendance extends BaseEntity {
     @Column(name = "leave_time")
     private LocalTime leaveTime;
 
-    @Enumerated(value = EnumType.STRING)
-    @Column(name = "attend_status")
+    @ManyToOne(
+            cascade = CascadeType.REMOVE,
+            fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "attendance_status_id")
     private AttendanceStatus attendanceStatus;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "users_id")
-    private User user;
 
 
     @Builder
     private Attendance(LocalTime enterTime,
                        LocalTime leaveTime,
-                       AttendanceStatus attendanceStatus,
-                       User user) {
+                       User user,
+                       AttendanceStatus attendanceStatus) {
 
         this.enterTime = enterTime;
         this.leaveTime = leaveTime;
-        this.attendanceStatus = attendanceStatus;
         this.user = user;
+        this.attendanceStatus = attendanceStatus;
     }
 
-    public void updateAttendance(AttendanceStatus attendanceStatus,
-                                 User user) {
-
-        this.attendanceStatus = attendanceStatus;
-        this.user = user;
-    }
+//    public void updateAttendance(User user) {
+//
+//        this.user = user;
+//    }
 }
