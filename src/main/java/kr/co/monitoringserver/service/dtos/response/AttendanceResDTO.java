@@ -4,6 +4,7 @@ import kr.co.monitoringserver.service.enums.AttendanceStatus;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class AttendanceResDTO {
 
@@ -13,9 +14,9 @@ public class AttendanceResDTO {
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static class READ {
 
-        private LocalDate enterTime;
+        private LocalTime enterTime;
 
-        private LocalDate leaveTime;
+        private LocalTime leaveTime;
 
         private AttendanceStatus attendanceStatus;
 
@@ -28,9 +29,9 @@ public class AttendanceResDTO {
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static class READ_DETAIL {
 
-        private LocalDate enterTime;
+        private LocalTime enterTime;
 
-        private LocalDate leaveTime;
+        private LocalTime leaveTime;
 
         private AttendanceStatus attendanceStatus;
 

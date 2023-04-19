@@ -3,6 +3,7 @@ package kr.co.monitoringserver.service.dtos.request;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class AttendanceReqDTO {
 
@@ -12,9 +13,9 @@ public class AttendanceReqDTO {
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static class CREATE {
 
-        private LocalDate enterTime;
+        private LocalTime enterTime;
 
-        private LocalDate leaveTime;
+        private LocalTime leaveTime;
 
         private String attendanceStatus;    // 입력받는 형식이 아닌 입/출력 시간을 계산하여 출력되도록
 

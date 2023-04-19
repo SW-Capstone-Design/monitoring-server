@@ -6,6 +6,7 @@ import kr.co.monitoringserver.service.enums.AttendanceStatus;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -17,10 +18,10 @@ import java.time.LocalDate;
 public class Attendance extends BaseEntity {
 
     @Column(name = "enter_time")
-    private LocalDate enterTime;
+    private LocalTime enterTime;
 
     @Column(name = "leave_time")
-    private LocalDate leaveTime;
+    private LocalTime leaveTime;
 
     @Enumerated(value = EnumType.STRING)
     @Column(name = "attend_status")
@@ -32,8 +33,8 @@ public class Attendance extends BaseEntity {
 
 
     @Builder
-    private Attendance(LocalDate enterTime,
-                       LocalDate leaveTime,
+    private Attendance(LocalTime enterTime,
+                       LocalTime leaveTime,
                        AttendanceStatus attendanceStatus,
                        User user) {
 
