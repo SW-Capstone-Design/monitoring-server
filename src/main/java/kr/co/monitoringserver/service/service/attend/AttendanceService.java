@@ -1,6 +1,8 @@
 package kr.co.monitoringserver.service.service.attend;
 
 import kr.co.monitoringserver.persistence.entity.Attendance;
+import kr.co.monitoringserver.persistence.entity.User;
+import kr.co.monitoringserver.persistence.repository.UserRepository;
 import kr.co.monitoringserver.service.dtos.request.AttendanceReqDTO;
 import kr.co.monitoringserver.persistence.repository.AttendanceRepository;
 import kr.co.monitoringserver.service.dtos.response.AttendanceResDTO;
@@ -15,6 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class AttendanceService {
 
     private final AttendanceRepository attendanceRepository;
+
+    private final UserRepository userRepository;
 
     private final AttendanceMapper attendanceMapper;
 
@@ -32,5 +36,13 @@ public class AttendanceService {
                 .orElseThrow(() -> new RuntimeException("Not Found Attendance"));
 
         return attendanceMapper.toAttendacneReadDto(attendance);
+    }
+
+    public void updateAttendance(AttendanceReqDTO.UPDATE update) {
+
+        final User user = userRepository.findById(update.getUserId())
+                .orElseThrow(() -> new RuntimeException("Not Found User"));
+
+
     }
 }

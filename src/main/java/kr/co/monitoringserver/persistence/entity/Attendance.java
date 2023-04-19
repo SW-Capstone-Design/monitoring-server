@@ -28,18 +28,25 @@ public class Attendance extends BaseEntity {
 
     @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "users_id")
-    private Users users;
+    private User user;
 
 
     @Builder
     private Attendance(LocalDate enterTime,
                        LocalDate leaveTime,
                        AttendanceStatus attendanceStatus,
-                       Users users) {
+                       User user) {
 
         this.enterTime = enterTime;
         this.leaveTime = leaveTime;
         this.attendanceStatus = attendanceStatus;
-        this.users = users;
+        this.user = user;
+    }
+
+    public void updateAttendance(AttendanceStatus attendanceStatus,
+                                 User user) {
+
+        this.attendanceStatus = attendanceStatus;
+        this.user = user;
     }
 }

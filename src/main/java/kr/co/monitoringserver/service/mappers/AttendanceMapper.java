@@ -20,6 +20,6 @@ public interface AttendanceMapper {
     @Mapping(source = "attendance.enterTime", target = "enterTime")
     @Mapping(source = "attendance.leaveTime", target = "leaveTime")
     @Mapping(source = "attendance.attendanceStatus", target = "attendanceStatus")
-    @Mapping(source = "attendance.users.name", target = "userName")
+    @Mapping(source = "attendance.getUser.name", target = "userName")
     AttendanceResDTO.READ toAttendacneReadDto(Attendance attendance);
 }

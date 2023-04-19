@@ -1,6 +1,5 @@
 package kr.co.monitoringserver.persistence.entity;
 
-
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import kr.co.monitoringserver.service.enums.RoleType;
@@ -18,26 +17,34 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @Builder
 @Entity
-public class Users {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "users_id")
-    private long usersId;
+public class User {
+
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
+    private long userId;
+
     @Column(nullable = false, length = 30, unique = true)
     private String identity;
+
     @NotBlank
     @Column(nullable = false, length = 100)
     private String password;
+
     @Column(nullable = false, length = 30)
     private String name;
+
     @Column(nullable = false, length = 30)
     private String department;
+
     @Enumerated(EnumType.STRING)
-    private RoleType role_type;
+    private RoleType roleType;
+
     @CreationTimestamp
-    private Timestamp created_at;
+    private Timestamp createdAt;
+
     @UpdateTimestamp
-    private Timestamp updated_at;
+    private Timestamp updatedAt;
+
     @Column(nullable = false, length = 30)
-    private String phone;
+    private String telephone;
 }

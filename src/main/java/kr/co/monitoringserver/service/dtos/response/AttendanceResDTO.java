@@ -40,6 +40,6 @@ public class AttendanceResDTO {
 
         private String userRoleType;
 
-        private String userPhone;
+        private String userTelephone;
     }
 }

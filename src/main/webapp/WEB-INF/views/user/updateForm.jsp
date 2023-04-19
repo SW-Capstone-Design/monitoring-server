@@ -6,7 +6,7 @@
 	<form>
 		<div class="form-group">
 			<label for="identity">Id</label>
-			<input type="text" value="${principal.users.identity}" class="form-control" placeholder="Enter identity"  id="identity" readonly>
+			<input type="text" value="${principal.user.identity}" class="form-control" placeholder="Enter identity"  id="identity" readonly>
 		</div>
 		<p id="valid_identity"></p>
         <div class="form-group">
@@ -16,17 +16,17 @@
         <p id="valid_password"></p>
         <div class="form-group">
         	<label for="name">Name</label>
-        	<input type="name" value="${principal.users.name}" class="form-control" placeholder="Enter name" id="name">
+        	<input type="name" value="${principal.user.name}" class="form-control" placeholder="Enter name" id="name">
         </div>
         <p id="valid_name"></p>
         <div class="form-group">
             <label for="department">Department</label>
-            <input type="department" value="${principal.users.department}" class="form-control" placeholder="Enter department" id="department">
+            <input type="department" value="${principal.user.department}" class="form-control" placeholder="Enter department" id="department">
         </div>
         <p id="valid_department"></p>
 		<div class="form-group">
 			<label for="phone">Phone</label>
-			<input type="phone" value="${principal.users.phone}" class="form-control" placeholder="Enter phone" id="phone">
+			<input type="phone" value="${principal.user.phone}" class="form-control" placeholder="Enter phone" id="phone">
 		</div>
         <p id="valid_phone"></p>
 

@@ -16,7 +16,7 @@ public class AttendanceReqDTO {
 
         private LocalDate leaveTime;
 
-        private String attendanceStatus;
+        private String attendanceStatus;    // 입력받는 형식이 아닌 입/출력 시간을 계산하여 출력되도록
 
         private String userIdentity;
     }

@@ -26,17 +26,17 @@
       </tr>
     </thead>
     <tbody>
-    <c:forEach items="${lists.content}" var="users">
+    <c:forEach items="${lists.content}" var="user">
       <tr>
-        <td>${users.usersId}</td>
-        <td>${users.identity}</td>
-        <td>${users.name}</td>
-        <td>${users.department}</td>
-        <td>${users.phone}</td>
-        <td>${users.created_at}</td>
-        <td>${users.updated_at}</td>
-        <td>${users.role_type}</td>
-        <td><a href="/admin/info/${users.usersId}">수정</a></td>
+        <td>${user.usersId}</td>
+        <td>${user.identity}</td>
+        <td>${user.name}</td>
+        <td>${user.department}</td>
+        <td>${user.phone}</td>
+        <td>${user.created_at}</td>
+        <td>${user.updated_at}</td>
+        <td>${user.role_type}</td>
+        <td><a href="/admin/info/${user.usersId}">수정</a></td>
       </tr>
       </c:forEach>
     </tbody>
@@ -48,7 +48,7 @@
   			<li class="page-item disabled"><a class="page-link" href="?page=${lists.number-1}">Previous</a></li>
   		</c:when>
   		<c:otherwise>
-  			<li class="page-item"><a class="page-link" href="?page=${users.number-1}">Previous</a></li>
+  			<li class="page-item"><a class="page-link" href="?page=${user.number-1}">Previous</a></li>
   		</c:otherwise>
   	</c:choose>
 

@@ -8,7 +8,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/attendances")
+@RequestMapping("/api/v1/attendance")
 @RequiredArgsConstructor
 public class AttendanceController {
 
@@ -24,5 +24,11 @@ public class AttendanceController {
     public AttendanceResDTO.READ getAttendanceById(@PathVariable(name = "attendance_id") Long attendanceId) {
 
         return attendanceService.getAttendanceById(attendanceId);
+    }
+
+    @PostMapping
+    public void updateAttendance(AttendanceReqDTO.UPDATE update) {
+
+        attendanceService.updateAttendance(update);
     }
 }

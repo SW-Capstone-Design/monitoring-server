@@ -1,7 +1,7 @@
 package kr.co.monitoringserver.service.service.user;
 
 import kr.co.monitoringserver.service.dtos.request.AdminRequestDto;
-import kr.co.monitoringserver.persistence.entity.Users;
+import kr.co.monitoringserver.persistence.entity.User;
 import kr.co.monitoringserver.persistence.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -25,13 +25,13 @@ public class AdminService {
     private BCryptPasswordEncoder encoder;
 
     @Transactional(readOnly = true)
-    public Page<Users> list(Pageable pageable) {
+    public Page<User> list(Pageable pageable) {
 
         return userRepository.findAll(pageable);
     }
 
     @Transactional(readOnly = true)
-    public Users detail(long usersId) {
+    public User detail(long usersId) {
 
         return userRepository.findByUsersId(usersId)
                 .orElseThrow(()->{
@@ -41,7 +41,7 @@ public class AdminService {
 
     @Transactional
     public void update(AdminRequestDto adminDto) {
-        Users persistence = userRepository.findByIdentity(adminDto.getIdentity())
+        User persistence = userRepository.findByIdentity(adminDto.getIdentity())
                 .orElseThrow(()->{
                     return new IllegalArgumentException("회원 찾기 실패");
                 });
@@ -67,7 +67,7 @@ public class AdminService {
         return validatorResult;
     }
 
-    public Page<Users> userSearchList(String searchKeyword, Pageable pageable) {
+    public Page<User> userSearchList(String searchKeyword, Pageable pageable) {
 
         return userRepository.findByIdentityContaining(searchKeyword, pageable);
     }
