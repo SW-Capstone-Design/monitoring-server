@@ -10,10 +10,10 @@ import java.time.LocalDate;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(name = "tbl_attend")
+@Table(name = "tbl_attendance")
 @AttributeOverride(
         name = "id",
-        column = @Column(name = "attendances_id", length = 4))
+        column = @Column(name = "attendance_id", length = 4))
 public class Attendance extends BaseEntity {
 
     @Column(name = "enter_time")

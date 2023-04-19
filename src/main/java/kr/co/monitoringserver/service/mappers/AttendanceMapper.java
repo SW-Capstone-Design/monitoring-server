@@ -17,5 +17,9 @@ public interface AttendanceMapper {
     Attendance toAttendacneEntity(AttendanceReqDTO.CREATE create);
 
     // Attendance Entity -> AttendanceResDTO.READ
+    @Mapping(source = "attendance.enterTime", target = "enterTime")
+    @Mapping(source = "attendance.leaveTime", target = "leaveTime")
+    @Mapping(source = "attendance.attendanceStatus", target = "attendanceStatus")
+    @Mapping(source = "attendance.users.name", target = "userName")
     AttendanceResDTO.READ toAttendacneReadDto(Attendance attendance);
 }
