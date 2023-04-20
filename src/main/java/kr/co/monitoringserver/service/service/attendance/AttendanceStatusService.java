@@ -76,6 +76,18 @@ public class AttendanceStatusService {
         updatedStatus.updateAttendanceType(attendanceType);
     }
 
+    /** Delete Attendance Status By id Service
+     *
+     */
+    @Transactional
+    public void deleteAttendanceStatus(Long attendanceStatusId) {
+
+        AttendanceStatus attendanceStatus = attendanceStatusRepository.findById(attendanceStatusId)
+                .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_ATTENDANCE));
+
+        attendanceStatusRepository.delete(attendanceStatus);
+    }
+
 
 
     private AttendanceType calculateAttendanceStatus(LocalTime enterTime,
