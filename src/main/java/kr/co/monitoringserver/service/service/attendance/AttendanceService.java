@@ -60,7 +60,7 @@ public class AttendanceService {
     }
 
     /** Update Attendance Service
-     *
+     *  수정할 필요가 있음 :
      */
     @Transactional
     public void updateAttendance(AttendanceReqDTO.UPDATE update) {
@@ -71,12 +71,30 @@ public class AttendanceService {
         final User user = userRepository.findById(update.getUserId())
                 .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_USER));
 
-        if (user.getRoleType() != RoleType.ADMIN) {
-            throw new UnauthorizedException(ErrorCode.NOT_AUTHENTICATE_USER);
-        }
+        checkPermissionToUpdate(user);
 
         attendance.updateAttendance(update);
 
         attendanceRepository.save(attendance);
+    }
+
+    /** Delete Attendance Service
+     *
+     */
+    @Transactional
+    public void deleteAttendance(Long attendanceId) {
+
+        final Attendance attendance = attendanceRepository.findById(attendanceId)
+                .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_ATTENDANCE));
+
+        attendanceRepository.delete(attendance);
+    }
+
+
+
+    private void checkPermissionToUpdate(User user) {
+        if (user.getRoleType() != RoleType.ADMIN) {
+            throw new UnauthorizedException(ErrorCode.NOT_AUTHENTICATE_USER);
+        }
     }
 }

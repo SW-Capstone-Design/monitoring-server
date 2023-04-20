@@ -57,4 +57,18 @@ public class AttendanceController {
                 "출석 정보가 성공적으로 수정되었습니다"
         );
     }
+
+    /** Delete Attendance Controller
+     *
+     */
+    @DeleteMapping("/{attendance_id}")
+    public ResponseFormat<Void> deleteAttendance(@PathVariable(name = "attendance_id") Long attendanceId) {
+
+        attendanceService.deleteAttendance(attendanceId);
+
+        return ResponseFormat.successMessage(
+                ErrorCode.SUCCESS_EXECUTE,
+                "출석 정보가 성공적으로 삭제되었습니다"
+        );
+    }
 }
