@@ -1,5 +1,6 @@
 package kr.co.monitoringserver.service.dtos.response;
 
+import kr.co.monitoringserver.persistence.entity.Attendance;
 import kr.co.monitoringserver.service.enums.AttendanceType;
 import lombok.*;
 
@@ -11,10 +12,8 @@ public class AttendStatusResDTO {
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static class READ {
 
-        private String attendanceDate;
+        private Attendance attendance;
 
         private AttendanceType attendanceType;
-
-        private String userIdentity;
     }
 }

@@ -2,6 +2,7 @@ package kr.co.monitoringserver.persistence.entity;
 
 import jakarta.persistence.*;
 import kr.co.monitoringserver.persistence.BaseEntity;
+import kr.co.monitoringserver.service.dtos.request.AttendStatusReqDTO;
 import kr.co.monitoringserver.service.enums.AttendanceType;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -28,15 +29,6 @@ public class AttendanceStatus extends BaseEntity {
     @Column(name = "attendance_type")
     private AttendanceType attendanceType;
 
-//    @Column(name = "description")
-//    private String description;
-//
-//    @Column(name = "late_count", nullable = false)
-//    private int lateCount;
-//
-//    @Column(name = "absent_count", nullable = false)
-//    private int absentCount;
-
     @OneToMany(
             mappedBy = "attendanceStatus",
             cascade = CascadeType.ALL,
@@ -46,20 +38,14 @@ public class AttendanceStatus extends BaseEntity {
 
     @Builder
     private AttendanceStatus(AttendanceType attendanceType,
-//                             String description,
-//                             int lateCount,
-//                             int absentCount,
                              List<Attendance> attendances) {
 
         this.attendanceType = attendanceType;
-//        this.description = description;
-//        this.lateCount = lateCount;
-//        this.absentCount = absentCount;
         this.attendances = attendances;
     }
 
-//    public void updateAttendanceType(AttendanceType attendanceType) {
-//
-//        this.attendanceType = attendanceType;
-//    }
+    public void updateAttendanceType(AttendStatusReqDTO.UPDATE update) {
+
+        this.attendanceType = AttendanceType.of(update.getAttendanceType());
+    }
 }

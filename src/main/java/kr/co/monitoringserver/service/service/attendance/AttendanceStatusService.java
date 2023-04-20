@@ -4,8 +4,10 @@ import kr.co.monitoringserver.infra.global.error.enums.ErrorCode;
 import kr.co.monitoringserver.infra.global.exception.NotFoundException;
 import kr.co.monitoringserver.persistence.entity.Attendance;
 import kr.co.monitoringserver.persistence.entity.AttendanceStatus;
+import kr.co.monitoringserver.persistence.repository.AttendanceRepository;
 import kr.co.monitoringserver.persistence.repository.AttendanceStatusRepository;
 import kr.co.monitoringserver.service.dtos.request.AttendStatusReqDTO;
+import kr.co.monitoringserver.service.dtos.response.AttendStatusResDTO;
 import kr.co.monitoringserver.service.enums.AttendanceType;
 import kr.co.monitoringserver.service.mappers.AttendanceStatusMapper;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -27,13 +30,15 @@ public class AttendanceStatusService {
 
     private final AttendanceStatusRepository attendanceStatusRepository;
 
+    private final AttendanceRepository attendanceRepository;
+
     private final AttendanceStatusMapper attendanceStatusMapper;
 
     /**
      * Create Attendance Status Service
      */
     @Transactional
-    public void createAttendanceStatus(AttendStatusReqDTO.CREATE create) {
+    public void createAttendStatus(AttendStatusReqDTO.CREATE create) {
 
         AttendanceStatus getAttendanceStatus = attendanceStatusRepository.findById(create.getAttendanceStatusId())
                 .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_ATTENDANCE_STATUS));
@@ -49,9 +54,22 @@ public class AttendanceStatusService {
         attendanceStatusRepository.save(attendanceStatus);
     }
 
+    /** Get Attendance Status By Attendance id Service
+     *
+     */
+    public List<AttendStatusResDTO.READ> getAttendStatusByAttendanceId(Long attendanceId) {
 
-    private AttendanceType calculateAttendanceStatus(LocalTime enterTime,
-                                                     LocalTime leaveTime) {
+        final Attendance attendance = attendanceRepository.findById(attendanceId)
+                .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_ATTENDANCE));
+
+        return attendanceStatusRepository.findByAttendance(attendance)
+                .stream()
+                .map(attendanceStatusMapper::toAttendStatusReadDto)
+                .collect(Collectors.toList());
+    }
+
+
+    private AttendanceType calculateAttendanceStatus(LocalTime enterTime, LocalTime leaveTime) {
 
         LocalTime startTime = LocalTime.parse("09:00:00");
         LocalTime endTime = LocalTime.parse("18:00:00");

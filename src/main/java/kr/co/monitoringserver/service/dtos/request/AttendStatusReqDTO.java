@@ -3,8 +3,6 @@ package kr.co.monitoringserver.service.dtos.request;
 import kr.co.monitoringserver.service.enums.AttendanceType;
 import lombok.*;
 
-import java.time.LocalTime;
-
 public class AttendStatusReqDTO {
 
     @Getter
@@ -26,14 +24,6 @@ public class AttendStatusReqDTO {
 
         private Long attendanceStatusId;
 
-        private Long userId;
-
-        private Long attendanceId;
-
-        private String description;
-
-        private LocalTime attendanceTime;
-
-        private AttendanceType attendanceType;
+        private String attendanceType;
     }
 }
