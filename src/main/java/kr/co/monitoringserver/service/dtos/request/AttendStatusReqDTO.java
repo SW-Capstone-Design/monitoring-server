@@ -15,11 +15,9 @@ public class AttendStatusReqDTO {
 
         private AttendanceType attendanceType;
 
-        private String description;
+        private Long attendanceId;
 
-        private int lateCount;
-
-        private int absentCount;
+        private Long attendanceStatusId;
     }
 
     @Getter

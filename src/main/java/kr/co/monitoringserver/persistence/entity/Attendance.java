@@ -21,20 +21,15 @@ public class Attendance extends BaseEntity {
      *  특정 사용자의 출석 기록을 저장하는 역할
      *  즉, 사용자와 날짜 정보를 갖음
      */
-
     @Column(name = "enter_time")
-    private LocalTime enterTime;
+    private LocalTime enterTime;    // 출근 시간
 
     @Column(name = "leave_time")
-    private LocalTime leaveTime;
-
-    @Column(name = "attendance_Date")
-    private LocalDate attendanceDate;
+    private LocalTime leaveTime;    // 퇴근 시간
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
-
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "attendance_status_id", nullable = false)
@@ -45,18 +40,16 @@ public class Attendance extends BaseEntity {
     @Builder
     private Attendance(LocalTime enterTime,
                        LocalTime leaveTime,
-                       LocalDate attendanceDate,
                        User user,
                        AttendanceStatus attendanceStatus) {
 
         this.enterTime = enterTime;
         this.leaveTime = leaveTime;
-        this.attendanceDate = attendanceDate;
         this.user = user;
         this.attendanceStatus = attendanceStatus;
     }
 
 
-    public void updateAttendance(AttendanceReqDTO.UPDATE update) {
-    }
+//    public void updateAttendance(AttendanceReqDTO.UPDATE update) {
+//    }
 }

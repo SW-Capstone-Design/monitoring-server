@@ -3,7 +3,11 @@ package kr.co.monitoringserver.service.service.attendance;
 import com.sun.jdi.request.DuplicateRequestException;
 import kr.co.monitoringserver.infra.global.error.enums.ErrorCode;
 import kr.co.monitoringserver.infra.global.exception.DuplicatedException;
+import kr.co.monitoringserver.infra.global.exception.NotFoundException;
 import kr.co.monitoringserver.persistence.entity.Attendance;
+import kr.co.monitoringserver.persistence.entity.AttendanceStatus;
+import kr.co.monitoringserver.persistence.entity.User;
+import kr.co.monitoringserver.persistence.repository.AttendanceStatusRepository;
 import kr.co.monitoringserver.persistence.repository.UserRepository;
 import kr.co.monitoringserver.service.dtos.request.AttendanceReqDTO;
 import kr.co.monitoringserver.persistence.repository.AttendanceRepository;
@@ -15,7 +19,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -33,37 +40,30 @@ public class AttendanceService {
 
     private final AttendanceMapper attendanceMapper;
 
+    private final AttendanceStatusRepository attendanceStatusRepository;
+
     /** Create Attendance Service
      *
      */
     @Transactional
-    public void createAttendance(AttendanceReqDTO.CREATE create, Long userId) {
+    public void createAttendance(AttendanceReqDTO.CREATE create) {
 
-        LocalDate attendanceDate = LocalDate.now();
+        Attendance attendance = attendanceMapper.toAttendacneEntity(create);
 
-        Attendance existAttendance = attendanceRepository.findByUserIdAndAttendanceData(userId, attendanceDate);
-        if (existAttendance != null) {
-            throw new DuplicatedException(ErrorCode.DUPLICATE_ATTENDANCE);
-        }
-
-        LocalTime enterTime = create.getEnterTime();
-        LocalTime leaveTime = create.getLeaveTime();
-
-//        AttendanceType attendanceType = calculateAttendanceStatus(enterTime, leaveTime);
-
-//        Attendance attendance = attendanceMapper.toAttendacneEntity(create, attendanceType);
-
-//        attendanceRepository.save(attendance);
+        attendanceRepository.save(attendance);
     }
 
-    /** Get Attendance By attendanceId Service
+    /** Get Attendance By userId Service
      *
      */
-    public AttendanceResDTO.READ getAttendanceById(Long attendanceId) {
+    public List<AttendanceResDTO.READ> getAttendanceByUserId(Long userId) {
 
-        final Attendance attendance = attendanceRepository.findById(attendanceId)
-                .orElseThrow(() -> new RuntimeException("Not Found Attendance"));
+        final User user = userRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_USER));
 
-        return attendanceMapper.toAttendacneReadDto(attendance);
+        return attendanceRepository.findByUser(user)
+                .stream()
+                .map(attendanceMapper::toAttendacneReadDto)
+                .collect(Collectors.toList());
     }
 }

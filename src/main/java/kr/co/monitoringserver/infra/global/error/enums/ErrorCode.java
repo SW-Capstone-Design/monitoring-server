@@ -18,7 +18,10 @@ public enum ErrorCode {
 
     // Attendance
     NOT_FOUND_ATTENDANCE(404, "ATTENDANCE-404", "해당 출석 정보를 찾지 못하였습니다"),
-    DUPLICATE_ATTENDANCE(400, "ATTENDANCE-400", "해당 사용자는 이미 출석하였습니다");
+    DUPLICATE_ATTENDANCE(400, "ATTENDANCE-400", "해당 사용자는 이미 출석하였습니다"),
+
+    // AttendanceStatus
+    NOT_FOUND_ATTENDANCE_STATUS(404, "ATTENDANCE_STATUS-404", "해당 출석 상태 정보를 찾지 못하였습니다");
 
     private final int status;
 

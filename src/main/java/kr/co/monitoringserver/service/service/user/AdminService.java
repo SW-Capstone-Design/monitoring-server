@@ -31,9 +31,9 @@ public class AdminService {
     }
 
     @Transactional(readOnly = true)
-    public User detail(long usersId) {
+    public User detail(Long userId) {
 
-        return userRepository.findByUsersId(usersId)
+        return userRepository.findByUserId(userId)
                 .orElseThrow(()->{
                     return new IllegalArgumentException("유저 조회 실패 : 아이디를 찾을 수 없습니다.");
                 });

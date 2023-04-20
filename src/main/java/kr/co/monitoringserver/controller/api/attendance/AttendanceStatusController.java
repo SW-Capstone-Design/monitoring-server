@@ -7,6 +7,7 @@ import kr.co.monitoringserver.service.dtos.response.AttendStatusResDTO;
 import kr.co.monitoringserver.service.service.attendance.AttendanceStatusService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -23,7 +24,7 @@ public class AttendanceStatusController {
      *
      */
     @PostMapping
-    public ResponseFormat<Void> createAttendanceStatus(@RequestBody AttendStatusReqDTO.CREATE create) {
+    public ResponseFormat<Void> createAttendanceStatus(@RequestBody @Validated AttendStatusReqDTO.CREATE create) {
 
         attendanceStatusService.createAttendanceStatus(create);
         return ResponseFormat.successMessage(
@@ -35,32 +36,32 @@ public class AttendanceStatusController {
     /** Get Attendance Status By Date Controller
      *
      */
-    @GetMapping("/date")
-    public ResponseFormat<List<AttendStatusResDTO.READ>> getAttendanceStatusByDate(
-            @RequestParam(name = "start_date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
-            @RequestParam(name = "end_date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate) {
-
-        return ResponseFormat.successData(
-                ErrorCode.SUCCESS_EXECUTE,
-                attendanceStatusService.getAttendanceStatusByDate(startDate, endDate)
-        );
-    }
+//    @GetMapping("/date")
+//    public ResponseFormat<List<AttendStatusResDTO.READ>> getAttendanceStatusByDate(
+//            @RequestParam(name = "start_date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
+//            @RequestParam(name = "end_date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate) {
+//
+//        return ResponseFormat.successData(
+//                ErrorCode.SUCCESS_EXECUTE,
+//                attendanceStatusService.getAttendanceStatusByDate(startDate, endDate)
+//        );
+//    }
 
     /** Update Attendance Status Controller
      *
      */
-    @PutMapping("/{attendance_status_id}")
-    public ResponseFormat<Void> updateAttendanceStatus(
-            @PathVariable(name = "attendance_status_id") Long attendanceStatusId,
-            @RequestBody AttendStatusReqDTO.UPDATE update) {
-
-        attendanceStatusService.updateAttendanceStatus(attendanceStatusId, update);
-
-        return ResponseFormat.successMessage(
-                ErrorCode.SUCCESS_EXECUTE,
-                "출석 상태 정보가 성공적으로 수정되었습니다"
-        );
-    }
+//    @PutMapping("/{attendance_status_id}")
+//    public ResponseFormat<Void> updateAttendanceStatus(
+//            @PathVariable(name = "attendance_status_id") Long attendanceStatusId,
+//            @RequestBody AttendStatusReqDTO.UPDATE update) {
+//
+//        attendanceStatusService.updateAttendanceStatus(attendanceStatusId, update);
+//
+//        return ResponseFormat.successMessage(
+//                ErrorCode.SUCCESS_EXECUTE,
+//                "출석 상태 정보가 성공적으로 수정되었습니다"
+//        );
+//    }
 
     @DeleteMapping("/{attendance_status_id}")
     public ResponseFormat<Void> deleteAttendanceStatus(@PathVariable(name = "attendance_status_id") Long attendanceStatusId) {

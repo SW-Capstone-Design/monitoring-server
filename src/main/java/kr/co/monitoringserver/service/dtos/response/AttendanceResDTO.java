@@ -1,7 +1,10 @@
 package kr.co.monitoringserver.service.dtos.response;
 
+import kr.co.monitoringserver.persistence.entity.AttendanceStatus;
+import kr.co.monitoringserver.service.enums.AttendanceType;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class AttendanceResDTO {
@@ -15,6 +18,8 @@ public class AttendanceResDTO {
         private LocalTime enterTime;
 
         private LocalTime leaveTime;
+
+        private AttendanceStatus attendanceStatus;
 
         private String userName;
     }

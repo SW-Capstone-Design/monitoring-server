@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/attendances")
 @RequiredArgsConstructor
@@ -19,11 +21,10 @@ public class AttendanceController {
     /** Create Attendance Controller
      *
      */
-    @PostMapping("/{user_id}")
-    public ResponseFormat<Void> createAttendance(@RequestBody @Validated AttendanceReqDTO.CREATE create,
-                                                 @PathVariable(name = "user_id") Long userId) {
+    @PostMapping
+    public ResponseFormat<Void> createAttendance(@RequestBody @Validated AttendanceReqDTO.CREATE create) {
 
-        attendanceService.createAttendance(create, userId);
+        attendanceService.createAttendance(create);
 
         return ResponseFormat.successMessage(
                 ErrorCode.SUCCESS_CREATED,
@@ -31,16 +32,15 @@ public class AttendanceController {
         );
     }
 
-    /** Get Attendance By attendanceId Controller
+    /** Get Attendance By userId Controller
      *
      */
-    @GetMapping("/{attendance_id}")
-    public ResponseFormat<AttendanceResDTO.READ> getAttendanceById(@PathVariable(name = "attendance_id")
-                                                                       Long attendanceId) {
+    @GetMapping("/{user_id}")
+    public ResponseFormat<List<AttendanceResDTO.READ>> getAttendanceByUserId(@PathVariable(name = "user_id") Long userId) {
 
         return ResponseFormat.successData(
                 ErrorCode.SUCCESS_EXECUTE,
-                attendanceService.getAttendanceById(attendanceId)
+                attendanceService.getAttendanceByUserId(userId)
         );
     }
 }
