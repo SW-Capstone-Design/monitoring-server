@@ -1,13 +1,17 @@
 package kr.co.monitoringserver.service.enums;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.util.Arrays;
+
 @Getter
+@AllArgsConstructor
 public enum AttendanceType {
 
     GO_WORK("출석"),
 
-    LEAVE_WORD("퇴근"),
+    LEAVE_WORK("퇴근"),
 
     ABSENT("결석"),
 
@@ -15,9 +19,11 @@ public enum AttendanceType {
 
     EARLY_LEAVE("조퇴");
 
-    private final String name;
+    String attendanceType;
 
-    AttendanceType(String name) {
-        this.name = name;
+    public static AttendanceType of(String attendanceType){
+        return Arrays.stream(AttendanceType.values())
+                .filter(type -> type.toString().equalsIgnoreCase(attendanceType))
+                .findAny().orElseThrow(() -> new RuntimeException("Not Found AttendanceType"));
     }
 }

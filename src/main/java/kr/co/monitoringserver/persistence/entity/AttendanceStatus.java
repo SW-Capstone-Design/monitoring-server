@@ -26,8 +26,17 @@ public class AttendanceStatus extends BaseEntity {
      */
 
     @Enumerated(value = EnumType.STRING)
-    @Column(name = "attend_status")
+    @Column(name = "attendance_type")
     private AttendanceType attendanceType;
+
+    @Column(name = "description")
+    private String description;
+
+    @Column(name = "late_count", nullable = false)
+    private int lateCount;
+
+    @Column(name = "absent_count", nullable = false)
+    private int absentCount;
 
     @OneToMany(
             mappedBy = "attendanceStatus",
@@ -38,9 +47,15 @@ public class AttendanceStatus extends BaseEntity {
 
     @Builder
     private AttendanceStatus(AttendanceType attendanceType,
+                             String description,
+                             int lateCount,
+                             int absentCount,
                              List<Attendance> attendances) {
 
         this.attendanceType = attendanceType;
+        this.description = description;
+        this.lateCount = lateCount;
+        this.absentCount = absentCount;
         this.attendances = attendances;
     }
 }

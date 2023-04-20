@@ -2,8 +2,10 @@ package kr.co.monitoringserver.persistence.entity;
 
 import jakarta.persistence.*;
 import kr.co.monitoringserver.persistence.BaseEntity;
+import kr.co.monitoringserver.service.dtos.request.AttendanceReqDTO;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Getter
@@ -26,14 +28,13 @@ public class Attendance extends BaseEntity {
     @Column(name = "leave_time")
     private LocalTime leaveTime;
 
-    @ManyToOne(
-            cascade = CascadeType.REMOVE,
-            fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "attendance_status_id")
+    @JoinColumn(name = "attendance_status_id", nullable = false)
     private AttendanceStatus attendanceStatus;
 
 
@@ -50,8 +51,7 @@ public class Attendance extends BaseEntity {
         this.attendanceStatus = attendanceStatus;
     }
 
-//    public void updateAttendance(User user) {
-//
-//        this.user = user;
-//    }
+
+    public void updateAttendance(AttendanceReqDTO.UPDATE update) {
+    }
 }

@@ -13,7 +13,6 @@ public interface AttendanceMapper {
     // AttendanceReqDTO.CREATE -> Attendance Entity
     @Mapping(source = "create.enterTime", target = "enterTime")
     @Mapping(source = "create.leaveTime", target = "leaveTime")
-    @Mapping(source = "create.userIdentity", target = "user.identity")
     @Mapping(source = "attendanceType", target = "attendanceStatus.attendanceType")
     Attendance toAttendacneEntity(AttendanceReqDTO.CREATE create, AttendanceType attendanceType);
 

@@ -3,10 +3,9 @@ package kr.co.monitoringserver.service.dtos.request;
 import kr.co.monitoringserver.service.enums.AttendanceType;
 import lombok.*;
 
-import java.time.LocalDate;
 import java.time.LocalTime;
 
-public class AttendanceReqDTO {
+public class AttendStatusReqDTO {
 
     @Getter
     @Builder
@@ -14,13 +13,13 @@ public class AttendanceReqDTO {
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static class CREATE {
 
-        private LocalTime enterTime;
-
-        private LocalTime leaveTime;
-
-        private Long userId;
-
         private AttendanceType attendanceType;
+
+        private String description;
+
+        private int lateCount;
+
+        private int absentCount;
     }
 
     @Getter
@@ -29,8 +28,14 @@ public class AttendanceReqDTO {
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static class UPDATE {
 
+        private Long attendanceStatusId;
+
         private Long userId;
 
-        private LocalDate attendanceDate;
+        private Long attendanceId;
+
+        private String description;
+
+        private LocalTime attendanceTime;
     }
 }
