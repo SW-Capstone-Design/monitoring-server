@@ -1,15 +1,17 @@
 package kr.co.monitoringserver.service.service.attendance;
 
 import kr.co.monitoringserver.persistence.entity.AttendanceStatus;
-import kr.co.monitoringserver.persistence.repository.AttendanceRepository;
 import kr.co.monitoringserver.persistence.repository.AttendanceStatusRepository;
 import kr.co.monitoringserver.service.dtos.request.AttendStatusReqDTO;
-import kr.co.monitoringserver.service.enums.AttendanceType;
-import kr.co.monitoringserver.service.mappers.AttendanceMapper;
+import kr.co.monitoringserver.service.dtos.response.AttendStatusResDTO;
 import kr.co.monitoringserver.service.mappers.AttendanceStatusMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -35,4 +37,19 @@ public class AttendanceStatusService {
         attendanceStatusRepository.save(attendanceStatus);
     }
 
+    /** Get Attendance Status By Date Service
+     *
+     */
+    public List<AttendStatusResDTO.READ> getAttendanceStatusByDate(LocalDate startDate,
+                                                                   LocalDate endDate) {
+
+        List<AttendanceStatus> attendanceStatuses = attendanceStatusRepository.findByCreatedAtBetween(
+                startDate.atStartOfDay(),
+                endDate.plusDays(1).atStartOfDay());
+
+        return attendanceStatuses
+                .stream()
+                .map(attendanceStatusMapper::toAttendStatusReadDto)
+                .collect(Collectors.toList());
+    }
 }

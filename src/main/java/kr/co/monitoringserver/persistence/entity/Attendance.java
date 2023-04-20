@@ -28,6 +28,9 @@ public class Attendance extends BaseEntity {
     @Column(name = "leave_time")
     private LocalTime leaveTime;
 
+    @Column(name = "attendance_Date")
+    private LocalDate attendanceDate;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
@@ -42,11 +45,13 @@ public class Attendance extends BaseEntity {
     @Builder
     private Attendance(LocalTime enterTime,
                        LocalTime leaveTime,
+                       LocalDate attendanceDate,
                        User user,
                        AttendanceStatus attendanceStatus) {
 
         this.enterTime = enterTime;
         this.leaveTime = leaveTime;
+        this.attendanceDate = attendanceDate;
         this.user = user;
         this.attendanceStatus = attendanceStatus;
     }
