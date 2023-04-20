@@ -40,7 +40,7 @@ public class AttendanceStatusService {
     @Transactional
     public void createAttendStatus(AttendStatusReqDTO.CREATE create) {
 
-        AttendanceStatus getAttendanceStatus = attendanceStatusRepository.findById(create.getAttendanceStatusId())
+        final AttendanceStatus getAttendanceStatus = attendanceStatusRepository.findById(create.getAttendanceStatusId())
                 .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_ATTENDANCE_STATUS));
 
         List<Attendance> attendances = getAttendanceStatus.getAttendances();
@@ -68,6 +68,34 @@ public class AttendanceStatusService {
                 .collect(Collectors.toList());
     }
 
+    /** Update Attendance Status Service
+     *
+     */
+    @Transactional
+    public void updateAttendStatus(AttendStatusReqDTO.UPDATE update) {
+
+        final AttendanceStatus attendanceStatus = attendanceStatusRepository.findById(update.getAttendanceStatusId())
+                .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_ATTENDANCE_STATUS));
+
+        List<Attendance> attendances = attendanceStatus.getAttendances();
+
+        attendanceStatus.updateAttendanceType(update, attendances);
+
+        attendanceStatusRepository.save(attendanceStatus);
+    }
+
+    /**
+     * Delete Attendance Status By id Service
+     */
+    @Transactional
+    public void deleteAttendanceStatus(Long attendanceStatusId) {
+
+        final AttendanceStatus attendanceStatus = attendanceStatusRepository.findById(attendanceStatusId)
+                .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_ATTENDANCE));
+
+        attendanceStatusRepository.delete(attendanceStatus);
+    }
+
 
     private AttendanceType calculateAttendanceStatus(LocalTime enterTime, LocalTime leaveTime) {
 
@@ -83,63 +111,5 @@ public class AttendanceStatusService {
         } else {
             return AttendanceType.LEAVE_WORK;
         }
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-    /** Get Attendance Status By Date Service
-     *
-     */
-//    public List<AttendStatusResDTO.READ> getAttendanceStatusByDate(LocalDate startDate,
-//                                                                   LocalDate endDate) {
-//
-//        List<AttendanceStatus> attendanceStatuses = attendanceStatusRepository.findByCreatedAtBetween(
-//                startDate.atStartOfDay(),
-//                endDate.plusDays(1).atStartOfDay());
-//
-//        return attendanceStatuses
-//                .stream()
-//                .map(attendanceStatusMapper::toAttendStatusReadDto)
-//                .collect(Collectors.toList());
-//    }
-
-    /** Update Attendance Status Service
-     *
-     */
-//    @Transactional
-//    public void updateAttendanceStatus(Long attendanceStatusId,
-//                                       AttendStatusReqDTO.UPDATE update) {
-//
-//        AttendanceStatus attendanceStatus = attendanceStatusRepository.findById(attendanceStatusId)
-//                .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_ATTENDANCE));
-//
-//        AttendanceStatus updatedStatus = attendanceStatusMapper.toUpdatedAttendStatusEntity(attendanceStatus, update);
-//
-//        final AttendanceType attendanceType = calculateAttendanceStatus(
-//                updatedStatus.getEnterTime(),
-//                updatedStatus.getLeaveTime());
-//
-//        updatedStatus.updateAttendanceType(attendanceType);
-//    }
-
-    /**
-     * Delete Attendance Status By id Service
-     */
-    @Transactional
-    public void deleteAttendanceStatus(Long attendanceStatusId) {
-
-        AttendanceStatus attendanceStatus = attendanceStatusRepository.findById(attendanceStatusId)
-                .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_ATTENDANCE));
-
-        attendanceStatusRepository.delete(attendanceStatus);
     }
 }

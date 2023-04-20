@@ -48,19 +48,20 @@ public class AttendanceStatusController {
     /** Update Attendance Status Controller
      *
      */
-//    @PutMapping("/{attendance_status_id}")
-//    public ResponseFormat<Void> updateAttendanceStatus(
-//            @PathVariable(name = "attendance_status_id") Long attendanceStatusId,
-//            @RequestBody AttendStatusReqDTO.UPDATE update) {
-//
-//        attendanceStatusService.updateAttendanceStatus(attendanceStatusId, update);
-//
-//        return ResponseFormat.successMessage(
-//                ErrorCode.SUCCESS_EXECUTE,
-//                "출석 상태 정보가 성공적으로 수정되었습니다"
-//        );
-//    }
+    @PutMapping
+    public ResponseFormat<Void> updateAttendStatus(@RequestBody AttendStatusReqDTO.UPDATE update) {
 
+        attendanceStatusService.updateAttendStatus(update);
+
+        return ResponseFormat.successMessage(
+                ErrorCode.SUCCESS_EXECUTE,
+                "출석 상태 정보가 성공적으로 수정되었습니다"
+        );
+    }
+
+    /** Delete Attendance Status Controller
+     *
+     */
     @DeleteMapping("/{attendance_status_id}")
     public ResponseFormat<Void> deleteAttendanceStatus(@PathVariable(name = "attendance_status_id") Long attendanceStatusId) {
 

@@ -44,8 +44,10 @@ public class AttendanceStatus extends BaseEntity {
         this.attendances = attendances;
     }
 
-    public void updateAttendanceType(AttendStatusReqDTO.UPDATE update) {
+    public void updateAttendanceType(AttendStatusReqDTO.UPDATE update,
+                                     List<Attendance> attendances) {
 
         this.attendanceType = AttendanceType.of(update.getAttendanceType());
+        this.attendances = attendances;
     }
 }

@@ -11,9 +11,9 @@ public class AttendStatusReqDTO {
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static class CREATE {
 
-        private AttendanceType attendanceType;
-
         private Long attendanceStatusId;
+
+        private AttendanceType attendanceType;
     }
 
     @Getter
