@@ -15,6 +15,7 @@ public enum ErrorCode {
 
     // User
     NOT_FOUND_USER(404, "USER-404", "해당 사용자 정보를 찾지 못하였습니다"),
+    NOT_AUTHENTICATE_USER(401, "USER-401", "해당 사용자의 권한이 없어 접근할 수 없습니다"),
 
     // Attendance
     NOT_FOUND_ATTENDANCE(404, "ATTENDANCE-404", "해당 출석 정보를 찾지 못하였습니다"),

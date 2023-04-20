@@ -1,26 +1,20 @@
 package kr.co.monitoringserver.service.service.attendance;
 
-import com.sun.jdi.request.DuplicateRequestException;
 import kr.co.monitoringserver.infra.global.error.enums.ErrorCode;
-import kr.co.monitoringserver.infra.global.exception.DuplicatedException;
 import kr.co.monitoringserver.infra.global.exception.NotFoundException;
+import kr.co.monitoringserver.infra.global.exception.UnauthorizedException;
 import kr.co.monitoringserver.persistence.entity.Attendance;
-import kr.co.monitoringserver.persistence.entity.AttendanceStatus;
 import kr.co.monitoringserver.persistence.entity.User;
-import kr.co.monitoringserver.persistence.repository.AttendanceStatusRepository;
 import kr.co.monitoringserver.persistence.repository.UserRepository;
 import kr.co.monitoringserver.service.dtos.request.AttendanceReqDTO;
 import kr.co.monitoringserver.persistence.repository.AttendanceRepository;
 import kr.co.monitoringserver.service.dtos.response.AttendanceResDTO;
-import kr.co.monitoringserver.service.enums.AttendanceType;
+import kr.co.monitoringserver.service.enums.RoleType;
 import kr.co.monitoringserver.service.mappers.AttendanceMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -39,8 +33,6 @@ public class AttendanceService {
     private final AttendanceRepository attendanceRepository;
 
     private final AttendanceMapper attendanceMapper;
-
-    private final AttendanceStatusRepository attendanceStatusRepository;
 
     /** Create Attendance Service
      *
@@ -65,5 +57,26 @@ public class AttendanceService {
                 .stream()
                 .map(attendanceMapper::toAttendacneReadDto)
                 .collect(Collectors.toList());
+    }
+
+    /** Update Attendance Service
+     *
+     */
+    @Transactional
+    public void updateAttendance(AttendanceReqDTO.UPDATE update) {
+
+        final Attendance attendance = attendanceRepository.findById(update.getAttendanceId())
+                .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_ATTENDANCE));
+
+        final User user = userRepository.findById(update.getUserId())
+                .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_USER));
+
+        if (user.getRoleType() != RoleType.ADMIN) {
+            throw new UnauthorizedException(ErrorCode.NOT_AUTHENTICATE_USER);
+        }
+
+        attendance.updateAttendance(update);
+
+        attendanceRepository.save(attendance);
     }
 }

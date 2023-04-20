@@ -1,8 +1,9 @@
 package kr.co.monitoringserver.service.dtos.request;
 
+import kr.co.monitoringserver.persistence.entity.AttendanceStatus;
+import kr.co.monitoringserver.service.enums.RoleType;
 import lombok.*;
 
-import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class AttendanceReqDTO {
@@ -24,12 +25,16 @@ public class AttendanceReqDTO {
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static class UPDATE {
 
-        private Long userId;
+        private Long attendanceId;
 
-        private LocalDate attendanceDate;
+        private Long userId;
 
         private LocalTime enterTime;
 
         private LocalTime leaveTime;
+
+        private AttendanceStatus attendanceStatus;
+
+        private RoleType roleType;
     }
 }

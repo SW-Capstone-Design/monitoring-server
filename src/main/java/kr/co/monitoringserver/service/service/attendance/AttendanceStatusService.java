@@ -4,21 +4,16 @@ import kr.co.monitoringserver.infra.global.error.enums.ErrorCode;
 import kr.co.monitoringserver.infra.global.exception.NotFoundException;
 import kr.co.monitoringserver.persistence.entity.Attendance;
 import kr.co.monitoringserver.persistence.entity.AttendanceStatus;
-import kr.co.monitoringserver.persistence.repository.AttendanceRepository;
 import kr.co.monitoringserver.persistence.repository.AttendanceStatusRepository;
 import kr.co.monitoringserver.service.dtos.request.AttendStatusReqDTO;
-import kr.co.monitoringserver.service.dtos.response.AttendStatusResDTO;
 import kr.co.monitoringserver.service.enums.AttendanceType;
-import kr.co.monitoringserver.service.mappers.AttendanceMapper;
 import kr.co.monitoringserver.service.mappers.AttendanceStatusMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -33,10 +28,6 @@ public class AttendanceStatusService {
     private final AttendanceStatusRepository attendanceStatusRepository;
 
     private final AttendanceStatusMapper attendanceStatusMapper;
-
-    private final AttendanceRepository attendanceRepository;
-
-    private final AttendanceMapper attendanceMapper;
 
     /**
      * Create Attendance Status Service

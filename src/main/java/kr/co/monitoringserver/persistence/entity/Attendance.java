@@ -5,7 +5,6 @@ import kr.co.monitoringserver.persistence.BaseEntity;
 import kr.co.monitoringserver.service.dtos.request.AttendanceReqDTO;
 import lombok.*;
 
-import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Getter
@@ -50,6 +49,10 @@ public class Attendance extends BaseEntity {
     }
 
 
-//    public void updateAttendance(AttendanceReqDTO.UPDATE update) {
-//    }
+    public void updateAttendance(AttendanceReqDTO.UPDATE update) {
+
+        this.enterTime = update.getEnterTime();
+        this.leaveTime = update.getLeaveTime();
+        this.attendanceStatus = update.getAttendanceStatus();
+    }
 }

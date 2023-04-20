@@ -43,4 +43,18 @@ public class AttendanceController {
                 attendanceService.getAttendanceByUserId(userId)
         );
     }
+
+    /** Update Attendance Controller
+     *
+     */
+    @PutMapping
+    public ResponseFormat<Void> updateAttendance(@RequestBody @Validated AttendanceReqDTO.UPDATE update) {
+
+        attendanceService.updateAttendance(update);
+
+        return ResponseFormat.successMessage(
+                ErrorCode.SUCCESS_EXECUTE,
+                "출석 정보가 성공적으로 수정되었습니다"
+        );
+    }
 }

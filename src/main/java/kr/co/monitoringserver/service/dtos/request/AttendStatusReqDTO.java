@@ -15,8 +15,6 @@ public class AttendStatusReqDTO {
 
         private AttendanceType attendanceType;
 
-        private Long attendanceId;
-
         private Long attendanceStatusId;
     }
 
