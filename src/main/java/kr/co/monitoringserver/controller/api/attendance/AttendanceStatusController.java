@@ -23,7 +23,7 @@ public class AttendanceStatusController {
      *
      */
     @PostMapping
-    public ResponseFormat<Void> createAttendanceStatus(AttendStatusReqDTO.CREATE create) {
+    public ResponseFormat<Void> createAttendanceStatus(@RequestBody AttendStatusReqDTO.CREATE create) {
 
         attendanceStatusService.createAttendanceStatus(create);
         return ResponseFormat.successMessage(
@@ -46,4 +46,19 @@ public class AttendanceStatusController {
         );
     }
 
+    /** Update Attendance Status Controller
+     *
+     */
+    @PutMapping("/{attendance_status_id}")
+    public ResponseFormat<Void> updateAttendanceStatus(
+            @PathVariable(name = "attendance_status_id") Long attendanceStatusId,
+            @RequestBody AttendStatusReqDTO.UPDATE update) {
+
+        attendanceStatusService.updateAttendanceStatus(attendanceStatusId, update);
+
+        return ResponseFormat.successMessage(
+                ErrorCode.SUCCESS_EXECUTE,
+                "출석 상태 정보가 성공적으로 수정되었습니다"
+        );
+    }
 }

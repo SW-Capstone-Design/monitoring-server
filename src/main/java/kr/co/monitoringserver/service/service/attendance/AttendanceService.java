@@ -49,11 +49,11 @@ public class AttendanceService {
         LocalTime enterTime = create.getEnterTime();
         LocalTime leaveTime = create.getLeaveTime();
 
-        AttendanceType attendanceType = calculateAttendanceStatus(enterTime, leaveTime);
+//        AttendanceType attendanceType = calculateAttendanceStatus(enterTime, leaveTime);
 
-        Attendance attendance = attendanceMapper.toAttendacneEntity(create, attendanceType);
+//        Attendance attendance = attendanceMapper.toAttendacneEntity(create, attendanceType);
 
-        attendanceRepository.save(attendance);
+//        attendanceRepository.save(attendance);
     }
 
     /** Get Attendance By attendanceId Service
@@ -65,24 +65,5 @@ public class AttendanceService {
                 .orElseThrow(() -> new RuntimeException("Not Found Attendance"));
 
         return attendanceMapper.toAttendacneReadDto(attendance);
-    }
-
-
-
-    private AttendanceType calculateAttendanceStatus(LocalTime enterTime,
-                                                     LocalTime leaveTime) {
-
-        LocalTime startTime = LocalTime.parse("09:00:00");
-        LocalTime endTime = LocalTime.parse("18:00:00");
-
-        if (enterTime.isBefore(startTime.plusMinutes(10))) {
-            return AttendanceType.GO_WORK;
-        } else if (enterTime.isBefore(startTime.plusMinutes(30))) {
-            return AttendanceType.TARDINESS;
-        } else if (leaveTime.isBefore(endTime.minusMinutes(30))) {
-            return AttendanceType.EARLY_LEAVE;
-        } else {
-            return AttendanceType.LEAVE_WORK;
-        }
     }
 }

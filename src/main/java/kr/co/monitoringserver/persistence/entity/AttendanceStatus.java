@@ -2,12 +2,14 @@ package kr.co.monitoringserver.persistence.entity;
 
 import jakarta.persistence.*;
 import kr.co.monitoringserver.persistence.BaseEntity;
+import kr.co.monitoringserver.service.dtos.request.AttendStatusReqDTO;
 import kr.co.monitoringserver.service.enums.AttendanceType;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +26,12 @@ public class AttendanceStatus extends BaseEntity {
      *  출석 상태에 대한 정보(출석, 결석, 지각, 조퇴 등)를 저장하는 역할
      *  즉, 출석 상태와 해당 상태에 대한 설명을 갖음
      */
+
+    @Column(name = "enter_time")
+    private LocalTime enterTime;
+
+    @Column(name = "leave_time")
+    private LocalTime leaveTime;
 
     @Enumerated(value = EnumType.STRING)
     @Column(name = "attendance_type")
@@ -46,16 +54,25 @@ public class AttendanceStatus extends BaseEntity {
 
 
     @Builder
-    private AttendanceStatus(AttendanceType attendanceType,
+    private AttendanceStatus(LocalTime enterTime,
+                             LocalTime leaveTime,
+                             AttendanceType attendanceType,
                              String description,
                              int lateCount,
                              int absentCount,
                              List<Attendance> attendances) {
 
+        this.enterTime = enterTime;
+        this.leaveTime = leaveTime;
         this.attendanceType = attendanceType;
         this.description = description;
         this.lateCount = lateCount;
         this.absentCount = absentCount;
         this.attendances = attendances;
+    }
+
+    public void updateAttendanceType(AttendanceType attendanceType) {
+
+        this.attendanceType = attendanceType;
     }
 }

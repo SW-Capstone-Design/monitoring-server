@@ -37,5 +37,7 @@ public class AttendStatusReqDTO {
         private String description;
 
         private LocalTime attendanceTime;
+
+        private AttendanceType attendanceType;
     }
 }
