@@ -1,8 +1,9 @@
 package kr.co.monitoringserver.service.dtos.response;
 
 import kr.co.monitoringserver.persistence.entity.Attendance;
-import kr.co.monitoringserver.service.enums.AttendanceType;
 import lombok.*;
+
+import java.util.List;
 
 public class AttendStatusResDTO {
 
@@ -12,8 +13,8 @@ public class AttendStatusResDTO {
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static class READ {
 
-        private Attendance attendance;
+        private List<Attendance> attendances;
 
-        private AttendanceType attendanceType;
+        private String attendanceType;
     }
 }

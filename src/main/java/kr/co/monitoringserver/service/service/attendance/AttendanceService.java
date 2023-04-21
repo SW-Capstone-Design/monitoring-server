@@ -59,6 +59,19 @@ public class AttendanceService {
                 .collect(Collectors.toList());
     }
 
+    /** Get Attendance Detail By id Service
+     *
+     */
+    public AttendanceResDTO.READ_DETAIL getAttendanceDetailById(Long attendanceId) {
+
+        final Attendance attendance = attendanceRepository.findById(attendanceId)
+                .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_ATTENDANCE));
+
+        return attendanceMapper.toAttendanceReadDetailDto(attendance);
+    }
+
+
+
     /** Update Attendance Service
      *  수정할 필요가 있음 :
      */
@@ -74,8 +87,6 @@ public class AttendanceService {
         checkPermissionToUpdate(user);
 
         attendance.updateAttendance(update);
-
-        attendanceRepository.save(attendance);
     }
 
     /** Delete Attendance Service

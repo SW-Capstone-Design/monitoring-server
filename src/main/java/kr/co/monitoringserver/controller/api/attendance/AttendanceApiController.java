@@ -14,7 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/attendance")
 @RequiredArgsConstructor
-public class AttendanceController {
+public class AttendanceApiController {
 
     private final AttendanceService attendanceService;
 
@@ -41,6 +41,19 @@ public class AttendanceController {
         return ResponseFormat.successData(
                 ErrorCode.SUCCESS_EXECUTE,
                 attendanceService.getAttendanceByUserId(userId)
+        );
+    }
+
+    /** Get Attendance Detail By id Controller
+     *
+     */
+    @GetMapping("/detail/{attendance_id}")
+    public ResponseFormat<AttendanceResDTO.READ_DETAIL> getAttendanceDetailById(
+            @PathVariable(name = "attendance_id") Long attendanceId) {
+
+        return ResponseFormat.successData(
+                ErrorCode.SUCCESS_EXECUTE,
+                attendanceService.getAttendanceDetailById(attendanceId)
         );
     }
 

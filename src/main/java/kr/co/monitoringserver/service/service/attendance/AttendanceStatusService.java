@@ -38,12 +38,12 @@ public class AttendanceStatusService {
      * Create Attendance Status Service
      */
     @Transactional
-    public void createAttendStatus(AttendStatusReqDTO.CREATE create) {
+    public void createAttendanceStatus(AttendStatusReqDTO.CREATE create) {
 
         final AttendanceStatus getAttendanceStatus = attendanceStatusRepository.findById(create.getAttendanceStatusId())
                 .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_ATTENDANCE_STATUS));
 
-        List<Attendance> attendances = getAttendanceStatus.getAttendances();
+        final List<Attendance> attendances = getAttendanceStatus.getAttendances();
 
         for (Attendance att : attendances) {
             calculateAttendanceStatus(att.getEnterTime(), att.getLeaveTime());
@@ -57,12 +57,12 @@ public class AttendanceStatusService {
     /** Get Attendance Status By Attendance id Service
      *
      */
-    public List<AttendStatusResDTO.READ> getAttendStatusByAttendanceId(Long attendanceId) {
+    public List<AttendStatusResDTO.READ> getAttendanceStatusByAttendanceId(Long attendanceId) {
 
         final Attendance attendance = attendanceRepository.findById(attendanceId)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_ATTENDANCE));
 
-        return attendanceStatusRepository.findByAttendance(attendance)
+        return attendanceStatusRepository.findByAttendances(attendance)
                 .stream()
                 .map(attendanceStatusMapper::toAttendStatusReadDto)
                 .collect(Collectors.toList());
@@ -72,16 +72,14 @@ public class AttendanceStatusService {
      *
      */
     @Transactional
-    public void updateAttendStatus(AttendStatusReqDTO.UPDATE update) {
+    public void updateAttendanceStatus(AttendStatusReqDTO.UPDATE update) {
 
         final AttendanceStatus attendanceStatus = attendanceStatusRepository.findById(update.getAttendanceStatusId())
                 .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_ATTENDANCE_STATUS));
 
-        List<Attendance> attendances = attendanceStatus.getAttendances();
+        final List<Attendance> attendances = attendanceStatus.getAttendances();
 
         attendanceStatus.updateAttendanceType(update, attendances);
-
-        attendanceStatusRepository.save(attendanceStatus);
     }
 
     /**

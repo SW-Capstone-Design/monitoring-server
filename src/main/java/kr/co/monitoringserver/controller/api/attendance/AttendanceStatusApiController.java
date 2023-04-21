@@ -14,7 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/attendance_status")
 @RequiredArgsConstructor
-public class AttendanceStatusController {
+public class AttendanceStatusApiController {
 
     private final AttendanceStatusService attendanceStatusService;
 
@@ -22,9 +22,9 @@ public class AttendanceStatusController {
      *
      */
     @PostMapping
-    public ResponseFormat<Void> createAttendStatus(@RequestBody @Validated AttendStatusReqDTO.CREATE create) {
+    public ResponseFormat<Void> createAttendanceStatus(@RequestBody @Validated AttendStatusReqDTO.CREATE create) {
 
-        attendanceStatusService.createAttendStatus(create);
+        attendanceStatusService.createAttendanceStatus(create);
 
         return ResponseFormat.successMessage(
                 ErrorCode.SUCCESS_CREATED,
@@ -36,12 +36,12 @@ public class AttendanceStatusController {
      *
      */
     @GetMapping("/{attendance_id}")
-    public ResponseFormat<List<AttendStatusResDTO.READ>> getAttendStatusByAttendanceId(
+    public ResponseFormat<List<AttendStatusResDTO.READ>> getAttendanceStatusByAttendanceId(
             @PathVariable(name = "attendance_id") Long attendanceId) {
 
         return ResponseFormat.successData(
                 ErrorCode.SUCCESS_EXECUTE,
-                attendanceStatusService.getAttendStatusByAttendanceId(attendanceId)
+                attendanceStatusService.getAttendanceStatusByAttendanceId(attendanceId)
         );
     }
 
@@ -49,9 +49,9 @@ public class AttendanceStatusController {
      *
      */
     @PutMapping
-    public ResponseFormat<Void> updateAttendStatus(@RequestBody AttendStatusReqDTO.UPDATE update) {
+    public ResponseFormat<Void> updateAttendanceStatus(@RequestBody AttendStatusReqDTO.UPDATE update) {
 
-        attendanceStatusService.updateAttendStatus(update);
+        attendanceStatusService.updateAttendanceStatus(update);
 
         return ResponseFormat.successMessage(
                 ErrorCode.SUCCESS_EXECUTE,

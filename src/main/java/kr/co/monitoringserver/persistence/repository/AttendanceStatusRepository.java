@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface AttendanceStatusRepository extends JpaRepository<AttendanceStatus, Long> {
 
-    List<AttendanceStatus> findByAttendance(Attendance attendance);
+    List<AttendanceStatus> findByAttendances(Attendance attendance);
 }

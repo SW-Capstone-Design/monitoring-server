@@ -12,6 +12,7 @@ public interface AttendanceMapper {
     // AttendanceReqDTO.CREATE -> Attendance Entity
     @Mapping(source = "create.enterTime", target = "enterTime")
     @Mapping(source = "create.leaveTime", target = "leaveTime")
+    @Mapping(source = "create.userId", target = "user.userId")
     Attendance toAttendacneEntity(AttendanceReqDTO.CREATE create);
 
     // Attendance Entity -> AttendanceResDTO.READ
@@ -20,4 +21,12 @@ public interface AttendanceMapper {
     @Mapping(source = "attendance.attendanceStatus", target = "attendanceStatus")
     @Mapping(source = "attendance.user.name", target = "userName")
     AttendanceResDTO.READ toAttendacneReadDto(Attendance attendance);
+
+    @Mapping(source = "attendance.enterTime", target = "enterTime")
+    @Mapping(source = "attendance.leaveTime", target = "leaveTime")
+    @Mapping(source = "attendance.user.name", target = "userName")
+    @Mapping(source = "attendance.user.department", target = "userDepartment")
+    @Mapping(source = "attendance.user.roleType", target = "userRoleType")
+    @Mapping(source = "attendance.user.telephone", target = "userTelephone")
+    AttendanceResDTO.READ_DETAIL toAttendanceReadDetailDto(Attendance attendance);
 }
