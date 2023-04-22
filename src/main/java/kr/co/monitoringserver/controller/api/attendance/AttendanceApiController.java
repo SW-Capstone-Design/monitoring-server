@@ -7,6 +7,7 @@ import kr.co.monitoringserver.service.service.attendance.AttendanceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -32,6 +33,14 @@ public class AttendanceApiController {
     /** Get User Attendance Records By Date Controller
      *  특정 일자의 모든 사용자의 출석 기록을 조회
      */
+    @GetMapping("/users/{date}")
+    public ResponseFormat<List<AttendanceResDTO.READ>> getAllUserAttendanceRecordsByDate(@PathVariable(name = "date") LocalDate date) {
+
+        return ResponseFormat.successData(
+                ErrorCode.SUCCESS_EXECUTE,
+                attendanceService.getAllUserAttendanceRecordsByDate(date)
+        );
+    }
 
 
     /** Get User Attendance Records By Specific Period Controller

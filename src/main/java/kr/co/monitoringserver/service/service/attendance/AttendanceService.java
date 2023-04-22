@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -56,6 +57,15 @@ public class AttendanceService {
     /** Get User Attendance Records By Date Service
      *  특정 일자의 모든 사용자의 출석 기록을 조회
      */
+    public List<AttendanceResDTO.READ> getAllUserAttendanceRecordsByDate(LocalDate date) {
+
+        final List<Attendance> attendances = attendanceRepository.findByDate(date);
+
+        return attendances
+                .stream()
+                .map(attendanceMapper::toAttendacneReadDto)
+                .collect(Collectors.toList());
+    }
 
 
     /** Get User Attendance Records By Specific Period Service
