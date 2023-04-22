@@ -21,10 +21,6 @@ public class AttendanceReqDTO {
 
         @NotNull(message = "Please enter your attendance status id")
         private Long attendanceStatusId;
-
-        private LocalTime enterTime;
-
-        private LocalTime leaveTime;
     }
 
     @Getter
@@ -38,10 +34,6 @@ public class AttendanceReqDTO {
 
         @NotNull(message = "Please enter your user id")
         private Long userId;
-
-        private LocalTime enterTime;
-
-        private LocalTime leaveTime;
 
         private AttendanceStatus attendanceStatus;
 

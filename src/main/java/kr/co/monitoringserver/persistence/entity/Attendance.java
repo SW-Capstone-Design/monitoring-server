@@ -2,10 +2,7 @@ package kr.co.monitoringserver.persistence.entity;
 
 import jakarta.persistence.*;
 import kr.co.monitoringserver.persistence.BaseEntity;
-import kr.co.monitoringserver.service.dtos.request.AttendanceReqDTO;
 import lombok.*;
-
-import java.time.LocalTime;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -20,11 +17,6 @@ public class Attendance extends BaseEntity {
      *  특정 사용자의 출석 기록을 저장하는 역할
      *  즉, 사용자와 날짜 정보를 갖음
      */
-    @Column(name = "enter_time")
-    private LocalTime enterTime;    // 출근 시간
-
-    @Column(name = "leave_time")
-    private LocalTime leaveTime;    // 퇴근 시간
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
@@ -37,22 +29,15 @@ public class Attendance extends BaseEntity {
 
 
     @Builder
-    private Attendance(LocalTime enterTime,
-                       LocalTime leaveTime,
-                       User user,
+    private Attendance(User user,
                        AttendanceStatus attendanceStatus) {
 
-        this.enterTime = enterTime;
-        this.leaveTime = leaveTime;
         this.user = user;
         this.attendanceStatus = attendanceStatus;
     }
 
 
-    public void updateAttendance(AttendanceReqDTO.UPDATE update) {
-
-        this.enterTime = update.getEnterTime();
-        this.leaveTime = update.getLeaveTime();
-        this.attendanceStatus = update.getAttendanceStatus();
-    }
+//    public void updateAttendance(AttendanceReqDTO.UPDATE update) {
+//
+//    }
 }

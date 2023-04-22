@@ -22,19 +22,14 @@ import java.util.*;
 @Transactional(readOnly = true)
 public class AttendanceStatusService {
 
-    /**
-     * 출석 상태 서비스
-     * 출석 기록이 생성될 때마다 호출되어 출석 상태를 업데이트하는 역할
-     */
-
     private final AttendanceStatusRepository attendanceStatusRepository;
 
     private final UserRepository userRepository;
 
     private final AttendanceStatusMapper attendanceStatusMapper;
 
-    /**
-     * Create Attendance Status Service
+    /** Create Attendance Status Service
+     *
      */
     @Transactional
     public void createAttendanceStatus(AttendStatusReqDTO.CREATE create) {
@@ -84,8 +79,8 @@ public class AttendanceStatusService {
         attendanceStatus.updateAttendanceStatus(update, goWorkType, leaveWorkType);
     }
 
-    /**
-     * Delete Attendance Status By id Service
+    /** Delete Attendance Status By id Service
+     *
      */
     @Transactional
     public void deleteAttendanceStatus(Long attendanceStatusId) {
@@ -134,13 +129,6 @@ public class AttendanceStatusService {
         }
     }
 
-    /** 출석 일수 계산 기능
-     *  출근 일수 : 출근을 했을 경우 go_work++
-     *  퇴근 일수 : 퇴근을 했을 경우 leave_work++
-     *  지각 일수 : 지각을 했을 경우 tardiness++
-     *  조퇴 일수 : 조퇴를 했을 경우 early_leave++
-     *  결근 일수 : 결근을 했을 경우 absent++
-     */
     private Map<AttendanceType, Integer> calculateAttendanceDays(List<AttendanceStatus> attendanceStatuses) {
 
         // TODO : 정상 출/퇴근이 이루어질 경우 ATTENDANCE 의 값을 증가

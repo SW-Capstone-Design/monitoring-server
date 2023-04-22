@@ -13,11 +13,6 @@ public class AttendanceResDTO {
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static class READ {
 
-
-        private LocalTime enterTime;
-
-        private LocalTime leaveTime;
-
         private AttendanceStatus attendanceStatus;
 
         private String userName;
@@ -28,10 +23,6 @@ public class AttendanceResDTO {
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static class READ_DETAIL {
-
-        private LocalTime enterTime;
-
-        private LocalTime leaveTime;
 
         private String userName;
 

@@ -4,21 +4,15 @@ import kr.co.monitoringserver.infra.global.error.enums.ErrorCode;
 import kr.co.monitoringserver.infra.global.exception.NotFoundException;
 import kr.co.monitoringserver.infra.global.exception.UnauthorizedException;
 import kr.co.monitoringserver.persistence.entity.Attendance;
-import kr.co.monitoringserver.persistence.entity.AttendanceStatus;
 import kr.co.monitoringserver.persistence.entity.User;
 import kr.co.monitoringserver.persistence.repository.AttendanceStatusRepository;
 import kr.co.monitoringserver.persistence.repository.UserRepository;
-import kr.co.monitoringserver.service.dtos.request.AttendanceReqDTO;
 import kr.co.monitoringserver.persistence.repository.AttendanceRepository;
-import kr.co.monitoringserver.service.dtos.response.AttendanceResDTO;
 import kr.co.monitoringserver.service.enums.RoleType;
 import kr.co.monitoringserver.service.mappers.AttendanceMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -38,66 +32,33 @@ public class AttendanceService {
 
     private final AttendanceMapper attendanceMapper;
 
-    /** Create Attendance Service
-     *
+    /** Get User Attendance Records Service
+     *  특정 사용자의 출석 기록을 조회
      */
-    @Transactional
-    public void createAttendance(AttendanceReqDTO.CREATE create) {
 
-        final AttendanceStatus attendanceStatus = attendanceStatusRepository.findById(create.getAttendanceStatusId())
-                        .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_ATTENDANCE_STATUS));
 
-        Attendance attendance = attendanceMapper.toAttendacneEntity(create, attendanceStatus);
-
-        attendanceRepository.save(attendance);
-    }
-
-    /** Get Attendance By userId Service
-     *
+    /** Get User Attendance Records By Date Service
+     *  특정 일자의 모든 사용자의 출석 기록을 조회
      */
-    public List<AttendanceResDTO.READ> getAttendanceByUserId(Long userId) {
 
-        final User user = userRepository.findById(userId)
-                .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_USER));
 
-        return attendanceRepository.findByUser(user)
-                .stream()
-                .map(attendanceMapper::toAttendacneReadDto)
-                .collect(Collectors.toList());
-    }
-
-    /** Get Attendance Detail By id Service
-     *
+    /** Get User Attendance Records By Specific Period Service
+     *  특정 기간 동안의 모든 사용자의 출석 기록을 조회
      */
-    public AttendanceResDTO.READ_DETAIL getAttendanceDetailById(Long attendanceId) {
-
-        final Attendance attendance = attendanceRepository.findById(attendanceId)
-                .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_ATTENDANCE));
-
-        return attendanceMapper.toAttendanceReadDetailDto(attendance);
-    }
 
 
-
-    /** Update Attendance Service
-     *  수정할 필요가 있음 :
+    /** Create Attendance Go-Work & Leave-Work Recording Service
+     *  특정 사용자의 출근 및 퇴근 기록을 등록
      */
-    @Transactional
-    public void updateAttendance(AttendanceReqDTO.UPDATE update) {
 
-        final Attendance attendance = attendanceRepository.findById(update.getAttendanceId())
-                .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_ATTENDANCE));
 
-        final User user = userRepository.findById(update.getUserId())
-                .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_USER));
+    /** Update Attendance Records Service
+     *  등록된 출석 기록을 수정
+     */
 
-        checkPermissionToUpdate(user);
 
-        attendance.updateAttendance(update);
-    }
-
-    /** Delete Attendance Service
-     *
+    /** Delete Attendance Records Service
+     *  등록된 출석 기록을 삭제
      */
     @Transactional
     public void deleteAttendance(Long attendanceId) {
