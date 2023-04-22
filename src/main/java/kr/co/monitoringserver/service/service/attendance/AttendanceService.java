@@ -4,7 +4,9 @@ import kr.co.monitoringserver.infra.global.error.enums.ErrorCode;
 import kr.co.monitoringserver.infra.global.exception.NotFoundException;
 import kr.co.monitoringserver.infra.global.exception.UnauthorizedException;
 import kr.co.monitoringserver.persistence.entity.Attendance;
+import kr.co.monitoringserver.persistence.entity.AttendanceStatus;
 import kr.co.monitoringserver.persistence.entity.User;
+import kr.co.monitoringserver.persistence.repository.AttendanceStatusRepository;
 import kr.co.monitoringserver.persistence.repository.UserRepository;
 import kr.co.monitoringserver.service.dtos.request.AttendanceReqDTO;
 import kr.co.monitoringserver.persistence.repository.AttendanceRepository;
@@ -32,6 +34,8 @@ public class AttendanceService {
 
     private final AttendanceRepository attendanceRepository;
 
+    private final AttendanceStatusRepository attendanceStatusRepository;
+
     private final AttendanceMapper attendanceMapper;
 
     /** Create Attendance Service
@@ -40,7 +44,10 @@ public class AttendanceService {
     @Transactional
     public void createAttendance(AttendanceReqDTO.CREATE create) {
 
-        Attendance attendance = attendanceMapper.toAttendacneEntity(create);
+        final AttendanceStatus attendanceStatus = attendanceStatusRepository.findById(create.getAttendanceStatusId())
+                        .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_ATTENDANCE_STATUS));
+
+        Attendance attendance = attendanceMapper.toAttendacneEntity(create, attendanceStatus);
 
         attendanceRepository.save(attendance);
     }

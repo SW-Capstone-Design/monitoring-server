@@ -32,16 +32,16 @@ public class AttendanceStatusApiController {
         );
     }
 
-    /** Get Attendance Status By Attendance id Controller
+    /** Get Attendance Status By id Controller
      *
      */
-    @GetMapping("/{attendance_id}")
-    public ResponseFormat<List<AttendStatusResDTO.READ>> getAttendanceStatusByAttendanceId(
-            @PathVariable(name = "attendance_id") Long attendanceId) {
+    @GetMapping("/{user_id}")
+    public ResponseFormat<AttendStatusResDTO.READ> getAttendanceStatusByUserId(
+            @PathVariable(name = "user_id") Long userId) {
 
         return ResponseFormat.successData(
                 ErrorCode.SUCCESS_EXECUTE,
-                attendanceStatusService.getAttendanceStatusByAttendanceId(attendanceId)
+                attendanceStatusService.getAttendanceStatusById(userId)
         );
     }
 

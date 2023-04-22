@@ -16,7 +16,11 @@ public class AttendanceReqDTO {
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static class CREATE {
 
+        @NotNull(message = "Please enter your user id")
         private Long userId;
+
+        @NotNull(message = "Please enter your attendance status id")
+        private Long attendanceStatusId;
 
         private LocalTime enterTime;
 

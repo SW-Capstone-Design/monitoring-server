@@ -1,6 +1,7 @@
 package kr.co.monitoringserver.service.mappers;
 
 import kr.co.monitoringserver.persistence.entity.Attendance;
+import kr.co.monitoringserver.persistence.entity.AttendanceStatus;
 import kr.co.monitoringserver.service.dtos.request.AttendanceReqDTO;
 import kr.co.monitoringserver.service.dtos.response.AttendanceResDTO;
 import org.mapstruct.Mapper;
@@ -13,7 +14,8 @@ public interface AttendanceMapper {
     @Mapping(source = "create.enterTime", target = "enterTime")
     @Mapping(source = "create.leaveTime", target = "leaveTime")
     @Mapping(source = "create.userId", target = "user.userId")
-    Attendance toAttendacneEntity(AttendanceReqDTO.CREATE create);
+    @Mapping(source = "attendanceStatus", target = "attendanceStatus")
+    Attendance toAttendacneEntity(AttendanceReqDTO.CREATE create, AttendanceStatus attendanceStatus);
 
     // Attendance Entity -> AttendanceResDTO.READ
     @Mapping(source = "attendance.enterTime", target = "enterTime")

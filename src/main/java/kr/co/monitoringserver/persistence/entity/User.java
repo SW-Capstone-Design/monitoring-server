@@ -49,10 +49,4 @@ public class User {
 
     @Column(nullable = false, length = 30)
     private String telephone;
-
-    @OneToMany(
-            mappedBy = "user",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true)
-    private List<Attendance> attendance = new ArrayList<>();
 }
