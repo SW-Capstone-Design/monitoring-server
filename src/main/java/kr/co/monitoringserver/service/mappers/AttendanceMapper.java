@@ -1,6 +1,6 @@
 package kr.co.monitoringserver.service.mappers;
 
-import kr.co.monitoringserver.persistence.entity.Attendance;
+import kr.co.monitoringserver.persistence.entity.AttendanceStatus;
 import kr.co.monitoringserver.service.dtos.response.AttendanceResDTO;
 import org.mapstruct.Mapper;
 
@@ -8,19 +8,19 @@ import org.mapstruct.Mapper;
 public interface AttendanceMapper {
 
     // Attendance Entity -> AttendanceResDTO.READ
-    default AttendanceResDTO.READ toAttendacneReadDto(Attendance attendance) {
+    default AttendanceResDTO.READ toAttendacneReadDto(AttendanceStatus attendanceStatus) {
 
         return AttendanceResDTO.READ.builder()
-                .userIdentity(attendance.getUser().getIdentity())
-                .userName(attendance.getUser().getName())
-                .userDepartment(attendance.getUser().getDepartment())
-                .userRoleType(attendance.getUser().getRoleType())
-                .enterTime(attendance.getAttendanceStatus().getEnterTime())
-                .leaveTime(attendance.getAttendanceStatus().getLeaveTime())
-                .goWorkType(attendance.getAttendanceStatus().getGoWork())
-                .leaveWorkType(attendance.getAttendanceStatus().getLeaveWork())
-                .date(attendance.getAttendanceStatus().getDate())
-                .attendanceDays(attendance.getAttendanceStatus().getAttendanceDays())
+                .userIdentity(attendanceStatus.getUser().getIdentity())
+                .userName(attendanceStatus.getUser().getName())
+                .userDepartment(attendanceStatus.getUser().getDepartment())
+                .userRoleType(attendanceStatus.getUser().getRoleType())
+                .enterTime(attendanceStatus.getEnterTime())
+                .leaveTime(attendanceStatus.getLeaveTime())
+                .goWorkType(attendanceStatus.getGoWork())
+                .leaveWorkType(attendanceStatus.getLeaveWork())
+                .date(attendanceStatus.getDate())
+                .attendanceDays(attendanceStatus.getAttendanceDays())
                 .build();
     }
 }

@@ -15,7 +15,6 @@ public class Attendance extends BaseEntity {
 
     /** 출석 엔티티
      *  특정 사용자의 출석 기록을 저장하는 역할
-     *  즉, 사용자와 날짜 정보를 갖음
      */
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -35,9 +34,4 @@ public class Attendance extends BaseEntity {
         this.user = user;
         this.attendanceStatus = attendanceStatus;
     }
-
-
-//    public void updateAttendance(AttendanceReqDTO.UPDATE update) {
-//
-//    }
 }
