@@ -5,7 +5,6 @@ import kr.co.monitoringserver.infra.global.exception.NotFoundException;
 import kr.co.monitoringserver.infra.global.exception.UnauthorizedException;
 import kr.co.monitoringserver.persistence.entity.Attendance;
 import kr.co.monitoringserver.persistence.entity.User;
-import kr.co.monitoringserver.persistence.repository.AttendanceStatusRepository;
 import kr.co.monitoringserver.persistence.repository.UserRepository;
 import kr.co.monitoringserver.persistence.repository.AttendanceRepository;
 import kr.co.monitoringserver.service.dtos.response.AttendanceResDTO;
@@ -32,8 +31,6 @@ public class AttendanceService {
     private final UserRepository userRepository;
 
     private final AttendanceRepository attendanceRepository;
-
-    private final AttendanceStatusRepository attendanceStatusRepository;
 
     private final AttendanceMapper attendanceMapper;
 
@@ -71,6 +68,15 @@ public class AttendanceService {
     /** Get User Attendance Records By Specific Period Service
      *  특정 기간 동안의 모든 사용자의 출석 기록을 조회
      */
+    public List<AttendanceResDTO.READ> getAllUserAttendanceRecordsByPeriod(LocalDate startDate, LocalDate endDate) {
+
+        List<Attendance> attendances = attendanceRepository.findAllByAttendanceDateBetween(startDate, endDate);
+
+        return attendances
+                .stream()
+                .map(attendanceMapper::toAttendacneReadDto)
+                .collect(Collectors.toList());
+    }
 
 
     /** Create Attendance Go-Work & Leave-Work Recording Service
@@ -86,20 +92,4 @@ public class AttendanceService {
     /** Delete Attendance Records Service
      *  등록된 출석 기록을 삭제
      */
-    @Transactional
-    public void deleteAttendance(Long attendanceId) {
-
-        final Attendance attendance = attendanceRepository.findById(attendanceId)
-                .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_ATTENDANCE));
-
-        attendanceRepository.delete(attendance);
-    }
-
-
-
-    private void checkPermissionToUpdate(User user) {
-        if (user.getRoleType() != RoleType.ADMIN) {
-            throw new UnauthorizedException(ErrorCode.NOT_AUTHENTICATE_USER);
-        }
-    }
 }

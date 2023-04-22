@@ -46,6 +46,16 @@ public class AttendanceApiController {
     /** Get User Attendance Records By Specific Period Controller
      *  특정 기간 동안의 모든 사용자의 출석 기록을 조회
      */
+    @GetMapping("/{start_date}/{end_date}")
+    public ResponseFormat<List<AttendanceResDTO.READ>> getAllUserAttendanceRecordsByPeriod(
+            @PathVariable(name = "start_date") LocalDate startDate,
+            @PathVariable(name = "end_date") LocalDate endDate) {
+
+        return ResponseFormat.successData(
+                ErrorCode.SUCCESS_EXECUTE,
+                attendanceService.getAllUserAttendanceRecordsByPeriod(startDate, endDate)
+        );
+    }
 
 
     /** Create Attendance Go-Work & Leave-Work Recording Controller
@@ -61,14 +71,4 @@ public class AttendanceApiController {
     /** Delete Attendance Records Controller
      *  등록된 출석 기록을 삭제
      */
-    @DeleteMapping("/{attendance_id}")
-    public ResponseFormat<Void> deleteAttendance(@PathVariable(name = "attendance_id") Long attendanceId) {
-
-        attendanceService.deleteAttendance(attendanceId);
-
-        return ResponseFormat.successMessage(
-                ErrorCode.SUCCESS_EXECUTE,
-                "출석 정보가 성공적으로 삭제되었습니다"
-        );
-    }
 }
