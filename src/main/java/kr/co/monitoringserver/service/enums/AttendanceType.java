@@ -29,9 +29,9 @@ public enum AttendanceType {
 
 
 
-    public static AttendanceType of(String attendanceType){
-        return Arrays.stream(AttendanceType.values())
-                .filter(type -> type.toString().equalsIgnoreCase(attendanceType))
-                .findAny().orElseThrow(() -> new RuntimeException("Not Found AttendanceType"));
-    }
+//    public static AttendanceType of(String attendanceType){
+//        return Arrays.stream(AttendanceType.values())
+//                .filter(type -> type.toString().equalsIgnoreCase(attendanceType))
+//                .findAny().orElseThrow(() -> new RuntimeException("Not Found AttendanceType"));
+//    }
 }
