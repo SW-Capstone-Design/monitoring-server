@@ -2,9 +2,12 @@ package kr.co.monitoringserver.controller.api.attendance;
 
 import kr.co.monitoringserver.infra.global.error.enums.ErrorCode;
 import kr.co.monitoringserver.infra.global.error.response.ResponseFormat;
+import kr.co.monitoringserver.service.dtos.response.AttendanceResDTO;
 import kr.co.monitoringserver.service.service.attendance.AttendanceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/attendance")
@@ -16,6 +19,14 @@ public class AttendanceApiController {
     /** Get User Attendance Records Controller
      *  특정 사용자의 출석 기록을 조회
      */
+    @GetMapping("/users/{user_id}")
+    public ResponseFormat<List<AttendanceResDTO.READ>> getAttendanceRecordsByUserId(@PathVariable(name = "user_id") Long userId) {
+
+        return ResponseFormat.successData(
+                ErrorCode.SUCCESS_EXECUTE,
+                attendanceService.getAttendanceRecordsByUserId(userId)
+        );
+    }
 
 
     /** Get User Attendance Records By Date Controller
