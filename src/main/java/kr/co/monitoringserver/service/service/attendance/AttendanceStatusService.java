@@ -137,11 +137,9 @@ public class AttendanceStatusService {
 
         Map<AttendanceType, Integer> attendanceDays = new HashMap<>();
 
-        attendanceDays.put(AttendanceType.GO_WORK, 0);
-        attendanceDays.put(AttendanceType.LEAVE_WORK, 0);
-        attendanceDays.put(AttendanceType.ABSENT, 0);
-        attendanceDays.put(AttendanceType.TARDINESS, 0);
-        attendanceDays.put(AttendanceType.EARLY_LEAVE, 0);
+        for (AttendanceType type : AttendanceType.values()) {
+            attendanceDays.put(type, 0);
+        }
 
         for (AttendanceStatus attendanceStatus : attendanceStatuses) {
             AttendanceType goWorkType = attendanceStatus.getGoWork();
