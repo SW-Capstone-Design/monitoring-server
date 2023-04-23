@@ -5,11 +5,8 @@ import kr.co.monitoringserver.infra.global.exception.NotFoundException;
 import kr.co.monitoringserver.infra.global.exception.UnauthorizedException;
 import kr.co.monitoringserver.persistence.entity.Attendance;
 import kr.co.monitoringserver.persistence.entity.User;
-import kr.co.monitoringserver.persistence.repository.AttendanceStatusRepository;
-import kr.co.monitoringserver.persistence.repository.UserRepository;
 import kr.co.monitoringserver.persistence.repository.AttendanceRepository;
 import kr.co.monitoringserver.service.enums.RoleType;
-import kr.co.monitoringserver.service.mappers.AttendanceMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,13 +21,7 @@ public class AttendanceService {
      * 출석 기록과 출석 상태 간의 관계를 설정하고, 이를 활용하여 출석 상태를 출력하는 기능
      */
 
-    private final UserRepository userRepository;
-
     private final AttendanceRepository attendanceRepository;
-
-    private final AttendanceStatusRepository attendanceStatusRepository;
-
-    private final AttendanceMapper attendanceMapper;
 
     /** Get User Attendance Records Service
      *  특정 사용자의 출석 기록을 조회
