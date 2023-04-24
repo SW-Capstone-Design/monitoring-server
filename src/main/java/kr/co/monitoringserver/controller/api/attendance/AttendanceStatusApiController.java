@@ -4,10 +4,14 @@ import kr.co.monitoringserver.infra.global.error.enums.ErrorCode;
 import kr.co.monitoringserver.infra.global.error.response.ResponseFormat;
 import kr.co.monitoringserver.service.dtos.request.AttendStatusReqDTO;
 import kr.co.monitoringserver.service.dtos.response.AttendStatusResDTO;
+import kr.co.monitoringserver.service.enums.AttendanceType;
 import kr.co.monitoringserver.service.service.attendance.AttendanceStatusService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/attendance_status")
@@ -16,8 +20,8 @@ public class AttendanceStatusApiController {
 
     private final AttendanceStatusService attendanceStatusService;
 
-    /** Create Attendance Status Controller
-     *
+    /**
+     * Create Attendance Status Controller
      */
     @PostMapping
     public ResponseFormat<Void> createAttendanceStatus(@RequestBody @Validated AttendStatusReqDTO.CREATE create) {
@@ -30,8 +34,8 @@ public class AttendanceStatusApiController {
         );
     }
 
-    /** Get Attendance Status By id Controller
-     *
+    /**
+     * Get Attendance Status By id Controller
      */
     @GetMapping("/{user_id}")
     public ResponseFormat<AttendStatusResDTO.READ> getAttendanceStatusByUserId(
@@ -43,8 +47,32 @@ public class AttendanceStatusApiController {
         );
     }
 
-    /** Update Attendance Status Controller
-     *
+    /**
+     * Get Tardiness User Attendance Status By Date Controller
+     */
+    @GetMapping("/tardiness")
+    public ResponseFormat<List<AttendStatusResDTO.READ>> getTardinessUserByDate(@RequestParam("date") LocalDate date) {
+
+        return ResponseFormat.successData(
+                ErrorCode.SUCCESS_EXECUTE,
+                attendanceStatusService.getTardinessUserByDate(date)
+        );
+    }
+
+    /**
+     * Get Absent User Attendance Status By Date Controller
+     */
+    @GetMapping("/absent")
+    public ResponseFormat<List<AttendStatusResDTO.READ>> getAbsentUserByDate(@RequestParam("date") LocalDate date) {
+
+        return ResponseFormat.successData(
+                ErrorCode.SUCCESS_EXECUTE,
+                attendanceStatusService.getAbsentUserByDate(date)
+        );
+    }
+
+    /**
+     * Update Attendance Status Controller
      */
     @PutMapping
     public ResponseFormat<Void> updateAttendanceStatus(@RequestBody AttendStatusReqDTO.UPDATE update) {
@@ -57,8 +85,8 @@ public class AttendanceStatusApiController {
         );
     }
 
-    /** Delete Attendance Status Controller
-     *
+    /**
+     * Delete Attendance Status Controller
      */
     @DeleteMapping("/{attendance_status_id}")
     public ResponseFormat<Void> deleteAttendanceStatus(@PathVariable(name = "attendance_status_id") Long attendanceStatusId) {

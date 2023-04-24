@@ -64,7 +64,7 @@ public class AttendanceService {
 
     private void checkPermissionToUpdate(User user) {
         if (user.getRoleType() != RoleType.ADMIN) {
-            throw new UnauthorizedException(ErrorCode.NOT_AUTHENTICATE_USER);
+            throw new UnauthorizedException();
         }
     }
 }
