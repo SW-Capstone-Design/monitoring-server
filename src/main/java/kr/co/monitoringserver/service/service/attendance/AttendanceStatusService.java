@@ -238,6 +238,7 @@ public class AttendanceStatusService {
 
     private boolean isAbsent(AttendanceStatus attendanceStatus) {
 
-        return attendanceStatus.getGoWork() == AttendanceType.ABSENT;
+        return attendanceStatus.getGoWork() == AttendanceType.ABSENT
+                || attendanceStatus.getLeaveWork() == AttendanceType.ABSENT;
     }
 }
