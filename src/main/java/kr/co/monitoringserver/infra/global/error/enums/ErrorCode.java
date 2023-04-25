@@ -9,7 +9,7 @@ public enum ErrorCode {
     SUCCESS_EXECUTE(200, "COMMON-200", "성공적으로 실행되었습니다"),
     SUCCESS_CREATED(201, "COMMON-201", "성공적으로 실행되었고, 새 리소스가 생성되었습니다"),
 
-    FAIL(203, "COMMON-203", "실행에 실패했습니다"),
+    FAIL_EXECUTE(203, "COMMON-203", "실행에 실패했습니다"),
     FAIL_INVALID_VALUE(400, "COMMON-400", "실행에 실패했고, 이유는 필수 항목을 입력하지 않았습니다"),
     FAIL_BAD_REQUEST(400, "COMMON-400", "실행에 실패했고, 이유는 형식에 맞지 않는 값을 입력하였습니다"),
 

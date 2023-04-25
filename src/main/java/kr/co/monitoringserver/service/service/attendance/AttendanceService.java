@@ -35,8 +35,9 @@ public class AttendanceService {
 
     private final AttendanceMapper attendanceMapper;
 
-    /** Get User Attendance Records Service
-     *  특정 사용자의 출석 기록을 조회
+    /**
+     * Get User Attendance Records Service
+     * 특정 사용자의 출석 기록을 조회
      */
     public List<AttendanceResDTO.READ> getAttendanceRecordsByUserId(Long userId) {
 
@@ -52,8 +53,10 @@ public class AttendanceService {
     }
 
 
-    /** Get User Attendance Records By Date Service
-     *  특정 일자의 모든 사용자의 출석 기록을 조회
+    /**
+     * Get User Attendance Records By Date Service
+     * 특정 일자의 모든 사용자의 출석 기록을 조회
+     * 해당 날짜의 요일까지 파악 - 만약 attendanceStatus 가 empty List 일 경우 공휴일/주말임을 명시
      */
     public List<AttendanceResDTO.READ> getAllUserAttendanceRecordsByDate(LocalDate date) {
 
@@ -66,12 +69,14 @@ public class AttendanceService {
     }
 
 
-    /** Get User Attendance Records By Specific Period Service
-     *  특정 기간 동안의 모든 사용자의 출석 기록을 조회
+    /**
+     * Get User Attendance Records By Specific Period Service
+     * 특정 기간 동안의 모든 사용자의 출석 기록을 조회
      */
     public List<AttendanceResDTO.READ> getAllUserAttendanceRecordsByPeriod(LocalDate startDate, LocalDate endDate) {
 
-        List<AttendanceStatus> attendanceStatuses = attendanceRepository.findAllByAttendanceStatusBetween(startDate, endDate);
+        List<AttendanceStatus> attendanceStatuses =
+                attendanceRepository.findAllByAttendanceStatusBetween(startDate, endDate);
 
         return attendanceStatuses
                 .stream()

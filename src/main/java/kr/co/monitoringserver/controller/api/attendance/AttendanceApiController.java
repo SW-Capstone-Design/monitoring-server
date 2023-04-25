@@ -18,8 +18,9 @@ public class AttendanceApiController {
 
     private final AttendanceService attendanceService;
 
-    /** Get User Attendance Records Controller
-     *  특정 사용자의 출석 기록을 조회
+    /**
+     * Get User Attendance Records Controller
+     * 특정 사용자의 출석 기록을 조회
      */
     @GetMapping("/{user_id}")
     public ResponseFormat<List<AttendanceResDTO.READ>> getAttendanceRecordsByUserId(@PathVariable(name = "user_id") Long userId) {
@@ -31,8 +32,9 @@ public class AttendanceApiController {
     }
 
 
-    /** Get User Attendance Records By Date Controller
-     *  특정 일자의 모든 사용자의 출석 기록을 조회
+    /**
+     * Get User Attendance Records By Date Controller
+     * 특정 일자의 모든 사용자의 출석 기록을 조회
      */
     @GetMapping("/date")
     public ResponseFormat<List<AttendanceResDTO.READ>> getAllUserAttendanceRecordsByDate(
@@ -45,8 +47,9 @@ public class AttendanceApiController {
     }
 
 
-    /** Get User Attendance Records By Specific Period Controller
-     *  특정 기간 동안의 모든 사용자의 출석 기록을 조회
+    /**
+     * Get User Attendance Records By Specific Period Controller
+     * 특정 기간 동안의 모든 사용자의 출석 기록을 조회
      */
     @GetMapping("/period")
     public ResponseFormat<List<AttendanceResDTO.READ>> getAllUserAttendanceRecordsByPeriod(
