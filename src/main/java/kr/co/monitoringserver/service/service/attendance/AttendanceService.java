@@ -2,11 +2,8 @@ package kr.co.monitoringserver.service.service.attendance;
 
 import kr.co.monitoringserver.infra.global.error.enums.ErrorCode;
 import kr.co.monitoringserver.infra.global.exception.NotFoundException;
-import kr.co.monitoringserver.infra.global.exception.UnauthorizedException;
 import kr.co.monitoringserver.persistence.entity.Attendance;
-import kr.co.monitoringserver.persistence.entity.User;
 import kr.co.monitoringserver.persistence.repository.AttendanceRepository;
-import kr.co.monitoringserver.service.enums.RoleType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -58,13 +55,5 @@ public class AttendanceService {
                 .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_ATTENDANCE));
 
         attendanceRepository.delete(attendance);
-    }
-
-
-
-    private void checkPermissionToUpdate(User user) {
-        if (user.getRoleType() != RoleType.ADMIN) {
-            throw new UnauthorizedException();
-        }
     }
 }
