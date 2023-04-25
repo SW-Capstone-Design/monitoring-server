@@ -2,6 +2,8 @@ package kr.co.monitoringserver.service.service.attendance;
 
 import kr.co.monitoringserver.infra.global.error.enums.ErrorCode;
 import kr.co.monitoringserver.infra.global.exception.NotFoundException;
+import kr.co.monitoringserver.persistence.entity.Attendance;
+import kr.co.monitoringserver.persistence.repository.AttendanceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -52,13 +54,13 @@ public class AttendanceService {
      * 특정 일자의 모든 사용자의 출석 기록을 조회
      * 해당 날짜의 요일까지 파악 - 만약 attendanceStatus 가 empty List 일 경우 공휴일/주말임을 명시
      */
-    public List<AttendanceResDTO.READ> getAllUserAttendanceRecordsByDate(LocalDate date) {
 
-        final List<AttendanceStatus> attendanceStatuses = attendanceRepository.findByAttendanceStatusDate(date);
+    @Transactional
+    public void deleteAttendance(Long attendanceId) {
 
-        return attendanceStatuses
-                .stream()
-                .map(attendanceMapper::toAttendacneReadDto)
-                .collect(Collectors.toList());
+        final Attendance attendance = attendanceRepository.findById(attendanceId)
+                .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_ATTENDANCE));
+
+        attendanceRepository.delete(attendance);
     }
 }
