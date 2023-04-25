@@ -33,7 +33,6 @@ public class AttendanceStatus extends BaseEntity {
     @Column(name = "leave_time")
     private LocalTime leaveTime;    // 퇴근 시간
 
-    @Column(name = "date")
     private LocalDate date;         // 출근 일자
 
     @ElementCollection

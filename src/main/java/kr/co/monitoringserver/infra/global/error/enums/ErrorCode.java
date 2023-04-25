@@ -10,7 +10,7 @@ public enum ErrorCode {
     SUCCESS_EXECUTE(200, HttpStatus.OK, "성공적으로 실행되었습니다"),
     SUCCESS_CREATED(201, HttpStatus.CREATED, "성공적으로 실행되었고, 새 리소스가 생성되었습니다"),
 
-    FAIL_EXECUTE(203, HttpStatus.NON_AUTHORITATIVE_INFORMATION, "실행에 실패했습니다"),
+    FAIL_EXECUTE(203, HttpStatus.BAD_REQUEST, "실행에 실패했습니다"),
     FAIL_INVALID_VALUE(400, HttpStatus.BAD_REQUEST, "실행에 실패했고, 이유는 필수 항목을 입력하지 않았습니다"),
     FAIL_BAD_REQUEST(400, HttpStatus.BAD_REQUEST, "실행에 실패했고, 이유는 형식에 맞지 않는 값을 입력하였습니다"),
 
