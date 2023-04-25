@@ -63,5 +63,4 @@ public class AttendanceService {
 
         attendanceRepository.delete(attendance);
     }
-
 }
