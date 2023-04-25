@@ -2,7 +2,6 @@ package kr.co.monitoringserver.service.service.attendance;
 
 import kr.co.monitoringserver.infra.global.error.enums.ErrorCode;
 import kr.co.monitoringserver.infra.global.exception.NotFoundException;
-import kr.co.monitoringserver.persistence.entity.Attendance;
 import kr.co.monitoringserver.persistence.entity.AttendanceStatus;
 import kr.co.monitoringserver.persistence.entity.User;
 import kr.co.monitoringserver.persistence.repository.AttendanceRepository;
@@ -57,6 +56,21 @@ public class AttendanceService {
     public List<AttendanceResDTO.READ> getAllUserAttendanceRecordsByDate(LocalDate date) {
 
         final List<AttendanceStatus> attendanceStatuses = attendanceRepository.findByAttendanceStatusDate(date);
+
+        return attendanceStatuses
+                .stream()
+                .map(attendanceMapper::toAttendacneReadDto)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Get User Attendance Records By Specific Period Service
+     * 특정 기간 동안의 모든 사용자의 출석 기록을 조회
+     */
+    public List<AttendanceResDTO.READ> getAllUserAttendanceRecordsByPeriod(LocalDate startDate, LocalDate endDate) {
+
+        List<AttendanceStatus> attendanceStatuses =
+                attendanceRepository.findAllByAttendanceStatusBetween(startDate, endDate);
 
         return attendanceStatuses
                 .stream()
