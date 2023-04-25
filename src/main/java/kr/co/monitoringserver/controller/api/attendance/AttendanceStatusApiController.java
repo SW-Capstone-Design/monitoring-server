@@ -4,7 +4,6 @@ import kr.co.monitoringserver.infra.global.error.enums.ErrorCode;
 import kr.co.monitoringserver.infra.global.error.response.ResponseFormat;
 import kr.co.monitoringserver.service.dtos.request.AttendStatusReqDTO;
 import kr.co.monitoringserver.service.dtos.response.AttendStatusResDTO;
-import kr.co.monitoringserver.service.enums.AttendanceType;
 import kr.co.monitoringserver.service.service.attendance.AttendanceStatusService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;

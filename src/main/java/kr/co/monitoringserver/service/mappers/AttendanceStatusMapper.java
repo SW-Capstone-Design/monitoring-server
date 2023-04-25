@@ -37,10 +37,10 @@ public interface AttendanceStatusMapper {
                 .build();
     }
 
-    @Mapping(source = "user.id", target = "userId")
-    @Mapping(source = "user.name", target = "userName")
-    @Mapping(source = "goWork", target = "goWorkType")
-    @Mapping(source = "enterTime", target = "enterTime")
-    @Mapping(source = "date", target = "date")
+    @Mapping(source = "attendanceStatus.user.userId", target = "userId")
+    @Mapping(source = "attendanceStatus.user.name", target = "userName")
+    @Mapping(source = "attendanceStatus.goWork", target = "goWork")
+    @Mapping(source = "attendanceStatus.enterTime", target = "enterTime")
+    @Mapping(source = "attendanceStatus.date", target = "date")
     AttendStatusResDTO.READ toAttendTypeReadDto(AttendanceStatus attendanceStatus);
 }

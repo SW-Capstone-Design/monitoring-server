@@ -35,9 +35,4 @@ public class Attendance extends BaseEntity {
         this.user = user;
         this.attendanceStatus = attendanceStatus;
     }
-
-
-//    public void updateAttendance(AttendanceReqDTO.UPDATE update) {
-//
-//    }
 }

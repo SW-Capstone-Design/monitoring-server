@@ -1,7 +1,6 @@
 package kr.co.monitoringserver.service.service.attendance;
 
 import kr.co.monitoringserver.infra.global.error.enums.ErrorCode;
-import kr.co.monitoringserver.infra.global.exception.BadRequestException;
 import kr.co.monitoringserver.infra.global.exception.DuplicatedException;
 import kr.co.monitoringserver.infra.global.exception.InvalidInputException;
 import kr.co.monitoringserver.infra.global.exception.NotFoundException;
@@ -88,14 +87,12 @@ public class AttendanceStatusService {
 
     /**
      * Get Tardiness User Attendance Status By Date Service
-     * Test 미적용
      */
     public List<AttendStatusResDTO.READ> getTardinessUserByDate(LocalDate date) {
 
         final List<AttendanceStatus> attendanceStatuses = attendanceStatusRepository.findByDate(date);
 
-        return attendanceStatuses
-                .stream()
+        return attendanceStatuses.stream()
                 .filter(this::isLate)
                 .map(attendanceStatusMapper::toAttendTypeReadDto)
                 .distinct()
@@ -104,7 +101,6 @@ public class AttendanceStatusService {
 
     /**
      * Get Absent User Attendance Status By userId Service
-     * Test 미적용
      */
     public List<AttendStatusResDTO.READ> getAbsentUserByDate(LocalDate date) {
 
