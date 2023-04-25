@@ -65,7 +65,6 @@ public class AttendanceService {
                 .collect(Collectors.toList());
     }
 
-
     /**
      * Get User Attendance Records By Specific Period Service
      * 특정 기간 동안의 모든 사용자의 출석 기록을 조회
