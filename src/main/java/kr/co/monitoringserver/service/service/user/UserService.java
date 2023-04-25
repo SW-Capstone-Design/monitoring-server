@@ -1,11 +1,11 @@
-package kr.co.monitoringserver.service.service;
+package kr.co.monitoringserver.service.service.user;
 
 
 
-import kr.co.monitoringserver.dto.request.UserRuquestDto;
+import kr.co.monitoringserver.persistence.entity.User;
+import kr.co.monitoringserver.service.dtos.request.UserRequestDto;
 import kr.co.monitoringserver.persistence.repository.UserRepository;
-import kr.co.monitoringserver.persistence.entity.RoleType;
-import kr.co.monitoringserver.persistence.entity.Users;
+import kr.co.monitoringserver.service.enums.RoleType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -26,17 +26,17 @@ public class UserService {
     private BCryptPasswordEncoder encoder;
 
     @Transactional
-    public void join(UserRuquestDto userDto) {
-        Users users = Users.builder()
+    public void join(UserRequestDto userDto) {
+        User user = User.builder()
                 .identity(userDto.getIdentity())
                 .password(encoder.encode(userDto.getPassword()))
                 .name(userDto.getName())
-                .phone(userDto.getPhone())
+                .telephone(userDto.getPhone())
                 .department(userDto.getDepartment())
-                .role_type(RoleType.USER1)
+                .roleType(RoleType.USER1)
                 .build();
 
-        userRepository.save(users);
+        userRepository.save(user);
     }
 
     @Transactional(readOnly = true)
@@ -52,8 +52,8 @@ public class UserService {
     }
 
     @Transactional
-    public void update(UserRuquestDto userDto) {
-        Users persistance = userRepository.findByIdentity(userDto.getIdentity())
+    public void update(UserRequestDto userDto) {
+        User persistance = userRepository.findByIdentity(userDto.getIdentity())
                 .orElseThrow(()->{
                     return new IllegalArgumentException("회원 찾기 실패");
                 });
@@ -63,6 +63,6 @@ public class UserService {
             persistance.setPassword(encPassword);
             persistance.setName(userDto.getName());
             persistance.setDepartment(userDto.getDepartment());
-            persistance.setPhone(userDto.getPhone());
+            persistance.setTelephone(userDto.getPhone());
     }
 }

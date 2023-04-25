@@ -1,10 +1,10 @@
-package kr.co.monitoringserver.controller.api;
+package kr.co.monitoringserver.controller.api.user;
 
 
 import jakarta.validation.Valid;
-import kr.co.monitoringserver.dto.request.UserRuquestDto;
-import kr.co.monitoringserver.dto.ResponseDto;
-import kr.co.monitoringserver.service.service.UserService;
+import kr.co.monitoringserver.service.dtos.request.UserRequestDto;
+import kr.co.monitoringserver.service.dtos.response.ResponseDto;
+import kr.co.monitoringserver.service.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -29,7 +29,7 @@ public class UserApiController {
     private AuthenticationManager authenticationmanager;
 
     @PostMapping("/auth/joinProc")
-    public ResponseDto<?> save(@Valid @RequestBody UserRuquestDto userDto, BindingResult bindingResult) {
+    public ResponseDto<?> save(@Valid @RequestBody UserRequestDto userDto, BindingResult bindingResult) {
         if(bindingResult.hasErrors()) {
             Map<String, String> validatorResult = userService.validateHandling(bindingResult);
 
@@ -41,7 +41,7 @@ public class UserApiController {
     }
 
     @PutMapping("/user")
-    public ResponseDto<?> update(@Valid @RequestBody UserRuquestDto userDto, BindingResult bindingResult) {
+    public ResponseDto<?> update(@Valid @RequestBody UserRequestDto userDto, BindingResult bindingResult) {
 
         if(bindingResult.hasErrors()) {
             Map<String, String> validatorResult = userService.validateHandling(bindingResult);

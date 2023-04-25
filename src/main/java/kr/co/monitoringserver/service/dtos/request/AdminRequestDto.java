@@ -1,8 +1,8 @@
-package kr.co.monitoringserver.dto.request;
+package kr.co.monitoringserver.service.dtos.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
-import kr.co.monitoringserver.persistence.entity.RoleType;
+import kr.co.monitoringserver.service.enums.RoleType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class AdminRuquestDto {
+public class AdminRequestDto {
     @NotBlank(message = "아이디는 필수 입력값입니다.")
     private String identity;
 

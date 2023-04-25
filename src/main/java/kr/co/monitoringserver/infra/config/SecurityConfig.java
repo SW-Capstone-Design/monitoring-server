@@ -25,7 +25,7 @@ public class SecurityConfig {
     }
 
     private static final String[] AUTH_WHITELIST = {
-        "/", "/auth/**", "/js/**", "/css/**", "/image/**"
+        "/", "/auth/**", "/js/**", "/css/**", "/image/**", "/api/**"
     };
 
     @Bean
@@ -45,6 +45,8 @@ public class SecurityConfig {
             .shouldFilterAllDispatcherTypes(false)
             .requestMatchers(AUTH_WHITELIST)
             .permitAll()
+//            .requestMatchers("/api/v1/attendance").permitAll()
+//            .requestMatchers("/api/v1/attendance_status").permitAll()
             .requestMatchers("/admin/**").hasRole("ADMIN")
             .anyRequest()
             .authenticated())

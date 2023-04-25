@@ -1,6 +1,6 @@
 package kr.co.monitoringserver.infra.config.auth;
 
-import kr.co.monitoringserver.persistence.entity.Users;
+import kr.co.monitoringserver.persistence.entity.User;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,23 +12,23 @@ import java.util.Collection;
 public class PrincipalDetail implements UserDetails {
 
     @Getter
-    private Users users;
+    private User user;
 
-    public PrincipalDetail(Users users) {
+    public PrincipalDetail(User user) {
 
-        this.users = users;
+        this.user = user;
     }
 
     @Override
     public String getPassword() {
 
-        return users.getPassword();
+        return user.getPassword();
     }
 
     @Override
     public String getUsername() {
         // TODO Auto-generated method stub
-        return users.getIdentity();
+        return user.getIdentity();
     }
 
     @Override
@@ -56,7 +56,7 @@ public class PrincipalDetail implements UserDetails {
 
         Collection<GrantedAuthority> collectors = new ArrayList<>();
         collectors.add(()->{
-            return "ROLE_" + users.getRole_type();
+            return "ROLE_" + user.getRoleType();
         });
 
         return collectors;

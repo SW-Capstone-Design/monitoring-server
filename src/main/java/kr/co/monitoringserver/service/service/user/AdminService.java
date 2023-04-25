@@ -1,8 +1,7 @@
-package kr.co.monitoringserver.service.service;
+package kr.co.monitoringserver.service.service.user;
 
-import kr.co.monitoringserver.dto.request.AdminRuquestDto;
-import kr.co.monitoringserver.dto.request.UserRuquestDto;
-import kr.co.monitoringserver.persistence.entity.Users;
+import kr.co.monitoringserver.service.dtos.request.AdminRequestDto;
+import kr.co.monitoringserver.persistence.entity.User;
 import kr.co.monitoringserver.persistence.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -26,23 +25,23 @@ public class AdminService {
     private BCryptPasswordEncoder encoder;
 
     @Transactional(readOnly = true)
-    public Page<Users> list(Pageable pageable) {
+    public Page<User> list(Pageable pageable) {
 
         return userRepository.findAll(pageable);
     }
 
     @Transactional(readOnly = true)
-    public Users detail(long usersId) {
+    public User detail(Long userId) {
 
-        return userRepository.findByUsersId(usersId)
+        return userRepository.findByUserId(userId)
                 .orElseThrow(()->{
                     return new IllegalArgumentException("유저 조회 실패 : 아이디를 찾을 수 없습니다.");
                 });
     }
 
     @Transactional
-    public void update(AdminRuquestDto adminDto) {
-        Users persistence = userRepository.findByIdentity(adminDto.getIdentity())
+    public void update(AdminRequestDto adminDto) {
+        User persistence = userRepository.findByIdentity(adminDto.getIdentity())
                 .orElseThrow(()->{
                     return new IllegalArgumentException("회원 찾기 실패");
                 });
@@ -52,8 +51,8 @@ public class AdminService {
         persistence.setPassword(encPassword);
         persistence.setName(adminDto.getName());
         persistence.setDepartment(adminDto.getDepartment());
-        persistence.setPhone(adminDto.getPhone());
-        persistence.setRole_type(adminDto.getRole_type());
+        persistence.setTelephone(adminDto.getPhone());
+        persistence.setRoleType(adminDto.getRole_type());
     }
 
     @Transactional(readOnly = true)
@@ -68,7 +67,7 @@ public class AdminService {
         return validatorResult;
     }
 
-    public Page<Users> userSearchList(String searchKeyword, Pageable pageable) {
+    public Page<User> userSearchList(String searchKeyword, Pageable pageable) {
 
         return userRepository.findByIdentityContaining(searchKeyword, pageable);
     }
