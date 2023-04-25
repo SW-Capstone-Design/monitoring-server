@@ -26,9 +26,6 @@ public class AttendanceService {
      * 출석 기록과 출석 상태 간의 관계를 설정하고, 이를 활용하여 출석 상태를 출력하는 기능
      */
 
-    // TODO : 출근, 퇴근 등의 기록을 바탕으로 특정 사용자의 근무 시간을 계산
-    // TODO : 근무 시간을 기준으로 근무 일수나 근로 대장을 작성하는 기능
-
     private final UserRepository userRepository;
 
     private final AttendanceRepository attendanceRepository;

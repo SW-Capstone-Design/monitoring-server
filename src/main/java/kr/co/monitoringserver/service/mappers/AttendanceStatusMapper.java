@@ -36,4 +36,11 @@ public interface AttendanceStatusMapper {
                 .attendanceDays(attendanceDays) // 추가된 출석 일수 정보
                 .build();
     }
+
+    @Mapping(source = "attendanceStatus.user.userId", target = "userId")
+    @Mapping(source = "attendanceStatus.user.name", target = "userName")
+    @Mapping(source = "attendanceStatus.goWork", target = "goWork")
+    @Mapping(source = "attendanceStatus.enterTime", target = "enterTime")
+    @Mapping(source = "attendanceStatus.date", target = "date")
+    AttendStatusResDTO.READ toAttendTypeReadDto(AttendanceStatus attendanceStatus);
 }

@@ -3,8 +3,6 @@ package kr.co.monitoringserver.service.enums;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import java.util.Arrays;
-
 @Getter
 @AllArgsConstructor
 public enum AttendanceType {
@@ -29,9 +27,10 @@ public enum AttendanceType {
 
 
 
-    public static AttendanceType of(String attendanceType){
-        return Arrays.stream(AttendanceType.values())
-                .filter(type -> type.toString().equalsIgnoreCase(attendanceType))
-                .findAny().orElseThrow(() -> new RuntimeException("Not Found AttendanceType"));
-    }
+//    public static AttendanceType of(String attendanceType){
+//        return Arrays.stream(AttendanceType.values())
+//                .filter(type -> type.toString().equalsIgnoreCase(attendanceType))
+//                .findAny().orElseThrow(() -> new RuntimeException("Not Found AttendanceType"));
+//    }
+
 }
