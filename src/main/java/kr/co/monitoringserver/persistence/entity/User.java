@@ -17,6 +17,7 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @Builder
 @Entity
+@Table(name = "users")
 public class User {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,12 +38,15 @@ public class User {
     private String department;
 
     @Enumerated(EnumType.STRING)
+    @Column(name="role_type")
     private RoleType roleType;
 
     @CreationTimestamp
+    @Column(name="created_at")
     private Timestamp createdAt;
 
     @UpdateTimestamp
+    @Column(name="updated_at")
     private Timestamp updatedAt;
 
     @Column(nullable = false, length = 30)
