@@ -3,7 +3,7 @@ package kr.co.monitoringserver.service.service.user;
 
 
 import kr.co.monitoringserver.persistence.entity.User;
-import kr.co.monitoringserver.service.dtos.request.UserRequestDto;
+import kr.co.monitoringserver.service.dtos.request.UserRequestDTO;
 import kr.co.monitoringserver.persistence.repository.UserRepository;
 import kr.co.monitoringserver.service.enums.RoleType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,12 +26,12 @@ public class UserService {
     private BCryptPasswordEncoder encoder;
 
     @Transactional
-    public void join(UserRequestDto userDto) {
+    public void join(UserRequestDTO userDto) {
         User user = User.builder()
                 .identity(userDto.getIdentity())
                 .password(encoder.encode(userDto.getPassword()))
                 .name(userDto.getName())
-                .telephone(userDto.getPhone())
+                .telephone(userDto.getTelephone())
                 .department(userDto.getDepartment())
                 .roleType(RoleType.USER1)
                 .build();
@@ -52,7 +52,7 @@ public class UserService {
     }
 
     @Transactional
-    public void update(UserRequestDto userDto) {
+    public void update(UserRequestDTO userDto) {
         User persistance = userRepository.findByIdentity(userDto.getIdentity())
                 .orElseThrow(()->{
                     return new IllegalArgumentException("회원 찾기 실패");
@@ -63,6 +63,6 @@ public class UserService {
             persistance.setPassword(encPassword);
             persistance.setName(userDto.getName());
             persistance.setDepartment(userDto.getDepartment());
-            persistance.setTelephone(userDto.getPhone());
+            persistance.setTelephone(userDto.getTelephone());
     }
 }

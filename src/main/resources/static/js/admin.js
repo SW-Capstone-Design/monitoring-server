@@ -8,13 +8,13 @@ let index = {
 		update: function() {
 
         			let data = {
-        					usersId: $("#usersId").val(),
+        					userId: $("#userId").val(),
         					identity: $("#identity").val(),
         					password: $("#password").val(),
         					name: $("#name").val(),
         					department: $("#department").val(),
-        					phone: $("#phone").val(),
-        					role_type: $("#role_type").val()
+        					telephone: $("#telephone").val(),
+        					roleType: $("#roleType").val()
         			};
 
         			$.ajax({
@@ -51,11 +51,11 @@ let index = {
                               }
                               else $('#valid_department').text('');
 
-                            if(resp.data.hasOwnProperty('valid_phone')){
-                                $('#valid_phone').text(resp.data.valid_phone);
-                                $('#valid_phone').css('color', 'red');
+                            if(resp.data.hasOwnProperty('valid_telephone')){
+                                $('#valid_telephone').text(resp.data.valid_telephone);
+                                $('#valid_telephone').css('color', 'red');
                               }
-                              else $('#valid_phone').text('');
+                              else $('#valid_telephone').text('');
                           }
                           else{
                               alert("회원수정이 완료되었습니다.");

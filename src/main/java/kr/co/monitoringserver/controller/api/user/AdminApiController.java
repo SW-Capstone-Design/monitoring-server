@@ -1,8 +1,8 @@
 package kr.co.monitoringserver.controller.api.user;
 
 import jakarta.validation.Valid;
-import kr.co.monitoringserver.service.dtos.response.ResponseDto;
-import kr.co.monitoringserver.service.dtos.request.AdminRequestDto;
+import kr.co.monitoringserver.service.dtos.response.ResponseDTO;
+import kr.co.monitoringserver.service.dtos.request.AdminRequestDTO;
 import kr.co.monitoringserver.service.service.user.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,17 +18,17 @@ public class AdminApiController {
     private AdminService adminService;
 
     @PutMapping("/admin")
-    public ResponseDto<?> update(@Valid @RequestBody AdminRequestDto adminDto, BindingResult bindingResult) {
+    public ResponseDTO<?> update(@Valid @RequestBody AdminRequestDTO adminDto, BindingResult bindingResult) {
 
         if(bindingResult.hasErrors()) {
             Map<String, String> validatorResult = adminService.validateHandling(bindingResult);
 
-            return new ResponseDto<>(HttpStatus.BAD_REQUEST.value(), validatorResult);
+            return new ResponseDTO<>(HttpStatus.BAD_REQUEST.value(), validatorResult);
         }
 
         adminService.update(adminDto);
 
-        return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
+        return new ResponseDTO<Integer>(HttpStatus.OK.value(), 1);
     }
 }
 

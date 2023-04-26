@@ -18,25 +18,25 @@
         <th>Id</th>
         <th>Name</th>
         <th>Department</th>
-        <th>Phone</th>
-        <th>Created_at</th>
-        <th>Updated_at</th>
-        <th>Role_type</th>
+        <th>Telephone</th>
+        <th>CreatedAt</th>
+        <th>UpdatedAt</th>
+        <th>RoleType</th>
         <th></th>
       </tr>
     </thead>
     <tbody>
     <c:forEach items="${lists.content}" var="user">
       <tr>
-        <td>${user.usersId}</td>
+        <td>${user.userId}</td>
         <td>${user.identity}</td>
         <td>${user.name}</td>
         <td>${user.department}</td>
-        <td>${user.phone}</td>
-        <td>${user.created_at}</td>
-        <td>${user.updated_at}</td>
-        <td>${user.role_type}</td>
-        <td><a href="/admin/info/${user.usersId}">수정</a></td>
+        <td>${user.telephone}</td>
+        <td>${user.createdAt}</td>
+        <td>${user.updatedAt}</td>
+        <td>${user.roleType}</td>
+        <td><a href="/admin/info/${user.userId}">수정</a></td>
       </tr>
       </c:forEach>
     </tbody>

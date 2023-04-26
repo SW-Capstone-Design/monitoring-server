@@ -1,6 +1,6 @@
 package kr.co.monitoringserver.service.service.user;
 
-import kr.co.monitoringserver.service.dtos.request.AdminRequestDto;
+import kr.co.monitoringserver.service.dtos.request.AdminRequestDTO;
 import kr.co.monitoringserver.persistence.entity.User;
 import kr.co.monitoringserver.persistence.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +40,7 @@ public class AdminService {
     }
 
     @Transactional
-    public void update(AdminRequestDto adminDto) {
+    public void update(AdminRequestDTO adminDto) {
         User persistence = userRepository.findByIdentity(adminDto.getIdentity())
                 .orElseThrow(()->{
                     return new IllegalArgumentException("회원 찾기 실패");
@@ -51,8 +51,8 @@ public class AdminService {
         persistence.setPassword(encPassword);
         persistence.setName(adminDto.getName());
         persistence.setDepartment(adminDto.getDepartment());
-        persistence.setTelephone(adminDto.getPhone());
-        persistence.setRoleType(adminDto.getRole_type());
+        persistence.setTelephone(adminDto.getTelephone());
+        persistence.setRoleType(adminDto.getRoleType());
     }
 
     @Transactional(readOnly = true)
