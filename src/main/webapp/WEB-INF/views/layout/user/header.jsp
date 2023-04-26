@@ -34,8 +34,15 @@
 			</c:when>
 			<c:otherwise>
 				<ul class="navbar-nav">
-				            <li class="nav-item"><a class="nav-link" href="#">출결등록</a></li>
-							<li class="nav-item"><a class="nav-link" href="/auth/beaconForm">비콘등록</a></li>
+				              <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                                  출결관리
+                                </a>
+                                <div class="dropdown-menu">
+                                  <a class="dropdown-item" href="#">출결조회</a>
+                                  <a class="dropdown-item" href="#">출결등록</a>
+                                </div>
+                              </li>
         					<li class="nav-item"><a class="nav-link" href="/user/updateForm">회원정보</a></li>
         					<li class="nav-item"><a class="nav-link" href="/admin/index">관리자페이지</a></li>
         					<li class="nav-item"><a class="nav-link" href="/logout">로그아웃</a></li>

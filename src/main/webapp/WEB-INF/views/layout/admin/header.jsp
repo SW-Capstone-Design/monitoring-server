@@ -34,9 +34,27 @@
 			</c:when>
 			<c:otherwise>
 				<ul class="navbar-nav">
-				            <li class="nav-item"><a class="nav-link" href="#">출결관리</a></li>
-							<li class="nav-item"><a class="nav-link" href="#">비콘관리</a></li>
-        					<li class="nav-item"><a class="nav-link" href="/admin/info">사용자정보관리</a></li>
+				            <li class="nav-item"><a class="nav-link" href="#">모니터링</a></li>
+				            <li class="nav-item dropdown">
+                               <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                                  출결관리
+                               </a>
+                               <div class="dropdown-menu">
+                                  <a class="dropdown-item" href="#">회원출결조회</a>
+                                  <a class="dropdown-item" href="#">회원출결수정</a>
+                               </div>
+                            </li>
+							<li class="nav-item dropdown">
+                               <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                                  비콘관리
+                               </a>
+                               <div class="dropdown-menu">
+                                  <a class="dropdown-item" href="#">비콘정보조회</a>
+                                  <a class="dropdown-item" href="#">비콘등록</a>
+                               </div>
+                            </li>
+        					<li class="nav-item"><a class="nav-link" href="/admin/info">회원정보관리</a></li>
+        					<li class="nav-item"><a class="nav-link" href="/">사용자페이지</a></li>
         					<li class="nav-item"><a class="nav-link" href="/logout">로그아웃</a></li>
 				</ul>
 			</c:otherwise>
