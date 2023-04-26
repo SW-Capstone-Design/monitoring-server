@@ -1,4 +1,4 @@
-package kr.co.monitoringserver.controller;
+package kr.co.monitoringserver.controller.user;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

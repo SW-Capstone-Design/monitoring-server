@@ -1,4 +1,4 @@
-package kr.co.monitoringserver.controller;
+package kr.co.monitoringserver.controller.user;
 
 import kr.co.monitoringserver.service.service.user.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
