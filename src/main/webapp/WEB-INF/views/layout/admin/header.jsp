@@ -49,7 +49,7 @@
                                   비콘관리
                                </a>
                                <div class="dropdown-menu">
-                                  <a class="dropdown-item" href="#">비콘정보조회</a>
+                                  <a class="dropdown-item" href="/admin/beaconList">비콘정보조회</a>
                                   <a class="dropdown-item" href="#">비콘등록</a>
                                </div>
                             </li>

@@ -16,6 +16,9 @@ public class Beacon {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "beacon_id")
+    private Long beaconId;
+
     @Column(name = "beacon_uuid")
     private Long beaconUuid;
 

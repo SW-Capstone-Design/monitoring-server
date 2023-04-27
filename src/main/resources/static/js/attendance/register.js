@@ -5,19 +5,19 @@ let index = {
 			});
 		},
 
-		create: function() {
+		register: function() {
 			let data = {
 					userId: $("#userId").val(),
-			}
+			};
 
 			$.ajax({
 				type: "POST",
-				url: "/attendance/registerProc",
+				url: "/api/v1/attendance_status",
 				data: JSON.stringify(data),
 				contentType: "application/json; charset=utf-8",
 				dataType: "json"
 			}).done(function(resp) {
-			    if(resp.status == 400){
+			    if(resp.status == 400 | resp.status == 500){
                     alert("출근처리에 실패하였습니다.");
                 }
                 else{
@@ -27,4 +27,7 @@ let index = {
 			}).fail(function(error) {
 				alert(JSON.stringify(error));
 			});
-		},
+		}
+}
+
+index.init();

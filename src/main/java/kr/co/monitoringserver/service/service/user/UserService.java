@@ -3,7 +3,7 @@ package kr.co.monitoringserver.service.service.user;
 
 
 import kr.co.monitoringserver.persistence.entity.User;
-import kr.co.monitoringserver.service.dtos.request.UserRequestDTO;
+import kr.co.monitoringserver.service.dtos.request.UserReqDTO;
 import kr.co.monitoringserver.persistence.repository.UserRepository;
 import kr.co.monitoringserver.service.enums.RoleType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ public class UserService {
     private BCryptPasswordEncoder encoder;
 
     @Transactional
-    public void join(UserRequestDTO userDto) {
+    public void join(UserReqDTO userDto) {
         User user = User.builder()
                 .identity(userDto.getIdentity())
                 .password(encoder.encode(userDto.getPassword()))
@@ -52,7 +52,7 @@ public class UserService {
     }
 
     @Transactional
-    public void update(UserRequestDTO userDto) {
+    public void update(UserReqDTO userDto) {
         User persistance = userRepository.findByIdentity(userDto.getIdentity())
                 .orElseThrow(()->{
                     return new IllegalArgumentException("회원 찾기 실패");

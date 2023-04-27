@@ -2,8 +2,8 @@ package kr.co.monitoringserver.controller.api.user;
 
 
 import jakarta.validation.Valid;
-import kr.co.monitoringserver.service.dtos.request.UserRequestDTO;
-import kr.co.monitoringserver.service.dtos.response.ResponseDTO;
+import kr.co.monitoringserver.service.dtos.request.UserReqDTO;
+import kr.co.monitoringserver.service.dtos.response.UserResDTO;
 import kr.co.monitoringserver.service.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,24 +29,24 @@ public class UserApiController {
     private AuthenticationManager authenticationmanager;
 
     @PostMapping("/auth/joinProc")
-    public ResponseDTO<?> save(@Valid @RequestBody UserRequestDTO userDto, BindingResult bindingResult) {
+    public UserResDTO<?> save(@Valid @RequestBody UserReqDTO userDto, BindingResult bindingResult) {
         if(bindingResult.hasErrors()) {
             Map<String, String> validatorResult = userService.validateHandling(bindingResult);
 
-            return new ResponseDTO<>(HttpStatus.BAD_REQUEST.value(), validatorResult);
+            return new UserResDTO<>(HttpStatus.BAD_REQUEST.value(), validatorResult);
         }
 
         userService.join(userDto);
-        return new ResponseDTO<Integer>(HttpStatus.OK.value(), 1);
+        return new UserResDTO<Integer>(HttpStatus.OK.value(), 1);
     }
 
     @PutMapping("/user")
-    public ResponseDTO<?> update(@Valid @RequestBody UserRequestDTO userDto, BindingResult bindingResult) {
+    public UserResDTO<?> update(@Valid @RequestBody UserReqDTO userDto, BindingResult bindingResult) {
 
         if(bindingResult.hasErrors()) {
             Map<String, String> validatorResult = userService.validateHandling(bindingResult);
 
-            return new ResponseDTO<>(HttpStatus.BAD_REQUEST.value(), validatorResult);
+            return new UserResDTO<>(HttpStatus.BAD_REQUEST.value(), validatorResult);
         }
 
         userService.update(userDto);
@@ -54,6 +54,6 @@ public class UserApiController {
         Authentication authentication = authenticationmanager.authenticate(new UsernamePasswordAuthenticationToken(userDto.getIdentity(), userDto.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        return new ResponseDTO<Integer>(HttpStatus.OK.value(), 1);
+        return new UserResDTO<Integer>(HttpStatus.OK.value(), 1);
     }
 }

@@ -39,7 +39,7 @@
                                   출결관리
                                 </a>
                                 <div class="dropdown-menu">
-                                  <a class="dropdown-item" href="/${principal.userId}">출결조회</a>
+                                  <a class="dropdown-item" href="/attendance/${principal.userId}">출결조회</a>
                                   <a class="dropdown-item" href="/attendance/register">출결등록</a>
                                 </div>
                               </li>

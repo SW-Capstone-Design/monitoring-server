@@ -23,10 +23,4 @@ public class UserController {
 
         return "user/updateForm";
     }
-
-    @GetMapping("/auth/beaconForm")
-    public String beaconForm() {
-
-        return "user/beaconForm";
-    }
 }

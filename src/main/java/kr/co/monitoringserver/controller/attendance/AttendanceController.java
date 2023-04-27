@@ -13,9 +13,9 @@ public class AttendanceController {
     @Autowired
     AttendanceService attendanceService;
 
-    @GetMapping("/{user_id}")
-    public String findByUserId(@PathVariable long user_id, Model model) {
-        model.addAttribute("list", attendanceService.getAttendanceRecordsByUserId(user_id));
+    @GetMapping("attendance/{user_id}")
+    public String findByUserId(@PathVariable(name = "user_id") long userId, Model model) {
+        model.addAttribute("list", attendanceService.getAttendanceRecordsByUserId(userId));
         return "user/attendance/inquire";
     }
 

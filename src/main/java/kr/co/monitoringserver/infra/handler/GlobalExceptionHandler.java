@@ -1,7 +1,7 @@
 package kr.co.monitoringserver.infra.handler;
 
 import kr.co.monitoringserver.infra.global.exception.*;
-import kr.co.monitoringserver.service.dtos.response.ResponseDTO;
+import kr.co.monitoringserver.service.dtos.response.UserResDTO;
 import kr.co.monitoringserver.infra.global.error.response.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = Exception.class)
-    public ResponseDTO<String> handleArgumentException(Exception e) {
-        return new ResponseDTO<String>(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage());
+    public UserResDTO<String> handleArgumentException(Exception e) {
+        return new UserResDTO<String>(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage());
     }
 
 
