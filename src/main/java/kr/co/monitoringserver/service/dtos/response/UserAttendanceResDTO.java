@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Map;
 
-public class AttendanceResDTO {
+public class UserAttendanceResDTO {
 
     @Getter
     @Builder
@@ -28,9 +28,9 @@ public class AttendanceResDTO {
 
         private LocalTime leaveTime;
 
-        private AttendanceType goWorkType;
+        private AttendanceType goWork;
 
-        private AttendanceType leaveWorkType;
+        private AttendanceType leaveWork;
 
         private LocalDate date;
 
