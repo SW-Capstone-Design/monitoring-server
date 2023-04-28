@@ -5,9 +5,9 @@ import jakarta.validation.Valid;
 import kr.co.monitoringserver.infra.global.error.enums.ErrorCode;
 import kr.co.monitoringserver.infra.global.error.response.ResponseFormat;
 import kr.co.monitoringserver.service.dtos.request.UserAttendanceReqDTO;
-import kr.co.monitoringserver.service.dtos.request.UserRequestDto;
-import kr.co.monitoringserver.service.dtos.response.ResponseDto;
+import kr.co.monitoringserver.service.dtos.request.UserReqDTO;
 import kr.co.monitoringserver.service.dtos.response.UserAttendanceResDTO;
+import kr.co.monitoringserver.service.dtos.response.UserResDTO;
 import kr.co.monitoringserver.service.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -33,24 +33,24 @@ public class UserApiController {
     private final AuthenticationManager authenticationmanager;
 
     @PostMapping("/auth/joinProc")
-    public ResponseDto<?> save(@Valid @RequestBody UserRequestDto userDto, BindingResult bindingResult) {
+    public UserResDTO<?> save(@Valid @RequestBody UserReqDTO userDto, BindingResult bindingResult) {
         if(bindingResult.hasErrors()) {
             Map<String, String> validatorResult = userService.validateHandling(bindingResult);
 
-            return new ResponseDto<>(HttpStatus.BAD_REQUEST.value(), validatorResult);
+            return new UserResDTO<>(HttpStatus.BAD_REQUEST.value(), validatorResult);
         }
 
         userService.join(userDto);
-        return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
+        return new UserResDTO<Integer>(HttpStatus.OK.value(), 1);
     }
 
     @PutMapping("/user")
-    public ResponseDto<?> update(@Valid @RequestBody UserRequestDto userDto, BindingResult bindingResult) {
+    public UserResDTO<?> update(@Valid @RequestBody UserReqDTO userDto, BindingResult bindingResult) {
 
         if(bindingResult.hasErrors()) {
             Map<String, String> validatorResult = userService.validateHandling(bindingResult);
 
-            return new ResponseDto<>(HttpStatus.BAD_REQUEST.value(), validatorResult);
+            return new UserResDTO<>(HttpStatus.BAD_REQUEST.value(), validatorResult);
         }
 
         userService.update(userDto);
@@ -58,7 +58,7 @@ public class UserApiController {
         Authentication authentication = authenticationmanager.authenticate(new UsernamePasswordAuthenticationToken(userDto.getIdentity(), userDto.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
+        return new UserResDTO<Integer>(HttpStatus.OK.value(), 1);
     }
 
 
