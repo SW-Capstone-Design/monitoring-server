@@ -20,7 +20,10 @@ public enum ErrorCode {
     NOT_AUTHENTICATE_USER(401, HttpStatus.UNAUTHORIZED, "해당 사용자의 권한이 없어 접근할 수 없습니다"),
 
     // UserAttendance
-    NOT_FOUND_ATTENDANCE(404, HttpStatus.NOT_FOUND, "해당 출석 기록 정보를 찾지 못하였습니다");
+    NOT_FOUND_ATTENDANCE(404, HttpStatus.NOT_FOUND, "해당 출석 기록 정보를 찾지 못하였습니다"),
+
+    // SecurityArea
+    NOT_FOUND_SECURITY_AREA(404, HttpStatus.NOT_FOUND, "해당 보안 구역 정보를 찾지 못하였습니다");
 
     private final int status;
 
