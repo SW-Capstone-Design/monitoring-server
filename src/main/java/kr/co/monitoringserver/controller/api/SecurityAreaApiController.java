@@ -19,7 +19,7 @@ public class SecurityAreaApiController {
      * Create Security Area Controller
      */
     @PostMapping
-    public ResponseFormat<Void> createSecurityArea(SecurityAreaReqDTO.CREATE create) {
+    public ResponseFormat<Void> createSecurityArea(@RequestBody SecurityAreaReqDTO.CREATE create) {
 
         securityAreaService.createSecurityArea(create);
 
@@ -41,5 +41,18 @@ public class SecurityAreaApiController {
         );
     }
 
+    /**
+     * Update Security Area Controller
+     */
+    @PutMapping("/{security_area_id}")
+    public ResponseFormat<Void> updateSecurityArea(@PathVariable(name = "security_area_id") Long securityAreaId,
+                                                   @RequestBody SecurityAreaReqDTO.UPDATE update) {
 
+        securityAreaService.updateSecurityArea(securityAreaId, update);
+
+        return ResponseFormat.successMessage(
+                ErrorCode.SUCCESS_EXECUTE,
+                update.getName() + " 보안구역 정보가 성공적으로 수정되었습니다"
+        );
+    }
 }

@@ -41,4 +41,16 @@ public class SecurityAreaService {
 
         return securityAreaMapper.toSecurityAreaReadDto(securityArea);
     }
+
+    /**
+     * Update Security Area Service
+     */
+    @Transactional
+    public void updateSecurityArea(Long securityAreaId, SecurityAreaReqDTO.UPDATE update) {
+
+        final SecurityArea securityArea = securityAreaRepository.findById(securityAreaId)
+                .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_SECURITY_AREA));
+
+        securityArea.updateSecurityArea(update);
+    }
 }

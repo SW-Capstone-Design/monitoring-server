@@ -2,6 +2,7 @@ package kr.co.monitoringserver.persistence.entity.securityArea;
 
 import jakarta.persistence.*;
 import kr.co.monitoringserver.persistence.entity.BaseEntity;
+import kr.co.monitoringserver.service.dtos.request.SecurityAreaReqDTO;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -41,5 +42,12 @@ public class SecurityArea extends BaseEntity {
         this.name = name;
         this.description = description;
         this.location = location;
+    }
+
+    public void updateSecurityArea(SecurityAreaReqDTO.UPDATE update) {
+
+        this.name = update.getName();
+        this.description = update.getDescription();
+        this.location = update.getLocation();
     }
 }
