@@ -53,4 +53,16 @@ public class SecurityAreaService {
 
         securityArea.updateSecurityArea(update);
     }
+
+    /**
+     * Delete Security Area Service
+     */
+    @Transactional
+    public void deleteSecurityArea(Long securityAreaId) {
+
+        final SecurityArea securityArea = securityAreaRepository.findById(securityAreaId)
+                .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_SECURITY_AREA));
+
+        securityAreaRepository.delete(securityArea);
+    }
 }

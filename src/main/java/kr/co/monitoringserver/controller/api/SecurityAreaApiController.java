@@ -55,4 +55,18 @@ public class SecurityAreaApiController {
                 update.getName() + " 보안구역 정보가 성공적으로 수정되었습니다"
         );
     }
+
+    /**
+     * Delete Security Area Controller
+     */
+    @DeleteMapping("/{security_area_id}")
+    public ResponseFormat<Void> deleteSecurityArea(@PathVariable(name = "security_area_id") Long securityAreaId) {
+
+        securityAreaService.deleteSecurityArea(securityAreaId);
+
+        return ResponseFormat.successMessage(
+                ErrorCode.SUCCESS_EXECUTE,
+                "보안구역 정보가 성공적으로 삭제되었습니다"
+        );
+    }
 }
