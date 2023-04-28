@@ -1,5 +1,4 @@
-package kr.co.monitoringserver.controller.api.user;
-
+package kr.co.monitoringserver.controller.api;
 
 import jakarta.validation.Valid;
 import kr.co.monitoringserver.infra.global.error.enums.ErrorCode;
@@ -8,7 +7,7 @@ import kr.co.monitoringserver.service.dtos.request.UserAttendanceReqDTO;
 import kr.co.monitoringserver.service.dtos.request.UserRequestDto;
 import kr.co.monitoringserver.service.dtos.response.ResponseDto;
 import kr.co.monitoringserver.service.dtos.response.UserAttendanceResDTO;
-import kr.co.monitoringserver.service.service.user.UserService;
+import kr.co.monitoringserver.service.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;

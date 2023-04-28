@@ -1,4 +1,4 @@
-package kr.co.monitoringserver.service.service.user;
+package kr.co.monitoringserver.service.service;
 
 import kr.co.monitoringserver.service.dtos.request.AdminRequestDto;
 import kr.co.monitoringserver.persistence.entity.User;

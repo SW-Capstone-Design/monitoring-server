@@ -1,4 +1,4 @@
-package kr.co.monitoringserver.service.service.user;
+package kr.co.monitoringserver.service.service;
 
 import kr.co.monitoringserver.infra.global.error.enums.ErrorCode;
 import kr.co.monitoringserver.infra.global.exception.BadRequestException;
@@ -6,7 +6,6 @@ import kr.co.monitoringserver.infra.global.exception.InvalidInputException;
 import kr.co.monitoringserver.infra.global.exception.NotFoundException;
 import kr.co.monitoringserver.persistence.entity.UserAttendance;
 import kr.co.monitoringserver.persistence.entity.User;
-import kr.co.monitoringserver.persistence.repository.AttendanceRepository;
 import kr.co.monitoringserver.persistence.repository.UserAttendanceRepository;
 import kr.co.monitoringserver.service.dtos.request.UserAttendanceReqDTO;
 import kr.co.monitoringserver.service.dtos.request.UserRequestDto;
@@ -38,8 +37,6 @@ public class UserService {
     public final UserRepository userRepository;
 
     private final UserAttendanceRepository userAttendanceRepository;
-
-    private final AttendanceRepository attendanceRepository;
 
     private final BCryptPasswordEncoder encoder;
 
