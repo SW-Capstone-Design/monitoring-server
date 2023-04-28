@@ -1,14 +1,12 @@
 package kr.co.monitoringserver.service.dtos.request;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.validation.constraints.NotNull;
 import kr.co.monitoringserver.service.enums.AttendanceType;
 import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public class AttendStatusReqDTO {
+public class UserAttendanceReqDTO {
 
     @Getter
     @Builder
@@ -21,9 +19,6 @@ public class AttendStatusReqDTO {
         private LocalTime leaveTime;
 
         private LocalDate date;
-
-        @NotNull(message = "Please enter your user id")
-        private Long userId;
     }
 
     @Getter
@@ -41,9 +36,5 @@ public class AttendStatusReqDTO {
         private LocalTime leaveTime;
 
         private LocalDate date;
-
-        @JsonProperty("userId")
-        @NotNull(message = "Please enter your user id")
-        private Long userId;
     }
 }

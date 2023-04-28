@@ -2,6 +2,7 @@ package kr.co.monitoringserver.persistence.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import kr.co.monitoringserver.service.dtos.request.UserAttendanceReqDTO;
 import kr.co.monitoringserver.service.enums.RoleType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,6 +12,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -51,4 +54,7 @@ public class User {
 
     @Column(nullable = false, length = 30)
     private String telephone;
+
+    @OneToMany(mappedBy = "user")
+    private List<UserAttendance> userAttendances = new ArrayList<>();
 }
