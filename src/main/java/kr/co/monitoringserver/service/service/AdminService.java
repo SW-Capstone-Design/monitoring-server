@@ -1,7 +1,7 @@
 package kr.co.monitoringserver.service.service;
 
 import kr.co.monitoringserver.service.dtos.request.AdminRequestDto;
-import kr.co.monitoringserver.persistence.entity.User;
+import kr.co.monitoringserver.persistence.entity.user.User;
 import kr.co.monitoringserver.persistence.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

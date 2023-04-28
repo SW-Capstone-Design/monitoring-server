@@ -4,8 +4,8 @@ import kr.co.monitoringserver.infra.global.error.enums.ErrorCode;
 import kr.co.monitoringserver.infra.global.exception.BadRequestException;
 import kr.co.monitoringserver.infra.global.exception.InvalidInputException;
 import kr.co.monitoringserver.infra.global.exception.NotFoundException;
-import kr.co.monitoringserver.persistence.entity.UserAttendance;
-import kr.co.monitoringserver.persistence.entity.User;
+import kr.co.monitoringserver.persistence.entity.attendance.UserAttendance;
+import kr.co.monitoringserver.persistence.entity.user.User;
 import kr.co.monitoringserver.persistence.repository.UserAttendanceRepository;
 import kr.co.monitoringserver.service.dtos.request.UserAttendanceReqDTO;
 import kr.co.monitoringserver.service.dtos.request.UserRequestDto;
@@ -85,7 +85,7 @@ public class UserService {
 
 
     /**
-     * Create UserAttendance Status Service
+     * Create UserAttendance Service
      */
     @Transactional
     public void createAttendance(String userIdentity, UserAttendanceReqDTO.CREATE create) {
@@ -107,7 +107,7 @@ public class UserService {
     }
 
     /**
-     * Get UserAttendance Status By userId Service
+     * Get UserAttendance By userId Service
      */
     public List<UserAttendanceResDTO.READ> getAttendanceByUserId(Long userId) {
 
@@ -124,9 +124,9 @@ public class UserService {
     }
 
     /**
-     * Get Tardiness User UserAttendance Status By Date Service
+     * Get Latecomer UserAttendance By Date Service
      */
-    public List<UserAttendanceResDTO.READ> getTardinessUserByDate(LocalDate date) {
+    public List<UserAttendanceResDTO.READ> getLatecomerByDate(LocalDate date) {
 
         final List<UserAttendance> userAttendances = userAttendanceRepository.findByAttendance_Date(date);
 
@@ -139,9 +139,9 @@ public class UserService {
     }
 
     /**
-     * Get Absent User UserAttendance Status By userId Service
+     * Get Absentee UserAttendance By userId Service
      */
-    public List<UserAttendanceResDTO.READ> getAbsentUserByDate(LocalDate date) {
+    public List<UserAttendanceResDTO.READ> getAbsenteeByDate(LocalDate date) {
 
         final List<UserAttendance> userAttendances = userAttendanceRepository.findByAttendance_Date(date);
 
@@ -154,7 +154,7 @@ public class UserService {
     }
 
     /**
-     * Update UserAttendance Status Service
+     * Update UserAttendance Service
      */
     @Transactional
     public void updateAttendance(String userIdentity, UserAttendanceReqDTO.UPDATE update) {
@@ -177,7 +177,7 @@ public class UserService {
     }
 
     /**
-     * Delete UserAttendance Status By id Service
+     * Delete UserAttendance By id Service
      */
     @Transactional
     public void deleteAttendance(Long userId) {

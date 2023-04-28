@@ -1,13 +1,12 @@
-package kr.co.monitoringserver.persistence.entity;
+package kr.co.monitoringserver.persistence.entity.attendance;
 
 import jakarta.persistence.*;
-import kr.co.monitoringserver.persistence.BaseEntity;
+import kr.co.monitoringserver.persistence.entity.BaseEntity;
+import kr.co.monitoringserver.persistence.entity.attendance.Attendance;
+import kr.co.monitoringserver.persistence.entity.user.User;
 import kr.co.monitoringserver.service.dtos.request.UserAttendanceReqDTO;
 import kr.co.monitoringserver.service.enums.AttendanceType;
 import lombok.*;
-
-import java.time.LocalDate;
-import java.time.LocalTime;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -38,7 +37,7 @@ public class UserAttendance extends BaseEntity {
 
     @Builder
     private UserAttendance(User user,
-                          Attendance attendance) {
+                           Attendance attendance) {
 
         this.user = user;
         this.attendance = attendance;

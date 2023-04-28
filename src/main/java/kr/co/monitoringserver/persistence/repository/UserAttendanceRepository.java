@@ -1,7 +1,7 @@
 package kr.co.monitoringserver.persistence.repository;
 
-import kr.co.monitoringserver.persistence.entity.UserAttendance;
-import kr.co.monitoringserver.persistence.entity.User;
+import kr.co.monitoringserver.persistence.entity.attendance.UserAttendance;
+import kr.co.monitoringserver.persistence.entity.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

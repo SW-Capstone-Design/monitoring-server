@@ -1,12 +1,11 @@
 package kr.co.monitoringserver.service.mappers;
 
-import kr.co.monitoringserver.persistence.entity.Attendance;
-import kr.co.monitoringserver.persistence.entity.UserAttendance;
-import kr.co.monitoringserver.persistence.entity.User;
+import kr.co.monitoringserver.persistence.entity.attendance.Attendance;
+import kr.co.monitoringserver.persistence.entity.attendance.UserAttendance;
+import kr.co.monitoringserver.persistence.entity.user.User;
 import kr.co.monitoringserver.service.dtos.request.UserAttendanceReqDTO;
 import kr.co.monitoringserver.service.dtos.response.UserAttendanceResDTO;
 import kr.co.monitoringserver.service.enums.AttendanceType;
-import org.mapstruct.Context;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

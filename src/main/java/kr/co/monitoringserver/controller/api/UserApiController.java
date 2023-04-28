@@ -63,24 +63,24 @@ public class UserApiController {
 
 
     /**
-     * Create UserAttendance Status Controller
+     * Create UserAttendance Controller
      */
-    @PostMapping("/attendance_status/{user_identity}")
+    @PostMapping("/attendance/{user_identity}")
     public ResponseFormat<Void> createAttendance(@PathVariable(name = "user_identity") String userIdentity,
-                                                       @RequestBody @Validated UserAttendanceReqDTO.CREATE create) {
+                                                 @RequestBody @Validated UserAttendanceReqDTO.CREATE create) {
 
         userService.createAttendance(userIdentity, create);
 
         return ResponseFormat.successMessage(
                 ErrorCode.SUCCESS_CREATED,
-                "출석 상태 정보가 성공적으로 생성되었습니다"
+                userIdentity + "님 출석 상태 정보가 성공적으로 생성되었습니다"
         );
     }
 
     /**
-     * Get UserAttendance Status By userId Controller
+     * Get UserAttendance By userId Controller
      */
-    @GetMapping("/attendance_status/{user_id}")
+    @GetMapping("/attendance/{user_id}")
     public ResponseFormat<List<UserAttendanceResDTO.READ>> getAttendanceByUserId(@PathVariable(name = "user_id") Long userId) {
 
         return ResponseFormat.successData(
@@ -90,33 +90,33 @@ public class UserApiController {
     }
 
     /**
-     * Get Tardiness User UserAttendance Status By Date Controller
+     * Get Latecomer UserAttendance By Date Controller
      */
-    @GetMapping("/attendance_status/tardiness")
-    public ResponseFormat<List<UserAttendanceResDTO.READ>> getTardinessUserByDate(@RequestParam("date") LocalDate date) {
+    @GetMapping("/attendance/latecomer")
+    public ResponseFormat<List<UserAttendanceResDTO.READ>> getLatecomerByDate(@RequestParam("date") LocalDate date) {
 
         return ResponseFormat.successData(
                 ErrorCode.SUCCESS_EXECUTE,
-                userService.getTardinessUserByDate(date)
+                userService.getLatecomerByDate(date)
         );
     }
 
     /**
-     * Get Absent User UserAttendance Status By Date Controller
+     * Get Absentee UserAttendance By Date Controller
      */
-    @GetMapping("/attendance_status/absent")
-    public ResponseFormat<List<UserAttendanceResDTO.READ>> getAbsentUserByDate(@RequestParam("date") LocalDate date) {
+    @GetMapping("/attendance/absentee")
+    public ResponseFormat<List<UserAttendanceResDTO.READ>> getAbsenteeByDate(@RequestParam("date") LocalDate date) {
 
         return ResponseFormat.successData(
                 ErrorCode.SUCCESS_EXECUTE,
-                userService.getAbsentUserByDate(date)
+                userService.getAbsenteeByDate(date)
         );
     }
 
     /**
-     * Update UserAttendance Status Controller
+     * Update UserAttendance Controller
      */
-    @PutMapping("/attendance_status/{user_identity}")
+    @PutMapping("/attendance/{user_identity}")
     public ResponseFormat<Void> updateAttendance(@PathVariable(name = "user_identity") String userIdentity,
                                                  @RequestBody UserAttendanceReqDTO.UPDATE update) {
 
@@ -124,14 +124,14 @@ public class UserApiController {
 
         return ResponseFormat.successMessage(
                 ErrorCode.SUCCESS_EXECUTE,
-                "출석 상태 정보가 성공적으로 수정되었습니다"
+                userIdentity + "님 출석 상태 정보가 성공적으로 수정되었습니다"
         );
     }
 
     /**
-     * Delete UserAttendance Status Controller
+     * Delete UserAttendance Controller
      */
-    @DeleteMapping("/attendance_status/{user_id}")
+    @DeleteMapping("/attendance/{user_id}")
     public ResponseFormat<Void> deleteAttendance(@PathVariable(name = "user_id") Long userId) {
 
         userService.deleteAttendance(userId);
