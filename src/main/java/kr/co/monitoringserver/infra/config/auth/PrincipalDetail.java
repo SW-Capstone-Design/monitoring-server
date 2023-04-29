@@ -1,6 +1,6 @@
 package kr.co.monitoringserver.infra.config.auth;
 
-import kr.co.monitoringserver.persistence.entity.User;
+import kr.co.monitoringserver.persistence.entity.user.User;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

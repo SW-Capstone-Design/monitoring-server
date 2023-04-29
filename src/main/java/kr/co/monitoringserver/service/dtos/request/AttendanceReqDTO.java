@@ -6,7 +6,7 @@ import lombok.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public class UserAttendanceReqDTO {
+public class AttendanceReqDTO {
 
     @Getter
     @Builder

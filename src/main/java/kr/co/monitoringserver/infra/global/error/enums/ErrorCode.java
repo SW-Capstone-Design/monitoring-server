@@ -12,7 +12,7 @@ public enum ErrorCode {
 
     FAIL_EXECUTE(203, HttpStatus.BAD_REQUEST, "실행에 실패했습니다"),
     FAIL_INVALID_VALUE(400, HttpStatus.BAD_REQUEST, "실행에 실패했고, 이유는 필수 항목을 입력하지 않았습니다"),
-    FAIL_BAD_REQUEST(400, HttpStatus.BAD_REQUEST, "실행에 실패했고, 이유는 형식에 맞지 않는 값을 입력하였습니다"),
+    FAIL_BAD_REQUEST(400, HttpStatus.BAD_REQUEST, "실행에 실패했고, 이유는 해당 ID에 맞지 않는 값을 입력하였습니다"),
 
     // User
     DUPLICATE_USER_ATTENDANCE(400, HttpStatus.BAD_REQUEST, "해당 사용자는 이미 출석하였습니다"),
@@ -20,7 +20,10 @@ public enum ErrorCode {
     NOT_AUTHENTICATE_USER(401, HttpStatus.UNAUTHORIZED, "해당 사용자의 권한이 없어 접근할 수 없습니다"),
 
     // UserAttendance
-    NOT_FOUND_ATTENDANCE(404, HttpStatus.NOT_FOUND, "해당 출석 기록 정보를 찾지 못하였습니다");
+    NOT_FOUND_ATTENDANCE(404, HttpStatus.NOT_FOUND, "해당 출석 기록 정보를 찾지 못하였습니다"),
+
+    // SecurityArea
+    NOT_FOUND_SECURITY_AREA(404, HttpStatus.NOT_FOUND, "해당 보안 구역 정보를 찾지 못하였습니다");
 
     private final int status;
 

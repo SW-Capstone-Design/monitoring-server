@@ -1,7 +1,7 @@
-package kr.co.monitoringserver.persistence.entity;
+package kr.co.monitoringserver.persistence.entity.attendance;
 
 import jakarta.persistence.*;
-import kr.co.monitoringserver.persistence.BaseEntity;
+import kr.co.monitoringserver.persistence.entity.BaseEntity;
 import kr.co.monitoringserver.service.enums.AttendanceType;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -26,13 +26,17 @@ public class Attendance extends BaseEntity {
      *  즉, 출석 상태와 해당 상태에 대한 설명을 갖음
      */
 
-    @Column(name = "enter_time", nullable = false)
+    @Column(name = "enter_time",
+            nullable = false)
     private LocalTime enterTime;    // 출근 시간
 
-    @Column(name = "leave_time", nullable = false)
+    @Column(name = "leave_time",
+            nullable = false)
     private LocalTime leaveTime;    // 퇴근 시간
 
-    @Column(name = "date", nullable = false)
+    @Column(name = "date",
+            nullable = false,
+            length = 30)
     private LocalDate date;         // 출근 일자
 
     @ElementCollection

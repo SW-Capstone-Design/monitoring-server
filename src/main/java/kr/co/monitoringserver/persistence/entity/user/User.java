@@ -1,8 +1,9 @@
-package kr.co.monitoringserver.persistence.entity;
+package kr.co.monitoringserver.persistence.entity.user;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import kr.co.monitoringserver.service.dtos.request.UserAttendanceReqDTO;
+import kr.co.monitoringserver.persistence.entity.attendance.UserAttendance;
+import kr.co.monitoringserver.persistence.entity.securityArea.UserSecurityArea;
 import kr.co.monitoringserver.service.enums.RoleType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -57,4 +58,7 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<UserAttendance> userAttendances = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<UserSecurityArea> userSecurityAreas = new ArrayList<>();
 }

@@ -1,4 +1,4 @@
-package kr.co.monitoringserver.persistence;
+package kr.co.monitoringserver.persistence.entity;
 
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
