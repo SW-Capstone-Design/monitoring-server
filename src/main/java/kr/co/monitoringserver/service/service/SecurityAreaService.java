@@ -1,11 +1,16 @@
 package kr.co.monitoringserver.service.service;
 
 import kr.co.monitoringserver.infra.global.error.enums.ErrorCode;
+import kr.co.monitoringserver.infra.global.exception.BadRequestException;
+import kr.co.monitoringserver.infra.global.exception.NotAuthenticateException;
 import kr.co.monitoringserver.infra.global.exception.NotFoundException;
 import kr.co.monitoringserver.persistence.entity.securityArea.SecurityArea;
+import kr.co.monitoringserver.persistence.entity.user.User;
 import kr.co.monitoringserver.persistence.repository.SecurityAreaRepository;
+import kr.co.monitoringserver.persistence.repository.UserRepository;
 import kr.co.monitoringserver.service.dtos.request.SecurityAreaReqDTO;
 import kr.co.monitoringserver.service.dtos.response.SecurityAreaResDTO;
+import kr.co.monitoringserver.service.enums.RoleType;
 import kr.co.monitoringserver.service.mappers.SecurityAreaMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,11 +25,24 @@ public class SecurityAreaService {
 
     private final SecurityAreaMapper securityAreaMapper;
 
+    private final UserRepository userRepository;
+
+    /** TODO : 비인가 사용자에 대한 권한 확인 및 경고 알림 생성
+     * 비인가 사용자가 해당 보안 구역을 들어갈 경우 사용자의 권한을 확인
+     * 보안 구역 정보를 생성할 경우 상황에 맞는 경고 알림을 조회하고 없을 경우 경고 알림 정보를 생성
+     * 비인가 사용자가 해당 보안 구역에 들어갈 경우 경고 알림이 울림
+     */
+
     /**
      * Create Security Area Service
      */
     @Transactional
-    public void createSecurityArea(SecurityAreaReqDTO.CREATE create) {
+    public void createSecurityArea(String userIdentity, SecurityAreaReqDTO.CREATE create) {
+
+        final User user = userRepository.findByIdentity(userIdentity)
+                .orElseThrow(BadRequestException::new);
+
+        checkAuthenticate(user.getRoleType());
 
         SecurityArea securityArea = securityAreaMapper.toSecurityAreaEntity(create);
 
@@ -64,5 +82,13 @@ public class SecurityAreaService {
                 .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_SECURITY_AREA));
 
         securityAreaRepository.delete(securityArea);
+    }
+
+
+    private void checkAuthenticate(RoleType roleType) {
+
+        if (!roleType.equals(RoleType.ADMIN)) {
+            throw new NotAuthenticateException();
+        }
     }
 }

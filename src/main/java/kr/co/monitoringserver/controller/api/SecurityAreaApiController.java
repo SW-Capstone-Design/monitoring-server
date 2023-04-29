@@ -18,10 +18,11 @@ public class SecurityAreaApiController {
     /**
      * Create Security Area Controller
      */
-    @PostMapping
-    public ResponseFormat<Void> createSecurityArea(@RequestBody SecurityAreaReqDTO.CREATE create) {
+    @PostMapping("/{user_identity}")
+    public ResponseFormat<Void> createSecurityArea(@PathVariable(name = "user_identity") String userIdentity,
+                                                   @RequestBody SecurityAreaReqDTO.CREATE create) {
 
-        securityAreaService.createSecurityArea(create);
+        securityAreaService.createSecurityArea(userIdentity, create);
 
         return ResponseFormat.successMessage(
                 ErrorCode.SUCCESS_CREATED,

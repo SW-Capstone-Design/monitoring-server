@@ -11,11 +11,13 @@ public interface SecurityAreaMapper {
 
     @Mapping(source = "create.name", target = "name")
     @Mapping(source = "create.description", target = "description")
-    @Mapping(source = "create.location", target = "location")
+    @Mapping(source = "create.location.latitude", target = "location.latitude")
+    @Mapping(source = "create.location.longitude", target = "location.longitude")
     SecurityArea toSecurityAreaEntity(SecurityAreaReqDTO.CREATE create);
 
     @Mapping(source = "securityArea.name", target = "name")
     @Mapping(source = "securityArea.description", target = "description")
-    @Mapping(source = "securityArea.location", target = "location")
+    @Mapping(source = "securityArea.location.latitude", target = "location.latitude")
+    @Mapping(source = "securityArea.location.longitude", target = "location.longitude")
     SecurityAreaResDTO.READ toSecurityAreaReadDto(SecurityArea securityArea);
 }

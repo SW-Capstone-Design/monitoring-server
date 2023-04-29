@@ -1,10 +1,8 @@
 package kr.co.monitoringserver.service.dtos.request;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import kr.co.monitoringserver.persistence.entity.securityArea.Position;
 import lombok.*;
-
-import javax.swing.text.Position;
 
 public class SecurityAreaReqDTO {
 
@@ -19,7 +17,6 @@ public class SecurityAreaReqDTO {
 
         private String description;
 
-        @NotBlank(message = "Please enter your security area location")
         private Position location;
     }
 

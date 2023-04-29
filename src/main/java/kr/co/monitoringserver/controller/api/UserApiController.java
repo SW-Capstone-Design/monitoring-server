@@ -3,10 +3,10 @@ package kr.co.monitoringserver.controller.api;
 import jakarta.validation.Valid;
 import kr.co.monitoringserver.infra.global.error.enums.ErrorCode;
 import kr.co.monitoringserver.infra.global.error.response.ResponseFormat;
-import kr.co.monitoringserver.service.dtos.request.UserAttendanceReqDTO;
+import kr.co.monitoringserver.service.dtos.request.AttendanceReqDTO;
 import kr.co.monitoringserver.service.dtos.request.UserRequestDto;
+import kr.co.monitoringserver.service.dtos.response.AttendanceResDTO;
 import kr.co.monitoringserver.service.dtos.response.ResponseDto;
-import kr.co.monitoringserver.service.dtos.response.UserAttendanceResDTO;
 import kr.co.monitoringserver.service.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -67,7 +67,7 @@ public class UserApiController {
      */
     @PostMapping("/attendance/{user_identity}")
     public ResponseFormat<Void> createAttendance(@PathVariable(name = "user_identity") String userIdentity,
-                                                 @RequestBody @Validated UserAttendanceReqDTO.CREATE create) {
+                                                 @RequestBody @Validated AttendanceReqDTO.CREATE create) {
 
         userService.createAttendance(userIdentity, create);
 
@@ -81,7 +81,7 @@ public class UserApiController {
      * Get UserAttendance By userId Controller
      */
     @GetMapping("/attendance/{user_id}")
-    public ResponseFormat<List<UserAttendanceResDTO.READ>> getAttendanceByUserId(@PathVariable(name = "user_id") Long userId) {
+    public ResponseFormat<List<AttendanceResDTO.READ>> getAttendanceByUserId(@PathVariable(name = "user_id") Long userId) {
 
         return ResponseFormat.successData(
                 ErrorCode.SUCCESS_EXECUTE,
@@ -93,7 +93,7 @@ public class UserApiController {
      * Get Latecomer UserAttendance By Date Controller
      */
     @GetMapping("/attendance/latecomer")
-    public ResponseFormat<List<UserAttendanceResDTO.READ>> getLatecomerByDate(@RequestParam("date") LocalDate date) {
+    public ResponseFormat<List<AttendanceResDTO.READ>> getLatecomerByDate(@RequestParam("date") LocalDate date) {
 
         return ResponseFormat.successData(
                 ErrorCode.SUCCESS_EXECUTE,
@@ -105,7 +105,7 @@ public class UserApiController {
      * Get Absentee UserAttendance By Date Controller
      */
     @GetMapping("/attendance/absentee")
-    public ResponseFormat<List<UserAttendanceResDTO.READ>> getAbsenteeByDate(@RequestParam("date") LocalDate date) {
+    public ResponseFormat<List<AttendanceResDTO.READ>> getAbsenteeByDate(@RequestParam("date") LocalDate date) {
 
         return ResponseFormat.successData(
                 ErrorCode.SUCCESS_EXECUTE,
@@ -118,7 +118,7 @@ public class UserApiController {
      */
     @PutMapping("/attendance/{user_identity}")
     public ResponseFormat<Void> updateAttendance(@PathVariable(name = "user_identity") String userIdentity,
-                                                 @RequestBody UserAttendanceReqDTO.UPDATE update) {
+                                                 @RequestBody AttendanceReqDTO.UPDATE update) {
 
         userService.updateAttendance(userIdentity, update);
 

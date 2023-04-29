@@ -2,9 +2,8 @@ package kr.co.monitoringserver.persistence.entity.attendance;
 
 import jakarta.persistence.*;
 import kr.co.monitoringserver.persistence.entity.BaseEntity;
-import kr.co.monitoringserver.persistence.entity.attendance.Attendance;
 import kr.co.monitoringserver.persistence.entity.user.User;
-import kr.co.monitoringserver.service.dtos.request.UserAttendanceReqDTO;
+import kr.co.monitoringserver.service.dtos.request.AttendanceReqDTO;
 import kr.co.monitoringserver.service.enums.AttendanceType;
 import lombok.*;
 
@@ -44,7 +43,7 @@ public class UserAttendance extends BaseEntity {
     }
 
 
-    public void updateAttendance(UserAttendanceReqDTO.UPDATE update,
+    public void updateAttendance(AttendanceReqDTO.UPDATE update,
                                  AttendanceType goWork,
                                  AttendanceType leaveWork) {
 

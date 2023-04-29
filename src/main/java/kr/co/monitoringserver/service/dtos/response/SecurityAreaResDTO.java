@@ -1,8 +1,7 @@
 package kr.co.monitoringserver.service.dtos.response;
 
+import kr.co.monitoringserver.persistence.entity.securityArea.Position;
 import lombok.*;
-
-import javax.swing.text.Position;
 
 public class SecurityAreaResDTO {
 
