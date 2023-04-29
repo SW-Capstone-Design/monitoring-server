@@ -4,9 +4,9 @@ import jakarta.validation.Valid;
 import kr.co.monitoringserver.infra.global.error.enums.ErrorCode;
 import kr.co.monitoringserver.infra.global.error.response.ResponseFormat;
 import kr.co.monitoringserver.service.dtos.request.AttendanceReqDTO;
-import kr.co.monitoringserver.service.dtos.request.UserRequestDto;
+import kr.co.monitoringserver.service.dtos.request.UserReqDTO;
 import kr.co.monitoringserver.service.dtos.response.AttendanceResDTO;
-import kr.co.monitoringserver.service.dtos.response.ResponseDto;
+import kr.co.monitoringserver.service.dtos.response.UserResDTO;
 import kr.co.monitoringserver.service.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,7 +24,7 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1")
+@RequestMapping
 public class UserApiController {
 
     private final UserService userService;
@@ -32,24 +32,24 @@ public class UserApiController {
     private final AuthenticationManager authenticationmanager;
 
     @PostMapping("/auth/joinProc")
-    public ResponseDto<?> save(@Valid @RequestBody UserRequestDto userDto, BindingResult bindingResult) {
+    public UserResDTO<?> save(@Valid @RequestBody UserReqDTO userDto, BindingResult bindingResult) {
         if(bindingResult.hasErrors()) {
             Map<String, String> validatorResult = userService.validateHandling(bindingResult);
 
-            return new ResponseDto<>(HttpStatus.BAD_REQUEST.value(), validatorResult);
+            return new UserResDTO<>(HttpStatus.BAD_REQUEST.value(), validatorResult);
         }
 
         userService.join(userDto);
-        return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
+        return new UserResDTO<Integer>(HttpStatus.OK.value(), 1);
     }
 
     @PutMapping("/user")
-    public ResponseDto<?> update(@Valid @RequestBody UserRequestDto userDto, BindingResult bindingResult) {
+    public UserResDTO<?> update(@Valid @RequestBody UserReqDTO userDto, BindingResult bindingResult) {
 
         if(bindingResult.hasErrors()) {
             Map<String, String> validatorResult = userService.validateHandling(bindingResult);
 
-            return new ResponseDto<>(HttpStatus.BAD_REQUEST.value(), validatorResult);
+            return new UserResDTO<>(HttpStatus.BAD_REQUEST.value(), validatorResult);
         }
 
         userService.update(userDto);
@@ -57,7 +57,7 @@ public class UserApiController {
         Authentication authentication = authenticationmanager.authenticate(new UsernamePasswordAuthenticationToken(userDto.getIdentity(), userDto.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
+        return new UserResDTO<Integer>(HttpStatus.OK.value(), 1);
     }
 
 
@@ -65,7 +65,7 @@ public class UserApiController {
     /**
      * Create UserAttendance Controller
      */
-    @PostMapping("/attendance/{user_identity}")
+    @PostMapping("/api/v1/attendance/{user_identity}")
     public ResponseFormat<Void> createAttendance(@PathVariable(name = "user_identity") String userIdentity,
                                                  @RequestBody @Validated AttendanceReqDTO.CREATE create) {
 
@@ -80,7 +80,7 @@ public class UserApiController {
     /**
      * Get UserAttendance By userId Controller
      */
-    @GetMapping("/attendance/{user_id}")
+    @GetMapping("/api/v1/attendance/{user_id}")
     public ResponseFormat<List<AttendanceResDTO.READ>> getAttendanceByUserId(@PathVariable(name = "user_id") Long userId) {
 
         return ResponseFormat.successData(
@@ -92,7 +92,7 @@ public class UserApiController {
     /**
      * Get Latecomer UserAttendance By Date Controller
      */
-    @GetMapping("/attendance/latecomer")
+    @GetMapping("/api/v1/attendance/latecomer")
     public ResponseFormat<List<AttendanceResDTO.READ>> getLatecomerByDate(@RequestParam("date") LocalDate date) {
 
         return ResponseFormat.successData(
@@ -104,7 +104,7 @@ public class UserApiController {
     /**
      * Get Absentee UserAttendance By Date Controller
      */
-    @GetMapping("/attendance/absentee")
+    @GetMapping("/api/v1/attendance/absentee")
     public ResponseFormat<List<AttendanceResDTO.READ>> getAbsenteeByDate(@RequestParam("date") LocalDate date) {
 
         return ResponseFormat.successData(
@@ -116,7 +116,7 @@ public class UserApiController {
     /**
      * Update UserAttendance Controller
      */
-    @PutMapping("/attendance/{user_identity}")
+    @PutMapping("/api/v1/attendance/{user_identity}")
     public ResponseFormat<Void> updateAttendance(@PathVariable(name = "user_identity") String userIdentity,
                                                  @RequestBody AttendanceReqDTO.UPDATE update) {
 
@@ -131,7 +131,7 @@ public class UserApiController {
     /**
      * Delete UserAttendance Controller
      */
-    @DeleteMapping("/attendance/{user_id}")
+    @DeleteMapping("/api/v1/attendance/{user_id}")
     public ResponseFormat<Void> deleteAttendance(@PathVariable(name = "user_id") Long userId) {
 
         userService.deleteAttendance(userId);

@@ -1,42 +1,42 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 
-<%@ include file="../../layout/admin/header.jsp"%>
+<%@ include file="../../layout/user/header.jsp"%>
 
 <div class="container">
-  <h2>회원정보관리</h2>
+  <h2>출결상태조회</h2>
   <span>
-    회원정보 조회 및 수정
+    출결상태 조회 및 수정
   </span>
-  <form style="text-align:right;" action="info" method="get">
-    <input type="text" name="searchKeyword" placeholder="Enter Id">
+  <form style="text-align:right;" action="list" method="get">
+    <input type="date" name="searchKeyword">
     <button type="submit" class="btn btn-primary">검색</button>
   <form>
   <table class="table table-hover">
     <thead>
       <tr>
-        <th>Num</th>
         <th>Id</th>
         <th>Name</th>
         <th>Department</th>
-        <th>Telephone</th>
-        <th>CreatedAt</th>
-        <th>UpdatedAt</th>
         <th>RoleType</th>
-        <th></th>
+        <th>EnterTime</th>
+        <th>LeaveTime</th>
+        <th>GoWork</th>
+        <th>LeaveWork</th>
+        <th>Date</th>
       </tr>
     </thead>
     <tbody>
-    <c:forEach items="${lists.content}" var="user">
+    <c:forEach items="${lists.content}" var="attendance">
       <tr>
-        <td>${user.userId}</td>
-        <td>${user.identity}</td>
-        <td>${user.name}</td>
-        <td>${user.department}</td>
-        <td>${user.telephone}</td>
-        <td>${user.createdAt}</td>
-        <td>${user.updatedAt}</td>
-        <td>${user.roleType}</td>
-        <td><a href="/admin/info/${user.userId}">수정</a></td>
+        <td>${principal.user.identity}</td>
+        <td>${principal.user.name}</td>
+        <td>${principal.user.department}</td>
+        <td>${principal.user.roleType}</td>
+        <td>${attendance.enterTime}</td>
+        <td>${attendance.leaveTime}</td>
+        <td>${attendance.goWork}</td>
+        <td>${attendance.leaveWork}</td>
+        <td>${attendance.date}</td>
       </tr>
       </c:forEach>
     </tbody>
@@ -74,4 +74,4 @@
 
 </div>
 
-<%@ include file="../../layout/admin/footer.jsp"%>
+<%@ include file="../../layout/user/footer.jsp"%>

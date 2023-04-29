@@ -1,4 +1,4 @@
-package kr.co.monitoringserver.controller;
+package kr.co.monitoringserver.controller.user;
 
 import kr.co.monitoringserver.service.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ public class AdminController {
     }
 
     @GetMapping("/admin/info")
-    public String list(Model model, @PageableDefault(size=3, sort="usersId", direction = Sort.Direction.ASC) Pageable pageable,
+    public String list(Model model, @PageableDefault(size=3, sort="userId", direction = Sort.Direction.ASC) Pageable pageable,
                        String searchKeyword){
 
         if(searchKeyword == null) {
@@ -35,9 +35,9 @@ public class AdminController {
         return "admin/info/list";
     }
 
-    @GetMapping("/admin/info/{usersId}")
-    public String findByUsersId(@PathVariable long usersId, Model model){
-            model.addAttribute("list", adminService.detail(usersId));
+    @GetMapping("/admin/info/{userId}")
+    public String findByUserId(@PathVariable long userId, Model model){
+            model.addAttribute("list", adminService.detail(userId));
             return "admin/info/detail";
     }
 }

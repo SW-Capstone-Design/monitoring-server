@@ -25,13 +25,13 @@
         </div>
         <p id="valid_department"></p>
 		<div class="form-group">
-        	<label for="phone" >Phone</label>
-        	<input type="phone" value="${list.phone}" class="form-control" placeholder="Enter phone" id="phone">
+        	<label for="telephone" >Telephone</label>
+        	<input type="telephone" value="${list.telephone}" class="form-control" placeholder="Enter telephone" id="telephone">
         </div>
-        <p id="valid_phone"></p>
+        <p id="valid_telephone"></p>
        <div class="form-group">
-            <label for="role_type">Role_type [USER1, USER2, USER3]</label>
-            <input type="role_type" value="${list.role_type}" class="form-control" placeholder="Enter Role_type" id="role_type">
+            <label for="roleType">RoleType [USER1, USER2, USER3]</label>
+            <input type="roleType" value="${list.roleType}" class="form-control" placeholder="Enter roleType" id="roleType">
 
        </div>
 	</form>

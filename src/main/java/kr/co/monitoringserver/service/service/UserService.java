@@ -4,17 +4,21 @@ import kr.co.monitoringserver.infra.global.error.enums.ErrorCode;
 import kr.co.monitoringserver.infra.global.exception.BadRequestException;
 import kr.co.monitoringserver.infra.global.exception.InvalidInputException;
 import kr.co.monitoringserver.infra.global.exception.NotFoundException;
+import kr.co.monitoringserver.persistence.entity.attendance.Attendance;
 import kr.co.monitoringserver.persistence.entity.attendance.UserAttendance;
 import kr.co.monitoringserver.persistence.entity.user.User;
+import kr.co.monitoringserver.persistence.repository.AttendanceRepository;
 import kr.co.monitoringserver.persistence.repository.UserAttendanceRepository;
 import kr.co.monitoringserver.service.dtos.request.AttendanceReqDTO;
-import kr.co.monitoringserver.service.dtos.request.UserRequestDto;
+import kr.co.monitoringserver.service.dtos.request.UserReqDTO;
 import kr.co.monitoringserver.persistence.repository.UserRepository;
 import kr.co.monitoringserver.service.dtos.response.AttendanceResDTO;
 import kr.co.monitoringserver.service.enums.AttendanceType;
 import kr.co.monitoringserver.service.enums.RoleType;
 import kr.co.monitoringserver.service.mappers.UserAttendanceMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,13 +46,15 @@ public class UserService {
 
     private final UserAttendanceMapper userAttendanceMapper;
 
+    private final AttendanceRepository attendanceRepository;
+
     @Transactional
-    public void join(UserRequestDto userDto) {
+    public void join(UserReqDTO userDto) {
         User user = User.builder()
                 .identity(userDto.getIdentity())
                 .password(encoder.encode(userDto.getPassword()))
                 .name(userDto.getName())
-                .telephone(userDto.getPhone())
+                .telephone(userDto.getTelephone())
                 .department(userDto.getDepartment())
                 .roleType(RoleType.USER1)
                 .build();
@@ -68,18 +74,18 @@ public class UserService {
     }
 
     @Transactional
-    public void update(UserRequestDto userDto) {
+    public void update(UserReqDTO userDto) {
         User persistance = userRepository.findByIdentity(userDto.getIdentity())
                 .orElseThrow(()->{
                     return new IllegalArgumentException("회원 찾기 실패");
                 });
 
-            String rawPassword = userDto.getPassword();
-            String encPassword = encoder.encode(rawPassword);
-            persistance.setPassword(encPassword);
-            persistance.setName(userDto.getName());
-            persistance.setDepartment(userDto.getDepartment());
-            persistance.setTelephone(userDto.getPhone());
+        String rawPassword = userDto.getPassword();
+        String encPassword = encoder.encode(rawPassword);
+        persistance.setPassword(encPassword);
+        persistance.setName(userDto.getName());
+        persistance.setDepartment(userDto.getDepartment());
+        persistance.setTelephone(userDto.getTelephone());
     }
 
 
@@ -106,6 +112,9 @@ public class UserService {
         userAttendanceRepository.save(userAttendance);
     }
 
+
+
+
     /**
      * Get UserAttendance By userId Service
      */
@@ -122,6 +131,18 @@ public class UserService {
                 .map(userAttendance -> userAttendanceMapper.toUserAttendacneReadDto(userAttendance, attendanceDays))
                 .collect(Collectors.toList());
     }
+
+    @Transactional(readOnly = true)
+    public Page<Attendance> attendList(Pageable pageable) {
+
+        return attendanceRepository.findAll(pageable);
+    }
+
+    public Page<Attendance> attendSearchList(LocalDate searchKeyword, Pageable pageable) {
+
+        return attendanceRepository.findByDate(searchKeyword, pageable);
+    }
+
 
     /**
      * Get Latecomer UserAttendance By Date Service
