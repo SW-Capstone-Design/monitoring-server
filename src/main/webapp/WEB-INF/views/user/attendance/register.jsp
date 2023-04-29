@@ -7,6 +7,7 @@
     <span>
         출근 상태를 등록합니다.
     </span>
+    <br><br>
     <hr>
 	<form>
 		<div class="form-group">
