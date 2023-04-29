@@ -4,6 +4,7 @@ import kr.co.monitoringserver.infra.global.error.enums.ErrorCode;
 import kr.co.monitoringserver.infra.global.exception.BadRequestException;
 import kr.co.monitoringserver.infra.global.exception.InvalidInputException;
 import kr.co.monitoringserver.infra.global.exception.NotFoundException;
+import kr.co.monitoringserver.persistence.entity.Attendance;
 import kr.co.monitoringserver.persistence.entity.UserAttendance;
 import kr.co.monitoringserver.persistence.entity.User;
 import kr.co.monitoringserver.persistence.repository.AttendanceRepository;
@@ -16,6 +17,8 @@ import kr.co.monitoringserver.service.enums.AttendanceType;
 import kr.co.monitoringserver.service.enums.RoleType;
 import kr.co.monitoringserver.service.mappers.UserAttendanceMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -124,6 +127,17 @@ public class UserService {
                 .stream()
                 .map(userAttendance -> userAttendanceMapper.toUserAttendacneReadDto(userAttendance, attendanceDays))
                 .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public Page<Attendance> attendList(Pageable pageable) {
+
+        return attendanceRepository.findAll(pageable);
+    }
+
+    public Page<Attendance> attendSearchList(LocalDate searchKeyword, Pageable pageable) {
+
+        return attendanceRepository.findByDate(searchKeyword, pageable);
     }
 
     /**

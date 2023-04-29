@@ -10,11 +10,15 @@ import kr.co.monitoringserver.service.dtos.response.UserAttendanceResDTO;
 import kr.co.monitoringserver.service.dtos.response.UserResDTO;
 import kr.co.monitoringserver.service.service.user.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +29,7 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1")
+@RequestMapping
 public class UserApiController {
 
     private final UserService userService;
@@ -66,7 +70,7 @@ public class UserApiController {
     /**
      * Create UserAttendance Status Controller
      */
-    @PostMapping("/attendance_status/{user_identity}")
+    @PostMapping("/api/v1/attendance_status/{user_identity}")
     public ResponseFormat<Void> createAttendance(@PathVariable(name = "user_identity") String userIdentity,
                                                  @RequestBody @Validated UserAttendanceReqDTO.CREATE create) {
 
@@ -81,7 +85,7 @@ public class UserApiController {
     /**
      * Get UserAttendance Status By userId Controller
      */
-    @GetMapping("/attendance_status/{user_id}")
+    @GetMapping("/api/v1/attendance_status/{user_id}")
     public ResponseFormat<List<UserAttendanceResDTO.READ>> getAttendanceByUserId(@PathVariable(name = "user_id") Long userId) {
 
         return ResponseFormat.successData(
@@ -90,10 +94,11 @@ public class UserApiController {
         );
     }
 
+
     /**
      * Get Tardiness User UserAttendance Status By Date Controller
      */
-    @GetMapping("/attendance_status/tardiness")
+    @GetMapping("/api/v1/attendance_status/tardiness")
     public ResponseFormat<List<UserAttendanceResDTO.READ>> getTardinessUserByDate(@RequestParam("date") LocalDate date) {
 
         return ResponseFormat.successData(
@@ -105,7 +110,7 @@ public class UserApiController {
     /**
      * Get Absent User UserAttendance Status By Date Controller
      */
-    @GetMapping("/attendance_status/absent")
+    @GetMapping("/api/v1/attendance_status/absent")
     public ResponseFormat<List<UserAttendanceResDTO.READ>> getAbsentUserByDate(@RequestParam("date") LocalDate date) {
 
         return ResponseFormat.successData(
@@ -117,7 +122,7 @@ public class UserApiController {
     /**
      * Update UserAttendance Status Controller
      */
-    @PutMapping("/attendance_status/{user_identity}")
+    @PutMapping("/api/v1/attendance_status/{user_identity}")
     public ResponseFormat<Void> updateAttendance(@PathVariable(name = "user_identity") String userIdentity,
                                                  @RequestBody UserAttendanceReqDTO.UPDATE update) {
 
@@ -132,7 +137,7 @@ public class UserApiController {
     /**
      * Delete UserAttendance Status Controller
      */
-    @DeleteMapping("/attendance_status/{user_id}")
+    @DeleteMapping("/api/v1/attendance_status/{user_id}")
     public ResponseFormat<Void> deleteAttendance(@PathVariable(name = "user_id") Long userId) {
 
         userService.deleteAttendance(userId);

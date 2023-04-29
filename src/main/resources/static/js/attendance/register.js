@@ -6,13 +6,19 @@ let index = {
 		},
 
 		register: function() {
+		    location.href = "/api/v1/attendance_status/admin";
+
+            var param = $("#userIdentity").val();
+
 			let data = {
-					userId: $("#userId").val(),
+					enterTime: $("#enterTime").val(),
+					leaveTime: $("#leaveTime").val(),
+					date: $("#date").val()
 			};
 
 			$.ajax({
 				type: "POST",
-				url: "/api/v1/attendance_status",
+				url: "/api/v1/attendance_status/"+param,
 				data: JSON.stringify(data),
 				contentType: "application/json; charset=utf-8",
 				dataType: "json"

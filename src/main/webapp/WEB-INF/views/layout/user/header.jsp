@@ -39,8 +39,9 @@
                                   출결관리
                                 </a>
                                 <div class="dropdown-menu">
-                                  <a class="dropdown-item" href="/attendance/${principal.userId}">출결조회</a>
                                   <a class="dropdown-item" href="/attendance/register">출결등록</a>
+                                  <a class="dropdown-item" href="/attendance/list">출결조회</a>
+                                  <a class="dropdown-item" href="#">근태현황</a>
                                 </div>
                               </li>
         					<li class="nav-item"><a class="nav-link" href="/user/updateForm">회원정보</a></li>
