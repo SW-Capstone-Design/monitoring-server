@@ -6,7 +6,7 @@ let index = {
 		},
 
 		register: function() {
-		    location.href = "/api/v1/attendance_status/admin";
+		    location.href = "/api/v1/attendance/admin";
 
             var param = $("#userIdentity").val();
 
@@ -18,7 +18,7 @@ let index = {
 
 			$.ajax({
 				type: "POST",
-				url: "/api/v1/attendance_status/"+param,
+				url: "/api/v1/attendance/"+param,
 				data: JSON.stringify(data),
 				contentType: "application/json; charset=utf-8",
 				dataType: "json"
