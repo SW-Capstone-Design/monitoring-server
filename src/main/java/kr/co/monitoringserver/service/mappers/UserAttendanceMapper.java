@@ -1,12 +1,11 @@
 package kr.co.monitoringserver.service.mappers;
 
-import kr.co.monitoringserver.persistence.entity.Attendance;
-import kr.co.monitoringserver.persistence.entity.UserAttendance;
-import kr.co.monitoringserver.persistence.entity.User;
-import kr.co.monitoringserver.service.dtos.request.UserAttendanceReqDTO;
-import kr.co.monitoringserver.service.dtos.response.UserAttendanceResDTO;
+import kr.co.monitoringserver.persistence.entity.attendance.Attendance;
+import kr.co.monitoringserver.persistence.entity.attendance.UserAttendance;
+import kr.co.monitoringserver.persistence.entity.user.User;
+import kr.co.monitoringserver.service.dtos.request.AttendanceReqDTO;
+import kr.co.monitoringserver.service.dtos.response.AttendanceResDTO;
 import kr.co.monitoringserver.service.enums.AttendanceType;
-import org.mapstruct.Context;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -18,7 +17,7 @@ import java.util.stream.Collectors;
 public interface UserAttendanceMapper {
 
     default UserAttendance toUserAttendanceEntity(User user,
-                                          UserAttendanceReqDTO.CREATE create,
+                                          AttendanceReqDTO.CREATE create,
                                           AttendanceType goWork,
                                           AttendanceType leaveWork) {
 
@@ -34,7 +33,7 @@ public interface UserAttendanceMapper {
                 .build();
     }
 
-    // UserAttendance Entity -> UserAttendanceResDTO.READ
+    // UserAttendance Entity -> AttendanceResDTO.READ
     @Mapping(source = "userAttendance.user.identity", target = "userIdentity")
     @Mapping(source = "userAttendance.user.name", target = "userName")
     @Mapping(source = "userAttendance.user.department", target = "userDepartment")
@@ -45,10 +44,10 @@ public interface UserAttendanceMapper {
     @Mapping(source = "userAttendance.attendance.leaveWork", target = "leaveWork")
     @Mapping(source = "userAttendance.attendance.date", target = "date")
     @Mapping(source = "attendanceDays", target = "attendanceDays")
-    UserAttendanceResDTO.READ toUserAttendacneReadDto(UserAttendance userAttendance, Map<AttendanceType, Integer> attendanceDays);
+    AttendanceResDTO.READ toUserAttendacneReadDto(UserAttendance userAttendance, Map<AttendanceType, Integer> attendanceDays);
 
-    default List<UserAttendanceResDTO.READ> toUserAttendanceReadDtoList(List<UserAttendance> userAttendances,
-                                                                        Map<AttendanceType, Integer> attendanceDays) {
+    default List<AttendanceResDTO.READ> toUserAttendanceReadDtoList(List<UserAttendance> userAttendances,
+                                                                    Map<AttendanceType, Integer> attendanceDays) {
 
         return userAttendances.stream()
                 .map(userAttendance -> toUserAttendacneReadDto(userAttendance, attendanceDays))
@@ -58,5 +57,5 @@ public interface UserAttendanceMapper {
     @Mapping(source = "userAttendance.attendance.goWork", target = "goWork")
     @Mapping(source = "userAttendance.attendance.enterTime", target = "enterTime")
     @Mapping(source = "userAttendance.attendance.date", target = "date")
-    UserAttendanceResDTO.READ toAttendTypeReadDto(UserAttendance userAttendance);
+    AttendanceResDTO.READ toAttendTypeReadDto(UserAttendance userAttendance);
 }

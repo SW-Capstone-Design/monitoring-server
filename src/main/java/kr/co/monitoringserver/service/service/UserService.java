@@ -1,17 +1,16 @@
-package kr.co.monitoringserver.service.service.user;
+package kr.co.monitoringserver.service.service;
 
 import kr.co.monitoringserver.infra.global.error.enums.ErrorCode;
 import kr.co.monitoringserver.infra.global.exception.BadRequestException;
 import kr.co.monitoringserver.infra.global.exception.InvalidInputException;
 import kr.co.monitoringserver.infra.global.exception.NotFoundException;
-import kr.co.monitoringserver.persistence.entity.UserAttendance;
-import kr.co.monitoringserver.persistence.entity.User;
-import kr.co.monitoringserver.persistence.repository.AttendanceRepository;
+import kr.co.monitoringserver.persistence.entity.attendance.UserAttendance;
+import kr.co.monitoringserver.persistence.entity.user.User;
 import kr.co.monitoringserver.persistence.repository.UserAttendanceRepository;
-import kr.co.monitoringserver.service.dtos.request.UserAttendanceReqDTO;
+import kr.co.monitoringserver.service.dtos.request.AttendanceReqDTO;
 import kr.co.monitoringserver.service.dtos.request.UserRequestDto;
 import kr.co.monitoringserver.persistence.repository.UserRepository;
-import kr.co.monitoringserver.service.dtos.response.UserAttendanceResDTO;
+import kr.co.monitoringserver.service.dtos.response.AttendanceResDTO;
 import kr.co.monitoringserver.service.enums.AttendanceType;
 import kr.co.monitoringserver.service.enums.RoleType;
 import kr.co.monitoringserver.service.mappers.UserAttendanceMapper;
@@ -38,8 +37,6 @@ public class UserService {
     public final UserRepository userRepository;
 
     private final UserAttendanceRepository userAttendanceRepository;
-
-    private final AttendanceRepository attendanceRepository;
 
     private final BCryptPasswordEncoder encoder;
 
@@ -88,10 +85,10 @@ public class UserService {
 
 
     /**
-     * Create UserAttendance Status Service
+     * Create UserAttendance Service
      */
     @Transactional
-    public void createAttendance(String userIdentity, UserAttendanceReqDTO.CREATE create) {
+    public void createAttendance(String userIdentity, AttendanceReqDTO.CREATE create) {
 
         final User user = userRepository.findByIdentity(userIdentity)
                 .orElseThrow(BadRequestException::new);
@@ -110,9 +107,9 @@ public class UserService {
     }
 
     /**
-     * Get UserAttendance Status By userId Service
+     * Get UserAttendance By userId Service
      */
-    public List<UserAttendanceResDTO.READ> getAttendanceByUserId(Long userId) {
+    public List<AttendanceResDTO.READ> getAttendanceByUserId(Long userId) {
 
         List<UserAttendance> userAttendances = userAttendanceRepository.findByUser_UserId(userId);
 
@@ -127,9 +124,9 @@ public class UserService {
     }
 
     /**
-     * Get Tardiness User UserAttendance Status By Date Service
+     * Get Latecomer UserAttendance By Date Service
      */
-    public List<UserAttendanceResDTO.READ> getTardinessUserByDate(LocalDate date) {
+    public List<AttendanceResDTO.READ> getLatecomerByDate(LocalDate date) {
 
         final List<UserAttendance> userAttendances = userAttendanceRepository.findByAttendance_Date(date);
 
@@ -142,9 +139,9 @@ public class UserService {
     }
 
     /**
-     * Get Absent User UserAttendance Status By userId Service
+     * Get Absentee UserAttendance By userId Service
      */
-    public List<UserAttendanceResDTO.READ> getAbsentUserByDate(LocalDate date) {
+    public List<AttendanceResDTO.READ> getAbsenteeByDate(LocalDate date) {
 
         final List<UserAttendance> userAttendances = userAttendanceRepository.findByAttendance_Date(date);
 
@@ -157,10 +154,10 @@ public class UserService {
     }
 
     /**
-     * Update UserAttendance Status Service
+     * Update UserAttendance Service
      */
     @Transactional
-    public void updateAttendance(String userIdentity, UserAttendanceReqDTO.UPDATE update) {
+    public void updateAttendance(String userIdentity, AttendanceReqDTO.UPDATE update) {
 
         final User user = userRepository.findByIdentity(userIdentity)
                 .orElseThrow(BadRequestException::new);
@@ -180,7 +177,7 @@ public class UserService {
     }
 
     /**
-     * Delete UserAttendance Status By id Service
+     * Delete UserAttendance By id Service
      */
     @Transactional
     public void deleteAttendance(Long userId) {

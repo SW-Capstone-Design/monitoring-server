@@ -1,7 +1,7 @@
 package kr.co.monitoringserver.infra.config.auth;
 
 import kr.co.monitoringserver.persistence.repository.UserRepository;
-import kr.co.monitoringserver.persistence.entity.User;
+import kr.co.monitoringserver.persistence.entity.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
