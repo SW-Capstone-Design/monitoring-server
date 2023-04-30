@@ -6,7 +6,7 @@ import kr.co.monitoringserver.infra.global.error.response.ResponseFormat;
 import kr.co.monitoringserver.service.dtos.request.AttendanceReqDTO;
 import kr.co.monitoringserver.service.dtos.request.UserReqDTO;
 import kr.co.monitoringserver.service.dtos.response.AttendanceResDTO;
-import kr.co.monitoringserver.service.dtos.response.UserResDTO;
+import kr.co.monitoringserver.service.dtos.response.ResDTO;
 import kr.co.monitoringserver.service.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -32,24 +32,24 @@ public class UserApiController {
     private final AuthenticationManager authenticationmanager;
 
     @PostMapping("/auth/joinProc")
-    public UserResDTO<?> save(@Valid @RequestBody UserReqDTO userDto, BindingResult bindingResult) {
+    public ResDTO<?> save(@Valid @RequestBody UserReqDTO userDto, BindingResult bindingResult) {
         if(bindingResult.hasErrors()) {
             Map<String, String> validatorResult = userService.validateHandling(bindingResult);
 
-            return new UserResDTO<>(HttpStatus.BAD_REQUEST.value(), validatorResult);
+            return new ResDTO<>(HttpStatus.BAD_REQUEST.value(), validatorResult);
         }
 
         userService.join(userDto);
-        return new UserResDTO<Integer>(HttpStatus.OK.value(), 1);
+        return new ResDTO<Integer>(HttpStatus.OK.value(), 1);
     }
 
     @PutMapping("/user")
-    public UserResDTO<?> update(@Valid @RequestBody UserReqDTO userDto, BindingResult bindingResult) {
+    public ResDTO<?> update(@Valid @RequestBody UserReqDTO userDto, BindingResult bindingResult) {
 
         if(bindingResult.hasErrors()) {
             Map<String, String> validatorResult = userService.validateHandling(bindingResult);
 
-            return new UserResDTO<>(HttpStatus.BAD_REQUEST.value(), validatorResult);
+            return new ResDTO<>(HttpStatus.BAD_REQUEST.value(), validatorResult);
         }
 
         userService.update(userDto);
@@ -57,7 +57,7 @@ public class UserApiController {
         Authentication authentication = authenticationmanager.authenticate(new UsernamePasswordAuthenticationToken(userDto.getIdentity(), userDto.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        return new UserResDTO<Integer>(HttpStatus.OK.value(), 1);
+        return new ResDTO<Integer>(HttpStatus.OK.value(), 1);
     }
 
 

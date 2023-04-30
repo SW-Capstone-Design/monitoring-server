@@ -21,6 +21,9 @@ repositories {
 
 dependencies {
 
+	// JSON
+	implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
+
 	// JPA
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 

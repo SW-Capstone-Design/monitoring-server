@@ -17,17 +17,17 @@ public class Beacon {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "beacon_id")
-    private Long beaconId;
+    private long beaconId;
 
     @Column(name = "beacon_uuid")
-    private Long beaconUuid;
+    private String uuid;
 
-    @Column(name = "beacon_name", length = 30)
-    private String beaconName;
+    @Column(name = "beacon_major")
+    private String major;
 
-    @Column(name = "beacon_type")
-    private String beaconType;
+    @Column(name = "beacon_minor", length = 30)
+    private String minor;
 
-    @Column(name = "beacon_status")
-    private String beaconStatus;
+    @Column(name = "beacon_rssi")
+    private Long rssi;
 }
