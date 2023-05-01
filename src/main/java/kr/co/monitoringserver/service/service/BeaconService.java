@@ -5,6 +5,8 @@ import kr.co.monitoringserver.persistence.repository.BeaconRepository;
 import kr.co.monitoringserver.service.dtos.request.BeaconReqDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,5 +29,11 @@ public class BeaconService {
                 .build();
 
         beaconRepository.save(beacon);
+    }
+
+    @Transactional
+    public Page<Beacon> list(Pageable pageable) {
+
+        return beaconRepository.findAll(pageable);
     }
 }
