@@ -19,7 +19,7 @@ public class Beacon {
     @Column(name = "beacon_id")
     private long beaconId;
 
-    @Column(name = "beacon_uuid")
+    @Column(name = "beacon_uuid", unique = true)
     private String uuid;
 
     @Column(name = "beacon_major")

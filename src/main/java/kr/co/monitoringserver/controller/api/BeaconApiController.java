@@ -1,6 +1,7 @@
 package kr.co.monitoringserver.controller.api;
 
 
+import kr.co.monitoringserver.persistence.entity.Beacon;
 import kr.co.monitoringserver.service.dtos.request.BeaconReqDTO;
 import kr.co.monitoringserver.service.service.BeaconService;
 import lombok.RequiredArgsConstructor;
@@ -19,8 +20,8 @@ public class BeaconApiController {
     @Autowired
     private BeaconService beaconService;
 
-    @PostMapping("/createBeacon")
-    public void createBeacon(@RequestBody String data, BeaconReqDTO beaconReqDTO) {
+    @PostMapping("/receiveBeacon")
+    public void receiveBeacon(@RequestBody String data, BeaconReqDTO beaconReqDTO) {
 
         JSONParser jsonParser = new JSONParser();
         JSONArray insertParam = null;
@@ -35,7 +36,6 @@ public class BeaconApiController {
         for(int i=0; i<insertParam.size(); i++){
 
             JSONObject signal = (JSONObject) insertParam.get(i);
-            BeaconReqDTO dto = new BeaconReqDTO();
 
             beaconReqDTO.setUuid((String)signal.get("uuid"));
             beaconReqDTO.setMajor((String)signal.get("major"));
@@ -45,7 +45,12 @@ public class BeaconApiController {
             Long u = Long.valueOf(rssi).longValue();
             beaconReqDTO.setRssi(u);
 
-            beaconService.createBeacon(beaconReqDTO);
+            Beacon beacon = beaconService.findByUuid(beaconReqDTO.getUuid());
+            if (beacon == null) {
+                beaconService.createBeacon(beaconReqDTO);
+            } else {
+                System.out.println("Update 구현 예정");
+            }
         }
     }
 }

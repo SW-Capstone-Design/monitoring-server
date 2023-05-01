@@ -36,4 +36,10 @@ public class BeaconService {
 
         return beaconRepository.findAll(pageable);
     }
+
+    @Transactional
+    public Beacon findByUuid(String uuid){
+
+        return beaconRepository.findByUuid(uuid);
+    }
 }

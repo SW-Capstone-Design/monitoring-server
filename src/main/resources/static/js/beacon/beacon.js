@@ -37,7 +37,7 @@ let index = {
 
         $.ajax({
         		type: 'post',
-        		url: '/createBeacon',
+        		url: '/receiveBeacon',
         		headers:{
         			"Content-Type" : "application/json",
         			"X-HTTP-Method-Override" : "POST"
@@ -54,3 +54,23 @@ let index = {
 }
 
 index.init();
+
+function update() {
+    let data = null;
+
+     $.ajax({
+                type: 'put',
+                url: '/receiveBeacon',
+                headers:{
+                    "Content-Type" : "application/json",
+                    "X-HTTP-Method-Override" : "POST"
+                },
+                dataType: 'text',
+                data : JSON.stringify(data),
+                success: function(result){
+                    if(result=='success'){
+                        alert('성공')
+                    }
+                }
+            });
+}
