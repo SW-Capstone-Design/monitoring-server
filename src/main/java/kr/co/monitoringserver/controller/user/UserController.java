@@ -1,5 +1,6 @@
 package kr.co.monitoringserver.controller.user;
 
+import kr.co.monitoringserver.service.dtos.response.AttendanceResDTO;
 import kr.co.monitoringserver.service.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -36,7 +37,7 @@ public class UserController {
     }
 
     @GetMapping("/attendance/list")
-    public String attendList(Model model, @PageableDefault(size=10, sort="date", direction = Sort.Direction.DESC) Pageable pageable,
+    public String attendList(Model model, @PageableDefault(size=10, sort="attendance.date", direction = Sort.Direction.DESC) Pageable pageable,
                              LocalDate searchKeyword){
 
         if(searchKeyword == null) {

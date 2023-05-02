@@ -26,17 +26,17 @@
       </tr>
     </thead>
     <tbody>
-    <c:forEach items="${lists.content}" var="attendance">
+    <c:forEach items="${lists.content}" var="userAttendance">
       <tr>
-        <td>${principal.user.identity}</td>
-        <td>${principal.user.name}</td>
-        <td>${principal.user.department}</td>
-        <td>${principal.user.roleType}</td>
-        <td>${attendance.enterTime}</td>
-        <td>${attendance.leaveTime}</td>
-        <td>${attendance.goWork}</td>
-        <td>${attendance.leaveWork}</td>
-        <td>${attendance.date}</td>
+        <td>${userAttendance.user.identity}</td>
+        <td>${userAttendance.user.name}</td>
+        <td>${userAttendance.user.department}</td>
+        <td>${userAttendance.user.roleType}</td>
+        <td>${userAttendance.attendance.enterTime}</td>
+        <td>${userAttendance.attendance.leaveTime}</td>
+        <td>${userAttendance.attendance.goWork}</td>
+        <td>${userAttendance.attendance.leaveWork}</td>
+        <td>${userAttendance.attendance.date}</td>
       </tr>
       </c:forEach>
     </tbody>

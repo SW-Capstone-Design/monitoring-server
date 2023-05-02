@@ -4,10 +4,8 @@ import kr.co.monitoringserver.infra.global.error.enums.ErrorCode;
 import kr.co.monitoringserver.infra.global.exception.BadRequestException;
 import kr.co.monitoringserver.infra.global.exception.InvalidInputException;
 import kr.co.monitoringserver.infra.global.exception.NotFoundException;
-import kr.co.monitoringserver.persistence.entity.attendance.Attendance;
 import kr.co.monitoringserver.persistence.entity.attendance.UserAttendance;
 import kr.co.monitoringserver.persistence.entity.user.User;
-import kr.co.monitoringserver.persistence.repository.AttendanceRepository;
 import kr.co.monitoringserver.persistence.repository.UserAttendanceRepository;
 import kr.co.monitoringserver.service.dtos.request.AttendanceReqDTO;
 import kr.co.monitoringserver.service.dtos.request.UserReqDTO;
@@ -45,8 +43,6 @@ public class UserService {
     private final BCryptPasswordEncoder encoder;
 
     private final UserAttendanceMapper userAttendanceMapper;
-
-    private final AttendanceRepository attendanceRepository;
 
     @Transactional
     public void join(UserReqDTO userDto) {
@@ -133,14 +129,14 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public Page<Attendance> attendList(Pageable pageable) {
+    public Page<UserAttendance> attendList(Pageable pageable) {
 
-        return attendanceRepository.findAll(pageable);
+        return userAttendanceRepository.findAll(pageable);
     }
 
-    public Page<Attendance> attendSearchList(LocalDate searchKeyword, Pageable pageable) {
+    public Page<UserAttendance> attendSearchList(LocalDate searchKeyword, Pageable pageable) {
 
-        return attendanceRepository.findByDate(searchKeyword, pageable);
+        return userAttendanceRepository.findByAttendance_Date(searchKeyword, pageable);
     }
 
 
