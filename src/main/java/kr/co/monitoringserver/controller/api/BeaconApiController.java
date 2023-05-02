@@ -20,6 +20,11 @@ public class BeaconApiController {
     @Autowired
     private BeaconService beaconService;
 
+
+    /**
+     * receiveBeacon : Beacon Data를 INSERT 또는 UPDATE 합니다.
+     * DB에 해당 UUID가 있다면 Update, 없다면 Insert 합니다.
+     */
     @PostMapping("/receiveBeacon")
     public void receiveBeacon(@RequestBody String data, BeaconReqDTO beaconReqDTO) {
 
@@ -42,15 +47,26 @@ public class BeaconApiController {
             beaconReqDTO.setMinor((String)signal.get("minor"));
 
             String rssi = (signal.get("rssi")).toString();
-            Long u = Long.valueOf(rssi).longValue();
-            beaconReqDTO.setRssi(u);
+            Long r = Long.valueOf(rssi).longValue();
+            beaconReqDTO.setRssi(r);
 
-            Beacon beacon = beaconService.findByUuid(beaconReqDTO.getUuid());
+            Beacon beacon = beaconService.findBeacon((String)signal.get("uuid"));
             if (beacon == null) {
                 beaconService.createBeacon(beaconReqDTO);
             } else {
-                System.out.println("Update 구현 예정");
+                beaconService.updateBeacon(beaconReqDTO);
             }
         }
+    }
+
+    /**
+     * receiveBeacon : Beacon Data를 DELETE 합니다.
+     * <a> 태그의 경우 get 요청을 보내므로 GetMapping을 이용한 DB Data 삭제를 수행합니다.
+     */
+    @GetMapping("/admin/beacon/info/{beacon_uuid}")
+    public void deleteBeacon(@PathVariable(name = "beacon_uuid") String uuid){
+
+        beaconService.deleteBeacon(uuid);
+
     }
 }

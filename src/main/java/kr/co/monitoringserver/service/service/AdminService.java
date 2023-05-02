@@ -24,12 +24,18 @@ public class AdminService {
     @Autowired
     private BCryptPasswordEncoder encoder;
 
+    /**
+     * list : 모든 회원정보를 조회한다.
+     */
     @Transactional(readOnly = true)
     public Page<User> list(Pageable pageable) {
 
         return userRepository.findAll(pageable);
     }
 
+    /**
+     * detail : 회원정보 수정을 위해 특정 회원을 Select 한다.
+     */
     @Transactional(readOnly = true)
     public User detail(Long userId) {
 
@@ -39,6 +45,9 @@ public class AdminService {
                 });
     }
 
+    /**
+     * update : 회원정보를 수정한다.
+     */
     @Transactional
     public void update(AdminReqDTO adminDto) {
         User persistence = userRepository.findByIdentity(adminDto.getIdentity())
@@ -55,6 +64,9 @@ public class AdminService {
         persistence.setRoleType(adminDto.getRoleType());
     }
 
+    /**
+     * validateHandling : Validation 적용을 위한 메소드
+     */
     @Transactional(readOnly = true)
     public Map<String, String> validateHandling(BindingResult bindingResult) {
         Map<String, String> validatorResult = new HashMap<>();
@@ -67,6 +79,9 @@ public class AdminService {
         return validatorResult;
     }
 
+    /**
+     * userSearchList : 회원정보를 조회한다.
+     */
     public Page<User> userSearchList(String searchKeyword, Pageable pageable) {
 
         return userRepository.findByIdentityContaining(searchKeyword, pageable);

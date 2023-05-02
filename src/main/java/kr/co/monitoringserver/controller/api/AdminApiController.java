@@ -17,8 +17,11 @@ public class AdminApiController {
     @Autowired
     private AdminService adminService;
 
+    /**
+     * updateUser : 회원정보를 Update 합니다.
+     */
     @PutMapping("/admin")
-    public ResDTO<?> update(@Valid @RequestBody AdminReqDTO adminDto, BindingResult bindingResult) {
+    public ResDTO<?> updateUser(@Valid @RequestBody AdminReqDTO adminDto, BindingResult bindingResult) {
 
         if(bindingResult.hasErrors()) {
             Map<String, String> validatorResult = adminService.validateHandling(bindingResult);

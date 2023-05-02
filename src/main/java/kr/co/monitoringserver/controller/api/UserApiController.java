@@ -14,7 +14,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -32,8 +31,11 @@ public class UserApiController {
 
     private final AuthenticationManager authenticationmanager;
 
+    /**
+     * saveUser : 사용자정보를 Create하여 회원가입을 수행합니다.
+     */
     @PostMapping("/auth/joinProc")
-    public ResDTO<?> save(@Valid @RequestBody UserReqDTO userDto, BindingResult bindingResult) {
+    public ResDTO<?> saveUser(@Valid @RequestBody UserReqDTO userDto, BindingResult bindingResult) {
         if(bindingResult.hasErrors()) {
             Map<String, String> validatorResult = userService.validateHandling(bindingResult);
 
@@ -44,8 +46,11 @@ public class UserApiController {
         return new ResDTO<Integer>(HttpStatus.OK.value(), 1);
     }
 
+    /**
+     * updateUser : 사용자 본인의 회원정보를 Update 합니다.
+     */
     @PutMapping("/user")
-    public ResDTO<?> update(@Valid @RequestBody UserReqDTO userDto, BindingResult bindingResult) {
+    public ResDTO<?> updateUser(@Valid @RequestBody UserReqDTO userDto, BindingResult bindingResult) {
 
         if(bindingResult.hasErrors()) {
             Map<String, String> validatorResult = userService.validateHandling(bindingResult);
@@ -60,8 +65,6 @@ public class UserApiController {
 
         return new ResDTO<Integer>(HttpStatus.OK.value(), 1);
     }
-
-
 
     /**
      * Create UserAttendance Controller

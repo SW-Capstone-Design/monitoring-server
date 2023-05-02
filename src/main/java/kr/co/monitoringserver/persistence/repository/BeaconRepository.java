@@ -8,4 +8,5 @@ import java.util.Optional;
 public interface BeaconRepository extends JpaRepository<Beacon, Long> {
 
     Beacon findByUuid(String uuid);
+
 }

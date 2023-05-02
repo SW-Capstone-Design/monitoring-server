@@ -6,9 +6,9 @@ let index = {
 		},
 
 		register: function() {
-		    location.href = "/api/v1/attendance/admin";
-
             var param = $("#userIdentity").val();
+
+            location.href = "/api/v1/attendance/"+param;
 
 			let data = {
 					enterTime: $("#enterTime").val(),

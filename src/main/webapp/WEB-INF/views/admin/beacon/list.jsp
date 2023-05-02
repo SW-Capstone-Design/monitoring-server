@@ -17,6 +17,7 @@
         <th>Major</th>
         <th>Minor</th>
         <th>RSSI</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -27,6 +28,7 @@
         <td>${beacon.major}</td>
         <td>${beacon.minor}</td>
         <td>${beacon.rssi}</td>
+        <td><a href="/admin/beacon/info/${beacon.uuid}">삭제</a></td>
       </tr>
       </c:forEach>
     </tbody>

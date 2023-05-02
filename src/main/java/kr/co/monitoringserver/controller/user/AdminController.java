@@ -16,12 +16,19 @@ public class AdminController {
     @Autowired
     private AdminService adminService;
 
+    /**
+     * IndexForm : 관리자페이지 홈페이지로 매핑한다.
+     */
     @GetMapping("/admin/index")
     public String IndexForm() {
 
         return "admin/index";
     }
 
+    /**
+     * list : 유저정보를 Select하여 조회가 가능하다.
+     * 페이징 보완 필요, size는 추후 변경할 예정 
+     */
     @GetMapping("/admin/info")
     public String list(Model model, @PageableDefault(size=3, sort="userId", direction = Sort.Direction.ASC) Pageable pageable,
                        String searchKeyword){
@@ -35,6 +42,9 @@ public class AdminController {
         return "admin/info/list";
     }
 
+    /**
+     *
+     */
     @GetMapping("/admin/info/{userId}")
     public String findByUserId(@PathVariable long userId, Model model){
             model.addAttribute("list", adminService.detail(userId));

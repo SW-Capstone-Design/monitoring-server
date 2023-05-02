@@ -1,36 +1,36 @@
 let index = {
 		init: function() {
-			$("#btn-create").on("click", ()=>{
-				this.create();
+			$("#btn-transfer").on("click", ()=>{
+				this.transfer();
 			});
 		},
 
-		create: function() {
+		transfer: function() {
 			let data = {
 			            signals: [
                                      {
-                                         uuid: "11",
-                                         major: "11",
-                                         minor: "11",
+                                         uuid: "55",
+                                         major: "14314134",
+                                         minor: "441241221",
                                          rssi: 1
                                      },
                                      {
-                                         uuid: "22",
-                                         major: "22",
-                                         minor: "22",
-                                         rssi: 2
+                                         uuid: "66",
+                                         major: "325325235",
+                                         minor: "235253254",
+                                         rssi: 4
                                      },
                                      {
                                          uuid: "33",
-                                         major: "33",
-                                         minor: "33",
-                                         rssi: 3
+                                         major: "63525326",
+                                         minor: "455325233",
+                                         rssi: 6
                                      },
                                      {
                                          uuid: "44",
-                                         major: "44",
-                                         minor: "44",
-                                         rssi: 4
+                                         major: "2314",
+                                         minor: "12341243",
+                                         rssi: 3
                                      }
                                  ]
 			            };
@@ -54,23 +54,3 @@ let index = {
 }
 
 index.init();
-
-function update() {
-    let data = null;
-
-     $.ajax({
-                type: 'put',
-                url: '/receiveBeacon',
-                headers:{
-                    "Content-Type" : "application/json",
-                    "X-HTTP-Method-Override" : "POST"
-                },
-                dataType: 'text',
-                data : JSON.stringify(data),
-                success: function(result){
-                    if(result=='success'){
-                        alert('성공')
-                    }
-                }
-            });
-}
