@@ -9,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 
 import java.time.LocalDate;
 
@@ -45,7 +47,7 @@ public class AdminController {
     }
 
     /**
-     * infoFindByUserId : 각 유저의 회원정보 수정 페이지로 매핑한다.
+     * infoFindByUserId : Model 객체를 얹어 각 유저의 회원정보 수정 페이지로 매핑한다.
      */
     @GetMapping("/admin/info/{userId}")
     public String infoFindByUserId(@PathVariable long userId, Model model){
@@ -70,11 +72,11 @@ public class AdminController {
     }
 
     /**
-     * attendFindByUserId : 각 유저의 회원정보 수정 페이지로 매핑한다.
+     * attendFindByUserId : Model 객체를 얹어 각 유저의 회원정보 수정 페이지로 매핑한다.
      */
-    @GetMapping("/admin/attendance/list/{userId}")
-    public String attendFindByUserId(@PathVariable long userId, Model model){
-        model.addAttribute("list", adminService.detail(userId));
-        return "admin/info/detail";
-    }
+/*    @GetMapping("/admin/attendance/list/{userId}/{date}")
+    public String attendFindByUserId(@PathVariable Long userId, @PathVariable LocalDate date, Model model){
+        model.addAttribute("list", adminService.attendDetail(userId, date));
+        return "admin/attendance/updateForm";
+    }*/
 }

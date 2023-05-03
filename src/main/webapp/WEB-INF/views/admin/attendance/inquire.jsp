@@ -38,7 +38,7 @@
         <td>${userAttendance.attendance.leaveTime}</td>
         <td>${userAttendance.attendance.goWork}</td>
         <td>${userAttendance.attendance.leaveWork}</td>
-        <td><a href="/admin/attendance/list/${userAttendance.user.userId}">수정</a></td>
+        <td><a href="/admin/attendance/list/${userAttendance.user.userId}/${userAttendance.attendance.date}">수정</a></td>
       </tr>
       </c:forEach>
     </tbody>
@@ -76,4 +76,5 @@
 
 </div>
 
+<script src="/js/attendance/attendance.js"></script>
 <%@ include file="../../layout/admin/footer.jsp"%>

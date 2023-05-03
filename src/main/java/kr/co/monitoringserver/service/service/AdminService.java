@@ -36,7 +36,6 @@ public class AdminService {
     /**
      * list : 모든 회원정보를 조회한다.
      */
-    @Transactional(readOnly = true)
     public Page<User> list(Pageable pageable) {
 
         return userRepository.findAll(pageable);
@@ -45,7 +44,6 @@ public class AdminService {
     /**
      * detail : 회원정보 수정을 위해 특정 회원을 Select 한다.
      */
-    @Transactional(readOnly = true)
     public User detail(Long userId) {
 
         return userRepository.findByUserId(userId)
@@ -105,12 +103,11 @@ public class AdminService {
     }
 
     /**
-     * searchAttendList : 날짜를 지정하여 출결정보를 조회한다.
+     * searchAttendList : 키워드를 통해 날짜를 지정하여 출결정보를 조회한다.
      */
     @Transactional(readOnly = true)
     public Page<UserAttendance> searchAttendList(LocalDate searchKeyword, Pageable pageable) {
 
         return userAttendanceRepository.findByAttendance_Date(searchKeyword, pageable);
     }
-
 }

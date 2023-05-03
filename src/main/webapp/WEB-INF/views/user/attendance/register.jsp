@@ -12,13 +12,13 @@
 	<form>
 		<div class="form-group">
 		    <input type="hidden" id="userIdentity" value="${principal.user.identity}" />
-		    <input type="hidden" id="enterTime" value="09:46:00" />
-		    <input type="hidden" id="leaveTime" value="16:46:00" />
-		    <input type="hidden" id="date" value="2023-04-29" />
+		    <input type="hidden" id="enterTime" value="01:46:00" />
+		    <input type="hidden" id="leaveTime" value="20:46:00" />
+		    <input type="hidden" id="date" value="2023-04-30" />
 		</div>
 			<button id="btn-register" class="btn btn-primary">출결</button>
 	</form>
 </div>
 
-<script src="/js/attendance/register.js"></script>
+<script src="/js/attendance/attendance.js"></script>
 <%@ include file="../../layout/user/footer.jsp"%>
