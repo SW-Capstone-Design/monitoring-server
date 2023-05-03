@@ -123,9 +123,9 @@ public class UserService {
     /**
      * Get UserAttendance By userId Service
      */
-/*    public List<AttendanceResDTO.READ> getAttendanceByUserId(Long userId) {
+    public List<AttendanceResDTO.READ> getAttendanceByUserId(Long userId) {
 
-        List<UserAttendance> userAttendances = userAttendanceRepository.findByUser_UserId(userId);
+        List<UserAttendance> userAttendances = userAttendanceRepository.findListByUser_UserId(userId);
 
         Map<AttendanceType, Integer> attendanceDays = calculateAttendanceDays(userAttendances);
 
@@ -135,7 +135,7 @@ public class UserService {
                 .stream()
                 .map(userAttendance -> userAttendanceMapper.toUserAttendacneReadDto(userAttendance, attendanceDays))
                 .collect(Collectors.toList());
-    }*/
+    }
 
     /**
      * attendList : 출결정보를 조회한다.

@@ -7,6 +7,7 @@ import java.util.Optional;
 
 public interface BeaconRepository extends JpaRepository<Beacon, Long> {
 
+    Optional<Beacon> findOptionalByUuid(String uuid);
     Beacon findByUuid(String uuid);
 
 }

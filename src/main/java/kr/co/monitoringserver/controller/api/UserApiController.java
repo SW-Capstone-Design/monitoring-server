@@ -84,7 +84,7 @@ public class UserApiController {
     /**
      * Get UserAttendance By userId Controller
      */
-    /*
+
         @GetMapping("/api/v1/attendance/{user_id}")
         public ResponseFormat<List<AttendanceResDTO.READ>> getAttendanceByUserId(@PathVariable(name = "user_id") Long userId) {
 
@@ -93,7 +93,7 @@ public class UserApiController {
                     userService.getAttendanceByUserId(userId)
             );
         }
-    */
+
 
     /**
      * Get Latecomer UserAttendance By Date Controller
