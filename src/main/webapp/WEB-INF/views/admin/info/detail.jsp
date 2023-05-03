@@ -36,6 +36,7 @@
        </div>
 	</form>
 	<button id="btn-update" class="btn btn-primary">저장</button>
+	<button class="btn btn-primary">삭제</button>
 </div>
 
 <script src="/js/admin.js"></script>

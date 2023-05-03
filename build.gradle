@@ -21,6 +21,9 @@ repositories {
 
 dependencies {
 
+	// JSON
+	implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
+
 	// JPA
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
@@ -47,8 +50,8 @@ dependencies {
 	// Spring Boot Devtools
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
-	// MySQL Connector
-	runtimeOnly 'com.mysql:mysql-connector-j'
+	// MariaDB Connector
+	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
 
 	// Test
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'

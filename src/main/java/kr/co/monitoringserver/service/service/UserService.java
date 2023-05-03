@@ -4,10 +4,8 @@ import kr.co.monitoringserver.infra.global.error.enums.ErrorCode;
 import kr.co.monitoringserver.infra.global.exception.BadRequestException;
 import kr.co.monitoringserver.infra.global.exception.InvalidInputException;
 import kr.co.monitoringserver.infra.global.exception.NotFoundException;
-import kr.co.monitoringserver.persistence.entity.attendance.Attendance;
 import kr.co.monitoringserver.persistence.entity.attendance.UserAttendance;
 import kr.co.monitoringserver.persistence.entity.user.User;
-import kr.co.monitoringserver.persistence.repository.AttendanceRepository;
 import kr.co.monitoringserver.persistence.repository.UserAttendanceRepository;
 import kr.co.monitoringserver.service.dtos.request.AttendanceReqDTO;
 import kr.co.monitoringserver.service.dtos.request.UserReqDTO;
@@ -46,8 +44,9 @@ public class UserService {
 
     private final UserAttendanceMapper userAttendanceMapper;
 
-    private final AttendanceRepository attendanceRepository;
-
+    /**
+     * join : 회원가입한다.
+     */
     @Transactional
     public void join(UserReqDTO userDto) {
         User user = User.builder()
@@ -62,6 +61,9 @@ public class UserService {
         userRepository.save(user);
     }
 
+    /**
+     * validateHandling : Validation을 구현한다.
+     */
     public Map<String, String> validateHandling(BindingResult bindingResult) {
         Map<String, String> validatorResult = new HashMap<>();
 
@@ -73,6 +75,9 @@ public class UserService {
         return validatorResult;
     }
 
+    /**
+     * update : 회원정보를 수정한다.
+     */
     @Transactional
     public void update(UserReqDTO userDto) {
         User persistance = userRepository.findByIdentity(userDto.getIdentity())
@@ -132,15 +137,23 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * attendList : 출결정보를 조회한다.
+     * Page 객체를 반환하기 위해 구현하였음.
+     */
     @Transactional(readOnly = true)
-    public Page<Attendance> attendList(Pageable pageable) {
+    public Page<UserAttendance> attendList(Pageable pageable) {
 
-        return attendanceRepository.findAll(pageable);
+        return userAttendanceRepository.findAll(pageable);
     }
 
-    public Page<Attendance> attendSearchList(LocalDate searchKeyword, Pageable pageable) {
+    /**
+     * searchAttendList : 날짜를 지정하여 출결정보를 조회한다.
+     * Page 객체를 반환하기 위해 구현하였음.
+     */
+    public Page<UserAttendance> searchAttendList(LocalDate searchKeyword, Pageable pageable) {
 
-        return attendanceRepository.findByDate(searchKeyword, pageable);
+        return userAttendanceRepository.findByAttendance_Date(searchKeyword, pageable);
     }
 
 

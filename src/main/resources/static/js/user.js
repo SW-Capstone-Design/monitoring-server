@@ -15,7 +15,7 @@ let index = {
 					name: $("#name").val(),
 					telephone: $("#telephone").val(),
 					department: $("#department").val()
-			}
+			};
 
 			$.ajax({
 				type: "POST",

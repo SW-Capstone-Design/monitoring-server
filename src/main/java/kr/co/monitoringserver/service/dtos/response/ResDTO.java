@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UserResDTO<T> {
+public class ResDTO<T> {
 
     int status;
     T data;
