@@ -28,4 +28,6 @@ public class UserReqDTO {
     @NotBlank(message = "핸드폰 번호는 필수 입력값입니다.")
     @Pattern(regexp = "^\\d{2,3}-\\d{3,4}-\\d{4}$", message = "10~11자리의 숫자만 입력가능합니다")
     private String telephone;
+
+    private Long userId;
 }

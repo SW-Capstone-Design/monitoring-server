@@ -4,7 +4,7 @@
 
 <div class="container">
 	<form>
-
+            <input type="hidden" value="${list.userId}" class="form-control" id="userId">
 		<div class="form-group">
 			<label for="identity">Id</label>
 			<input type="text" value="${list.identity}" class="form-control" placeholder="Enter identity" id="identity" readOnly>
@@ -35,8 +35,8 @@
 
        </div>
 	</form>
-	<button id="btn-update" class="btn btn-primary">저장</button>
-	<button class="btn btn-dark">삭제</button>
+	<button id="btn-update" class="btn btn-dark">저장</button>
+	<button id="btn-del" class="btn btn-dark">삭제</button>
 </div>
 
 <script src="/js/admin.js"></script>

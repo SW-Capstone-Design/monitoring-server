@@ -5,6 +5,7 @@ import kr.co.monitoringserver.persistence.repository.UserAttendanceRepository;
 import kr.co.monitoringserver.service.dtos.request.AdminReqDTO;
 import kr.co.monitoringserver.persistence.entity.user.User;
 import kr.co.monitoringserver.persistence.repository.UserRepository;
+import kr.co.monitoringserver.service.dtos.request.UserReqDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -69,6 +70,18 @@ public class AdminService {
         persistence.setDepartment(adminDto.getDepartment());
         persistence.setTelephone(adminDto.getTelephone());
         persistence.setRoleType(adminDto.getRoleType());
+    }
+
+    /**
+     * deleteUser : 회원정보를 삭제하여 탈퇴한다.
+     */
+    @Transactional
+    public void deleteUser(UserReqDTO userReqDTO){
+        User user = userRepository.findByUserId(userReqDTO.getUserId())
+                .orElseThrow(()->{
+                    return new IllegalArgumentException("유저 조회 실패 : 아이디를 찾을 수 없습니다.");
+                });
+        userRepository.delete(user);
     }
 
     /**

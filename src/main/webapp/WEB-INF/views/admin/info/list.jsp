@@ -23,7 +23,6 @@
         <th>UpdatedAt</th>
         <th>RoleType</th>
         <th></th>
-        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -38,7 +37,6 @@
         <td>${user.updatedAt}</td>
         <td>${user.roleType}</td>
         <td><b><a href="/admin/info/${user.userId}">수정</a></b></td>
-        <td><b><a onclick='return confirm("삭제를 진행하시겠습니까?");' href="/admin/info/${user.userId}">삭제</a></b></td>
       </tr>
       </c:forEach>
     </tbody>
