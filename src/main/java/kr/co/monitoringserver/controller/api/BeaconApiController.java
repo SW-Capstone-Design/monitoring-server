@@ -22,8 +22,8 @@ public class BeaconApiController {
 
 
     /**
-     * receiveBeacon : Beacon Data를 INSERT 또는 UPDATE 합니다.
-     * DB에 해당 UUID가 있다면 Update, 없다면 Insert 합니다.
+     * receiveBeacon : Beacon Data를 INSERT 또는 UPDATE 한다.
+     * DB에 해당 UUID가 있다면 Update, 없다면 Insert 한다.
      */
     @PostMapping("/receiveBeacon")
     public void receiveBeacon(@RequestBody String data, BeaconReqDTO beaconReqDTO) {
@@ -60,8 +60,8 @@ public class BeaconApiController {
     }
 
     /**
-     * receiveBeacon : Beacon Data를 DELETE 합니다.
-     * <a> 태그의 경우 get 요청을 보내므로 GetMapping을 이용한 DB Data 삭제를 수행합니다.
+     * receiveBeacon : Beacon Data를 DELETE 한다.
+     * <a> 태그의 경우 get 요청을 보내므로 GetMapping을 이용한 DB Data 삭제를 수행한다.
      */
     @GetMapping("/admin/beacon/info/{beacon_uuid}")
     public void deleteBeacon(@PathVariable(name = "beacon_uuid") String uuid){

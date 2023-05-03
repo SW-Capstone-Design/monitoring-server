@@ -123,7 +123,7 @@ public class UserService {
     /**
      * Get UserAttendance By userId Service
      */
-    public List<AttendanceResDTO.READ> getAttendanceByUserId(Long userId) {
+/*    public List<AttendanceResDTO.READ> getAttendanceByUserId(Long userId) {
 
         List<UserAttendance> userAttendances = userAttendanceRepository.findByUser_UserId(userId);
 
@@ -135,23 +135,22 @@ public class UserService {
                 .stream()
                 .map(userAttendance -> userAttendanceMapper.toUserAttendacneReadDto(userAttendance, attendanceDays))
                 .collect(Collectors.toList());
-    }
+    }*/
 
     /**
      * attendList : 출결정보를 조회한다.
      * Page 객체를 반환하기 위해 구현하였음.
      */
-    @Transactional(readOnly = true)
-    public Page<UserAttendance> attendList(Pageable pageable) {
+    public Page<UserAttendance> userAttendList(Long userId, Pageable pageable) {
 
-        return userAttendanceRepository.findAll(pageable);
+        return userAttendanceRepository.findByUser_UserId(userId, pageable);
     }
 
     /**
      * searchAttendList : 날짜를 지정하여 출결정보를 조회한다.
      * Page 객체를 반환하기 위해 구현하였음.
      */
-    public Page<UserAttendance> searchAttendList(LocalDate searchKeyword, Pageable pageable) {
+    public Page<UserAttendance> searchUserAttendList(LocalDate searchKeyword, Pageable pageable) {
 
         return userAttendanceRepository.findByAttendance_Date(searchKeyword, pageable);
     }

@@ -32,7 +32,7 @@ public class UserApiController {
     private final AuthenticationManager authenticationmanager;
 
     /**
-     * saveUser : 사용자정보를 Create하여 회원가입을 수행합니다.
+     * saveUser : 사용자정보를 Create하여 회원가입을 수행한다.
      */
     @PostMapping("/auth/joinProc")
     public ResDTO<?> saveUser(@Valid @RequestBody UserReqDTO userDto, BindingResult bindingResult) {
@@ -47,7 +47,7 @@ public class UserApiController {
     }
 
     /**
-     * updateUser : 사용자 본인의 회원정보를 Update 합니다.
+     * updateUser : 사용자 본인의 회원정보를 Update 한다.
      */
     @PutMapping("/user")
     public ResDTO<?> updateUser(@Valid @RequestBody UserReqDTO userDto, BindingResult bindingResult) {
@@ -84,14 +84,16 @@ public class UserApiController {
     /**
      * Get UserAttendance By userId Controller
      */
-    @GetMapping("/api/v1/attendance/{user_id}")
-    public ResponseFormat<List<AttendanceResDTO.READ>> getAttendanceByUserId(@PathVariable(name = "user_id") Long userId) {
+    /*
+        @GetMapping("/api/v1/attendance/{user_id}")
+        public ResponseFormat<List<AttendanceResDTO.READ>> getAttendanceByUserId(@PathVariable(name = "user_id") Long userId) {
 
-        return ResponseFormat.successData(
-                ErrorCode.SUCCESS_EXECUTE,
-                userService.getAttendanceByUserId(userId)
-        );
-    }
+            return ResponseFormat.successData(
+                    ErrorCode.SUCCESS_EXECUTE,
+                    userService.getAttendanceByUserId(userId)
+            );
+        }
+    */
 
     /**
      * Get Latecomer UserAttendance By Date Controller

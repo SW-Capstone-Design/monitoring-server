@@ -14,29 +14,25 @@
   <table class="table table-hover">
     <thead>
       <tr>
-        <th>Id</th>
+        <th>Date</th>
         <th>Name</th>
         <th>Department</th>
-        <th>RoleType</th>
         <th>EnterTime</th>
         <th>LeaveTime</th>
         <th>GoWork</th>
         <th>LeaveWork</th>
-        <th>Date</th>
       </tr>
     </thead>
     <tbody>
     <c:forEach items="${lists.content}" var="userAttendance">
       <tr>
-        <td>${userAttendance.user.identity}</td>
+        <td>${userAttendance.attendance.date}</td>
         <td>${userAttendance.user.name}</td>
         <td>${userAttendance.user.department}</td>
-        <td>${userAttendance.user.roleType}</td>
         <td>${userAttendance.attendance.enterTime}</td>
         <td>${userAttendance.attendance.leaveTime}</td>
         <td>${userAttendance.attendance.goWork}</td>
         <td>${userAttendance.attendance.leaveWork}</td>
-        <td>${userAttendance.attendance.date}</td>
       </tr>
       </c:forEach>
     </tbody>

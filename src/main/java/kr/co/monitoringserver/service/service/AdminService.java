@@ -1,8 +1,11 @@
 package kr.co.monitoringserver.service.service;
 
+import kr.co.monitoringserver.persistence.entity.attendance.UserAttendance;
+import kr.co.monitoringserver.persistence.repository.UserAttendanceRepository;
 import kr.co.monitoringserver.service.dtos.request.AdminReqDTO;
 import kr.co.monitoringserver.persistence.entity.user.User;
 import kr.co.monitoringserver.persistence.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,10 +15,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
 @Service
+@RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class AdminService {
 
     @Autowired
@@ -23,6 +29,9 @@ public class AdminService {
 
     @Autowired
     private BCryptPasswordEncoder encoder;
+
+    @Autowired
+    private UserAttendanceRepository userAttendanceRepository;
 
     /**
      * list : 모든 회원정보를 조회한다.
@@ -85,6 +94,23 @@ public class AdminService {
     public Page<User> userSearchList(String searchKeyword, Pageable pageable) {
 
         return userRepository.findByIdentityContaining(searchKeyword, pageable);
+    }
+
+    /**
+     * attendList : 출결정보를 조회한다.
+     */
+    public Page<UserAttendance> attendList(Pageable pageable) {
+
+        return userAttendanceRepository.findAll(pageable);
+    }
+
+    /**
+     * searchAttendList : 날짜를 지정하여 출결정보를 조회한다.
+     */
+    @Transactional(readOnly = true)
+    public Page<UserAttendance> searchAttendList(LocalDate searchKeyword, Pageable pageable) {
+
+        return userAttendanceRepository.findByAttendance_Date(searchKeyword, pageable);
     }
 
 }
