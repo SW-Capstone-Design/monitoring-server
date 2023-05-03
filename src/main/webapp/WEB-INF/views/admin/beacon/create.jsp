@@ -10,7 +10,7 @@
   <br><br>
   <hr>
   <form>
-  	<button id="btn-transfer" class="btn btn-primary">전송</button>
+  	<button id="btn-transfer" class="btn btn-dark">전송</button>
   </form>
 </div>
 

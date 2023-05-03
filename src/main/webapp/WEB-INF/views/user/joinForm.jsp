@@ -26,7 +26,7 @@
         </div>
         <p id="valid_telephone"></p>
 	</form>
-	<button id="btn-save" class="btn btn-primary">회원가입</button>
+	<button id="btn-save" class="btn btn-dark">회원가입</button>
 </div>
 
 <script src="/js/user.js"></script>

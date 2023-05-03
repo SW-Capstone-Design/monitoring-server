@@ -28,7 +28,7 @@
         <td>${beacon.major}</td>
         <td>${beacon.minor}</td>
         <td>${beacon.rssi}</td>
-        <td><a href="/admin/beacon/info/${beacon.uuid}">삭제</a></td>
+        <td><b><a onclick='return confirm("삭제를 진행하시겠습니까?");' href="/admin/beacon/info/${beacon.uuid}">삭제</a></b></td>
       </tr>
       </c:forEach>
     </tbody>

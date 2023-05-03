@@ -16,7 +16,7 @@
 		    <input type="hidden" id="leaveTime" value="20:46:00" />
 		    <input type="hidden" id="date" value="2023-04-30" />
 		</div>
-			<button id="btn-register" class="btn btn-primary">출결</button>
+			<button id="btn-register" class="btn btn-dark">출결</button>
 	</form>
 </div>
 

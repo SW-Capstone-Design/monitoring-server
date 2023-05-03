@@ -5,11 +5,11 @@
 <div class="container">
   <h2>출결상태조회</h2>
   <span>
-    출결상태 조회 및 수정
+    출결상태를 조회 및 수정합니다.
   </span>
   <form style="text-align:right;" action="list" method="get">
-    <input type="date" name="searchKeyword">
-    <button type="submit" class="btn btn-primary">검색</button>
+    <input type="date" style="display:inline-block;width:200px;" class="form-control" name="searchKeyword">
+    <button type="submit" class="btn btn-dark mb-1 mr-sm-1">검색</button>
   <form>
   <table class="table table-hover">
     <thead>
@@ -38,7 +38,7 @@
         <td>${userAttendance.attendance.leaveTime}</td>
         <td>${userAttendance.attendance.goWork}</td>
         <td>${userAttendance.attendance.leaveWork}</td>
-        <td><a href="/admin/attendance/list/${userAttendance.user.userId}/${userAttendance.attendance.date}">수정</a></td>
+        <td><b><a href="/admin/attendance/list/${userAttendance.user.userId}/${userAttendance.attendance.date}">수정</a></b></td>
       </tr>
       </c:forEach>
     </tbody>

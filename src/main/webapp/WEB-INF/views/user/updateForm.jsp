@@ -31,7 +31,7 @@
         <p id="valid_telephone"></p>
 
 	</form>
-	<button id="btn-update" class="btn btn-primary">회원수정 완료</button>
+	<button id="btn-update" class="btn btn-dark">수정</button>
 </div>
 
 <script src="/js/user.js"></script>

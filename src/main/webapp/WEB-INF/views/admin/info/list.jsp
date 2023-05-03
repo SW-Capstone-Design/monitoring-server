@@ -8,8 +8,8 @@
     회원정보 조회 및 수정
   </span>
   <form style="text-align:right;" action="info" method="get">
-    <input type="text" name="searchKeyword" placeholder="Enter Id">
-    <button type="submit" class="btn btn-primary">검색</button>
+    <input type="text" style="display:inline; width:200px;" class="form-control" name="searchKeyword" placeholder="Enter Id">
+    <button type="submit" class="btn btn-dark mb-1 mr-sm-1">검색</button>
   <form>
   <table class="table table-hover">
     <thead>
@@ -22,6 +22,7 @@
         <th>CreatedAt</th>
         <th>UpdatedAt</th>
         <th>RoleType</th>
+        <th></th>
         <th></th>
       </tr>
     </thead>
@@ -36,7 +37,8 @@
         <td>${user.createdAt}</td>
         <td>${user.updatedAt}</td>
         <td>${user.roleType}</td>
-        <td><a href="/admin/info/${user.userId}">수정</a></td>
+        <td><b><a href="/admin/info/${user.userId}">수정</a></b></td>
+        <td><b><a onclick='return confirm("삭제를 진행하시겠습니까?");' href="/admin/info/${user.userId}">삭제</a></b></td>
       </tr>
       </c:forEach>
     </tbody>

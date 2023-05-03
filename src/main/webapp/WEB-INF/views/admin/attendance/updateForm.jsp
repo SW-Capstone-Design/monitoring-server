@@ -24,7 +24,7 @@
             <input type="time" class="form-control" id="leaveTime">
         </div>
 	</form>
-	<button id="btn-update" class="btn btn-primary">완료</button>
+	<button id="btn-update" class="btn btn-dark">완료</button>
 </div>
 
 <script src="/js/attendance/attendance.js"></script>

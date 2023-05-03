@@ -5,11 +5,11 @@
 <div class="container">
   <h2>출결상태조회</h2>
   <span>
-    출결상태 조회 및 수정
+    출결상태를 조회합니다.
   </span>
   <form style="text-align:right;" action="list" method="get">
     <input type="date" name="searchKeyword">
-    <button type="submit" class="btn btn-primary">검색</button>
+    <button type="submit" class="btn btn-dark">검색</button>
   <form>
   <table class="table table-hover">
     <thead>
