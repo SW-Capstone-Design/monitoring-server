@@ -5,7 +5,7 @@
 <div class="container">
   <h2>비콘정보관리</h2>
   <span>
-    비콘정보 조회 및 수정
+    비콘정보 조회 및 수정을 합니다.
   </span>
   <br><br>
   <form style="text-align:right;" action="info" method="get">

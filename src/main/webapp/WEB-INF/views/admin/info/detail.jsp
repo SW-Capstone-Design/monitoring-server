@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 
-<%@ include file="../../layout/user/header.jsp"%>
+<%@ include file="../../layout/admin/header.jsp"%>
 
 <div class="container">
 	<form>
@@ -40,4 +40,4 @@
 </div>
 
 <script src="/js/admin.js"></script>
-<%@ include file="../../layout/user/footer.jsp"%>
+<%@ include file="../../layout/admin/footer.jsp"%>

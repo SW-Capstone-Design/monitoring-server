@@ -1,7 +1,6 @@
 package kr.co.monitoringserver.controller.api;
 
 import jakarta.validation.Valid;
-import kr.co.monitoringserver.persistence.repository.UserAttendanceRepository;
 import kr.co.monitoringserver.service.dtos.request.AdminReqDTO;
 import kr.co.monitoringserver.service.dtos.request.UserReqDTO;
 import kr.co.monitoringserver.service.dtos.response.ResDTO;

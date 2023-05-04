@@ -50,8 +50,8 @@
                                   보안구역관리
                                </a>
                                <div class="dropdown-menu">
-                                  <a class="dropdown-item" href="#">보안구역정보조회</a>
-                                  <a class="dropdown-item" href="#">보안구역정보관리</a>
+                                  <a class="dropdown-item" href="/admin/area/create">보안구역정보등록</a>
+                                  <a class="dropdown-item" href="/admin/area/info">보안구역정보관리</a>
                                </div>
                             </li>
         					<li class="nav-item"><a class="nav-link" href="/admin/info">회원정보관리</a></li>
