@@ -37,10 +37,10 @@ public class SecurityAreaController {
     }
 
     /**
-     * securityAreaFindByuserID : 졸려요
+     * securityAreaFindByID : Id를 통해 SecurityArea를 조회하여 Model 객체를 Update, Delete Form에 매핑한다.
      */
     @GetMapping("/admin/area/info/{security_area_id}")
-    public String securityAreaFindByuserID(@PathVariable(name = "security_area_id") Long securityAreaId, Model model){
+    public String securityAreaFindByID(@PathVariable(name = "security_area_id") Long securityAreaId, Model model){
 
         model.addAttribute("list", securityAreaService.securityAreaDetail(securityAreaId));
 

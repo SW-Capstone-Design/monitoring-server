@@ -21,9 +21,9 @@
             <label for="longitude">Longitude</label>
             <input type="longitude" value="${list.location.longitude}" class="form-control" placeholder="Enter longitude" id="longitude">
         </div>
-        <button id="btn-update" class="btn btn-dark">저장</button>
-        <button id="btn-del" class="btn btn-dark">삭제</button>
 	</form>
+    <button id="btn-update" class="btn btn-dark">저장</button>
+    <button id="btn-del" class="btn btn-dark">삭제</button>
 </div>
 
 <script src="/js/securityArea/securityArea.js"></script>

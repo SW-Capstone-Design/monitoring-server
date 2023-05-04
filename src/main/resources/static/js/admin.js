@@ -70,6 +70,7 @@ let index = {
         		},
 
         		del: function() {
+                            if (confirm("삭제를 진행하시겠습니까?")) {
                             let data = {
                                     userId: $("#userId").val()
                             };
@@ -89,10 +90,11 @@ let index = {
                                       location.href = "/admin/info";
                                 }
                             }).fail(function(error) {
-                                alert("회원삭제가 완료되었습니다.");
+                                alert(JSON.stringify(error));
                                 location.href = "/admin/info";
                             });
                         }
+                }
 }
 
 index.init();
