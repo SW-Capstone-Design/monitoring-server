@@ -9,6 +9,9 @@ import kr.co.monitoringserver.service.dtos.response.AttendanceResDTO;
 import kr.co.monitoringserver.service.dtos.response.ResponseDto;
 import kr.co.monitoringserver.service.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,7 +22,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -78,26 +80,16 @@ public class UserApiController {
     }
 
     /**
-     * Get UserAttendance By userId Controller
+     * Get UserAttendance By User Identity Controller
      */
-    @GetMapping("/attendance/{user_id}")
-    public ResponseFormat<List<AttendanceResDTO.READ>> getAttendanceByUserId(@PathVariable(name = "user_id") Long userId) {
+    @GetMapping("/attendance/{user_identity}")
+    public ResponseFormat<Page<AttendanceResDTO.READ>> getAttendanceByUserId(
+            @PathVariable(name = "user_identity") String userIdentity,
+            @PageableDefault(size = 20) Pageable pageable) {
 
         return ResponseFormat.successData(
                 ErrorCode.SUCCESS_EXECUTE,
-                userService.getAttendanceByUserId(userId)
-        );
-    }
-
-    /**
-     * Get Latecomer UserAttendance By Date Controller
-     */
-    @GetMapping("/attendance/latecomer")
-    public ResponseFormat<List<AttendanceResDTO.READ>> getLatecomerByDate(@RequestParam("date") LocalDate date) {
-
-        return ResponseFormat.successData(
-                ErrorCode.SUCCESS_EXECUTE,
-                userService.getLatecomerByDate(date)
+                userService.getAttendanceByUserId(userIdentity, pageable)
         );
     }
 
@@ -105,11 +97,13 @@ public class UserApiController {
      * Get Absentee UserAttendance By Date Controller
      */
     @GetMapping("/attendance/absentee")
-    public ResponseFormat<List<AttendanceResDTO.READ>> getAbsenteeByDate(@RequestParam("date") LocalDate date) {
+    public ResponseFormat<Page<AttendanceResDTO.READ>> getAbsenteeByDate(
+            @RequestParam("date") LocalDate date,
+            @PageableDefault(size = 20) Pageable pageable) {
 
         return ResponseFormat.successData(
                 ErrorCode.SUCCESS_EXECUTE,
-                userService.getAbsenteeByDate(date)
+                userService.getAbsenteeByDate(date, pageable)
         );
     }
 
@@ -131,10 +125,11 @@ public class UserApiController {
     /**
      * Delete UserAttendance Controller
      */
-    @DeleteMapping("/attendance/{user_id}")
-    public ResponseFormat<Void> deleteAttendance(@PathVariable(name = "user_id") Long userId) {
+    @DeleteMapping("/attendance/{user_identity}")
+    public ResponseFormat<Void> deleteAttendance(@PathVariable(name = "user_identity") String userIdentity,
+                                                 @RequestParam(name = "date") LocalDate date) {
 
-        userService.deleteAttendance(userId);
+        userService.deleteAttendance(userIdentity, date);
 
         return ResponseFormat.successMessage(
                 ErrorCode.SUCCESS_EXECUTE,
