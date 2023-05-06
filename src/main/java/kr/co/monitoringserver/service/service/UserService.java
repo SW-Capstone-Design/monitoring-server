@@ -79,12 +79,12 @@ public class UserService {
                     return new IllegalArgumentException("회원 찾기 실패");
                 });
 
-            String rawPassword = userDto.getPassword();
-            String encPassword = encoder.encode(rawPassword);
-            persistance.setPassword(encPassword);
-            persistance.setName(userDto.getName());
-            persistance.setDepartment(userDto.getDepartment());
-            persistance.setTelephone(userDto.getPhone());
+        String rawPassword = userDto.getPassword();
+        String encPassword = encoder.encode(rawPassword);
+        persistance.setPassword(encPassword);
+        persistance.setName(userDto.getName());
+        persistance.setDepartment(userDto.getDepartment());
+        persistance.setTelephone(userDto.getPhone());
     }
 
 
