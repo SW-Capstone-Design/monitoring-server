@@ -5,7 +5,7 @@
 <div class="container">
   <h2>비콘정보관리</h2>
   <span>
-    비콘정보 조회 및 수정
+    비콘정보 조회 및 수정을 합니다.
   </span>
   <br><br>
   <form style="text-align:right;" action="info" method="get">
@@ -28,7 +28,7 @@
         <td>${beacon.major}</td>
         <td>${beacon.minor}</td>
         <td>${beacon.rssi}</td>
-        <td><a href="/admin/beacon/info/${beacon.uuid}">삭제</a></td>
+        <td><b><a onclick='return confirm("삭제를 진행하시겠습니까?");' href="/admin/beacon/info/${beacon.uuid}">삭제</a></b></td>
       </tr>
       </c:forEach>
     </tbody>

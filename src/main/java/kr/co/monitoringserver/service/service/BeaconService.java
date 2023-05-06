@@ -35,9 +35,8 @@ public class BeaconService {
     }
 
     /**
-     * list : Beacon list를 조회하여 Page 객체로 반환한다.
+     * list : Beacon 목록을 조회하여 Page 객체로 반환한다.
      */
-    @Transactional
     public Page<Beacon> list(Pageable pageable) {
 
         return beaconRepository.findAll(pageable);
@@ -46,7 +45,6 @@ public class BeaconService {
     /**
      * findBeacon : uuid 변수를 인자로 전달하여 해당 Beacon을 조회한다.
      */
-    @Transactional
     public Beacon findBeacon(String uuid){
 
         return beaconRepository.findByUuid(uuid);
@@ -57,7 +55,10 @@ public class BeaconService {
      */
     @Transactional
     public void updateBeacon(BeaconReqDTO beaconReqDTO){
-        Beacon beacon = beaconRepository.findByUuid(beaconReqDTO.getUuid());
+        Beacon beacon = beaconRepository.findOptionalByUuid(beaconReqDTO.getUuid())
+                .orElseThrow(()->{
+            return new IllegalArgumentException("회원 찾기 실패");
+        });
         beacon.setMajor(beaconReqDTO.getMajor());
         beacon.setMinor(beaconReqDTO.getMinor());
         beacon.setRssi(beaconReqDTO.getRssi());
@@ -68,7 +69,10 @@ public class BeaconService {
      */
     @Transactional
     public void deleteBeacon(String uuid){
-        Beacon beacon = beaconRepository.findByUuid(uuid);
+        Beacon beacon = beaconRepository.findOptionalByUuid(uuid)
+                .orElseThrow(()->{
+                    return new IllegalArgumentException("회원 찾기 실패");
+                });
 
         beaconRepository.delete(beacon);
     }

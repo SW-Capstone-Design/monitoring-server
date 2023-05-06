@@ -35,15 +35,7 @@
 			<c:otherwise>
 				<ul class="navbar-nav">
 				            <li class="nav-item"><a class="nav-link" href="#">모니터링</a></li>
-				            <li class="nav-item dropdown">
-                               <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-                                  출결관리
-                               </a>
-                               <div class="dropdown-menu">
-                                  <a class="dropdown-item" href="#">회원출결조회</a>
-                                  <a class="dropdown-item" href="#">회원출결수정</a>
-                               </div>
-                            </li>
+                            <li class="nav-item"><a class="nav-link" href="/admin/attendance/list">회원출결관리</a></li>
 							<li class="nav-item dropdown">
                                <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
                                   비콘관리
@@ -58,8 +50,8 @@
                                   보안구역관리
                                </a>
                                <div class="dropdown-menu">
-                                  <a class="dropdown-item" href="#">보안구역정보조회</a>
-                                  <a class="dropdown-item" href="#">보안구역정보등록</a>
+                                  <a class="dropdown-item" href="/admin/area/create">보안구역정보등록</a>
+                                  <a class="dropdown-item" href="/admin/area/info">보안구역정보관리</a>
                                </div>
                             </li>
         					<li class="nav-item"><a class="nav-link" href="/admin/info">회원정보관리</a></li>

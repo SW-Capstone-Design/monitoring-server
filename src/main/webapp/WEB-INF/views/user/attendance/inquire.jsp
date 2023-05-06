@@ -5,38 +5,34 @@
 <div class="container">
   <h2>출결상태조회</h2>
   <span>
-    출결상태 조회 및 수정
+    출결상태를 조회합니다.
   </span>
   <form style="text-align:right;" action="list" method="get">
     <input type="date" name="searchKeyword">
-    <button type="submit" class="btn btn-primary">검색</button>
+    <button type="submit" class="btn btn-dark">검색</button>
   <form>
   <table class="table table-hover">
     <thead>
       <tr>
-        <th>Id</th>
+        <th>Date</th>
         <th>Name</th>
         <th>Department</th>
-        <th>RoleType</th>
         <th>EnterTime</th>
         <th>LeaveTime</th>
         <th>GoWork</th>
         <th>LeaveWork</th>
-        <th>Date</th>
       </tr>
     </thead>
     <tbody>
     <c:forEach items="${lists.content}" var="userAttendance">
       <tr>
-        <td>${userAttendance.user.identity}</td>
+        <td>${userAttendance.attendance.date}</td>
         <td>${userAttendance.user.name}</td>
         <td>${userAttendance.user.department}</td>
-        <td>${userAttendance.user.roleType}</td>
         <td>${userAttendance.attendance.enterTime}</td>
         <td>${userAttendance.attendance.leaveTime}</td>
         <td>${userAttendance.attendance.goWork}</td>
         <td>${userAttendance.attendance.leaveWork}</td>
-        <td>${userAttendance.attendance.date}</td>
       </tr>
       </c:forEach>
     </tbody>

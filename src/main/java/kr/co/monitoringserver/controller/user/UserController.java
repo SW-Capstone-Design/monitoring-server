@@ -9,6 +9,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.time.LocalDate;
 
@@ -47,16 +48,16 @@ public class UserController {
 
     /**
      * attendList : 출결정보 조회 페이지로 매핑한다.
-     * 보완 필요 : 이 메소드는 AdminController로 이동하고 본인의 출결만 조회하게끔 구현해야함.
      */
-    @GetMapping("/attendance/list")
-    public String attendList(Model model, @PageableDefault(size=10, sort="attendance.date", direction = Sort.Direction.DESC) Pageable pageable,
-                             LocalDate searchKeyword){
+    @GetMapping("/attendance/list/{user_id}")
+    public String userAttendList(Model model, @PageableDefault(size=10, sort="attendance.date", direction = Sort.Direction.DESC) Pageable pageable,
+                             @PathVariable(name = "user_id") Long userId
+                            ,LocalDate searchKeyword){
 
         if(searchKeyword == null) {
-            model.addAttribute("lists", userService.attendList(pageable));
+            model.addAttribute("lists", userService.userAttendList(userId, pageable));
         }else{
-            model.addAttribute("lists", userService.searchAttendList(searchKeyword, pageable));
+            model.addAttribute("lists", userService.searchUserAttendList(searchKeyword, pageable));
         }
 
         return "user/attendance/inquire";

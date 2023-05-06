@@ -1,8 +1,12 @@
 package kr.co.monitoringserver.service.service;
 
+import kr.co.monitoringserver.persistence.entity.attendance.UserAttendance;
+import kr.co.monitoringserver.persistence.repository.UserAttendanceRepository;
 import kr.co.monitoringserver.service.dtos.request.AdminReqDTO;
 import kr.co.monitoringserver.persistence.entity.user.User;
 import kr.co.monitoringserver.persistence.repository.UserRepository;
+import kr.co.monitoringserver.service.dtos.request.UserReqDTO;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,10 +16,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
 @Service
+@RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class AdminService {
 
     @Autowired
@@ -24,10 +31,12 @@ public class AdminService {
     @Autowired
     private BCryptPasswordEncoder encoder;
 
+    @Autowired
+    private UserAttendanceRepository userAttendanceRepository;
+
     /**
      * list : 모든 회원정보를 조회한다.
      */
-    @Transactional(readOnly = true)
     public Page<User> list(Pageable pageable) {
 
         return userRepository.findAll(pageable);
@@ -36,7 +45,6 @@ public class AdminService {
     /**
      * detail : 회원정보 수정을 위해 특정 회원을 Select 한다.
      */
-    @Transactional(readOnly = true)
     public User detail(Long userId) {
 
         return userRepository.findByUserId(userId)
@@ -65,6 +73,18 @@ public class AdminService {
     }
 
     /**
+     * deleteUser : 회원정보를 삭제하여 탈퇴한다.
+     */
+    @Transactional
+    public void deleteUser(UserReqDTO userReqDTO){
+        User user = userRepository.findByUserId(userReqDTO.getUserId())
+                .orElseThrow(()->{
+                    return new IllegalArgumentException("유저 조회 실패 : 아이디를 찾을 수 없습니다.");
+                });
+        userRepository.delete(user);
+    }
+
+    /**
      * validateHandling : Validation 적용을 위한 메소드
      */
     @Transactional(readOnly = true)
@@ -87,4 +107,20 @@ public class AdminService {
         return userRepository.findByIdentityContaining(searchKeyword, pageable);
     }
 
+    /**
+     * attendList : 출결정보를 조회한다.
+     */
+    public Page<UserAttendance> attendList(Pageable pageable) {
+
+        return userAttendanceRepository.findAll(pageable);
+    }
+
+    /**
+     * searchAttendList : 키워드를 통해 날짜를 지정하여 출결정보를 조회한다.
+     */
+    @Transactional(readOnly = true)
+    public Page<UserAttendance> searchAttendList(LocalDate searchKeyword, Pageable pageable) {
+
+        return userAttendanceRepository.findByAttendance_Date(searchKeyword, pageable);
+    }
 }
