@@ -9,10 +9,6 @@ import kr.co.monitoringserver.service.enums.AttendanceType;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
 @Mapper(componentModel = "spring")
 public interface UserAttendanceMapper {
 
@@ -44,15 +40,7 @@ public interface UserAttendanceMapper {
     @Mapping(source = "userAttendance.attendance.goWork", target = "goWork")
     @Mapping(source = "userAttendance.attendance.leaveWork", target = "leaveWork")
     @Mapping(source = "userAttendance.attendance.date", target = "date")
-    AttendanceResDTO.READ toUserAttendacneReadDto(UserAttendance userAttendance, Map<AttendanceType, Integer> attendanceDays);
-
-    default List<AttendanceResDTO.READ> toUserAttendanceReadDtoList(List<UserAttendance> userAttendances,
-                                                                    Map<AttendanceType, Integer> attendanceDays) {
-
-        return userAttendances.stream()
-                .map(userAttendance -> toUserAttendacneReadDto(userAttendance, attendanceDays))
-                .collect(Collectors.toList());
-    }
+    AttendanceResDTO.READ toUserAttendacneReadDto(UserAttendance userAttendance);
 
     @Mapping(source = "userAttendance.attendance.goWork", target = "goWork")
     @Mapping(source = "userAttendance.attendance.enterTime", target = "enterTime")

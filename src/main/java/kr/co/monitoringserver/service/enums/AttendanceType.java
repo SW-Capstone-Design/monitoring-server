@@ -15,22 +15,11 @@ public enum AttendanceType {
 
     TARDINESS("지각", 0),
 
-    EARLY_LEAVE("조퇴", 0),
-
-    ATTENDANCE("정상 근무", 0);
+    EARLY_LEAVE("조퇴", 0);
 
 
 
     String attendanceType;
 
     int count;
-
-
-
-//    public static AttendanceType of(String attendanceType){
-//        return Arrays.stream(AttendanceType.values())
-//                .filter(type -> type.toString().equalsIgnoreCase(attendanceType))
-//                .findAny().orElseThrow(() -> new RuntimeException("Not Found AttendanceType"));
-//    }
-
 }

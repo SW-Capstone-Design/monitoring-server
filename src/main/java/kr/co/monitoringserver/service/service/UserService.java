@@ -2,6 +2,7 @@ package kr.co.monitoringserver.service.service;
 
 import kr.co.monitoringserver.infra.global.error.enums.ErrorCode;
 import kr.co.monitoringserver.infra.global.exception.BadRequestException;
+import kr.co.monitoringserver.infra.global.exception.DuplicatedException;
 import kr.co.monitoringserver.infra.global.exception.InvalidInputException;
 import kr.co.monitoringserver.infra.global.exception.NotFoundException;
 import kr.co.monitoringserver.persistence.entity.attendance.UserAttendance;
@@ -16,6 +17,7 @@ import kr.co.monitoringserver.service.enums.RoleType;
 import kr.co.monitoringserver.service.mappers.UserAttendanceMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -24,7 +26,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,6 +44,8 @@ public class UserService {
     private final BCryptPasswordEncoder encoder;
 
     private final UserAttendanceMapper userAttendanceMapper;
+
+    private final AttendanceService attendanceService;
 
     /**
      * join : 회원가입한다.
@@ -95,8 +98,6 @@ public class UserService {
 
 
 
-
-
     /**
      * Create UserAttendance Service
      */
@@ -106,12 +107,14 @@ public class UserService {
         final User user = userRepository.findByIdentity(userIdentity)
                 .orElseThrow(BadRequestException::new);
 
+        isAttendanceAlreadyTakenOnDate(user, create.getDate());
+
         AttendanceType goWork = Optional.ofNullable(create.getEnterTime())
-                .map(this::calculateGoWorkAttendanceType)
+                .map(attendanceService::calculateGoWorkAttendanceType)
                 .orElseThrow(InvalidInputException::new);
 
         AttendanceType leaveWork = Optional.ofNullable(create.getLeaveTime())
-                .map(this::calculateLeaveWorkAttendanceType)
+                .map(attendanceService::calculateLeaveWorkAttendanceType)
                 .orElseThrow(InvalidInputException::new);
 
         UserAttendance userAttendance = userAttendanceMapper.toUserAttendanceEntity(user, create, goWork, leaveWork);
@@ -119,24 +122,15 @@ public class UserService {
         userAttendanceRepository.save(userAttendance);
     }
 
-
-
-
     /**
      * Get UserAttendance By User Identity Service
      */
-    public List<AttendanceResDTO.READ> getAttendanceByUserId(Long userId) {
+    public Page<AttendanceResDTO.READ> getAttendanceByUserIdentity(String userIdentity, Pageable pageable) {
 
-        List<UserAttendance> userAttendances = userAttendanceRepository.findListByUser_UserId(userId);
+        final Page<UserAttendance> userAttendancePage =
+                userAttendanceRepository.findByUser_Identity(userIdentity, pageable);
 
-        Map<AttendanceType, Integer> attendanceDays = calculateAttendanceDays(userAttendances);
-
-        userAttendanceMapper.toUserAttendanceReadDtoList(userAttendances, attendanceDays);
-
-        return userAttendances
-                .stream()
-                .map(userAttendance -> userAttendanceMapper.toUserAttendacneReadDto(userAttendance, attendanceDays))
-                .collect(Collectors.toList());
+        return userAttendancePage.map(userAttendanceMapper::toUserAttendacneReadDto);
     }
 
     /**
@@ -157,35 +151,20 @@ public class UserService {
         return userAttendanceRepository.findByAttendance_Date(searchKeyword, pageable);
     }
 
+    /**
+     * Get Latecomer UserAttendance By Date Service
+     */
+    public Page<AttendanceResDTO.READ> getLatecomerByDate(LocalDate date, Pageable pageable) {
+
+        return getAttendanceListByStatus(date, AttendanceType.TARDINESS, pageable);
+    }
 
     /**
      * Get Latecomer UserAttendance By Date Service
      */
-    public List<AttendanceResDTO.READ> getLatecomerByDate(LocalDate date) {
+    public Page<AttendanceResDTO.READ> getAbsenteeByDate(LocalDate date, Pageable pageable) {
 
-        final List<UserAttendance> userAttendances = userAttendanceRepository.findByAttendance_Date(date);
-
-        return userAttendances
-                .stream()
-                .filter(this::isLate)
-                .map(userAttendanceMapper::toAttendTypeReadDto)
-                .distinct()
-                .collect(Collectors.toList());
-    }
-
-    /**
-     * Get Absentee UserAttendance By userId Service
-     */
-    public List<AttendanceResDTO.READ> getAbsenteeByDate(LocalDate date) {
-
-        final List<UserAttendance> userAttendances = userAttendanceRepository.findByAttendance_Date(date);
-
-        return userAttendances
-                .stream()
-                .filter(this::isAbsent)
-                .map(userAttendanceMapper::toAttendTypeReadDto)
-                .distinct()
-                .collect(Collectors.toList());
+        return getAttendanceListByStatus(date, AttendanceType.ABSENT, pageable);
     }
 
     /**
@@ -197,15 +176,15 @@ public class UserService {
         final User user = userRepository.findByIdentity(userIdentity)
                 .orElseThrow(BadRequestException::new);
 
-        final UserAttendance userAttendance = userAttendanceRepository.findByUser(user)
+        final UserAttendance userAttendance = userAttendanceRepository.findByUserAndAttendance_Date(user, update.getDate())
                 .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_USER));
 
         AttendanceType goWork = Optional.ofNullable(update.getEnterTime())
-                .map(this::calculateGoWorkAttendanceType)
+                .map(attendanceService::calculateGoWorkAttendanceType)
                 .orElse(null);
 
         AttendanceType leaveWork = Optional.ofNullable(update.getLeaveTime())
-                .map(this::calculateLeaveWorkAttendanceType)
+                .map(attendanceService::calculateLeaveWorkAttendanceType)
                 .orElse(null);
 
         userAttendance.updateAttendance(update, goWork, leaveWork);
@@ -215,90 +194,41 @@ public class UserService {
      * Delete UserAttendance Service
      */
     @Transactional
-    public void deleteAttendance(Long userId) {
+    public void deleteAttendance(String userIdentity, LocalDate date) {
 
-        final User user = userRepository.findById(userId)
+        final User user = userRepository.findByIdentity(userIdentity)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_USER));
 
-        final UserAttendance userAttendance = userAttendanceRepository.findByUser(user)
+        final UserAttendance userAttendance = userAttendanceRepository.findByUserAndAttendance_Date(user, date)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_ATTENDANCE));
 
         userAttendanceRepository.delete(userAttendance);
     }
 
-    /**
-     * 출근 시간 출석 상태 계산
-     */
-    private AttendanceType calculateGoWorkAttendanceType(LocalTime enterTime) {
 
-        LocalTime startTime = LocalTime.parse("08:00:00");
 
-        if (enterTime == null) {
-            return AttendanceType.ABSENT;
-        } else if (enterTime.isBefore(startTime)) {
-            return AttendanceType.GO_WORK;
-        } else {
-            return AttendanceType.TARDINESS;
+    private void isAttendanceAlreadyTakenOnDate(User user, LocalDate date) {
+
+        UserAttendance userAttendance = userAttendanceRepository.findByUserAndAttendance_Date(user, date)
+                .orElse(null);
+
+        if (userAttendance != null) {
+            throw new DuplicatedException(ErrorCode.DUPLICATE_USER_ATTENDANCE);
         }
     }
 
-    /**
-     * 퇴근 시간 출석 상태 계산
-     */
-    private AttendanceType calculateLeaveWorkAttendanceType(LocalTime leaveTime) {
+    private Page<AttendanceResDTO.READ> getAttendanceListByStatus(LocalDate date, AttendanceType status, Pageable pageable) {
 
-        LocalTime endTime = LocalTime.parse("17:00:00");
+        final Page<UserAttendance> userAttendancePage = userAttendanceRepository.findByAttendance_Date(date, pageable);
 
-        if (leaveTime == null) {
-            return AttendanceType.ABSENT;
-        } else if (leaveTime.isAfter(endTime)) {
-            return AttendanceType.LEAVE_WORK;
-        } else {
-            return AttendanceType.EARLY_LEAVE;
-        }
-    }
+        final List<AttendanceResDTO.READ> attendanceList = userAttendancePage
+                .stream()
+                .filter(userAttendance -> status == AttendanceType.TARDINESS ?
+                        attendanceService.isLate(userAttendance) : attendanceService.isAbsent(userAttendance))
+                .map(userAttendanceMapper::toAttendTypeReadDto)
+                .distinct()
+                .collect(Collectors.toList());
 
-    private Map<AttendanceType, Integer> calculateAttendanceDays(List<UserAttendance> userAttendances) {
-
-        // TODO : 정상 출/퇴근이 이루어질 경우 ATTENDANCE 의 값을 증가
-
-        Map<AttendanceType, Integer> attendanceDays = new HashMap<>();
-
-        for (AttendanceType type : AttendanceType.values()) {
-            attendanceDays.put(type, 0);
-        }
-
-        for (UserAttendance userAttendance : userAttendances) {
-            AttendanceType goWorkType = userAttendance.getAttendance().getGoWork();
-            if (goWorkType != null) {
-                attendanceDays.put(goWorkType, attendanceDays.get(goWorkType) + 1);
-            }
-        }
-
-        for (UserAttendance userAttendance : userAttendances) {
-            AttendanceType leaveWorkType = userAttendance.getAttendance().getLeaveWork();
-            if (leaveWorkType != null) {
-                attendanceDays.put(leaveWorkType, attendanceDays.get(leaveWorkType) + 1);
-            }
-        }
-
-        return attendanceDays;
-    }
-
-    /**
-     * 사용자의 출석 상태가 지각인지 검사
-     */
-    private boolean isLate(UserAttendance userAttendance) {
-
-        return userAttendance.getAttendance().getGoWork() == AttendanceType.TARDINESS;
-    }
-
-    /**
-     * 사용자의 출석 상태가 결근인지 검사
-     */
-    private boolean isAbsent(UserAttendance userAttendance) {
-
-        return userAttendance.getAttendance().getGoWork() == AttendanceType.ABSENT
-                || userAttendance.getAttendance().getLeaveWork() == AttendanceType.ABSENT;
+        return new PageImpl<>(attendanceList, pageable, userAttendancePage.getTotalElements());
     }
 }

@@ -9,6 +9,9 @@ import kr.co.monitoringserver.service.dtos.response.AttendanceResDTO;
 import kr.co.monitoringserver.service.dtos.response.ResponseDto;
 import kr.co.monitoringserver.service.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,7 +22,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -66,10 +68,12 @@ public class UserApiController {
         return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
     }
 
+
+
     /**
      * Create UserAttendance Controller
      */
-    @PostMapping("/api/v1/attendance/{user_identity}")
+    @PostMapping("/attendance/{user_identity}")
     public ResponseFormat<Void> createAttendance(@PathVariable(name = "user_identity") String userIdentity,
                                                  @RequestBody @Validated AttendanceReqDTO.CREATE create) {
 
@@ -84,44 +88,46 @@ public class UserApiController {
     /**
      * Get UserAttendance By User Identity Controller
      */
-        @GetMapping("/api/v1/attendance/{user_id}")
-        public ResponseFormat<List<AttendanceResDTO.READ>> getAttendanceByUserId(@PathVariable(name = "user_id") Long userId) {
+    @GetMapping("/attendance/{user_identity}")
+    public ResponseFormat<Page<AttendanceResDTO.READ>> getAttendanceByUserIdentity(@PathVariable(name = "user_identity") String userIdentity,
+                                                                             @PageableDefault Pageable pageable) {
 
-            return ResponseFormat.successData(
-                    ErrorCode.SUCCESS_EXECUTE,
-                    userService.getAttendanceByUserId(userId)
-            );
-        }
-
+        return ResponseFormat.successData(
+                ErrorCode.SUCCESS_EXECUTE,
+                userService.getAttendanceByUserIdentity(userIdentity, pageable)
+        );
+    }
 
     /**
      * Get Latecomer UserAttendance By Date Controller
      */
     @GetMapping("/api/v1/attendance/latecomer")
-    public ResponseFormat<List<AttendanceResDTO.READ>> getLatecomerByDate(@RequestParam("date") LocalDate date) {
+    public ResponseFormat<Page<AttendanceResDTO.READ>> getLatecomerByDate(@RequestParam("date") LocalDate date,
+                                                                          @PageableDefault Pageable pageable) {
 
         return ResponseFormat.successData(
                 ErrorCode.SUCCESS_EXECUTE,
-                userService.getLatecomerByDate(date)
+                userService.getLatecomerByDate(date, pageable)
         );
     }
 
     /**
      * Get Absentee UserAttendance By Date Controller
      */
-    @GetMapping("/api/v1/attendance/absentee")
-    public ResponseFormat<List<AttendanceResDTO.READ>> getAbsenteeByDate(@RequestParam("date") LocalDate date) {
+    @GetMapping("/attendance/absentee")
+    public ResponseFormat<Page<AttendanceResDTO.READ>> getAbsenteeByDate(@RequestParam("date") LocalDate date,
+                                                                         @PageableDefault Pageable pageable) {
 
         return ResponseFormat.successData(
                 ErrorCode.SUCCESS_EXECUTE,
-                userService.getAbsenteeByDate(date)
+                userService.getAbsenteeByDate(date, pageable)
         );
     }
 
     /**
      * Update UserAttendance Controller
      */
-    @PutMapping("/api/v1/attendance/{user_identity}")
+    @PutMapping("/attendance/{user_identity}")
     public ResponseFormat<Void> updateAttendance(@PathVariable(name = "user_identity") String userIdentity,
                                                  @RequestBody AttendanceReqDTO.UPDATE update) {
 
@@ -136,10 +142,11 @@ public class UserApiController {
     /**
      * Delete UserAttendance Controller
      */
-    @DeleteMapping("/api/v1/attendance/{user_id}")
-    public ResponseFormat<Void> deleteAttendance(@PathVariable(name = "user_id") Long userId) {
+    @DeleteMapping("/attendance/{user_identity}")
+    public ResponseFormat<Void> deleteAttendance(@PathVariable(name = "user_identity") String userIdentity,
+                                                 @RequestParam(name = "date") LocalDate date) {
 
-        userService.deleteAttendance(userId);
+        userService.deleteAttendance(userIdentity, date);
 
         return ResponseFormat.successMessage(
                 ErrorCode.SUCCESS_EXECUTE,
