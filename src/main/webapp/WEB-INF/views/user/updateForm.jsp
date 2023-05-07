@@ -25,13 +25,13 @@
         </div>
         <p id="valid_department"></p>
 		<div class="form-group">
-			<label for="phone">Phone</label>
-			<input type="phone" value="${principal.user.phone}" class="form-control" placeholder="Enter phone" id="phone">
+			<label for="telephone">Telephone</label>
+			<input type="telephone" value="${principal.user.telephone}" class="form-control" placeholder="Enter telephone" id="telephone">
 		</div>
-        <p id="valid_phone"></p>
+        <p id="valid_telephone"></p>
 
 	</form>
-	<button id="btn-update" class="btn btn-primary">회원수정 완료</button>
+	<button id="btn-update" class="btn btn-dark">수정</button>
 </div>
 
 <script src="/js/user.js"></script>

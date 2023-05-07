@@ -13,6 +13,8 @@ import kr.co.monitoringserver.service.dtos.response.SecurityAreaResDTO;
 import kr.co.monitoringserver.service.enums.RoleType;
 import kr.co.monitoringserver.service.mappers.SecurityAreaMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -58,6 +60,25 @@ public class SecurityAreaService {
                 .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_SECURITY_AREA));
 
         return securityAreaMapper.toSecurityAreaReadDto(securityArea);
+    }
+
+    /**
+     * securityAreaDetail : SecurityAreaId로 조회하여 엔티티 타입 객체로 반환한다.
+     */
+    public SecurityArea securityAreaDetail(Long securityAreaId){
+
+        return securityAreaRepository.findById(securityAreaId)
+                .orElseThrow(()->{
+                    return new IllegalArgumentException("보안구역 조회 실패 : 해당 보안구역 아이디를 찾을 수 없습니다.");
+                });
+    }
+
+    /**
+     * getSecurityArea : SecurityArea의 모든 정보를 Select하여 Page를 반환한다.
+     */
+    public Page<SecurityArea> getSecurityArea(Pageable pageable) {
+
+        return securityAreaRepository.findAll(pageable);
     }
 
     /**

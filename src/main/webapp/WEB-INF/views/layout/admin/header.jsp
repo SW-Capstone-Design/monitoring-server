@@ -19,7 +19,7 @@
 <body>
 
 	<nav class="navbar navbar-expand-md bg-dark navbar-dark">
-		<a class="navbar-brand" href="/">전자출결시스템</a>
+		<a class="navbar-brand" href="/admin/index">통합관제시스템</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
 			<span class="navbar-toggler-icon"></span>
 		</button>
@@ -34,9 +34,28 @@
 			</c:when>
 			<c:otherwise>
 				<ul class="navbar-nav">
-				            <li class="nav-item"><a class="nav-link" href="#">출결관리</a></li>
-							<li class="nav-item"><a class="nav-link" href="#">비콘관리</a></li>
-        					<li class="nav-item"><a class="nav-link" href="/admin/info">사용자정보관리</a></li>
+				            <li class="nav-item"><a class="nav-link" href="#">모니터링</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/admin/attendance/list">회원출결관리</a></li>
+							<li class="nav-item dropdown">
+                               <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                                  비콘관리
+                               </a>
+                               <div class="dropdown-menu">
+                                  <a class="dropdown-item" href="/admin/beacon/info">비콘정보조회</a>
+                                  <a class="dropdown-item" href="/admin/beacon/data">비콘등록</a>
+                               </div>
+                            </li>
+                            <li class="nav-item dropdown">
+                               <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                                  보안구역관리
+                               </a>
+                               <div class="dropdown-menu">
+                                  <a class="dropdown-item" href="/admin/area/create">보안구역정보등록</a>
+                                  <a class="dropdown-item" href="/admin/area/info">보안구역정보관리</a>
+                               </div>
+                            </li>
+        					<li class="nav-item"><a class="nav-link" href="/admin/info">회원정보관리</a></li>
+        					<li class="nav-item"><a class="nav-link" href="/">사용자페이지</a></li>
         					<li class="nav-item"><a class="nav-link" href="/logout">로그아웃</a></li>
 				</ul>
 			</c:otherwise>

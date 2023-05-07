@@ -8,14 +8,19 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface UserAttendanceRepository extends JpaRepository<UserAttendance, Long> {
 
-    Page<UserAttendance> findByAttendance_Date(LocalDate date, Pageable pageable);
+    List<UserAttendance> findByAttendance_Date(LocalDate date);
 
-    Page<UserAttendance> findByUser_Identity(String identity, Pageable pageable);
+    List<UserAttendance> findListByUser_UserId(Long userId);
 
-    Optional<UserAttendance> findByUserAndAttendance_Date(User user, LocalDate date);
+    Page<UserAttendance> findByUser_UserId(Long userId, Pageable pageable);
+
+    Optional<UserAttendance> findByUser(User user);
+
+    Page<UserAttendance> findByAttendance_Date(LocalDate searchKeyword, Pageable pageable);
 }

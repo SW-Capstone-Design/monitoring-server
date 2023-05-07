@@ -1,42 +1,38 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 
-<%@ include file="../../layout/admin/header.jsp"%>
+<%@ include file="../../layout/user/header.jsp"%>
 
 <div class="container">
-  <h2>회원정보관리</h2>
+  <h2>출결상태조회</h2>
   <span>
-    회원정보 조회 및 수정
+    출결상태를 조회합니다.
   </span>
-  <form style="text-align:right;" action="info" method="get">
-    <input type="text" style="display:inline; width:200px;" class="form-control" name="searchKeyword" placeholder="Enter Id">
-    <button type="submit" class="btn btn-dark mb-1 mr-sm-1">검색</button>
+  <form style="text-align:right;" action="list" method="get">
+    <input type="date" name="searchKeyword">
+    <button type="submit" class="btn btn-dark">검색</button>
   <form>
   <table class="table table-hover">
     <thead>
       <tr>
-        <th>Num</th>
-        <th>Id</th>
+        <th>Date</th>
         <th>Name</th>
         <th>Department</th>
-        <th>Telephone</th>
-        <th>CreatedAt</th>
-        <th>UpdatedAt</th>
-        <th>RoleType</th>
-        <th></th>
+        <th>EnterTime</th>
+        <th>LeaveTime</th>
+        <th>GoWork</th>
+        <th>LeaveWork</th>
       </tr>
     </thead>
     <tbody>
-    <c:forEach items="${lists.content}" var="user">
+    <c:forEach items="${lists.content}" var="userAttendance">
       <tr>
-        <td>${user.userId}</td>
-        <td>${user.identity}</td>
-        <td>${user.name}</td>
-        <td>${user.department}</td>
-        <td>${user.telephone}</td>
-        <td>${user.createdAt}</td>
-        <td>${user.updatedAt}</td>
-        <td>${user.roleType}</td>
-        <td><b><a href="/admin/info/${user.userId}">수정</a></b></td>
+        <td>${userAttendance.attendance.date}</td>
+        <td>${userAttendance.user.name}</td>
+        <td>${userAttendance.user.department}</td>
+        <td>${userAttendance.attendance.enterTime}</td>
+        <td>${userAttendance.attendance.leaveTime}</td>
+        <td>${userAttendance.attendance.goWork}</td>
+        <td>${userAttendance.attendance.leaveWork}</td>
       </tr>
       </c:forEach>
     </tbody>
@@ -74,4 +70,4 @@
 
 </div>
 
-<%@ include file="../../layout/admin/footer.jsp"%>
+<%@ include file="../../layout/user/footer.jsp"%>

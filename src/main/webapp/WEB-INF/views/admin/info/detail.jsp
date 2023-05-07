@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 
-<%@ include file="../../layout/user/header.jsp"%>
+<%@ include file="../../layout/admin/header.jsp"%>
 
 <div class="container">
 	<form>
-
+            <input type="hidden" value="${list.userId}" class="form-control" id="userId">
 		<div class="form-group">
 			<label for="identity">Id</label>
 			<input type="text" value="${list.identity}" class="form-control" placeholder="Enter identity" id="identity" readOnly>
@@ -25,18 +25,19 @@
         </div>
         <p id="valid_department"></p>
 		<div class="form-group">
-        	<label for="phone" >Phone</label>
-        	<input type="phone" value="${list.phone}" class="form-control" placeholder="Enter phone" id="phone">
+        	<label for="telephone" >Telephone</label>
+        	<input type="telephone" value="${list.telephone}" class="form-control" placeholder="Enter telephone" id="telephone">
         </div>
-        <p id="valid_phone"></p>
+        <p id="valid_telephone"></p>
        <div class="form-group">
-            <label for="role_type">Role_type [USER1, USER2, USER3]</label>
-            <input type="role_type" value="${list.role_type}" class="form-control" placeholder="Enter Role_type" id="role_type">
+            <label for="roleType">RoleType [USER1, USER2, USER3]</label>
+            <input type="roleType" value="${list.roleType}" class="form-control" placeholder="Enter roleType" id="roleType">
 
        </div>
 	</form>
-	<button id="btn-update" class="btn btn-primary">저장</button>
+	<button id="btn-update" class="btn btn-dark">저장</button>
+	<button id="btn-del" class="btn btn-dark">삭제</button>
 </div>
 
 <script src="/js/admin.js"></script>
-<%@ include file="../../layout/user/footer.jsp"%>
+<%@ include file="../../layout/admin/footer.jsp"%>

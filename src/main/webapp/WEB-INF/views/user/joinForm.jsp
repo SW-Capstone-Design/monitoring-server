@@ -22,11 +22,11 @@
         </div>
         <p id="valid_department"></p>
 		<div class="form-group">
-        	<label for="phone">Phone</label> <input type="phone" class="form-control" placeholder="Enter phone" id="phone">
+        	<label for="telephone">Telephone</label> <input type="telephone" class="form-control" placeholder="Enter telephone" id="telephone">
         </div>
-        <p id="valid_phone"></p>
+        <p id="valid_telephone"></p>
 	</form>
-	<button id="btn-save" class="btn btn-primary">회원가입</button>
+	<button id="btn-save" class="btn btn-dark">회원가입</button>
 </div>
 
 <script src="/js/user.js"></script>

@@ -31,6 +31,10 @@ public class PrincipalDetail implements UserDetails {
         return user.getIdentity();
     }
 
+    public long getUserId() {
+        return user.getUserId();
+    }
+
     @Override
     public boolean isAccountNonExpired() {
         return true;
