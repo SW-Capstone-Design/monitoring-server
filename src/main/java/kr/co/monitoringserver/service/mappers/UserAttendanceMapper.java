@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 @Mapper(componentModel = "spring")
 public interface UserAttendanceMapper {
 
+    // AttendanceReqDTO.CREATE -> UserAttendance Entity
     default UserAttendance toUserAttendanceEntity(User user,
                                           AttendanceReqDTO.CREATE create,
                                           AttendanceType goWork,
@@ -43,7 +44,6 @@ public interface UserAttendanceMapper {
     @Mapping(source = "userAttendance.attendance.goWork", target = "goWork")
     @Mapping(source = "userAttendance.attendance.leaveWork", target = "leaveWork")
     @Mapping(source = "userAttendance.attendance.date", target = "date")
-    @Mapping(source = "attendanceDays", target = "attendanceDays")
     AttendanceResDTO.READ toUserAttendacneReadDto(UserAttendance userAttendance, Map<AttendanceType, Integer> attendanceDays);
 
     default List<AttendanceResDTO.READ> toUserAttendanceReadDtoList(List<UserAttendance> userAttendances,

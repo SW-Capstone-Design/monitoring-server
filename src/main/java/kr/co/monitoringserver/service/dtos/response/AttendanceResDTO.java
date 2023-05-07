@@ -6,7 +6,6 @@ import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Map;
 
 public class AttendanceResDTO {
 
@@ -33,7 +32,5 @@ public class AttendanceResDTO {
         private AttendanceType leaveWork;
 
         private LocalDate date;
-
-        private Map<AttendanceType, Integer> attendanceDays;
     }
 }

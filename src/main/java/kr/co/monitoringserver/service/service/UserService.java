@@ -7,9 +7,9 @@ import kr.co.monitoringserver.infra.global.exception.NotFoundException;
 import kr.co.monitoringserver.persistence.entity.attendance.UserAttendance;
 import kr.co.monitoringserver.persistence.entity.user.User;
 import kr.co.monitoringserver.persistence.repository.UserAttendanceRepository;
+import kr.co.monitoringserver.persistence.repository.UserRepository;
 import kr.co.monitoringserver.service.dtos.request.AttendanceReqDTO;
 import kr.co.monitoringserver.service.dtos.request.UserReqDTO;
-import kr.co.monitoringserver.persistence.repository.UserRepository;
 import kr.co.monitoringserver.service.dtos.response.AttendanceResDTO;
 import kr.co.monitoringserver.service.enums.AttendanceType;
 import kr.co.monitoringserver.service.enums.RoleType;
@@ -95,6 +95,8 @@ public class UserService {
 
 
 
+
+
     /**
      * Create UserAttendance Service
      */
@@ -121,7 +123,7 @@ public class UserService {
 
 
     /**
-     * Get UserAttendance By userId Service
+     * Get UserAttendance By User Identity Service
      */
     public List<AttendanceResDTO.READ> getAttendanceByUserId(Long userId) {
 
@@ -210,7 +212,7 @@ public class UserService {
     }
 
     /**
-     * Delete UserAttendance By id Service
+     * Delete UserAttendance Service
      */
     @Transactional
     public void deleteAttendance(Long userId) {
@@ -224,14 +226,8 @@ public class UserService {
         userAttendanceRepository.delete(userAttendance);
     }
 
-
     /**
-     * 출석 상태 판별 기능
-     * 출근 : 08:00:00 이전 출근할 경우
-     * 지각 : 08:00:00 이후 or 17:00:00 이전 출근할 경우
-     * 조퇴 : 정상 출근 후 17:00:00 이전 퇴근할 경우
-     * 결근 : 08:00:00 ~ 17:00:00 사이 어떠한 출/퇴근도 없을 경우
-     * 퇴근 : 17:00:00 이후 퇴근할 경우
+     * 출근 시간 출석 상태 계산
      */
     private AttendanceType calculateGoWorkAttendanceType(LocalTime enterTime) {
 
@@ -246,6 +242,9 @@ public class UserService {
         }
     }
 
+    /**
+     * 퇴근 시간 출석 상태 계산
+     */
     private AttendanceType calculateLeaveWorkAttendanceType(LocalTime leaveTime) {
 
         LocalTime endTime = LocalTime.parse("17:00:00");
@@ -286,11 +285,17 @@ public class UserService {
         return attendanceDays;
     }
 
+    /**
+     * 사용자의 출석 상태가 지각인지 검사
+     */
     private boolean isLate(UserAttendance userAttendance) {
 
         return userAttendance.getAttendance().getGoWork() == AttendanceType.TARDINESS;
     }
 
+    /**
+     * 사용자의 출석 상태가 결근인지 검사
+     */
     private boolean isAbsent(UserAttendance userAttendance) {
 
         return userAttendance.getAttendance().getGoWork() == AttendanceType.ABSENT

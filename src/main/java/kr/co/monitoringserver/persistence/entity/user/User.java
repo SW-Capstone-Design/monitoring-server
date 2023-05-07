@@ -56,7 +56,10 @@ public class User {
     @Column(nullable = false, length = 30)
     private String telephone;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(
+            mappedBy = "user",
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}
+    )
     private List<UserAttendance> userAttendances = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")

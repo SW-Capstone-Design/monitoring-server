@@ -6,7 +6,7 @@ import kr.co.monitoringserver.infra.global.error.response.ResponseFormat;
 import kr.co.monitoringserver.service.dtos.request.AttendanceReqDTO;
 import kr.co.monitoringserver.service.dtos.request.UserReqDTO;
 import kr.co.monitoringserver.service.dtos.response.AttendanceResDTO;
-import kr.co.monitoringserver.service.dtos.response.ResDTO;
+import kr.co.monitoringserver.service.dtos.response.ResponseDto;
 import kr.co.monitoringserver.service.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -35,27 +35,27 @@ public class UserApiController {
      * saveUser : 사용자정보를 Create하여 회원가입을 수행한다.
      */
     @PostMapping("/auth/joinProc")
-    public ResDTO<?> saveUser(@Valid @RequestBody UserReqDTO userDto, BindingResult bindingResult) {
+    public ResponseDto<?> saveUser(@Valid @RequestBody UserReqDTO userDto, BindingResult bindingResult) {
         if(bindingResult.hasErrors()) {
             Map<String, String> validatorResult = userService.validateHandling(bindingResult);
 
-            return new ResDTO<>(HttpStatus.BAD_REQUEST.value(), validatorResult);
+            return new ResponseDto<>(HttpStatus.BAD_REQUEST.value(), validatorResult);
         }
 
         userService.join(userDto);
-        return new ResDTO<Integer>(HttpStatus.OK.value(), 1);
+        return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
     }
 
     /**
      * updateUser : 사용자 본인의 회원정보를 Update 한다.
      */
     @PutMapping("/user")
-    public ResDTO<?> updateUser(@Valid @RequestBody UserReqDTO userDto, BindingResult bindingResult) {
+    public ResponseDto<?> updateUser(@Valid @RequestBody UserReqDTO userDto, BindingResult bindingResult) {
 
         if(bindingResult.hasErrors()) {
             Map<String, String> validatorResult = userService.validateHandling(bindingResult);
 
-            return new ResDTO<>(HttpStatus.BAD_REQUEST.value(), validatorResult);
+            return new ResponseDto<>(HttpStatus.BAD_REQUEST.value(), validatorResult);
         }
 
         userService.update(userDto);
@@ -63,7 +63,7 @@ public class UserApiController {
         Authentication authentication = authenticationmanager.authenticate(new UsernamePasswordAuthenticationToken(userDto.getIdentity(), userDto.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        return new ResDTO<Integer>(HttpStatus.OK.value(), 1);
+        return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
     }
 
     /**
@@ -82,9 +82,8 @@ public class UserApiController {
     }
 
     /**
-     * Get UserAttendance By userId Controller
+     * Get UserAttendance By User Identity Controller
      */
-
         @GetMapping("/api/v1/attendance/{user_id}")
         public ResponseFormat<List<AttendanceResDTO.READ>> getAttendanceByUserId(@PathVariable(name = "user_id") Long userId) {
 

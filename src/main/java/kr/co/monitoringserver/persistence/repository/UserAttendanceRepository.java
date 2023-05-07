@@ -1,6 +1,5 @@
 package kr.co.monitoringserver.persistence.repository;
 
-import kr.co.monitoringserver.persistence.entity.attendance.Attendance;
 import kr.co.monitoringserver.persistence.entity.attendance.UserAttendance;
 import kr.co.monitoringserver.persistence.entity.user.User;
 import org.springframework.data.domain.Page;

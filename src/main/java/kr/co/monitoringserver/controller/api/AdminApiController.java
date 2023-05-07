@@ -3,13 +3,16 @@ package kr.co.monitoringserver.controller.api;
 import jakarta.validation.Valid;
 import kr.co.monitoringserver.service.dtos.request.AdminReqDTO;
 import kr.co.monitoringserver.service.dtos.request.UserReqDTO;
-import kr.co.monitoringserver.service.dtos.response.ResDTO;
+import kr.co.monitoringserver.service.dtos.response.ResponseDto;
 import kr.co.monitoringserver.service.service.AdminService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
 @RestController
@@ -23,17 +26,17 @@ public class AdminApiController {
      * updateUser : 회원정보를 Update 한다.
      */
     @PutMapping("/admin")
-    public ResDTO<?> updateUser(@Valid @RequestBody AdminReqDTO adminDto, BindingResult bindingResult) {
+    public ResponseDto<?> updateUser(@Valid @RequestBody AdminReqDTO adminDto, BindingResult bindingResult) {
 
         if(bindingResult.hasErrors()) {
             Map<String, String> validatorResult = adminService.validateHandling(bindingResult);
 
-            return new ResDTO<>(HttpStatus.BAD_REQUEST.value(), validatorResult);
+            return new ResponseDto<>(HttpStatus.BAD_REQUEST.value(), validatorResult);
         }
 
         adminService.update(adminDto);
 
-        return new ResDTO<Integer>(HttpStatus.OK.value(), 1);
+        return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
     }
 
     /**
