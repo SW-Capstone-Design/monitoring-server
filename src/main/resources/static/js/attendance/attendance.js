@@ -11,7 +11,7 @@ let index = {
 		register: function() {
             var param = $("#userIdentity").val();
 
-            location.href = "/api/v1/attendance/"+param;
+            location.href = "/attendance/"+param;
 
 			let data = {
 					enterTime: $("#enterTime").val(),
@@ -21,7 +21,7 @@ let index = {
 
 			$.ajax({
 				type: "POST",
-				url: "/api/v1/attendance/"+param,
+				url: "/attendance/"+param,
 				data: JSON.stringify(data),
 				contentType: "application/json; charset=utf-8",
 				dataType: "json"
@@ -50,7 +50,7 @@ let index = {
 
                 $.ajax({
                     type: "PUT",
-                    url: "/api/v1/attendance/"+param1+"/"+param2,
+                    url: "/attendance/"+param1+"/"+param2,
                     data: JSON.stringify(data),
                     contentType: "application/json; charset=utf-8",
                     dataType: "json"
