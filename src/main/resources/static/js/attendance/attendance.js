@@ -39,8 +39,7 @@ let index = {
 		},
 
 		update: function() {
-		        param1 = $("#userId").val();
-		        param2 = $("#date").val();
+		        param1 = $("#identity").val();
 
                 let data = {
                         enterTime: $("#enterTime").val(),
@@ -50,7 +49,7 @@ let index = {
 
                 $.ajax({
                     type: "PUT",
-                    url: "/attendance/"+param1+"/"+param2,
+                    url: "/attendance/"+param1,
                     data: JSON.stringify(data),
                     contentType: "application/json; charset=utf-8",
                     dataType: "json"

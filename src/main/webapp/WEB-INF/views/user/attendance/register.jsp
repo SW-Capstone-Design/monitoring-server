@@ -14,7 +14,7 @@
 		    <input type="hidden" id="userIdentity" value="${principal.user.identity}" />
 		    <input type="hidden" id="enterTime" value="01:46:00" />
 		    <input type="hidden" id="leaveTime" value="20:46:00" />
-		    <input type="hidden" id="date" value="2023-04-30" />
+		    <input type="hidden" id="date" value="2023-05-01" />
 		</div>
 			<button id="btn-register" class="btn btn-dark">출결</button>
 	</form>

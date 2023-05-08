@@ -20,4 +20,6 @@ public interface UserAttendanceRepository extends JpaRepository<UserAttendance, 
     Optional<UserAttendance> findByUserAndAttendance_Date(User user, LocalDate date);
 
     Page<UserAttendance> findByAttendance_Date(LocalDate date, Pageable pageable);
+
+    UserAttendance findByUser_UserIdAndAttendance_Date(Long userId, LocalDate date);
 }

@@ -107,6 +107,11 @@ public class AdminService {
         return userRepository.findByIdentityContaining(searchKeyword, pageable);
     }
 
+    public UserAttendance attendDetail(Long userId,LocalDate date){
+
+        return userAttendanceRepository.findByUser_UserIdAndAttendance_Date(userId, date);
+    }
+
     /**
      * attendList : 출결정보를 조회한다.
      */

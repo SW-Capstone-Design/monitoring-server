@@ -74,9 +74,9 @@ public class AdminController {
     /**
      * attendFindByUserId : Model 객체를 얹어 각 유저의 회원정보 수정 페이지로 매핑한다.
      */
-/*    @GetMapping("/admin/attendance/list/{userId}/{date}")
+    @GetMapping("/admin/attendance/list/{userId}/{date}")
     public String attendFindByUserId(@PathVariable Long userId, @PathVariable LocalDate date, Model model){
         model.addAttribute("list", adminService.attendDetail(userId, date));
         return "admin/attendance/updateForm";
-    }*/
+    }
 }
