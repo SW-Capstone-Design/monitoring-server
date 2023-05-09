@@ -7,7 +7,7 @@
   <span>
     출결상태를 조회합니다.
   </span>
-  <form style="text-align:right;" action="list" method="get">
+  <form style="text-align:right;" action="${principal.user.userId}" method="get">
     <input type="date" name="searchKeyword">
     <button type="submit" class="btn btn-dark">검색</button>
   <form>

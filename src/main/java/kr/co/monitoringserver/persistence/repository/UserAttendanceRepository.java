@@ -27,4 +27,10 @@ public interface UserAttendanceRepository extends JpaRepository<UserAttendance, 
     Page<UserAttendance> findByAttendance_GoWorkAndAttendance_Date(AttendanceType goWorkType, LocalDate date, Pageable pageable);
 
     Page<UserAttendance> findByAttendance_LeaveWorkAndAttendance_Date(AttendanceType goWorkType, LocalDate date, Pageable pageable);
+
+    Long countByUser_UserIdAndAttendance_GoWork(Long userId, AttendanceType goWorkType);
+
+    Long countByUser_UserIdAndAttendance_LeaveWork(Long userId, AttendanceType leaveWorkType);
+
+    Long countByUser_UserIdAndAttendance_GoWorkAndAttendance_LeaveWork(Long userId, AttendanceType goWorkType, AttendanceType leaveWorkType);
 }
