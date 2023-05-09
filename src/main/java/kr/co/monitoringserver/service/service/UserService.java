@@ -160,6 +160,40 @@ public class UserService {
     }
 
     /**
+     * tardinessAttendList : 지각한 회원을 조회합니다.
+     */
+    public Page<UserAttendance> tardinessAttendList(AttendanceType goWorkType, LocalDate date, Pageable pageable){
+
+        return userAttendanceRepository.findByAttendance_GoWorkAndAttendance_Date(goWorkType, date.now(), pageable);
+    }
+
+    /**
+     * searchTardinessAttendList : 날짜를 기준으로 지각한 회원을 조회합니다.
+     */
+    public Page<UserAttendance> searchTardinessAttendList(AttendanceType goWorkType, Pageable pageable, LocalDate searchKeyword) {
+
+        return userAttendanceRepository.findByAttendance_GoWorkAndAttendance_Date(goWorkType, searchKeyword, pageable);
+    }
+
+    /**
+     * earlyLeaveAttendList : 조퇴한 회원을 조회합니다.
+     */
+    public Page<UserAttendance> earlyLeaveAttendList(AttendanceType goWorkType, LocalDate date, Pageable pageable){
+
+        return userAttendanceRepository.findByAttendance_LeaveWorkAndAttendance_Date(goWorkType, date.now(), pageable);
+    }
+
+    /**
+     * searchEarlyLeaveAttendList : 날짜를 기준으로 조퇴한 회원을 조회합니다.
+     */
+    public Page<UserAttendance> searchEarlyLeaveAttendList(AttendanceType goWorkType, Pageable pageable, LocalDate searchKeyword) {
+
+        return userAttendanceRepository.findByAttendance_LeaveWorkAndAttendance_Date(goWorkType, searchKeyword, pageable);
+    }
+
+
+
+    /**
      * Get Latecomer UserAttendance By Date Service
      */
     public Page<AttendanceResDTO.READ> getAbsenteeByDate(LocalDate date, Pageable pageable) {
