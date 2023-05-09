@@ -73,7 +73,7 @@ public class UserApiController {
     /**
      * Create UserAttendance Controller
      */
-    @PostMapping("/attendance/{user_identity}")
+    @PostMapping("/api/v1/attendance/{user_identity}")
     public ResponseFormat<Void> createAttendance(@PathVariable(name = "user_identity") String userIdentity,
                                                  @RequestBody @Validated AttendanceReqDTO.CREATE create) {
 
@@ -88,7 +88,7 @@ public class UserApiController {
     /**
      * Get UserAttendance By User Identity Controller
      */
-    @GetMapping("/attendance/{user_identity}")
+    @GetMapping("/api/v1/attendance/{user_identity}")
     public ResponseFormat<Page<AttendanceResDTO.READ>> getAttendanceByUserIdentity(@PathVariable(name = "user_identity") String userIdentity,
                                                                              @PageableDefault Pageable pageable) {
 
@@ -114,7 +114,7 @@ public class UserApiController {
     /**
      * Get Absentee UserAttendance By Date Controller
      */
-    @GetMapping("/attendance/absentee")
+    @GetMapping("/api/v1/attendance/absentee")
     public ResponseFormat<Page<AttendanceResDTO.READ>> getAbsenteeByDate(@RequestParam("date") LocalDate date,
                                                                          @PageableDefault Pageable pageable) {
 
@@ -127,7 +127,7 @@ public class UserApiController {
     /**
      * Update UserAttendance Controller
      */
-    @PutMapping("/attendance/{user_identity}")
+    @PutMapping("/api/v1/attendance/{user_identity}")
     public ResponseFormat<Void> updateAttendance(@PathVariable(name = "user_identity") String userIdentity,
                                                  @RequestBody AttendanceReqDTO.UPDATE update) {
 
@@ -142,7 +142,7 @@ public class UserApiController {
     /**
      * Delete UserAttendance Controller
      */
-    @DeleteMapping("/attendance/{user_identity}")
+    @DeleteMapping("/api/v1/attendance/{user_identity}")
     public ResponseFormat<Void> deleteAttendance(@PathVariable(name = "user_identity") String userIdentity,
                                                  @RequestParam(name = "date") LocalDate date) {
 

@@ -25,7 +25,7 @@ let index = {
             var seconds = ('0' + today.getSeconds()).slice(-2);
             var timeString = hours + ':' + minutes  + ':' + seconds;
 
-            location.href = "/attendance/"+param;
+            location.href = "/api/v1/attendance/"+param;
 
 			let data = {
 					enterTime: timeString,
@@ -35,7 +35,7 @@ let index = {
 
 			$.ajax({
 				type: "POST",
-				url: "/attendance/"+param,
+				url: "/api/v1/attendance/"+param,
 				data: JSON.stringify(data),
 				contentType: "application/json; charset=utf-8",
 				dataType: "json"
@@ -63,7 +63,7 @@ let index = {
 
                 $.ajax({
                     type: "PUT",
-                    url: "/attendance/"+param,
+                    url: "/api/v1/attendance/"+param,
                     data: JSON.stringify(data),
                     contentType: "application/json; charset=utf-8",
                     dataType: "json"
@@ -91,7 +91,7 @@ let index = {
 
                         $.ajax({
                             type: "DELETE",
-                            url: "/attendance/"+param+"?date="+date,
+                            url: "/api/v1/attendance/"+param+"?date="+date,
                             data: JSON.stringify(data),
                             contentType: "application/json; charset=utf-8",
                             dataType: "json"
