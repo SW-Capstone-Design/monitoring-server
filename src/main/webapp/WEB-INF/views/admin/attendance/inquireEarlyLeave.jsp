@@ -5,7 +5,8 @@
 <div class="container">
   <h2>조퇴회원조회</h2>
   <span>
-    조퇴한 회원을 조회합니다.
+    금일 혹은 특정날짜의 조퇴한 회원을 조회합니다.
+
   </span>
   <form style="text-align:right;" action="earlyLeave" method="get">
     <input type="date" style="display:inline-block;width:200px;" class="form-control" name="searchKeyword">
@@ -71,7 +72,7 @@
   			<li class="page-item"><a class="page-link" href="?page=${lists.number+1}">Next</a></li>
   		</c:otherwise>
   	</c:choose>
-
+  	</form>
 </div>
 
 <%@ include file="../../layout/admin/footer.jsp"%>

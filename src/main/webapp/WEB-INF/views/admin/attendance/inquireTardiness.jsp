@@ -5,7 +5,7 @@
 <div class="container">
   <h2>지각회원조회</h2>
   <span>
-    지각한 회원을 조회합니다.
+    금일 혹은 특정날짜의 지각한 회원을 조회합니다.
   </span>
   <form style="text-align:right;" action="tardiness" method="get">
     <input type="date" style="display:inline-block;width:200px;" class="form-control" name="searchKeyword">
