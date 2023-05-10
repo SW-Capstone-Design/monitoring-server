@@ -21,7 +21,7 @@ let index = {
 
         $.ajax({
                 type: "POST",
-                url: "/createBeacon",
+                url: "/admin/createBeacon",
                 data: JSON.stringify(data),
                 contentType: "application/json; charset=utf-8"
             }).done(function(resp) {
@@ -69,6 +69,7 @@ let index = {
     	},
 
             del: function() {
+            if (confirm("삭제를 진행하시겠습니까?")) {
             let data = {
                         beaconId: $("#beaconId").val()
             };
@@ -91,6 +92,7 @@ let index = {
                     alert(JSON.stringify(error));
                     location.href = "/admin/beacon/info";
                 });
+            }
         }
 }
 

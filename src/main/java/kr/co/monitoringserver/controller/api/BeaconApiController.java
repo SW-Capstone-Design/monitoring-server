@@ -3,6 +3,7 @@ package kr.co.monitoringserver.controller.api;
 
 import kr.co.monitoringserver.persistence.entity.Beacon;
 import kr.co.monitoringserver.service.dtos.request.BeaconReqDTO;
+import kr.co.monitoringserver.service.dtos.response.BeaconResDTO;
 import kr.co.monitoringserver.service.dtos.response.ResponseDto;
 import kr.co.monitoringserver.service.service.BeaconService;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
 @RequiredArgsConstructor
@@ -22,11 +25,19 @@ public class BeaconApiController {
     @Autowired
     private BeaconService beaconService;
 
+    /**
+     * transferBeacon : 모바일 클라이언트에서 사용자 거리 정보 요청을 위해 서버의 Beacon Data를 보낸다.
+     */
+    @GetMapping("/transferBeacon")
+    public List<BeaconResDTO> transferBeacon() {
+
+        return beaconService.beaconList();
+    }
 
     /**
-     * receiveBeacon : Beacon Data를 Create한다. 모바일 입장에서는 Beacon Data를 Receive 한다.
+     * createBeacon : Beacon Data를 Create한다.
      */
-    @PostMapping("/createBeacon")
+    @PostMapping("/admin/createBeacon")
     public ResponseDto<?> createBeacon(@RequestBody BeaconReqDTO beaconReqDTO) {
 
         beaconService.createBeacon(beaconReqDTO);

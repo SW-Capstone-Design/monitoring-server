@@ -23,7 +23,7 @@
             <input type="longitude" class="form-control" placeholder="Enter longitude" id="longitude">
         </div>
 	</form>
-	<button id="btn-create" class="btn btn-dark">저장</button>
+	<button id="btn-create" class="btn btn-dark">등록</button>
 </div>
 
 <script src="/js/securityArea/securityArea.js"></script>

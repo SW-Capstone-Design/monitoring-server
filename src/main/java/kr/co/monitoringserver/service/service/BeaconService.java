@@ -3,12 +3,16 @@ package kr.co.monitoringserver.service.service;
 import kr.co.monitoringserver.persistence.entity.Beacon;
 import kr.co.monitoringserver.persistence.repository.BeaconRepository;
 import kr.co.monitoringserver.service.dtos.request.BeaconReqDTO;
+import kr.co.monitoringserver.service.dtos.response.BeaconResDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -40,6 +44,27 @@ public class BeaconService {
     public Page<Beacon> list(Pageable pageable) {
 
         return beaconRepository.findAll(pageable);
+    }
+
+    /**
+     * beaocnList : 모바일 클라이언트에 넘겨주기 위해 Beacon 목록을 조회하여 List 객체로 반환한다.
+     */
+    public List<BeaconResDTO> beaconList() {
+        List<Beacon> all = beaconRepository.findAll();
+        List<BeaconResDTO> collect = new ArrayList<>();
+
+        for(Beacon beacon : all){
+            BeaconResDTO beaconResDTO = BeaconResDTO.builder()
+                    .beaconId(beacon.getBeaconId())
+                    .uuid(beacon.getUuid())
+                    .major(beacon.getMajor())
+                    .minor(beacon.getMinor())
+                    .build();
+
+            collect.add(beaconResDTO);
+        }
+
+        return collect;
     }
 
     /**

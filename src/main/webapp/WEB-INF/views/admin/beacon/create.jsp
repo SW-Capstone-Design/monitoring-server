@@ -26,7 +26,7 @@
             <input type="minor" id="minor" class="form-control" placeholder="Enter minor" />
         </div>
   </form>
-    <button id="btn-create" class="btn btn-dark">전송</button>
+    <button id="btn-create" class="btn btn-dark">등록</button>
 </div>
 
 <script src="/js/beacon/beacon.js"></script>

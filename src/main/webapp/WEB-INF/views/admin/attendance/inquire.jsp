@@ -3,9 +3,9 @@
 <%@ include file="../../layout/admin/header.jsp"%>
 
 <div class="container">
-  <h2>출결통합관리</h2>
+  <h2>일자별출결관리</h2>
   <span>
-    출결상태를 조회 및 수정합니다.
+    일자별로 출결상태를 조회 및 수정합니다.
   </span>
   <form style="text-align:right;" action="list" method="get">
     <input type="date" style="display:inline-block;width:200px;" class="form-control" name="searchKeyword">

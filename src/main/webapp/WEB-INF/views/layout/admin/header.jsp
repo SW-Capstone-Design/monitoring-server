@@ -40,7 +40,7 @@
                                   회원출결관리
                                </a>
                                <div class="dropdown-menu">
-                                  <a class="dropdown-item" href="/admin/attendance/list">출결통합관리</a>
+                                  <a class="dropdown-item" href="/admin/attendance/list">일자별출결관리</a>
                                   <a class="dropdown-item" href="/admin/attendance/list/tardiness">지각회원조회</a>
                                   <a class="dropdown-item" href="/admin/attendance/list/earlyLeave">조퇴회원조회</a>
                                </div>
