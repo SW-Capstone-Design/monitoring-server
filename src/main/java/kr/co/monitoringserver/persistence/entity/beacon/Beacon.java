@@ -1,4 +1,4 @@
-package kr.co.monitoringserver.persistence.entity;
+package kr.co.monitoringserver.persistence.entity.beacon;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -6,12 +6,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "beacon")
+@Table(name = "tbl_beacon")
 public class Beacon {
 
     @Id
@@ -19,7 +22,7 @@ public class Beacon {
     @Column(name = "beacon_id")
     private Long beaconId;
 
-    @Column(name = "beacon_uuid", unique = true)
+    @Column(name = "beacon_uuid")
     private String uuid;
 
     @Column(name = "beacon_name")
@@ -30,4 +33,10 @@ public class Beacon {
 
     @Column(name = "beacon_minor", length = 30)
     private Integer minor;
+
+    @Column
+    private Short battery;
+
+    @OneToMany(mappedBy = "beacon")
+    private List<UserBeacon> Beacons = new ArrayList<>();
 }

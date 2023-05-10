@@ -12,7 +12,8 @@ let index = {
 		},
 
 		register: function() {
-            var param = $("#userIdentity").val();
+		    var param1 = $("#userId").val();
+            var param2 = $("#userIdentity").val();
 
             var today = new Date();
             var year = today.getFullYear();
@@ -25,8 +26,6 @@ let index = {
             var seconds = ('0' + today.getSeconds()).slice(-2);
             var timeString = hours + ':' + minutes  + ':' + seconds;
 
-            location.href = "/api/v1/attendance/"+param;
-
 			let data = {
 					enterTime: timeString,
 					leaveTime: timeString,
@@ -35,7 +34,7 @@ let index = {
 
 			$.ajax({
 				type: "POST",
-				url: "/api/v1/attendance/"+param,
+				url: "/api/v1/attendance/"+param2,
 				data: JSON.stringify(data),
 				contentType: "application/json; charset=utf-8",
 				dataType: "json"
@@ -45,7 +44,7 @@ let index = {
                 }
                 else{
                     alert("출근처리가 완료되었습니다.");
-                    location.href = "/";
+                    location.href = "/attendance/list/"+param1;
 			    }
 			}).fail(function(error) {
 				alert(JSON.stringify(error));

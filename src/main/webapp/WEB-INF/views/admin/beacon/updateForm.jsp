@@ -26,6 +26,10 @@
         <label for="minor">Minor</label>
             <input type="minor" id="minor" class="form-control" placeholder="Enter minor" value="${lists.minor}"/>
         </div>
+        <div class="form-group">
+        <label for="battery">Battery</label>
+            <input type="battery" id="battery" class="form-control" value="${lists.battery}" readonly/>
+        </div>
   </form>
     <button id="btn-update" class="btn btn-dark">수정</button>
     <button id="btn-del" class="btn btn-dark">삭제</button>

@@ -1,22 +1,38 @@
 package kr.co.monitoringserver.service.dtos.request;
 
+import kr.co.monitoringserver.persistence.entity.beacon.Beacon;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
+
 public class BeaconReqDTO {
-    private Long beaconId;
-    private String uuid;
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
+    public static class SERVER {
+        private Long beaconId;
+        private String uuid;
 
-    private String beaconName;
+        private String beaconName;
 
-    private Integer major;
+        private Integer major;
 
-    private Integer minor;
+        private Integer minor;
+    }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
+    public static class CLIENT {
+        private Beacon beacon;
+
+        private Short rssi;
+
+        private Short battery;
+    }
 
 }

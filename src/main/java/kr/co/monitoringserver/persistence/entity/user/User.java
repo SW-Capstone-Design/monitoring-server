@@ -3,6 +3,7 @@ package kr.co.monitoringserver.persistence.entity.user;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import kr.co.monitoringserver.persistence.entity.attendance.UserAttendance;
+import kr.co.monitoringserver.persistence.entity.beacon.UserBeacon;
 import kr.co.monitoringserver.persistence.entity.securityArea.UserSecurityArea;
 import kr.co.monitoringserver.service.enums.RoleType;
 import lombok.AllArgsConstructor;
@@ -21,7 +22,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "users")
+@Table(name = "tbl_user")
 public class User {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -64,4 +65,7 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<UserSecurityArea> userSecurityAreas = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<UserBeacon> userBeacons = new ArrayList<>();
 }

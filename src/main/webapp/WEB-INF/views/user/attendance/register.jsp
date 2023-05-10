@@ -11,6 +11,7 @@
     <hr>
 	<form>
 		<div class="form-group">
+		    <input type="hidden" id="userId" value="${principal.user.userId}" />
 		    <input type="hidden" id="userIdentity" value="${principal.user.identity}" />
 		</div>
 	</form>

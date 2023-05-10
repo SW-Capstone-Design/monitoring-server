@@ -38,11 +38,11 @@ let index = {
                }
                else{
                    alert("보안구역 등록이 완료되었습니다.");
-                   location.href = "/admin/index";
+                   location.href = "/admin/area/info";
                }
            }).fail(function(error) {
                alert(JSON.stringify(error));
-               location.href = "/admin/index";
+               location.href = "/admin/area/info";
            });
 	},
 

@@ -1,7 +1,9 @@
 package kr.co.monitoringserver.controller.api;
 
-
-import kr.co.monitoringserver.persistence.entity.Beacon;
+import kr.co.monitoringserver.persistence.entity.beacon.Beacon;
+import kr.co.monitoringserver.persistence.entity.beacon.UserBeacon;
+import kr.co.monitoringserver.persistence.repository.BeaconRepository;
+import kr.co.monitoringserver.persistence.repository.UserBeaconRepository;
 import kr.co.monitoringserver.service.dtos.request.BeaconReqDTO;
 import kr.co.monitoringserver.service.dtos.response.BeaconResDTO;
 import kr.co.monitoringserver.service.dtos.response.ResponseDto;
@@ -23,22 +25,73 @@ import java.util.List;
 public class BeaconApiController {
 
     @Autowired
-    private BeaconService beaconService;
+    private final BeaconService beaconService;
+
+    @Autowired
+    private final UserBeaconRepository userBeaconRepository;
+
+    @Autowired
+    private final BeaconRepository beaconRepository;
 
     /**
-     * transferBeacon : 모바일 클라이언트에서 사용자 거리 정보 요청을 위해 서버의 Beacon Data를 보낸다.
+     * transferBeacon : 서버의 Beacon Data를 모바일 클라이언트로 응답한다.
      */
-    @GetMapping("/transferBeacon")
+    @GetMapping("/auth/transferBeacon")
     public List<BeaconResDTO> transferBeacon() {
 
         return beaconService.beaconList();
     }
 
     /**
+     * receiveBeacon : 모바일 클라이언트에서 서버로 비콘과 사용자 간의 거리 정보를 보낸다.
+     */
+    @PostMapping("/auth/receiveBeacon/{user_id}")
+    public void receiveBeacon(@PathVariable(name = "user_id") Long userId, @RequestBody String data, BeaconReqDTO.CLIENT beaconReqDTO) {
+        JSONParser jsonParser = new JSONParser();
+        JSONArray insertParam = null;
+        try {
+            JSONObject signals = (JSONObject) jsonParser.parse(data);
+            String temp = signals.get("signals").toString();
+            insertParam = (JSONArray) jsonParser.parse(temp);
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        for(int i=0; i<insertParam.size(); i++){
+
+            JSONObject signal = (JSONObject) insertParam.get(i);
+
+            String beaconId = (signal.get("beaconId")).toString();
+            Long bi = Long.valueOf(beaconId).longValue();
+            Beacon beacon = beaconRepository.findOptionalByBeaconId(bi)
+                    .orElseThrow(()->{
+                        return new IllegalArgumentException("비콘 찾기 실패");
+                    });
+            beaconReqDTO.setBeacon(beacon);
+
+            String rssi = (signal.get("rssi")).toString();
+            Short r = Short.valueOf(rssi).shortValue();
+            beaconReqDTO.setRssi(r);
+
+            String battery = (signal.get("battery")).toString();
+            Short b = Short.valueOf(battery).shortValue();
+            beaconReqDTO.setBattery(b);
+
+            UserBeacon userBeacon = userBeaconRepository.findByBeacon_BeaconId(bi);
+            if (userBeacon == null) {
+                beaconService.createDistance(userId, beaconReqDTO);
+            } else {
+                beaconService.updateDistance(userId, userBeacon.getUserBeaconId(), beaconReqDTO);
+            }
+        }
+
+    }
+    
+    /**
      * createBeacon : Beacon Data를 Create한다.
      */
     @PostMapping("/admin/createBeacon")
-    public ResponseDto<?> createBeacon(@RequestBody BeaconReqDTO beaconReqDTO) {
+    public ResponseDto<?> createBeacon(@RequestBody BeaconReqDTO.SERVER beaconReqDTO) {
 
         beaconService.createBeacon(beaconReqDTO);
 
@@ -49,7 +102,7 @@ public class BeaconApiController {
      * updateBeacon : Beacon Data를 Update한다.
      */
     @PutMapping("/admin/beacon/info/update")
-    public void updateBeacon(@RequestBody BeaconReqDTO beaconReqDTO){
+    public void updateBeacon(@RequestBody BeaconReqDTO.SERVER beaconReqDTO){
 
         beaconService.updateBeacon(beaconReqDTO);
 
@@ -59,41 +112,9 @@ public class BeaconApiController {
      * deleteBeacon : Beacon Data를 DELETE 한다.
      */
     @DeleteMapping("/admin/beacon/info/delete")
-    public void deleteBeacon(@RequestBody BeaconReqDTO beaconReqDTO){
+    public void deleteBeacon(@RequestBody BeaconReqDTO.SERVER beaconReqDTO){
 
         beaconService.deleteBeacon(beaconReqDTO);
 
     }
 }
-
-
-/*
-    JSONParser jsonParser = new JSONParser();
-    JSONArray insertParam = null;
-        try {
-                JSONObject signals = (JSONObject) jsonParser.parse(data);
-                String temp = signals.get("signals").toString();
-                insertParam = (JSONArray) jsonParser.parse(temp);
-                } catch (ParseException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-                }
-                for(int i=0; i<insertParam.size(); i++){
-
-        JSONObject signal = (JSONObject) insertParam.get(i);
-
-        beaconReqDTO.setUuid((String)signal.get("uuid"));
-        beaconReqDTO.setMajor((String)signal.get("major"));
-        beaconReqDTO.setMinor((String)signal.get("minor"));
-
-        String rssi = (signal.get("rssi")).toString();
-        Long r = Long.valueOf(rssi).longValue();
-        beaconReqDTO.setRssi(r);
-
-        Beacon beacon = beaconService.findBeacon((String)signal.get("uuid"));
-        if (beacon == null) {
-        beaconService.createBeacon(beaconReqDTO);
-        } else {
-        beaconService.updateBeacon(beaconReqDTO);
-        }
-        }*/

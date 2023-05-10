@@ -38,7 +38,7 @@
         <td>${userAttendance.attendance.leaveTime}</td>
         <td>${userAttendance.attendance.goWork}</td>
         <td>${userAttendance.attendance.leaveWork}</td>
-        <td><b><a href="/admin/beacon/info/${beacon.beaconId}">수정</a></b></td>
+        <td><b><a href="/admin/attendance/list/${userAttendance.user.userId}/${userAttendance.attendance.date}">수정</a></b></td>
       </tr>
       </c:forEach>
     </tbody>
