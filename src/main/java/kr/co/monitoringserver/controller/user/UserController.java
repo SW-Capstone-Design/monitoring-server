@@ -1,6 +1,8 @@
 package kr.co.monitoringserver.controller.user;
 
-import kr.co.monitoringserver.service.service.user.UserService;
+import kr.co.monitoringserver.persistence.repository.UserAttendanceRepository;
+import kr.co.monitoringserver.service.enums.AttendanceType;
+import kr.co.monitoringserver.service.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -17,6 +19,9 @@ public class UserController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    UserAttendanceRepository userAttendanceRepository;
 
     /**
      * joinForm : 회원가입 폼을 매핑한다.
@@ -46,7 +51,7 @@ public class UserController {
     }
 
     /**
-     * attendList : 출결정보 조회 페이지로 매핑한다.
+     * userAttendList : 출결정보 조회 페이지로 매핑한다.
      */
     @GetMapping("/attendance/list/{user_id}")
     public String userAttendList(Model model, @PageableDefault(size=10, sort="attendance.date", direction = Sort.Direction.DESC) Pageable pageable,
@@ -60,6 +65,20 @@ public class UserController {
         }
 
         return "user/attendance/inquire";
+    }
+
+    /**
+     * userAttendConditionList : 출결정보 현황 페이지로 매핑한다.
+     */
+    @GetMapping("/attendance/list/condition/{user_id}")
+    public String userAttendConditionList(Model model, @PathVariable(name = "user_id") Long userId){
+
+            model.addAttribute("work", userAttendanceRepository.countByUser_UserIdAndAttendance_GoWorkAndAttendance_LeaveWork(userId, AttendanceType.GO_WORK, AttendanceType.LEAVE_WORK));
+            model.addAttribute("tardiness", userAttendanceRepository.countByUser_UserIdAndAttendance_GoWork(userId, AttendanceType.TARDINESS));
+            model.addAttribute("earlyLeave", userAttendanceRepository.countByUser_UserIdAndAttendance_LeaveWork(userId, AttendanceType.EARLY_LEAVE));
+            model.addAttribute("absent", userAttendanceRepository.countByUser_UserIdAndAttendance_LeaveWork(userId, AttendanceType.ABSENT));
+
+        return "user/attendance/condition";
     }
 
     /**

@@ -4,7 +4,7 @@ import jakarta.validation.Valid;
 import kr.co.monitoringserver.service.dtos.request.AdminReqDTO;
 import kr.co.monitoringserver.service.dtos.request.UserReqDTO;
 import kr.co.monitoringserver.service.dtos.response.ResponseDto;
-import kr.co.monitoringserver.service.service.user.AdminService;
+import kr.co.monitoringserver.service.service.AdminService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

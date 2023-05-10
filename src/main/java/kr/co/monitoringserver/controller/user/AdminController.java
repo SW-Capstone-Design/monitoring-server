@@ -1,6 +1,8 @@
 package kr.co.monitoringserver.controller.user;
 
-import kr.co.monitoringserver.service.service.user.AdminService;
+import kr.co.monitoringserver.service.enums.AttendanceType;
+import kr.co.monitoringserver.service.service.AdminService;
+import kr.co.monitoringserver.service.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -17,6 +19,9 @@ public class AdminController {
 
     @Autowired
     private AdminService adminService;
+
+    @Autowired
+    private UserService userService;
 
     /**
      * IndexForm : 관리자페이지 홈페이지로 매핑한다.
@@ -72,9 +77,38 @@ public class AdminController {
     /**
      * attendFindByUserId : Model 객체를 얹어 각 유저의 회원정보 수정 페이지로 매핑한다.
      */
-/*    @GetMapping("/admin/attendance/list/{userId}/{date}")
+    @GetMapping("/admin/attendance/list/{userId}/{date}")
     public String attendFindByUserId(@PathVariable Long userId, @PathVariable LocalDate date, Model model){
         model.addAttribute("list", adminService.attendDetail(userId, date));
         return "admin/attendance/updateForm";
-    }*/
+    }
+
+    /**
+     * tardinessAttendList : 지각한 회원을 Select 한다.
+     */
+    @GetMapping("/admin/attendance/list/tardiness")
+    public String tardinessAttendList(Model model, @PageableDefault(size=10, sort="user.userId", direction = Sort.Direction.ASC) Pageable pageable
+            , LocalDate date, LocalDate searchKeyword){
+
+        if(searchKeyword == null) {
+            model.addAttribute("lists", userService.tardinessAttendList(AttendanceType.TARDINESS, date, pageable));
+        }else{
+            model.addAttribute("lists", userService.searchTardinessAttendList(AttendanceType.TARDINESS, pageable, searchKeyword));
+        }
+
+        return "admin/attendance/inquireTardiness";
+    }
+
+    @GetMapping("/admin/attendance/list/earlyLeave")
+    public String earlyLeaveAttendList(Model model, @PageableDefault(size=10, sort="user.userId", direction = Sort.Direction.ASC) Pageable pageable
+            , LocalDate date, LocalDate searchKeyword){
+
+        if(searchKeyword == null) {
+            model.addAttribute("lists", userService.earlyLeaveAttendList(AttendanceType.EARLY_LEAVE, date, pageable));
+        }else{
+            model.addAttribute("lists", userService.searchEarlyLeaveAttendList(AttendanceType.EARLY_LEAVE, pageable, searchKeyword));
+        }
+
+        return "admin/attendance/inquireEarlyLeave";
+    }
 }

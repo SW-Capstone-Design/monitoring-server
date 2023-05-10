@@ -1,4 +1,4 @@
-package kr.co.monitoringserver.service.service.user;
+package kr.co.monitoringserver.service.service;
 
 import kr.co.monitoringserver.persistence.entity.attendance.UserAttendance;
 import kr.co.monitoringserver.persistence.entity.user.User;
@@ -105,6 +105,14 @@ public class AdminService {
     public Page<User> userSearchList(String searchKeyword, Pageable pageable) {
 
         return userRepository.findByIdentityContaining(searchKeyword, pageable);
+    }
+
+    /**
+     * attendDetail : 해당 userId, date 기반의 출결정보를 조회한다.
+     */
+    public UserAttendance attendDetail(Long userId,LocalDate date){
+
+        return userAttendanceRepository.findByUser_UserIdAndAttendance_Date(userId, date);
     }
 
     /**
