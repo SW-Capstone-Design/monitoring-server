@@ -1,7 +1,6 @@
 package kr.co.monitoringserver.controller.user;
 
-import kr.co.monitoringserver.service.dtos.response.AttendanceResDTO;
-import kr.co.monitoringserver.service.service.UserService;
+import kr.co.monitoringserver.service.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;

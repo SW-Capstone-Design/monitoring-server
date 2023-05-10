@@ -4,6 +4,7 @@ import kr.co.monitoringserver.infra.global.error.enums.ErrorCode;
 import kr.co.monitoringserver.infra.global.exception.BadRequestException;
 import kr.co.monitoringserver.infra.global.exception.NotAuthenticateException;
 import kr.co.monitoringserver.infra.global.exception.NotFoundException;
+import kr.co.monitoringserver.persistence.entity.securityArea.Position;
 import kr.co.monitoringserver.persistence.entity.securityArea.SecurityArea;
 import kr.co.monitoringserver.persistence.entity.user.User;
 import kr.co.monitoringserver.persistence.repository.SecurityAreaRepository;
@@ -29,11 +30,7 @@ public class SecurityAreaService {
 
     private final UserRepository userRepository;
 
-    /** TODO : 비인가 사용자에 대한 권한 확인 및 경고 알림 생성
-     * 비인가 사용자가 해당 보안 구역을 들어갈 경우 사용자의 권한을 확인
-     * 보안 구역 정보를 생성할 경우 상황에 맞는 경고 알림을 조회하고 없을 경우 경고 알림 정보를 생성
-     * 비인가 사용자가 해당 보안 구역에 들어갈 경우 경고 알림이 울림
-     */
+    private final SecurityAccessLogService securityAccessLogService;
 
     /**
      * Create Security Area Service
@@ -44,7 +41,7 @@ public class SecurityAreaService {
         final User user = userRepository.findByIdentity(userIdentity)
                 .orElseThrow(BadRequestException::new);
 
-        checkAuthenticate(user.getRoleType());
+        verifyAccessToSecurityArea(user.getRoleType());
 
         SecurityArea securityArea = securityAreaMapper.toSecurityAreaEntity(create);
 
@@ -52,15 +49,32 @@ public class SecurityAreaService {
     }
 
     /**
-     * Get Security Area By id Service
+     * Detecting Access To Security Area Service
      */
-    public SecurityAreaResDTO.READ getSecurityAreaById(Long securityAreaId) {
+    @Transactional
+    public void detectingAccessToSecurityArea(String userIdentity, Long securityAreaId) {
+
+        final User user = userRepository.findByIdentity(userIdentity)
+                .orElseThrow(BadRequestException::new);
 
         final SecurityArea securityArea = securityAreaRepository.findById(securityAreaId)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_SECURITY_AREA));
 
-        return securityAreaMapper.toSecurityAreaReadDto(securityArea);
+        isWithinRange(user.getUserLocation(), securityArea.getSecurityAreaLocation(), 20);
+
+        securityAccessLogService.createSecurityAccessLog(user, securityArea);
     }
+
+    /**
+     * Get Security Area By id Service
+     */
+    public Page<SecurityAreaResDTO.READ> getSecurityAreaById(Long securityAreaId, Pageable pageable) {
+
+        Page<SecurityArea> securityAreaPage = securityAreaRepository.findById(securityAreaId, pageable);
+
+        return securityAreaPage.map(securityAreaMapper::toSecurityAreaReadDto);
+    }
+
 
     /**
      * securityAreaDetail : SecurityAreaId로 조회하여 엔티티 타입 객체로 반환한다.
@@ -74,12 +88,13 @@ public class SecurityAreaService {
     }
 
     /**
-     * getSecurityArea : SecurityArea의 모든 정보를 Select하여 Page를 반환한다.
+     * getSecurityArea : SecurityArea 의 모든 정보를 Select 하여 Page 를 반환한다.
      */
     public Page<SecurityArea> getSecurityArea(Pageable pageable) {
 
         return securityAreaRepository.findAll(pageable);
     }
+
 
     /**
      * Update Security Area Service
@@ -106,10 +121,43 @@ public class SecurityAreaService {
     }
 
 
-    private void checkAuthenticate(RoleType roleType) {
+
+    // 보안구역 접근 권한 검사
+    private void verifyAccessToSecurityArea(RoleType roleType) {
 
         if (!roleType.equals(RoleType.ADMIN)) {
             throw new NotAuthenticateException();
         }
     }
+
+    // 하버사인 공식
+    private double haversineDistance(Position userLocation, Position securityAreaLocation) {
+
+        final double R = 6371e3; // 반경(meters)
+
+        double lat1 = Math.toRadians(userLocation.getLatitude());
+        double lon1 = Math.toRadians(userLocation.getLongitude());
+
+        double lat2 = Math.toRadians(securityAreaLocation.getLatitude());
+        double lon2 = Math.toRadians(securityAreaLocation.getLongitude());
+
+        double dLat = lat2 - lat1;
+        double dLon = lon2 - lon1;
+
+        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                   Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
+
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+        return R * c;
+    }
+
+    // 사용자 위치와 보안구역 위치를 비교
+    private boolean isWithinRange(Position userLocation, Position securityAreaLocation, double range) {
+
+        double distance = haversineDistance(userLocation, securityAreaLocation);
+
+        return distance <= range;
+    }
+
 }

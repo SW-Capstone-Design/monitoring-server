@@ -7,7 +7,7 @@ import kr.co.monitoringserver.service.dtos.request.AttendanceReqDTO;
 import kr.co.monitoringserver.service.dtos.request.UserReqDTO;
 import kr.co.monitoringserver.service.dtos.response.AttendanceResDTO;
 import kr.co.monitoringserver.service.dtos.response.ResponseDto;
-import kr.co.monitoringserver.service.service.UserService;
+import kr.co.monitoringserver.service.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

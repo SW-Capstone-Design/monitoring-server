@@ -1,4 +1,4 @@
-package kr.co.monitoringserver.service.service;
+package kr.co.monitoringserver.service.service.user;
 
 import kr.co.monitoringserver.infra.global.error.enums.ErrorCode;
 import kr.co.monitoringserver.infra.global.exception.BadRequestException;
@@ -15,6 +15,7 @@ import kr.co.monitoringserver.service.dtos.response.AttendanceResDTO;
 import kr.co.monitoringserver.service.enums.AttendanceType;
 import kr.co.monitoringserver.service.enums.RoleType;
 import kr.co.monitoringserver.service.mappers.UserAttendanceMapper;
+import kr.co.monitoringserver.service.service.AttendanceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
