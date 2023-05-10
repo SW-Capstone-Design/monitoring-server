@@ -67,7 +67,7 @@
   			<li class="page-item"><a class="page-link" href="?page=${lists.number+1}">Next</a></li>
   		</c:otherwise>
   	</c:choose>
-
+  </form>
 </div>
 
 <%@ include file="../../layout/user/footer.jsp"%>

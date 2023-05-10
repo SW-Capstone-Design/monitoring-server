@@ -26,9 +26,9 @@ public class BeaconService {
 
         Beacon beacon = Beacon.builder()
                 .uuid(beaconReqDTO.getUuid())
+                .beaconName(beaconReqDTO.getBeaconName())
                 .major(beaconReqDTO.getMajor())
                 .minor(beaconReqDTO.getMinor())
-                .rssi(beaconReqDTO.getRssi())
                 .build();
 
         beaconRepository.save(beacon);
@@ -43,35 +43,36 @@ public class BeaconService {
     }
 
     /**
-     * findBeacon : uuid 변수를 인자로 전달하여 해당 Beacon을 조회한다.
+     * detail : beaconId 변수를 인자로 전달하여 해당 Beacon을 조회한다.
      */
-    public Beacon findBeacon(String uuid){
+    public Beacon detail(Long beaconId){
 
-        return beaconRepository.findByUuid(uuid);
+        return beaconRepository.findByBeaconId(beaconId);
     }
 
     /**
-     * updateBeacon : Beacon의 Major, Minor, RSSI 정보를 수정한다.
+     * updateBeacon : Beacon의 UUID, BeaconName, Major, Minor 정보를 수정한다.
      */
     @Transactional
     public void updateBeacon(BeaconReqDTO beaconReqDTO){
-        Beacon beacon = beaconRepository.findOptionalByUuid(beaconReqDTO.getUuid())
+        Beacon beacon = beaconRepository.findOptionalByBeaconId(beaconReqDTO.getBeaconId())
                 .orElseThrow(()->{
-            return new IllegalArgumentException("회원 찾기 실패");
+            return new IllegalArgumentException("비콘 찾기 실패");
         });
+        beacon.setUuid(beaconReqDTO.getUuid());
         beacon.setMajor(beaconReqDTO.getMajor());
         beacon.setMinor(beaconReqDTO.getMinor());
-        beacon.setRssi(beaconReqDTO.getRssi());
+        beacon.setBeaconName(beaconReqDTO.getBeaconName());
     }
 
     /**
      * deleteBeacon : Beacon 정보를 삭제한다.
      */
     @Transactional
-    public void deleteBeacon(String uuid){
-        Beacon beacon = beaconRepository.findOptionalByUuid(uuid)
+    public void deleteBeacon(BeaconReqDTO beaconReqDTO){
+        Beacon beacon = beaconRepository.findOptionalByBeaconId(beaconReqDTO.getBeaconId())
                 .orElseThrow(()->{
-                    return new IllegalArgumentException("회원 찾기 실패");
+                    return new IllegalArgumentException("비콘 찾기 실패");
                 });
 
         beaconRepository.delete(beacon);

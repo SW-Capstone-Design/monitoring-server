@@ -10,11 +10,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class BeaconReqDTO {
+    private Long beaconId;
     private String uuid;
 
-    private String major;
+    private String beaconName;
 
-    private String minor;
+    private Integer major;
 
-    private Long rssi;
+    private Integer minor;
+
 }

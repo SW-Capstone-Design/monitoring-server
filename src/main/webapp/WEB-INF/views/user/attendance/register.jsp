@@ -13,8 +13,8 @@
 		<div class="form-group">
 		    <input type="hidden" id="userIdentity" value="${principal.user.identity}" />
 		</div>
-			<button id="btn-register" class="btn btn-dark">출결</button>
 	</form>
+	<button id="btn-register" class="btn btn-dark">출결</button>
 </div>
 
 <script src="/js/attendance/attendance.js"></script>

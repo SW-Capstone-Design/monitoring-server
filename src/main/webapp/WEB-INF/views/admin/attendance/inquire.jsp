@@ -3,7 +3,7 @@
 <%@ include file="../../layout/admin/header.jsp"%>
 
 <div class="container">
-  <h2>출결상태조회</h2>
+  <h2>출결통합관리</h2>
   <span>
     출결상태를 조회 및 수정합니다.
   </span>
@@ -38,7 +38,7 @@
         <td>${userAttendance.attendance.leaveTime}</td>
         <td>${userAttendance.attendance.goWork}</td>
         <td>${userAttendance.attendance.leaveWork}</td>
-        <td><b><a href="/admin/attendance/list/${userAttendance.user.userId}/${userAttendance.attendance.date}">수정</a></b></td>
+        <td><b><a href="/admin/beacon/info/${beacon.beaconId}">수정</a></b></td>
       </tr>
       </c:forEach>
     </tbody>

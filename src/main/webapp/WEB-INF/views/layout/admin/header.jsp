@@ -49,8 +49,8 @@
                                   비콘관리
                                </a>
                                <div class="dropdown-menu">
-                                  <a class="dropdown-item" href="/admin/beacon/info">비콘정보조회</a>
                                   <a class="dropdown-item" href="/admin/beacon/data">비콘등록</a>
+                                  <a class="dropdown-item" href="/admin/beacon/info">비콘정보관리</a>
                                </div>
                             </li>
                             <li class="nav-item dropdown">

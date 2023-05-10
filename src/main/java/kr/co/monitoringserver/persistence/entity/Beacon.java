@@ -22,12 +22,12 @@ public class Beacon {
     @Column(name = "beacon_uuid", unique = true)
     private String uuid;
 
+    @Column(name = "beacon_name")
+    private String beaconName;
+
     @Column(name = "beacon_major")
-    private String major;
+    private Integer major;
 
     @Column(name = "beacon_minor", length = 30)
-    private String minor;
-
-    @Column(name = "beacon_rssi")
-    private Long rssi;
+    private Integer minor;
 }

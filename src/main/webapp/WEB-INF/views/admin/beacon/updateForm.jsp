@@ -9,24 +9,26 @@
   </span>
   <br><br>
     <form>
+        <input type="beaconId" id="beaconId" class="form-control" value="${lists.beaconId}" readonly/>
 		<div class="form-group">
 		    <label for="beaconName">BeaconName</label>
-		    <input type="beaconName" id="beaconName" class="form-control" placeholder="Enter name"/>
+		    <input type="beaconName" id="beaconName" class="form-control" placeholder="Enter name" value="${lists.beaconName}"/>
 		</div>
         <div class="form-group">
         <label for="uuid">UUID</label>
-            <input type="uuid" id="uuid" class="form-control" placeholder="Enter uuid" />
+            <input type="uuid" id="uuid" class="form-control" placeholder="Enter uuid" value="${lists.uuid}"/>
         </div>
         <div class="form-group">
         <label for="major">Major</label>
-            <input type="major" id="major" class="form-control" placeholder="Enter major" />
+            <input type="major" id="major" class="form-control" placeholder="Enter major" value="${lists.major}"/>
         </div>
         <div class="form-group">
         <label for="minor">Minor</label>
-            <input type="minor" id="minor" class="form-control" placeholder="Enter minor" />
+            <input type="minor" id="minor" class="form-control" placeholder="Enter minor" value="${lists.minor}"/>
         </div>
   </form>
-    <button id="btn-create" class="btn btn-dark">전송</button>
+    <button id="btn-update" class="btn btn-dark">수정</button>
+    <button id="btn-del" class="btn btn-dark">삭제</button>
 </div>
 
 <script src="/js/beacon/beacon.js"></script>
