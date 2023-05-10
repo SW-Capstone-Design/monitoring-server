@@ -25,6 +25,7 @@
         </div>
 	</form>
 	<button id="btn-update" class="btn btn-dark">완료</button>
+	<button id="btn-del" class="btn btn-dark">삭제</button>
 </div>
 
 <script src="/js/attendance/attendance.js"></script>

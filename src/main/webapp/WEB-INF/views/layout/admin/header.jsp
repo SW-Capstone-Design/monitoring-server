@@ -35,7 +35,15 @@
 			<c:otherwise>
 				<ul class="navbar-nav">
 				            <li class="nav-item"><a class="nav-link" href="#">모니터링</a></li>
-                            <li class="nav-item"><a class="nav-link" href="/admin/attendance/list">회원출결관리</a></li>
+                            <li class="nav-item dropdown">
+                               <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                                  회원출결관리
+                               </a>
+                               <div class="dropdown-menu">
+                                  <a class="dropdown-item" href="/admin/attendance/list">출결통합관리</a>
+                                  <a class="dropdown-item" href="/admin/attendance/list/tardiness">지각회원조회</a>
+                                  <a class="dropdown-item" href="/admin/attendance/list/earlyLeave">조퇴회원조회</a>
+                               </div>
 							<li class="nav-item dropdown">
                                <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
                                   비콘관리

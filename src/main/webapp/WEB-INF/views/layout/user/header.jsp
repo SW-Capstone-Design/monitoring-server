@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <sec:authorize access="isAuthenticated()">
 	<sec:authentication property="principal" var="principal"/>
@@ -41,6 +42,7 @@
                                 <div class="dropdown-menu">
                                   <a class="dropdown-item" href="/attendance/register">출결등록</a>
                                   <a class="dropdown-item" href="/attendance/list/${principal.user.userId}">출결조회</a>
+                                  <a class="dropdown-item" href="/attendance/list/condition/${principal.user.userId}">출결현황</a>
                                 </div>
                               </li>
         					<li class="nav-item"><a class="nav-link" href="/user/updateForm">회원정보</a></li>

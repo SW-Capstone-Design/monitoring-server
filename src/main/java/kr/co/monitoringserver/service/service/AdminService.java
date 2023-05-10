@@ -108,6 +108,14 @@ public class AdminService {
     }
 
     /**
+     * attendDetail : 해당 userId, date 기반의 출결정보를 조회한다.
+     */
+    public UserAttendance attendDetail(Long userId,LocalDate date){
+
+        return userAttendanceRepository.findByUser_UserIdAndAttendance_Date(userId, date);
+    }
+
+    /**
      * attendList : 출결정보를 조회한다.
      */
     public Page<UserAttendance> attendList(Pageable pageable) {
