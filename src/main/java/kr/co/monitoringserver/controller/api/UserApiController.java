@@ -140,6 +140,21 @@ public class UserApiController {
     }
 
     /**
+     *  updateLeaveAttendance : 퇴근 버튼을 누를 경우 해당 사용자의 퇴근 시간이 갱신된다.
+     */
+    @PutMapping("/api/v1/attendance/leave/{user_identity}")
+    public ResponseFormat<Void> updateLeaveAttendance(@PathVariable(name = "user_identity") String userIdentity,
+                                                      @RequestBody AttendanceReqDTO.UPDATE update) {
+        userService.updateLeaveAttendance(userIdentity, update);
+
+        return ResponseFormat.successMessage(
+                ErrorCode.SUCCESS_EXECUTE,
+                userIdentity + "님 퇴근 상태 정보가 성공적으로 수정되었습니다"
+        );
+    }
+
+
+    /**
      * Delete UserAttendance Controller
      */
     @DeleteMapping("/api/v1/attendance/{user_identity}")

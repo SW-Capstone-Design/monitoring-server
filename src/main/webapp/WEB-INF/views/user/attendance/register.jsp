@@ -5,7 +5,7 @@
 <div class="container" >
     <h2>출결등록</h2>
     <span>
-        출근 상태를 등록합니다.
+        출근 및 퇴근상태를 등록합니다.
     </span>
     <br><br>
     <hr>
@@ -15,7 +15,8 @@
 		    <input type="hidden" id="userIdentity" value="${principal.user.identity}" />
 		</div>
 	</form>
-	<button id="btn-register" class="btn btn-dark">출결</button>
+	<button id="btn-register" class="btn btn-dark">출근</button>
+	<button id="btn-leave" class="btn btn-dark">퇴근</button>
 </div>
 
 <script src="/js/attendance/attendance.js"></script>
