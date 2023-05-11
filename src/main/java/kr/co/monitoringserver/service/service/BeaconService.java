@@ -99,6 +99,13 @@ public class BeaconService {
         userBeacon.setRssi(beaconReqDTO.getRssi());
     }
 
+    @Transactional
+    public void deleteDistance(Long userId){
+        List<UserBeacon> userBeacon = userBeaconRepository.findByUser_UserId(userId);
+
+        userBeaconRepository.deleteAllInBatch(userBeacon);
+    }
+
     /**
      * list : Beacon 목록을 조회하여 Page 객체로 반환한다.
      */

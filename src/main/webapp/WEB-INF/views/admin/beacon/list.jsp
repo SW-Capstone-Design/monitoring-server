@@ -29,7 +29,7 @@
         <td>${beacon.uuid}</td>
         <td>${beacon.major}</td>
         <td>${beacon.minor}</td>
-        <td>${beacon.battery}</td>
+        <td>${beacon.battery} %</td>
         <td><b><a href="/admin/beacon/info/${beacon.beaconId}">수정</a></b></td>
       </tr>
       </c:forEach>

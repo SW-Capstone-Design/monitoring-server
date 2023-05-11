@@ -37,6 +37,7 @@ public class Beacon {
     @Column
     private Short battery;
 
-    @OneToMany(mappedBy = "beacon")
+    @OneToMany(mappedBy = "beacon",
+               cascade = CascadeType.REMOVE)
     private List<UserBeacon> Beacons = new ArrayList<>();
 }

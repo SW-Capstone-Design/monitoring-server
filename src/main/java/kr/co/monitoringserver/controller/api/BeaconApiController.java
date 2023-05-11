@@ -84,8 +84,17 @@ public class BeaconApiController {
                 beaconService.updateDistance(userId, userBeacon.getUserBeaconId(), beaconReqDTO);
             }
         }
-
     }
+
+    /**
+     * deleteBeaconConnection : 모바일 클라이언트에서 연결을 끊을 시 tbl_user_beacon에서 해당 유저의 Data 전부 삭제
+     */
+    @DeleteMapping("/auth/deleteBeaconConnection/{user_id}")
+    public void deleteBeaconConnection(@PathVariable(name = "user_id")Long userId) {
+
+        beaconService.deleteDistance(userId);
+    }
+
     
     /**
      * createBeacon : Beacon Data를 Create한다.
