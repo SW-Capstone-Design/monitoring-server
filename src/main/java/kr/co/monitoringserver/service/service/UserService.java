@@ -52,13 +52,14 @@ public class UserService {
      */
     @Transactional
     public void join(UserReqDTO userDto) {
+
         User user = User.builder()
                 .identity(userDto.getIdentity())
                 .password(encoder.encode(userDto.getPassword()))
                 .name(userDto.getName())
                 .telephone(userDto.getTelephone())
                 .department(userDto.getDepartment())
-                .roleType(RoleType.USER1)
+                .roleType(RoleType.ADMIN)
                 .build();
 
         userRepository.save(user);

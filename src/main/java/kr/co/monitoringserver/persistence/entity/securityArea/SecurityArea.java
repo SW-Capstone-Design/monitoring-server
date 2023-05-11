@@ -2,7 +2,7 @@ package kr.co.monitoringserver.persistence.entity.securityArea;
 
 import jakarta.persistence.*;
 import kr.co.monitoringserver.persistence.entity.BaseEntity;
-import kr.co.monitoringserver.persistence.entity.alert.SecurityAreaAlert;
+import kr.co.monitoringserver.persistence.entity.alert.SecurityAreaWarning;
 import kr.co.monitoringserver.service.dtos.request.SecurityAreaReqDTO;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -36,22 +36,22 @@ public class SecurityArea extends BaseEntity {
     private Position securityAreaLocation;
 
     @OneToMany(mappedBy = "securityArea")
-    private List<SecurityAccessLog> securityAccessLogs = new ArrayList<>();
+    private List<UserSecurityArea> userSecurityAreas = new ArrayList<>();
 
     @OneToMany(mappedBy = "securityArea")
-    private List<SecurityAreaAlert> securityAreaAlerts = new ArrayList<>();
+    private List<SecurityAreaWarning> securityAreaWarnings = new ArrayList<>();
 
 
     @Builder
     private SecurityArea(String name,
                          String description,
                          Position securityAreaLocation,
-                         List<SecurityAreaAlert> securityAreaAlerts) {
+                         List<SecurityAreaWarning> securityAreaWarnings) {
 
         this.name = name;
         this.description = description;
         this.securityAreaLocation = securityAreaLocation;
-        this.securityAreaAlerts = securityAreaAlerts;
+        this.securityAreaWarnings = securityAreaWarnings;
     }
 
     public void updateSecurityArea(SecurityAreaReqDTO.UPDATE update) {

@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import kr.co.monitoringserver.persistence.entity.attendance.UserAttendance;
 import kr.co.monitoringserver.persistence.entity.securityArea.Position;
-import kr.co.monitoringserver.persistence.entity.securityArea.SecurityAccessLog;
 import kr.co.monitoringserver.persistence.entity.securityArea.UserSecurityArea;
 import kr.co.monitoringserver.service.enums.RoleType;
 import lombok.AllArgsConstructor;
@@ -65,13 +64,10 @@ public class User {
 
     @OneToMany(
             mappedBy = "user",
-            cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}
+            cascade = CascadeType.ALL
     )
     private List<UserAttendance> userAttendances = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
     private List<UserSecurityArea> userSecurityAreas = new ArrayList<>();
-
-    @OneToMany(mappedBy = "user")
-    private List<SecurityAccessLog> securityAccessLogs = new ArrayList<>();
 }

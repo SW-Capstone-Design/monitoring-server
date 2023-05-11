@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @AttributeOverride(
         name = "id",
         column = @Column(name = "security_area_alert_id", length = 4))
-public class SecurityAreaAlert extends BaseEntity {
+public class SecurityAreaWarning extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "security_area_id")
@@ -27,8 +27,8 @@ public class SecurityAreaAlert extends BaseEntity {
 
 
     @Builder
-    private SecurityAreaAlert(SecurityArea securityArea,
-                              WarningNotification warningNotification) {
+    private SecurityAreaWarning(SecurityArea securityArea,
+                                WarningNotification warningNotification) {
 
         this.securityArea = securityArea;
         this.warningNotification = warningNotification;
