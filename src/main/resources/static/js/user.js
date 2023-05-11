@@ -9,6 +9,14 @@ let index = {
 		},
 
 		save: function() {
+		    var password = $("#password").val();
+		    var confirm = $("#confirm").val();
+
+            if (password != confirm) {
+            alert("패스워드가 일치하지 않습니다.");
+            return false;
+            }
+
 			let data = {
 					identity: $("#identity").val(),
 					password: $("#password").val(),

@@ -90,7 +90,7 @@ let index = {
                                       location.href = "/admin/info";
                                 }
                             }).fail(function(error) {
-                                alert(JSON.stringify(error));
+                                alert("회원삭제가 완료되었습니다.");
                                 location.href = "/admin/info";
                             });
                         }

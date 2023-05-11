@@ -13,6 +13,9 @@
 			<label for="pwd">Password</label> <input type="password" class="form-control" placeholder="Enter password" id="password">
 		</div>
 		<p id="valid_password"></p>
+        <div class="form-group">
+            <label for="pwd">PasswordConfirm</label> <input type="password" class="form-control" placeholder="Enter confirm" id="confirm">
+        </div>
 		<div class="form-group">
 			<label for="name">Name</label> <input type="name" class="form-control" placeholder="Enter name" id="name">
 		</div>
