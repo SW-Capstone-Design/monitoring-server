@@ -17,6 +17,7 @@ let index = {
                         uuid: $("#uuid").val(),
                         major: $("#major").val(),
                         minor: $("#minor").val(),
+                        beaconRole: $("#beaconRole").val()
 			};
 
         $.ajax({
@@ -46,6 +47,7 @@ let index = {
                             uuid: $("#uuid").val(),
                             major: $("#major").val(),
                             minor: $("#minor").val(),
+                            beaconRole: $("#beaconRole").val()
     			};
 
             $.ajax({
@@ -56,7 +58,6 @@ let index = {
                 }).done(function(resp) {
                     if(resp.status == 400 || resp.status == 500){
                           alert("비콘정보 수정에 실패하였습니다.");
-                          location.href = "/admin/beacon/info";
                       }
                       else{
                           alert("비콘정보 수정이 완료되었습니다.");

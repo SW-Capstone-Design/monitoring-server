@@ -1,4 +1,4 @@
-package kr.co.monitoringserver.controller.user;
+package kr.co.monitoringserver.controller;
 
 import kr.co.monitoringserver.persistence.repository.UserAttendanceRepository;
 import kr.co.monitoringserver.service.enums.AttendanceType;

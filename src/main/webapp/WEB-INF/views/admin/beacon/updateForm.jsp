@@ -30,6 +30,10 @@
         <label for="battery">Battery</label>
             <input type="battery" id="battery" class="form-control" value="${lists.battery}" readonly/>
         </div>
+        <div class="form-group">
+        <label for="beaconRole">BeaconRole</label>
+            <input type="beaconRole" id="beaconRole" class="form-control" value="${lists.beaconRole}"/>
+        </div>
   </form>
     <button id="btn-update" class="btn btn-dark">수정</button>
     <button id="btn-del" class="btn btn-dark">삭제</button>

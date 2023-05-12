@@ -1,6 +1,7 @@
 package kr.co.monitoringserver.persistence.entity.beacon;
 
 import jakarta.persistence.*;
+import kr.co.monitoringserver.service.enums.BeaconRoleType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -36,6 +37,10 @@ public class Beacon {
 
     @Column
     private Short battery;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "beacon_role")
+    private BeaconRoleType beaconRole;
 
     @OneToMany(mappedBy = "beacon",
                cascade = CascadeType.REMOVE)

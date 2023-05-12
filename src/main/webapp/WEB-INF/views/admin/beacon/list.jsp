@@ -18,6 +18,7 @@
         <th>Major</th>
         <th>Minor</th>
         <th>Battery</th>
+        <th>BeaconRole</th>
         <th></th>
       </tr>
     </thead>
@@ -30,6 +31,7 @@
         <td>${beacon.major}</td>
         <td>${beacon.minor}</td>
         <td>${beacon.battery} %</td>
+        <th>${beacon.beaconRole}</th>
         <td><b><a href="/admin/beacon/info/${beacon.beaconId}">수정</a></b></td>
       </tr>
       </c:forEach>

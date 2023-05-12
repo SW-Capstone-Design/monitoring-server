@@ -43,6 +43,7 @@ public class BeaconService {
                 .beaconName(beaconReqDTO.getBeaconName())
                 .major(beaconReqDTO.getMajor())
                 .minor(beaconReqDTO.getMinor())
+                .beaconRole(beaconReqDTO.getBeaconRole())
                 .build();
 
         beaconRepository.save(beacon);
@@ -127,6 +128,7 @@ public class BeaconService {
                     .uuid(beacon.getUuid())
                     .major(beacon.getMajor())
                     .minor(beacon.getMinor())
+                    .beaconRole(beacon.getBeaconRole())
                     .build();
 
             collect.add(beaconResDTO);
@@ -156,6 +158,7 @@ public class BeaconService {
         beacon.setMajor(beaconReqDTO.getMajor());
         beacon.setMinor(beaconReqDTO.getMinor());
         beacon.setBeaconName(beaconReqDTO.getBeaconName());
+        beacon.setBeaconRole(beaconReqDTO.getBeaconRole());
     }
 
     /**

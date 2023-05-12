@@ -1,4 +1,4 @@
-package kr.co.monitoringserver.controller.beacon;
+package kr.co.monitoringserver.controller;
 
 import kr.co.monitoringserver.service.service.BeaconService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -25,6 +25,10 @@
         <label for="minor">Minor</label>
             <input type="minor" id="minor" class="form-control" placeholder="Enter minor" />
         </div>
+        <div class="form-group">
+        <label for="beaconRole">BeaconRole</label>
+            <input type="beaconRole" id="beaconRole" class="form-control" placeholder="Enter beaconRole" />
+        </div>
   </form>
     <button id="btn-create" class="btn btn-dark">등록</button>
 </div>

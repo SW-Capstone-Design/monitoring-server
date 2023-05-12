@@ -1,5 +1,6 @@
 package kr.co.monitoringserver.service.dtos.response;
 
+import kr.co.monitoringserver.service.enums.BeaconRoleType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,4 +16,5 @@ public class BeaconResDTO {
     private Integer major;
     private Integer minor;
 
+    private BeaconRoleType beaconRole;
 }
