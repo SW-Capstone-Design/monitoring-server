@@ -83,8 +83,6 @@ public class UserController {
 
     /**
      * attendCreateForm : 출결정보 생성 폼이다.
-     * 보완 필요 : 블루투스가 연결된 상태로 버튼을 클릭했을 때만 출석이 인정되어야 함.
-     * 퇴근 여부는 어떻게 처리할 것인지 논의가 필요하다.
      */
     @GetMapping("/attendance/register")
     public String attendCreateForm() {

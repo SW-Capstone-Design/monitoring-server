@@ -9,7 +9,7 @@
   </span>
   <br><br>
     <form>
-        <input type="beaconId" id="beaconId" class="form-control" value="${lists.beaconId}" readonly/>
+        <input type="hidden" id="beaconId" class="form-control" value="${lists.beaconId}" readonly/>
 		<div class="form-group">
 		    <label for="beaconName">BeaconName</label>
 		    <input type="beaconName" id="beaconName" class="form-control" placeholder="Enter name" value="${lists.beaconName}"/>

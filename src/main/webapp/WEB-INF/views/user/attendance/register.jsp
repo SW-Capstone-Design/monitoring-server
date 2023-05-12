@@ -16,7 +16,6 @@
 		</div>
 	</form>
 	<button id="btn-register" class="btn btn-dark">출근</button>
-	<button id="btn-leave" class="btn btn-dark">퇴근</button>
 </div>
 
 <script src="/js/attendance/attendance.js"></script>

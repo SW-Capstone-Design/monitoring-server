@@ -225,32 +225,6 @@ public class UserService {
     }
 
     /**
-     * updateLeaveAttendance : 해당 사용자의 퇴근 시간을 갱신한다.
-     */
-    @Transactional
-    public void updateLeaveAttendance(String userIdentity, AttendanceReqDTO.UPDATE update) {
-
-        final User user = userRepository.findByIdentity(userIdentity)
-                .orElseThrow(BadRequestException::new);
-
-        final UserAttendance userAttendance = userAttendanceRepository.findEntityByUserAndAttendance_Date(user, update.getDate())
-                .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_USER));
-
-        update.setEnterTime(userAttendance.getAttendance().getEnterTime());
-
-        AttendanceType goWork = Optional.ofNullable(update.getEnterTime())
-                .map(attendanceService::calculateGoWorkAttendanceType)
-                .orElse(null);
-
-        AttendanceType leaveWork = Optional.ofNullable(update.getLeaveTime())
-                .map(attendanceService::calculateLeaveWorkAttendanceType)
-                .orElse(null);
-
-        userAttendance.updateAttendance(update, goWork, leaveWork);
-
-    }
-
-    /**
      * Delete UserAttendance Service
      */
     @Transactional
