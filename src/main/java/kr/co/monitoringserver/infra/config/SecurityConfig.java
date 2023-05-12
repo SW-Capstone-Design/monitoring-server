@@ -55,7 +55,7 @@ public class SecurityConfig {
                 .loginProcessingUrl("/auth/loginProc")
                 .usernameParameter("identity")
                 .passwordParameter("password")
-                .defaultSuccessUrl("/", false)
+                .defaultSuccessUrl("/index", false)
                 .permitAll())
                 .logout(Customizer.withDefaults());
 

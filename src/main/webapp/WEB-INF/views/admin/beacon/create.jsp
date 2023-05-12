@@ -10,7 +10,7 @@
   <br><br>
     <form>
 		<div class="form-group">
-		    <label for="beaconName">BeaconName</label>
+		    <label for="beaconName">비콘명</label>
 		    <input type="beaconName" id="beaconName" class="form-control" placeholder="Enter name"/>
 		</div>
         <div class="form-group">
@@ -26,11 +26,13 @@
             <input type="minor" id="minor" class="form-control" placeholder="Enter minor" />
         </div>
         <div class="form-group">
-        <label for="beaconRole">BeaconRole</label>
+        <label for="beaconRole">용도</label>
             <input type="beaconRole" id="beaconRole" class="form-control" placeholder="Enter beaconRole" />
+            <p style="color:red;">ATTENDANCE, LOCATION</p>
         </div>
   </form>
     <button id="btn-create" class="btn btn-dark">등록</button>
+    <button id="btn-back" class="btn btn-dark">뒤로가기</button>
 </div>
 
 <script src="/js/beacon/beacon.js"></script>

@@ -9,6 +9,9 @@ let index = {
             $("#btn-del").on("click", ()=>{
                 this.del();
             });
+            $("#btn-back").on("click", ()=>{
+                this.back();
+            });
 		},
 
 		create: function() {
@@ -28,7 +31,6 @@ let index = {
             }).done(function(resp) {
                 if(resp.status == 400 || resp.status == 500){
                       alert("비콘정보 등록에 실패하였습니다.");
-                      location.href = "/admin/beacon/info";
                   }
                   else{
                       alert("비콘정보 등록이 완료되었습니다.");
@@ -83,7 +85,6 @@ let index = {
                 }).done(function(resp) {
                     if(resp.status == 400 || resp.status == 500){
                           alert("비콘정보 삭제에 실패하였습니다.");
-                          location.href = "/admin/beacon/info";
                       }
                       else{
                           alert("비콘정보 삭제가 완료되었습니다.");
@@ -94,7 +95,11 @@ let index = {
                     location.href = "/admin/beacon/info";
                 });
             }
-        }
+        },
+
+            back: function() {
+                window.history.back();
+            }
 }
 
 index.init();

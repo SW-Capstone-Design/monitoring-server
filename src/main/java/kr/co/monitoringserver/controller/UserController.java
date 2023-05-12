@@ -24,12 +24,21 @@ public class UserController {
     UserAttendanceRepository userAttendanceRepository;
 
     /**
-     * joinForm : 회원가입 폼을 매핑한다.
+     * init : 최초 접속시 로그인 폼을 매핑한다.
      */
-    @GetMapping("/auth/joinForm")
-    public String joinForm() {
+    @GetMapping("/")
+    public String init() {
 
-        return "user/joinForm";
+        return "user/loginForm";
+    }
+
+    /**
+     * index : 로그인 성공시 인덱스를 매핑한다.
+     */
+    @GetMapping("/index")
+    public String index() {
+
+        return "index";
     }
 
     /**

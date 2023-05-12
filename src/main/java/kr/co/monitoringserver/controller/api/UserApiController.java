@@ -34,21 +34,6 @@ public class UserApiController {
     private final AuthenticationManager authenticationmanager;
 
     /**
-     * saveUser : 사용자정보를 Create하여 회원가입을 수행한다.
-     */
-    @PostMapping("/auth/joinProc")
-    public ResponseDto<?> saveUser(@Valid @RequestBody UserReqDTO userDto, BindingResult bindingResult) {
-        if(bindingResult.hasErrors()) {
-            Map<String, String> validatorResult = userService.validateHandling(bindingResult);
-
-            return new ResponseDto<>(HttpStatus.BAD_REQUEST.value(), validatorResult);
-        }
-
-        userService.join(userDto);
-        return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
-    }
-
-    /**
      * updateUser : 사용자 본인의 회원정보를 Update 한다.
      */
     @PutMapping("/user")

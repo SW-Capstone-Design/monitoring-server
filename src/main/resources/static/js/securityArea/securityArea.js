@@ -9,6 +9,9 @@ let index = {
             $("#btn-del").on("click", ()=>{
                 this.del();
             });
+            $("#btn-back").on("click", ()=>{
+                this.back();
+            });
 		},
 
 		create: function() {
@@ -108,7 +111,11 @@ let index = {
                     location.href = "/admin/area/info";
                 });
             }
-        }
+        },
+
+            back: function() {
+                window.history.back();
+            }
 }
 
 index.init();

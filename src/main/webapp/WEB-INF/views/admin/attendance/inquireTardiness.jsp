@@ -14,15 +14,15 @@
   <table class="table table-hover">
     <thead>
       <tr>
-        <th>Date</th>
-        <th>Id</th>
-        <th>Name</th>
-        <th>Department</th>
-        <th>RoleType</th>
-        <th>EnterTime</th>
-        <th>LeaveTime</th>
-        <th>GoWork</th>
-        <th>LeaveWork</th>
+        <th>날짜</th>
+        <th>ID</th>
+        <th>이름</th>
+        <th>부서</th>
+        <th>등급</th>
+        <th>출근시간</th>
+        <th>퇴근시간</th>
+        <th>지각여부</th>
+        <th>조퇴여부</th>
       </tr>
     </thead>
     <tbody>
@@ -42,7 +42,9 @@
     </tbody>
   </table>
 
-  <ul class="pagination justify-content-center">
+<button style="display:inline-block; float:left;" type="button" id="btn-back" class="btn btn-dark">뒤로가기</button>
+
+  <ul class="pagination" style="position:relative; left:35%">
   	<c:choose>
   		<c:when test="${lists.first}">
   			<li class="page-item disabled"><a class="page-link" href="?page=${lists.number-1}">Previous</a></li>
@@ -73,5 +75,20 @@
   	</c:choose>
 
 </div>
+
+<script>
+    let index = {
+        init: function() {
+                    $("#btn-back").on("click", ()=>{
+                        this.back();
+                    });
+                },
+
+                back: function() {
+                    window.history.back();
+                }
+        }
+    index.init();
+</script>
 
 <%@ include file="../../layout/admin/footer.jsp"%>

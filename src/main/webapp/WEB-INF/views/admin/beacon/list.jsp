@@ -12,13 +12,13 @@
   <table class="table table-hover">
     <thead>
       <tr>
-        <th>Id</th>
-        <th>BeaconName</th>
+        <th>비콘 ID</th>
+        <th>비콘명</th>
         <th>UUID</th>
         <th>Major</th>
         <th>Minor</th>
-        <th>Battery</th>
-        <th>BeaconRole</th>
+        <th>배터리잔량</th>
+        <th>용도</th>
         <th></th>
       </tr>
     </thead>
@@ -38,7 +38,9 @@
     </tbody>
   </table>
 
-  <ul class="pagination justify-content-center">
+  <button style="display:inline-block; float:left;" type="button" id="btn-createForm" class="btn btn-dark">비콘등록</button>
+
+  <ul class="pagination" style="position:relative; left:35%">
     	<c:choose>
     		<c:when test="${lists.first}">
     			<li class="page-item disabled"><a class="page-link" href="?page=${lists.number-1}">Previous</a></li>
@@ -69,5 +71,19 @@
     	</c:choose>
     </form>
 </div>
+
+<script>
+    let index = {
+        init: function() {
+                    $("#btn-createForm").on("click", ()=>{
+                        this.createForm();
+                    });
+                },
+                createForm: function() {
+                    location.href="/admin/beacon/data";
+                }
+        }
+    index.init();
+</script>
 
 <%@ include file="../../layout/admin/footer.jsp"%>

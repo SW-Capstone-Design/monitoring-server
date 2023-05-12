@@ -28,42 +28,18 @@
 		<c:choose>
 			<c:when test="${empty principal}" >
 				<ul class="navbar-nav">
-					<li class="nav-item"><a class="nav-link" href="/auth/loginForm">로그인</a></li>
-					<li class="nav-item"><a class="nav-link" href="/auth/joinForm">회원가입</a></li>
+                    <li class="nav-item"><a class="nav-link">로그인</a></li>
 				</ul>
 			</c:when>
 			<c:otherwise>
 				<ul class="navbar-nav">
 				            <li class="nav-item"><a class="nav-link" href="#">모니터링</a></li>
                             <li class="nav-item dropdown">
-                               <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-                                  회원출결관리
-                               </a>
-                               <div class="dropdown-menu">
-                                  <a class="dropdown-item" href="/admin/attendance/list">일자별출결관리</a>
-                                  <a class="dropdown-item" href="/admin/attendance/list/tardiness">지각회원조회</a>
-                                  <a class="dropdown-item" href="/admin/attendance/list/earlyLeave">조퇴회원조회</a>
-                               </div>
-							<li class="nav-item dropdown">
-                               <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-                                  비콘관리
-                               </a>
-                               <div class="dropdown-menu">
-                                  <a class="dropdown-item" href="/admin/beacon/data">비콘등록</a>
-                                  <a class="dropdown-item" href="/admin/beacon/info">비콘정보관리</a>
-                               </div>
-                            </li>
-                            <li class="nav-item dropdown">
-                               <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-                                  보안구역관리
-                               </a>
-                               <div class="dropdown-menu">
-                                  <a class="dropdown-item" href="/admin/area/create">보안구역정보등록</a>
-                                  <a class="dropdown-item" href="/admin/area/info">보안구역정보관리</a>
-                               </div>
-                            </li>
-        					<li class="nav-item"><a class="nav-link" href="/admin/info">회원정보관리</a></li>
-        					<li class="nav-item"><a class="nav-link" href="/">사용자페이지</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/admin/attendance/list">출결관리</a></li>
+							<li class="nav-item"><a class="nav-link" href="/admin/beacon/info">비콘관리</a></li>
+        					<li class="nav-item"><a class="nav-link" href="/admin/area/info">보안구역관리</a></li>
+        					<li class="nav-item"><a class="nav-link" href="/admin/info">회원관리</a></li>
+        					<li class="nav-item"><a class="nav-link" href="/index">사용자페이지</a></li>
         					<li class="nav-item"><a class="nav-link" href="/logout">로그아웃</a></li>
 				</ul>
 			</c:otherwise>

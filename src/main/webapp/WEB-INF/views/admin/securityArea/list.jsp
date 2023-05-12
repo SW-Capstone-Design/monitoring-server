@@ -12,11 +12,11 @@
   <table class="table table-hover">
     <thead>
       <tr>
-        <th>Id</th>
-        <th>Name</th>
-        <th>Description</th>
-        <th>Latitude</th>
-        <th>Longitude</th>
+        <th>보안구역 ID</th>
+        <th>보안구역명</th>
+        <th>명세</th>
+        <th>위도</th>
+        <th>경도</th>
         <th></th>
       </tr>
     </thead>
@@ -33,37 +33,53 @@
       </c:forEach>
     </tbody>
   </table>
+  <button style="display:inline-block; float:left;" type="button" id="btn-createForm" class="btn btn-dark">보안구역등록</button>
+    <ul class="pagination" style="position:relative; left:35%">
+        <c:choose>
+            <c:when test="${lists.first}">
+                <li class="page-item disabled"><a class="page-link" href="?page=${lists.number-1}">Previous</a></li>
+            </c:when>
+            <c:otherwise>
+                <li class="page-item"><a class="page-link" href="?page=${user.number-1}">Previous</a></li>
+            </c:otherwise>
+        </c:choose>
 
-    <ul class="pagination justify-content-center">
-      	<c:choose>
-      		<c:when test="${lists.first}">
-      			<li class="page-item disabled"><a class="page-link" href="?page=${lists.number-1}">Previous</a></li>
-      		</c:when>
-      		<c:otherwise>
-      			<li class="page-item"><a class="page-link" href="?page=${user.number-1}">Previous</a></li>
-      		</c:otherwise>
-      	</c:choose>
-
-      	<c:forEach var="i" begin="1" end="${lists.totalPages}">
-      	<c:choose>
-          		<c:when test="${!empty param.searchKeyword}">
-          		    <li class="page-item"><a class="page-link" href="?page=${i-1}&searchKeyword=${param.searchKeyword}">${i}</a></li>
-          		</c:when>
-          		<c:otherwise>
-          	        <li class="page-item"><a class="page-link" href="?page=${i-1}">${i}</a></li>
-          		</c:otherwise>
-          	</c:choose>
+        <c:forEach var="i" begin="1" end="${lists.totalPages}">
+        <c:choose>
+                <c:when test="${!empty param.searchKeyword}">
+                    <li class="page-item"><a class="page-link" href="?page=${i-1}&searchKeyword=${param.searchKeyword}">${i}</a></li>
+                </c:when>
+                <c:otherwise>
+                    <li class="page-item"><a class="page-link" href="?page=${i-1}">${i}</a></li>
+                </c:otherwise>
+            </c:choose>
         </c:forEach>
 
-      	<c:choose>
-      		<c:when test="${lists.last}">
-      			<li class="page-item disabled"><a class="page-link" href="?page=${lists.number+1}">Next</a></li>
-      		</c:when>
-      		<c:otherwise>
-      			<li class="page-item"><a class="page-link" href="?page=${lists.number+1}">Next</a></li>
-      		</c:otherwise>
-      	</c:choose>
+        <c:choose>
+            <c:when test="${lists.last}">
+                <li class="page-item disabled"><a class="page-link" href="?page=${lists.number+1}">Next</a></li>
+            </c:when>
+            <c:otherwise>
+                <li class="page-item"><a class="page-link" href="?page=${lists.number+1}">Next</a></li>
+            </c:otherwise>
+        </c:choose>
     </form>
 </div>
+
+<script>
+    let index = {
+        init: function() {
+                    $("#btn-createForm").on("click", ()=>{
+                        this.createForm();
+                    });
+                },
+
+                createForm: function() {
+                    location.href="/admin/area/create"
+                }
+        }
+    index.init();
+</script>
+
 
 <%@ include file="../../layout/admin/footer.jsp"%>

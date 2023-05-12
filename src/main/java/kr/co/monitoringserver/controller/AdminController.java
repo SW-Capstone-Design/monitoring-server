@@ -36,6 +36,15 @@ public class AdminController {
     }
 
     /**
+     * joinForm : 회원가입 폼을 매핑한다.
+     */
+    @GetMapping("/admin/joinForm")
+    public String joinForm() {
+
+        return "admin/info/joinForm";
+    }
+
+    /**
      * list : 유저정보를 Select하여 조회가 가능하다.
      * 페이징 보완 필요, size는 추후 변경할 예정 
      */
@@ -64,7 +73,7 @@ public class AdminController {
     /**
      * attendList : 회원출결정보를 Select 한다.
      */
-    @GetMapping("admin/attendance/list")
+    @GetMapping("/admin/attendance/list")
     public String attendList(Model model, @PageableDefault(size=10, sort="attendance.date", direction = Sort.Direction.DESC) Pageable pageable,
                              LocalDate searchKeyword){
 

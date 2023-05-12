@@ -17,10 +17,10 @@ public class BeaconController {
     private BeaconService beaconService;
 
     /**
-     * beaconSendForm : 테스트용 메소드로, 더미 BeaconData를 전송한다.
+     * beaconCreateForm : BeaconData를 등록한다.
      */
-    @GetMapping("admin/beacon/data")
-    public String beaconSendForm(){
+    @GetMapping("/admin/beacon/data")
+    public String beaconCreateForm(){
 
         return "admin/beacon/create";
     }
@@ -29,7 +29,7 @@ public class BeaconController {
      * beaconList : BeaconData list를 Select하여 조회가 가능하다.
      * 최대 비콘 6개이므로 한 페이지에 모두 표시 가능하다.
      */
-    @GetMapping("admin/beacon/info")
+    @GetMapping("/admin/beacon/info")
     public String beaconList(Model model, @PageableDefault(size=6, sort="beaconId", direction = Sort.Direction.ASC) Pageable pageable){
 
         model.addAttribute("lists", beaconService.list(pageable));

@@ -11,7 +11,7 @@
     <form>
         <input type="hidden" id="beaconId" class="form-control" value="${lists.beaconId}" readonly/>
 		<div class="form-group">
-		    <label for="beaconName">BeaconName</label>
+		    <label for="beaconName">비콘 ID</label>
 		    <input type="beaconName" id="beaconName" class="form-control" placeholder="Enter name" value="${lists.beaconName}"/>
 		</div>
         <div class="form-group">
@@ -27,11 +27,11 @@
             <input type="minor" id="minor" class="form-control" placeholder="Enter minor" value="${lists.minor}"/>
         </div>
         <div class="form-group">
-        <label for="battery">Battery</label>
+        <label for="battery">배터리잔량</label>
             <input type="battery" id="battery" class="form-control" value="${lists.battery}" readonly/>
         </div>
         <div class="form-group">
-        <label for="beaconRole">BeaconRole</label>
+        <label for="beaconRole">용도</label>
             <input type="beaconRole" id="beaconRole" class="form-control" value="${lists.beaconRole}"/>
         </div>
   </form>
