@@ -13,22 +13,18 @@ import org.mapstruct.Mapping;
 public interface UserAttendanceMapper {
 
     // AttendanceReqDTO.CREATE -> UserAttendance Entity
-    default UserAttendance toUserAttendanceEntity(User user,
-                                          AttendanceReqDTO.CREATE create,
-                                          AttendanceType goWork,
-                                          AttendanceType leaveWork) {
+    default UserAttendance toUserAttendanceEntity(User user, AttendanceReqDTO.CREATE create, AttendanceType goWork) {
 
         return UserAttendance.builder()
                 .user(user)
                 .attendance(Attendance.builder()
                         .enterTime(create.getEnterTime())
-                        .leaveTime(create.getLeaveTime())
                         .goWork(goWork)
-                        .leaveWork(leaveWork)
                         .date(create.getDate())
                         .build())
                 .build();
     }
+
 
     // UserAttendance Entity -> AttendanceResDTO.READ
     @Mapping(source = "userAttendance.user.identity", target = "userIdentity")
@@ -40,7 +36,8 @@ public interface UserAttendanceMapper {
     @Mapping(source = "userAttendance.attendance.goWork", target = "goWork")
     @Mapping(source = "userAttendance.attendance.leaveWork", target = "leaveWork")
     @Mapping(source = "userAttendance.attendance.date", target = "date")
-    AttendanceResDTO.READ toUserAttendacneReadDto(UserAttendance userAttendance);
+    AttendanceResDTO.READ toUserAttendanceReadDto(UserAttendance userAttendance);
+
 
     @Mapping(source = "userAttendance.attendance.goWork", target = "goWork")
     @Mapping(source = "userAttendance.attendance.enterTime", target = "enterTime")

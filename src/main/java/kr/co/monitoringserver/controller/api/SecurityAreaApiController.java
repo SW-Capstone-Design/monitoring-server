@@ -4,8 +4,12 @@ import kr.co.monitoringserver.infra.global.error.enums.ErrorCode;
 import kr.co.monitoringserver.infra.global.error.response.ResponseFormat;
 import kr.co.monitoringserver.service.dtos.request.SecurityAreaReqDTO;
 import kr.co.monitoringserver.service.dtos.response.SecurityAreaResDTO;
+import kr.co.monitoringserver.service.dtos.response.UserSecurityAreaResDTO;
 import kr.co.monitoringserver.service.service.SecurityAreaService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -26,50 +30,83 @@ public class SecurityAreaApiController {
 
         return ResponseFormat.successMessage(
                 ErrorCode.SUCCESS_CREATED,
-                create.getName() + " 보안구역 정보가 성공적으로 생성되었습니다"
+                create.getName() + "의 보안구역 정보가 성공적으로 생성되었습니다"
         );
     }
 
     /**
      * Get Security Area By id Controller
      */
-    @GetMapping("/{security_area_id}")
-    public ResponseFormat<SecurityAreaResDTO.READ> getSecurityAreaById(@PathVariable(name = "security_area_id") Long securityAreaId) {
+    @GetMapping("/{user_identity}/{security_area_id}")
+    public ResponseFormat<Page<SecurityAreaResDTO.READ>> getSecurityAreaById(@PathVariable(name = "user_identity") String userIdentity,
+                                                                             @PathVariable(name = "security_area_id") Long securityAreaId,
+                                                                             @PageableDefault Pageable pageable) {
 
         return ResponseFormat.successData(
                 ErrorCode.SUCCESS_EXECUTE,
-                securityAreaService.getSecurityAreaById(securityAreaId)
+                securityAreaService.getSecurityAreaById(userIdentity, securityAreaId, pageable)
         );
     }
-
-
 
     /**
      * Update Security Area Controller
      */
-    @PutMapping("/{security_area_id}")
-    public ResponseFormat<Void> updateSecurityArea(@PathVariable(name = "security_area_id") Long securityAreaId,
+    @PutMapping("/{user_identity}/{security_area_id}")
+    public ResponseFormat<Void> updateSecurityArea(@PathVariable(name = "user_identity") String userIdentity,
+                                                   @PathVariable(name = "security_area_id") Long securityAreaId,
                                                    @RequestBody SecurityAreaReqDTO.UPDATE update) {
 
-        securityAreaService.updateSecurityArea(securityAreaId, update);
+        securityAreaService.updateSecurityArea(userIdentity, securityAreaId, update);
 
         return ResponseFormat.successMessage(
                 ErrorCode.SUCCESS_EXECUTE,
-                update.getName() + " 보안구역 정보가 성공적으로 수정되었습니다"
+                update.getName() + "의 보안구역 정보가 성공적으로 수정되었습니다"
         );
     }
 
     /**
      * Delete Security Area Controller
      */
-    @DeleteMapping("/{security_area_id}")
-    public ResponseFormat<Void> deleteSecurityArea(@PathVariable(name = "security_area_id") Long securityAreaId) {
+    @DeleteMapping("/{user_identity}/{security_area_id}")
+    public ResponseFormat<Void> deleteSecurityArea(@PathVariable(name = "user_identity") String userIdentity,
+                                                   @PathVariable(name = "security_area_id") Long securityAreaId) {
 
-        securityAreaService.deleteSecurityArea(securityAreaId);
+        securityAreaService.deleteSecurityArea(userIdentity, securityAreaId);
 
         return ResponseFormat.successMessage(
                 ErrorCode.SUCCESS_EXECUTE,
                 "보안구역 정보가 성공적으로 삭제되었습니다"
+        );
+    }
+
+
+
+    /**
+     * Detecting Access To User Security Area Controller
+     */
+    @PostMapping("/access_log/{security_area_name}/{user_identity}")
+    public ResponseFormat<Void> detectingAccessToUserSecurityArea(@PathVariable(name = "user_identity") String userIdentity,
+                                                                  @PathVariable(name = "security_area_name") String securityAreaName) {
+
+        securityAreaService.detectingAccessToUserSecurityArea(userIdentity, securityAreaName);
+
+        return ResponseFormat.successMessage(
+                ErrorCode.SUCCESS_EXECUTE,
+                userIdentity + "님의 보안구역 접근이 감지되었습니다"
+        );
+    }
+
+    /**
+     * Get User Security Area By User And Security Area Controller
+     */
+    @GetMapping("/access_log/{security_area_name}/{user_identity}")
+    public ResponseFormat<Page<UserSecurityAreaResDTO.READ>> getUserSecurityAreaByUserAndArea(@PathVariable(name = "user_identity") String userIdentity,
+                                                                                              @PathVariable(name = "security_area_name") String securityAreaName,
+                                                                                              @PageableDefault Pageable pageable) {
+
+        return ResponseFormat.successData(
+                ErrorCode.SUCCESS_EXECUTE,
+                securityAreaService.getUserSecurityAreaByUserAndSecurityArea(userIdentity, securityAreaName, pageable)
         );
     }
 }

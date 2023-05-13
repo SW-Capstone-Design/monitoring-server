@@ -1,6 +1,5 @@
 package kr.co.monitoringserver.controller;
 
-import kr.co.monitoringserver.persistence.repository.UserAttendanceRepository;
 import kr.co.monitoringserver.service.enums.AttendanceType;
 import kr.co.monitoringserver.service.service.AdminService;
 import kr.co.monitoringserver.service.service.UserService;
@@ -12,8 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 
 import java.time.LocalDate;
 

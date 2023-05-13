@@ -16,8 +16,6 @@ public class AttendanceReqDTO {
 
         private LocalTime enterTime;
 
-        private LocalTime leaveTime;
-
         private LocalDate date;
     }
 
