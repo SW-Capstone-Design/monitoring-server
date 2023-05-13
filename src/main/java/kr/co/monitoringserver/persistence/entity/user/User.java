@@ -3,6 +3,7 @@ package kr.co.monitoringserver.persistence.entity.user;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import kr.co.monitoringserver.persistence.entity.attendance.UserAttendance;
+import kr.co.monitoringserver.persistence.entity.securityArea.Position;
 import kr.co.monitoringserver.persistence.entity.securityArea.UserSecurityArea;
 import kr.co.monitoringserver.service.enums.RoleType;
 import lombok.AllArgsConstructor;
@@ -56,9 +57,14 @@ public class User {
     @Column(nullable = false, length = 30)
     private String telephone;
 
+    @Embedded
+    @Column(name = "user_location",
+            nullable = false)
+    private Position userLocation;
+
     @OneToMany(
             mappedBy = "user",
-            cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}
+            cascade = CascadeType.ALL
     )
     private List<UserAttendance> userAttendances = new ArrayList<>();
 

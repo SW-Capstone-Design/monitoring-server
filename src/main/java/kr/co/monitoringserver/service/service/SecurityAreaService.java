@@ -10,6 +10,7 @@ import kr.co.monitoringserver.persistence.repository.SecurityAreaRepository;
 import kr.co.monitoringserver.persistence.repository.UserRepository;
 import kr.co.monitoringserver.service.dtos.request.SecurityAreaReqDTO;
 import kr.co.monitoringserver.service.dtos.response.SecurityAreaResDTO;
+import kr.co.monitoringserver.service.dtos.response.UserSecurityAreaResDTO;
 import kr.co.monitoringserver.service.enums.RoleType;
 import kr.co.monitoringserver.service.mappers.SecurityAreaMapper;
 import lombok.RequiredArgsConstructor;
@@ -29,11 +30,7 @@ public class SecurityAreaService {
 
     private final UserRepository userRepository;
 
-    /** TODO : 비인가 사용자에 대한 권한 확인 및 경고 알림 생성
-     * 비인가 사용자가 해당 보안 구역을 들어갈 경우 사용자의 권한을 확인
-     * 보안 구역 정보를 생성할 경우 상황에 맞는 경고 알림을 조회하고 없을 경우 경고 알림 정보를 생성
-     * 비인가 사용자가 해당 보안 구역에 들어갈 경우 경고 알림이 울림
-     */
+    private final UserSecurityAreaService userSecurityAreaService;
 
     /**
      * Create Security Area Service
@@ -41,10 +38,7 @@ public class SecurityAreaService {
     @Transactional
     public void createSecurityArea(String userIdentity, SecurityAreaReqDTO.CREATE create) {
 
-        final User user = userRepository.findByIdentity(userIdentity)
-                .orElseThrow(BadRequestException::new);
-
-        checkAuthenticate(user.getRoleType());
+        checkSecurityAreaAccess(userIdentity);
 
         SecurityArea securityArea = securityAreaMapper.toSecurityAreaEntity(create);
 
@@ -54,13 +48,15 @@ public class SecurityAreaService {
     /**
      * Get Security Area By id Service
      */
-    public SecurityAreaResDTO.READ getSecurityAreaById(Long securityAreaId) {
+    public Page<SecurityAreaResDTO.READ> getSecurityAreaById(String userIdentity, Long securityAreaId, Pageable pageable) {
 
-        final SecurityArea securityArea = securityAreaRepository.findById(securityAreaId)
-                .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_SECURITY_AREA));
+        checkSecurityAreaAccess(userIdentity);
 
-        return securityAreaMapper.toSecurityAreaReadDto(securityArea);
+        Page<SecurityArea> securityAreaPage = securityAreaRepository.findById(securityAreaId, pageable);
+
+        return securityAreaPage.map(securityAreaMapper::toSecurityAreaReadDto);
     }
+
 
     /**
      * securityAreaDetail : SecurityAreaId로 조회하여 엔티티 타입 객체로 반환한다.
@@ -74,18 +70,21 @@ public class SecurityAreaService {
     }
 
     /**
-     * getSecurityArea : SecurityArea의 모든 정보를 Select하여 Page를 반환한다.
+     * getSecurityArea : SecurityArea 의 모든 정보를 Select 하여 Page 를 반환한다.
      */
     public Page<SecurityArea> getSecurityArea(Pageable pageable) {
 
         return securityAreaRepository.findAll(pageable);
     }
 
+
     /**
      * Update Security Area Service
      */
     @Transactional
-    public void updateSecurityArea(Long securityAreaId, SecurityAreaReqDTO.UPDATE update) {
+    public void updateSecurityArea(String userIdentity, Long securityAreaId, SecurityAreaReqDTO.UPDATE update) {
+
+        checkSecurityAreaAccess(userIdentity);
 
         final SecurityArea securityArea = securityAreaRepository.findById(securityAreaId)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_SECURITY_AREA));
@@ -97,7 +96,9 @@ public class SecurityAreaService {
      * Delete Security Area Service
      */
     @Transactional
-    public void deleteSecurityArea(Long securityAreaId) {
+    public void deleteSecurityArea(String userIdentity, Long securityAreaId) {
+
+        checkSecurityAreaAccess(userIdentity);
 
         final SecurityArea securityArea = securityAreaRepository.findById(securityAreaId)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_SECURITY_AREA));
@@ -106,9 +107,45 @@ public class SecurityAreaService {
     }
 
 
-    private void checkAuthenticate(RoleType roleType) {
 
-        if (!roleType.equals(RoleType.ADMIN)) {
+    /**
+     * Detecting Access To User Security Area Service
+     */
+    @Transactional
+    public void detectingAccessToUserSecurityArea(String userIdentity, String securityAreaName) {
+
+        final User user = userRepository.findByIdentity(userIdentity)
+                .orElseThrow(BadRequestException::new);
+
+        final SecurityArea securityArea = userSecurityAreaService.verifyAccessToSecurityArea(securityAreaName);
+
+        if (userSecurityAreaService.isWithinRange(user.getUserLocation(), securityArea.getSecurityAreaLocation(), 20)) {
+            userSecurityAreaService.createSecurityAccessLog(user, securityArea);
+        }
+    }
+
+    /**
+     * Get User Security Area By User And Security Area Service
+     */
+    public Page<UserSecurityAreaResDTO.READ> getUserSecurityAreaByUserAndSecurityArea(String userIdentity, String securityAreaName, Pageable pageable) {
+
+        final User user = userRepository.findByIdentity(userIdentity)
+                .orElseThrow(BadRequestException::new);
+
+        final SecurityArea securityArea = userSecurityAreaService.verifyAccessToSecurityArea(securityAreaName);
+
+        return userSecurityAreaService.getSecurityAccessLogByArea(user, securityArea, pageable);
+    }
+
+
+
+    // 사용자 권한 검사
+    private void checkSecurityAreaAccess(String userIdentity) {
+
+        final User user = userRepository.findByIdentity(userIdentity)
+                .orElseThrow(BadRequestException::new);
+
+        if (!user.getRoleType().equals(RoleType.ADMIN)) {
             throw new NotAuthenticateException();
         }
     }

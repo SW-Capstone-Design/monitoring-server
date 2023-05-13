@@ -8,6 +8,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalTime;
+
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
@@ -16,6 +18,9 @@ import lombok.NoArgsConstructor;
         name = "id",
         column = @Column(name = "user_security_area_id", length = 4))
 public class UserSecurityArea extends BaseEntity {
+
+    @Column(name = "access_time")
+    private LocalTime accessTime;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -27,9 +32,11 @@ public class UserSecurityArea extends BaseEntity {
 
 
     @Builder
-    private UserSecurityArea(User user,
+    private UserSecurityArea(LocalTime accessTime,
+                             User user,
                              SecurityArea securityArea) {
 
+        this.accessTime = accessTime;
         this.user = user;
         this.securityArea = securityArea;
     }
