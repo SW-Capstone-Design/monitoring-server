@@ -117,8 +117,7 @@ public class SecurityAreaService {
         final User user = userRepository.findByIdentity(userIdentity)
                 .orElseThrow(BadRequestException::new);
 
-        final SecurityArea securityArea =
-                userSecurityAreaService.verifyAccessToSecurityArea(securityAreaName, user.getRoleType());
+        final SecurityArea securityArea = userSecurityAreaService.verifyAccessToSecurityArea(securityAreaName);
 
         if (userSecurityAreaService.isWithinRange(user.getUserLocation(), securityArea.getSecurityAreaLocation(), 20)) {
             userSecurityAreaService.createSecurityAccessLog(user, securityArea);
@@ -133,8 +132,7 @@ public class SecurityAreaService {
         final User user = userRepository.findByIdentity(userIdentity)
                 .orElseThrow(BadRequestException::new);
 
-        final SecurityArea securityArea =
-                userSecurityAreaService.verifyAccessToSecurityArea(securityAreaName, user.getRoleType());
+        final SecurityArea securityArea = userSecurityAreaService.verifyAccessToSecurityArea(securityAreaName);
 
         return userSecurityAreaService.getSecurityAccessLogByArea(user, securityArea, pageable);
     }

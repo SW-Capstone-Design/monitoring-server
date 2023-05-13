@@ -1,7 +1,6 @@
 package kr.co.monitoringserver.service.service;
 
 import kr.co.monitoringserver.infra.global.error.enums.ErrorCode;
-import kr.co.monitoringserver.infra.global.exception.NotAuthenticateException;
 import kr.co.monitoringserver.infra.global.exception.NotFoundException;
 import kr.co.monitoringserver.persistence.entity.securityArea.Position;
 import kr.co.monitoringserver.persistence.entity.securityArea.SecurityArea;
@@ -41,7 +40,7 @@ public class UserSecurityAreaService {
     public void createSecurityAccessLog(User user, SecurityArea securityArea) {
 
         UserSecurityArea userSecurityArea =
-                userSecurityAreaMapper.toSecurityAccessLogEntity(user, securityArea, LocalTime.now());
+                userSecurityAreaMapper.toUserSecurityAreaEntity(user, securityArea, LocalTime.now());
 
         userSecurityAreaRepository.save(userSecurityArea);
 
@@ -58,28 +57,14 @@ public class UserSecurityAreaService {
         final Page<UserSecurityArea> userSecurityAreaPage =
                 userSecurityAreaRepository.findByUserAndSecurityArea(user, securityArea, pageable);
 
-        return userSecurityAreaPage.map(userSecurityAreaMapper::toSecurityAccessLogReadDto);
-    }
-
-
-
-    // 사용자 권한 검사
-    public void checkSecurityAreaAccess(RoleType roleType) {
-
-        if (!roleType.equals(RoleType.ADMIN)) {
-            throw new NotAuthenticateException();
-        }
+        return userSecurityAreaPage.map(userSecurityAreaMapper::toUserSecurityAreaReadDto);
     }
 
     // 보안구역 접근 권한 검사
-    public SecurityArea verifyAccessToSecurityArea(String securityAreaName, RoleType roleType) {
+    public SecurityArea verifyAccessToSecurityArea(String securityAreaName) {
 
         SecurityArea securityArea = securityAreaRepository.findByName(securityAreaName)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_SECURITY_AREA));
-
-        if (!roleType.equals(RoleType.ADMIN)) {
-            checkSecurityAreaAccess(roleType);
-        }
 
         return securityArea;
     }

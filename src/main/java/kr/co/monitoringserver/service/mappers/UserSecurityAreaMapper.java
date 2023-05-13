@@ -16,7 +16,7 @@ public interface UserSecurityAreaMapper {
     @Mapping(source = "user", target = "user")
     @Mapping(source = "securityArea", target = "securityArea")
     @Mapping(source = "accessTime", target = "accessTime")
-    UserSecurityArea toSecurityAccessLogEntity(User user, SecurityArea securityArea, LocalTime accessTime);
+    UserSecurityArea toUserSecurityAreaEntity(User user, SecurityArea securityArea, LocalTime accessTime);
 
     // SecurityAccessLog Entity -> UserSecurityAreaResDTO.READ
     @Mapping(source = "securityArea.name", target = "securityAreaName")
@@ -26,5 +26,5 @@ public interface UserSecurityAreaMapper {
     @Mapping(source = "user.roleType", target = "userRoleType")
     @Mapping(source = "user.department", target = "userDepartment")
     @Mapping(source = "accessTime", target = "accessTime")
-    UserSecurityAreaResDTO.READ toSecurityAccessLogReadDto(UserSecurityArea userSecurityArea);
+    UserSecurityAreaResDTO.READ toUserSecurityAreaReadDto(UserSecurityArea userSecurityArea);
 }

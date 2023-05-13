@@ -21,22 +21,13 @@ import java.util.Map;
         column = @Column(name = "attendance_id", length = 4))
 public class Attendance extends BaseEntity {
 
-    /** 출석 상태 엔티티
-     *  출석 상태에 대한 정보(출석, 결석, 지각, 조퇴 등)를 저장하는 역할
-     *  즉, 출석 상태와 해당 상태에 대한 설명을 갖음
-     */
-
-    @Column(name = "enter_time",
-            nullable = false)
+    @Column(name = "enter_time")
     private LocalTime enterTime;    // 출근 시간
 
-    @Column(name = "leave_time",
-            nullable = false)
+    @Column(name = "leave_time")
     private LocalTime leaveTime;    // 퇴근 시간
 
-    @Column(name = "date",
-            nullable = false,
-            length = 30)
+    @Column(name = "date", length = 30)
     private LocalDate date;         // 출근 일자
 
     @ElementCollection
