@@ -73,7 +73,7 @@ let index = {
                 }
                 else{
                     alert("회원가입이 완료되었습니다.");
-                    location.href = "/";
+                    location.href = "/admin/info";
 			    }
 			}).fail(function(error) {
 				alert(JSON.stringify(error));

@@ -3,11 +3,8 @@ package kr.co.monitoringserver.persistence.entity.user;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import kr.co.monitoringserver.persistence.entity.attendance.UserAttendance;
-<<<<<<< HEAD
 import kr.co.monitoringserver.persistence.entity.beacon.UserBeacon;
-=======
 import kr.co.monitoringserver.persistence.entity.securityArea.Position;
->>>>>>> 547306dadb6ccdad654806e4981eac23c3ed1c2e
 import kr.co.monitoringserver.persistence.entity.securityArea.UserSecurityArea;
 import kr.co.monitoringserver.service.enums.RoleType;
 import lombok.AllArgsConstructor;
@@ -74,4 +71,7 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<UserSecurityArea> userSecurityAreas = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<UserBeacon> userBeacons = new ArrayList<>();
 }

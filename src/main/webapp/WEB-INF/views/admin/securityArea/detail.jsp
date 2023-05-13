@@ -4,7 +4,8 @@
 
 <div class="container">
 	<form>
-            <input type="hidden" value="${list.id}" class="form-control" id="id">
+	        <input type="hidden" value="${principal.user.identity}" class="form-control" id="identity">
+            <input type="hidden" value="${list.id}" class="form-control" id="securityAreaId">
 		<div class="form-group">
 			<label for="name">보안구역명</label>
 			<input type="text" value="${list.name}" class="form-control" placeholder="Enter name" id="name">
@@ -15,11 +16,11 @@
 		</div>
 		<div class="form-group">
 			<label for="latitude">위도</label>
-			<input type="latitude" value="${list.location.latitude}" class="form-control" placeholder="Enter latitude" id="latitude">
+			<input type="latitude" value="${list.securityAreaLocation.latitude}" class="form-control" placeholder="Enter latitude" id="latitude">
 		</div>
 		<div class="form-group">
             <label for="longitude">경도</label>
-            <input type="longitude" value="${list.location.longitude}" class="form-control" placeholder="Enter longitude" id="longitude">
+            <input type="longitude" value="${list.securityAreaLocation.longitude}" class="form-control" placeholder="Enter longitude" id="longitude">
         </div>
 	</form>
     <button id="btn-update" class="btn btn-dark">저장</button>

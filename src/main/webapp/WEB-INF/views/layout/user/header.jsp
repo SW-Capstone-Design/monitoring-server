@@ -30,12 +30,12 @@
 			<c:when test="${empty principal}" >
 				<ul class="navbar-nav">
                     <li class="nav-item"><a class="nav-link">로그인</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/auth/joinForm">회원관리</a></li>
 				</ul>
 			</c:when>
 			<c:otherwise>
 				<ul class="navbar-nav">
         					<li class="nav-item"><a class="nav-link" href="/attendance/list/${principal.user.userId}">출결조회</a></li>
-        					<li class="nav-item"><a class="nav-link" href="/user/updateForm">회원정보</a></li>
         					<li class="nav-item"><a class="nav-link" href="/admin/index">관리자페이지</a></li>
         					<li class="nav-item"><a class="nav-link" href="/logout">로그아웃</a></li>
 				</ul>

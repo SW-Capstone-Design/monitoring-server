@@ -26,8 +26,8 @@
         <td>${securityArea.id}</td>
         <td>${securityArea.name}</td>
         <td>${securityArea.description}</td>
-        <td>${securityArea.location.latitude}</td>
-        <td>${securityArea.location.longitude}</td>
+        <td>${securityArea.securityAreaLocation.latitude}</td>
+        <td>${securityArea.securityAreaLocation.longitude}</td>
         <td><b><a href="/admin/area/info/${securityArea.id}">수정</a></b></td>
       </tr>
       </c:forEach>

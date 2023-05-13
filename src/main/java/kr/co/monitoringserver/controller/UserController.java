@@ -51,6 +51,15 @@ public class UserController {
     }
 
     /**
+     * joinForm : 회원가입 폼을 매핑한다.
+     */
+    @GetMapping("/auth/joinForm")
+    public String joinForm() {
+
+        return "user/joinForm";
+    }
+
+    /**
      * updateForm : 사용자의 회원정보 수정 폼을 매핑한다.
      */
     @GetMapping("/user/updateForm")
