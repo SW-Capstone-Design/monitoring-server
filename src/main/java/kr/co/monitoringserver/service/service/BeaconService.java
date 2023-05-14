@@ -174,5 +174,60 @@ public class BeaconService {
         beaconRepository.delete(beacon);
     }
 
+    /**
+     * calculateLocation : 삼변측량
+     * 테스트를 어떻게 하는 것이 좋을지
+     * userBeaconRepository.findByUser_UserId 한 결과가 3개 미만일 경우 어떻게 처리할 지 고민됩니다.
+     * 칼만 필터도 적용해야할 것이고
+     * Quartz Scheduler를 이용해야할 것 같은데 해당 부분 연구가 필요합니다.
+     */
+    @Transactional
+    public void calculateLocation(Long userId) {
+        List<UserBeacon> userBeacon = userBeaconRepository.findByUser_UserId(userId);
+
+        List<Double> xArray = null;
+        List<Double> yArray = null;
+        List<Double> rArray = null;
+        int count = 0;
+        int n = 2;
+        int txPower = -59;
+
+        for (UserBeacon e : userBeacon){
+            xArray.add(userBeacon.get(count).getBeacon().getX()); // 비콘 x 좌표
+            yArray.add(userBeacon.get(count).getBeacon().getY()); // 비콘 y 좌표
+            rArray.add(Math.pow(10, txPower-userBeacon.get(count).getRssi()/(10*n))); // 3개의 비콘으로부터의 사용자까지의 직선거리
+            count++;
+            if(count == 3){
+                break;
+            }
+        }
+
+        // 3개의 비콘 x, y 좌표
+        double x1 = xArray.get(0);
+        double y1 = yArray.get(0);
+        double x2 = xArray.get(1);
+        double y2 = yArray.get(1);
+        double x3 = xArray.get(2);
+        double y3 = yArray.get(2);
+        
+        // 3개의 비콘으로부터의 직선거리
+        double r1 = rArray.get(0);
+        double r2 = rArray.get(1);
+        double r3 = rArray.get(2);
+        
+        double S = (Math.pow(x3, 2.) - Math.pow(x2, 2.)
+                + Math.pow(y3, 2.) - Math.pow(y2, 2.))
+                + Math.pow(r2, 2.) - Math.pow(r3, 2.) / 2.0;
+
+        double T = (Math.pow(x1, 2.) - Math.pow(x2, 2.)
+                + Math.pow(y1, 2.) - Math.pow(y2, 2.))
+                + Math.pow(r2, 2.) - Math.pow(r1, 2.) / 2.0;
+        
+        // 사용자 위치
+        double y = ((T * (x2 - x3)) - (S * (x2 - x1))) / (((y1 - y2) * (x2 - x3)) - ((y3 - y2) * (x2 - x1)));
+        double x = ((y * (y1 - y2)) - T) / (x2 - x1);
+
+        System.out.println(x+" and "+y);
+    }
 }
 

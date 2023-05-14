@@ -38,6 +38,12 @@ public class Beacon {
     @Column
     private Short battery;
 
+    @Column
+    private Double x;
+
+    @Column
+    private Double y;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "beacon_role")
     private BeaconRoleType beaconRole;
