@@ -9,6 +9,9 @@ let index = {
             $("#btn-del").on("click", ()=>{
                 this.del();
             });
+            $("#btn-back").on("click", ()=>{
+                this.back();
+            });
 		},
 
 		create: function() {
@@ -38,16 +41,18 @@ let index = {
                }
                else{
                    alert("보안구역 등록이 완료되었습니다.");
-                   location.href = "/admin/index";
+                   location.href = "/admin/area/info";
                }
            }).fail(function(error) {
                alert(JSON.stringify(error));
-               location.href = "/admin/index";
+               location.href = "/admin/area/info";
            });
 	},
 
 	   update: function() {
-    		    var param = $("#id").val();
+    		    var param1 = $("#identity").val();
+    		    var param2 = $("#securityAreaId").val();
+
     		    var name = $("#name").val();
     		    var description = $("#description").val();
     		    var latitude = $("#latitude").val();
@@ -64,7 +69,7 @@ let index = {
 
            $.ajax({
                    type: "PUT",
-                   url: "/api/v1/security_area/"+param,
+                   url: "/api/v1/security_area/"+param1+"/"+param2,
                    data: JSON.stringify(data),
                    contentType: "application/json; charset=utf-8"
                }).done(function(resp) {
@@ -83,16 +88,12 @@ let index = {
 
     	del: function() {
                 if (confirm("삭제를 진행하시겠습니까?")) {
-    	        var param = $("#id").val();
-
-                let data = {
-                        id: param
-                };
+    		    var param1 = $("#identity").val();
+    		    var param2 = $("#securityAreaId").val();
 
                 $.ajax({
                     type: "DELETE",
-                    url: "/api/v1/security_area/"+param,
-                    data: JSON.stringify(data),
+                    url: "/api/v1/security_area/"+param1+"/"+param2,
                     contentType: "application/json; charset=utf-8"
                 }).done(function(resp) {
                     if(resp.status == 400 || resp.status == 500){
@@ -108,7 +109,11 @@ let index = {
                     location.href = "/admin/area/info";
                 });
             }
-        }
+        },
+
+            back: function() {
+                window.history.back();
+            }
 }
 
 index.init();

@@ -1,56 +1,105 @@
 let index = {
 		init: function() {
-			$("#btn-transfer").on("click", ()=>{
-				this.transfer();
+			$("#btn-create").on("click", ()=>{
+				this.create();
 			});
+            $("#btn-update").on("click", ()=>{
+                this.update();
+            });
+            $("#btn-del").on("click", ()=>{
+                this.del();
+            });
+            $("#btn-back").on("click", ()=>{
+                this.back();
+            });
 		},
 
-		transfer: function() {
+		create: function() {
 			let data = {
-			            signals: [
-                                     {
-                                         uuid: "55",
-                                         major: "14314134",
-                                         minor: "441241221",
-                                         rssi: 1
-                                     },
-                                     {
-                                         uuid: "66",
-                                         major: "325325235",
-                                         minor: "235253254",
-                                         rssi: 4
-                                     },
-                                     {
-                                         uuid: "33",
-                                         major: "63525326",
-                                         minor: "455325233",
-                                         rssi: 6
-                                     },
-                                     {
-                                         uuid: "44",
-                                         major: "2314",
-                                         minor: "12341243",
-                                         rssi: 3
-                                     }
-                                 ]
-			            };
+                        beaconName: $("#beaconName").val(),
+                        uuid: $("#uuid").val(),
+                        major: $("#major").val(),
+                        minor: $("#minor").val(),
+                        beaconRole: $("#beaconRole").val()
+			};
 
         $.ajax({
-        		type: 'post',
-        		url: '/receiveBeacon',
-        		headers:{
-        			"Content-Type" : "application/json",
-        			"X-HTTP-Method-Override" : "POST"
-        		},
-        		dataType: 'text',
-        		data : JSON.stringify(data),
-        		success: function(result){
-        			if(result=='success'){
-        				alert('성공')
-        			}
-        		}
-        	});
-	}
+                type: "POST",
+                url: "/admin/createBeacon",
+                data: JSON.stringify(data),
+                contentType: "application/json; charset=utf-8"
+            }).done(function(resp) {
+                if(resp.status == 400 || resp.status == 500){
+                      alert("비콘정보 등록에 실패하였습니다.");
+                  }
+                  else{
+                      alert("비콘정보 등록이 완료되었습니다.");
+                      location.href = "/admin/beacon/info";
+                }
+            }).fail(function(error) {
+                alert(JSON.stringify(error));
+                location.href = "/admin/beacon/info";
+            });
+	},
+
+			update: function() {
+                let data = {
+                            beaconId: $("#beaconId").val(),
+                            beaconName: $("#beaconName").val(),
+                            uuid: $("#uuid").val(),
+                            major: $("#major").val(),
+                            minor: $("#minor").val(),
+                            beaconRole: $("#beaconRole").val()
+    			};
+
+            $.ajax({
+                    type: "PUT",
+                    url: "/admin/beacon/info/update",
+                    data: JSON.stringify(data),
+                    contentType: "application/json; charset=utf-8"
+                }).done(function(resp) {
+                    if(resp.status == 400 || resp.status == 500){
+                          alert("비콘정보 수정에 실패하였습니다.");
+                      }
+                      else{
+                          alert("비콘정보 수정이 완료되었습니다.");
+                          location.href = "/admin/beacon/info";
+                    }
+                }).fail(function(error) {
+                    alert(JSON.stringify(error));
+                    location.href = "/admin/beacon/info";
+                });
+    	},
+
+            del: function() {
+            if (confirm("삭제를 진행하시겠습니까?")) {
+            let data = {
+                        beaconId: $("#beaconId").val()
+            };
+
+            $.ajax({
+                    type: "DELETE",
+                    url: "/admin/beacon/info/delete",
+                    data: JSON.stringify(data),
+                    contentType: "application/json; charset=utf-8"
+                }).done(function(resp) {
+                    if(resp.status == 400 || resp.status == 500){
+                          alert("비콘정보 삭제에 실패하였습니다.");
+                      }
+                      else{
+                          alert("비콘정보 삭제가 완료되었습니다.");
+                          location.href = "/admin/beacon/info";
+                    }
+                }).fail(function(error) {
+                    alert(JSON.stringify(error));
+                    location.href = "/admin/beacon/info";
+                });
+            }
+        },
+
+            back: function() {
+                window.history.back();
+            }
 }
 
 index.init();

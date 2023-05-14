@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 
-<%@ include file="../layout/user/header.jsp"%>
+<%@ include file="../../layout/admin/header.jsp"%>
 
 <div class="container">
 	<form>
@@ -33,5 +33,5 @@
 	<button id="btn-back" class="btn btn-dark">뒤로가기</button>
 </div>
 
-<script src="/js/user.js"></script>
-<%@ include file="../layout/user/footer.jsp"%>
+<script src="/js/admin.js"></script>
+<%@ include file="../../layout/admin/footer.jsp"%>

@@ -3,7 +3,7 @@
 <%@ include file="../../layout/admin/header.jsp"%>
 
 <div class="container">
-  <h2>출결상태조회</h2>
+  <h2>회원출결관리</h2>
   <span>
     출결상태를 조회 및 수정합니다.
   </span>
@@ -14,15 +14,15 @@
   <table class="table table-hover">
     <thead>
       <tr>
-        <th>Date</th>
-        <th>Id</th>
-        <th>Name</th>
-        <th>Department</th>
-        <th>RoleType</th>
-        <th>EnterTime</th>
-        <th>LeaveTime</th>
-        <th>GoWork</th>
-        <th>LeaveWork</th>
+        <th>날짜</th>
+        <th>ID</th>
+        <th>이름</th>
+        <th>부서</th>
+        <th>등급</th>
+        <th>출근시간</th>
+        <th>퇴근시간</th>
+        <th>지각여부</th>
+        <th>조퇴여부</th>
         <th></th>
       </tr>
     </thead>
@@ -43,6 +43,16 @@
       </c:forEach>
     </tbody>
   </table>
+
+  <div class="btn-group" style="float:left">
+    <button type="button" class="btn btn-dark dropdown-toggle" data-toggle="dropdown">
+       유형별 조회
+    </button>
+    <div class="dropdown-menu">
+      <a class="dropdown-item" href="/admin/attendance/list/tardiness">지각회원조회</a>
+      <a class="dropdown-item" href="/admin/attendance/list/earlyLeave">조퇴회원조회</a>
+    </div>
+  </div>
 
   <ul class="pagination justify-content-center">
   	<c:choose>

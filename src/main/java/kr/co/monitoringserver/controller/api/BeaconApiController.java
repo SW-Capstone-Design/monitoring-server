@@ -1,8 +1,12 @@
 package kr.co.monitoringserver.controller.api;
 
-
-import kr.co.monitoringserver.persistence.entity.Beacon;
+import kr.co.monitoringserver.persistence.entity.beacon.Beacon;
+import kr.co.monitoringserver.persistence.entity.beacon.UserBeacon;
+import kr.co.monitoringserver.persistence.repository.BeaconRepository;
+import kr.co.monitoringserver.persistence.repository.UserBeaconRepository;
 import kr.co.monitoringserver.service.dtos.request.BeaconReqDTO;
+import kr.co.monitoringserver.service.dtos.response.BeaconResDTO;
+import kr.co.monitoringserver.service.dtos.response.ResponseDto;
 import kr.co.monitoringserver.service.service.BeaconService;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONArray;
@@ -10,7 +14,10 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController
@@ -18,16 +25,28 @@ import org.springframework.web.bind.annotation.*;
 public class BeaconApiController {
 
     @Autowired
-    private BeaconService beaconService;
+    private final BeaconService beaconService;
 
+    @Autowired
+    private final UserBeaconRepository userBeaconRepository;
+
+    @Autowired
+    private final BeaconRepository beaconRepository;
 
     /**
-     * receiveBeacon : Beacon Data를 INSERT 또는 UPDATE 한다.
-     * DB에 해당 UUID가 있다면 Update, 없다면 Insert 한다.
+     * transferBeacon : 서버의 Beacon Data를 모바일 클라이언트로 응답한다.
      */
-    @PostMapping("/receiveBeacon")
-    public void receiveBeacon(@RequestBody String data, BeaconReqDTO beaconReqDTO) {
+    @GetMapping("/auth/transferBeacon")
+    public List<BeaconResDTO> transferBeacon() {
 
+        return beaconService.beaconList();
+    }
+
+    /**
+     * receiveBeacon : 모바일 클라이언트에서 서버로 비콘과 사용자 간의 거리 정보를 보낸다.
+     */
+    @PostMapping("/auth/receiveBeacon/{user_id}")
+    public void receiveBeacon(@PathVariable(name = "user_id") Long userId, @RequestBody String data, BeaconReqDTO.CLIENT beaconReqDTO) {
         JSONParser jsonParser = new JSONParser();
         JSONArray insertParam = null;
         try {
@@ -42,31 +61,69 @@ public class BeaconApiController {
 
             JSONObject signal = (JSONObject) insertParam.get(i);
 
-            beaconReqDTO.setUuid((String)signal.get("uuid"));
-            beaconReqDTO.setMajor((String)signal.get("major"));
-            beaconReqDTO.setMinor((String)signal.get("minor"));
+            String beaconId = (signal.get("beaconId")).toString();
+            Long bi = Long.valueOf(beaconId).longValue();
+            Beacon beacon = beaconRepository.findOptionalByBeaconId(bi)
+                    .orElseThrow(()->{
+                        return new IllegalArgumentException("비콘 찾기 실패");
+                    });
+            beaconReqDTO.setBeacon(beacon);
 
             String rssi = (signal.get("rssi")).toString();
-            Long r = Long.valueOf(rssi).longValue();
+            Short r = Short.valueOf(rssi).shortValue();
             beaconReqDTO.setRssi(r);
 
-            Beacon beacon = beaconService.findBeacon((String)signal.get("uuid"));
-            if (beacon == null) {
-                beaconService.createBeacon(beaconReqDTO);
+            String battery = (signal.get("battery")).toString();
+            Short b = Short.valueOf(battery).shortValue();
+            beaconReqDTO.setBattery(b);
+
+            UserBeacon userBeacon = userBeaconRepository.findByBeacon_BeaconId(bi);
+            if (userBeacon == null) {
+                beaconService.createDistance(userId, beaconReqDTO);
             } else {
-                beaconService.updateBeacon(beaconReqDTO);
+                beaconService.updateDistance(userId, userBeacon.getUserBeaconId(), beaconReqDTO);
             }
         }
     }
 
     /**
-     * receiveBeacon : Beacon Data를 DELETE 한다.
-     * <a> 태그의 경우 get 요청을 보내므로 GetMapping을 이용한 DB Data 삭제를 수행한다.
+     * deleteBeaconConnection : 모바일 클라이언트에서 연결을 끊을 시 tbl_user_beacon에서 해당 유저의 Data 전부 삭제
      */
-    @GetMapping("/admin/beacon/info/{beacon_uuid}")
-    public void deleteBeacon(@PathVariable(name = "beacon_uuid") String uuid){
+    @DeleteMapping("/auth/deleteBeaconConnection/{user_id}")
+    public void deleteBeaconConnection(@PathVariable(name = "user_id")Long userId) {
 
-        beaconService.deleteBeacon(uuid);
+        beaconService.deleteDistance(userId);
+    }
+
+    
+    /**
+     * createBeacon : Beacon Data를 Create한다.
+     */
+    @PostMapping("/admin/createBeacon")
+    public ResponseDto<?> createBeacon(@RequestBody BeaconReqDTO.SERVER beaconReqDTO) {
+
+        beaconService.createBeacon(beaconReqDTO);
+
+        return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
+    }
+
+    /**
+     * updateBeacon : Beacon Data를 Update한다.
+     */
+    @PutMapping("/admin/beacon/info/update")
+    public void updateBeacon(@RequestBody BeaconReqDTO.SERVER beaconReqDTO){
+
+        beaconService.updateBeacon(beaconReqDTO);
+
+    }
+
+    /**
+     * deleteBeacon : Beacon Data를 DELETE 한다.
+     */
+    @DeleteMapping("/admin/beacon/info/delete")
+    public void deleteBeacon(@RequestBody BeaconReqDTO.SERVER beaconReqDTO){
+
+        beaconService.deleteBeacon(beaconReqDTO);
 
     }
 }

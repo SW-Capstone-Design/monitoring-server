@@ -1,4 +1,4 @@
-package kr.co.monitoringserver.controller.securityArea;
+package kr.co.monitoringserver.controller;
 
 import kr.co.monitoringserver.service.service.SecurityAreaService;
 import org.springframework.beans.factory.annotation.Autowired;

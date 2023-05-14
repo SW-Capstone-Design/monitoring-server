@@ -1,4 +1,4 @@
-package kr.co.monitoringserver.controller.user;
+package kr.co.monitoringserver.controller;
 
 import kr.co.monitoringserver.persistence.repository.UserAttendanceRepository;
 import kr.co.monitoringserver.service.enums.AttendanceType;
@@ -24,12 +24,21 @@ public class UserController {
     UserAttendanceRepository userAttendanceRepository;
 
     /**
-     * joinForm : 회원가입 폼을 매핑한다.
+     * init : 최초 접속시 로그인 폼을 매핑한다.
      */
-    @GetMapping("/auth/joinForm")
-    public String joinForm() {
+    @GetMapping("/")
+    public String init() {
 
-        return "user/joinForm";
+        return "user/loginForm";
+    }
+
+    /**
+     * index : 로그인 성공시 인덱스를 매핑한다.
+     */
+    @GetMapping("/index")
+    public String index() {
+
+        return "index";
     }
 
     /**
@@ -39,6 +48,15 @@ public class UserController {
     public String loginForm() {
 
         return "user/loginForm";
+    }
+
+    /**
+     * joinForm : 회원가입 폼을 매핑한다.
+     */
+    @GetMapping("/auth/joinForm")
+    public String joinForm() {
+
+        return "user/joinForm";
     }
 
     /**
@@ -83,8 +101,6 @@ public class UserController {
 
     /**
      * attendCreateForm : 출결정보 생성 폼이다.
-     * 보완 필요 : 블루투스가 연결된 상태로 버튼을 클릭했을 때만 출석이 인정되어야 함.
-     * 퇴근 여부는 어떻게 처리할 것인지 논의가 필요하다.
      */
     @GetMapping("/attendance/register")
     public String attendCreateForm() {

@@ -14,14 +14,14 @@
   <table class="table table-hover">
     <thead>
       <tr>
-        <th>Num</th>
-        <th>Id</th>
-        <th>Name</th>
-        <th>Department</th>
-        <th>Telephone</th>
-        <th>CreatedAt</th>
-        <th>UpdatedAt</th>
-        <th>RoleType</th>
+        <th>회원 ID</th>
+        <th>로그인 ID</th>
+        <th>이름</th>
+        <th>부서</th>
+        <th>전화번호</th>
+        <th>생성일자</th>
+        <th>갱신일자</th>
+        <th>보안등급</th>
         <th></th>
       </tr>
     </thead>
@@ -41,8 +41,9 @@
       </c:forEach>
     </tbody>
   </table>
+  <button style="display:inline-block; float:left;" type="button" id="btn-joinForm" class="btn btn-dark">회원등록</button>
 
-  <ul class="pagination justify-content-center">
+  <ul class="pagination" style="position:relative; left:35%">
   	<c:choose>
   		<c:when test="${lists.first}">
   			<li class="page-item disabled"><a class="page-link" href="?page=${lists.number-1}">Previous</a></li>
@@ -73,5 +74,20 @@
   	</c:choose>
 
 </div>
+
+<script>
+    let index = {
+        init: function() {
+                    $("#btn-joinForm").on("click", ()=>{
+                        this.joinForm();
+                    });
+                },
+
+                joinForm: function() {
+                    location.href="/admin/joinForm"
+                }
+        }
+    index.init();
+</script>
 
 <%@ include file="../../layout/admin/footer.jsp"%>

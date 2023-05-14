@@ -9,7 +9,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Bootstrap Example</title>
+<title>팀투 전자출결시스템</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
@@ -20,7 +20,7 @@
 <body>
 
 	<nav class="navbar navbar-expand-md bg-dark navbar-dark">
-		<a class="navbar-brand" href="/">전자출결시스템</a>
+		<a class="navbar-brand" href="/index">전자출결시스템</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
 			<span class="navbar-toggler-icon"></span>
 		</button>
@@ -29,23 +29,13 @@
 		<c:choose>
 			<c:when test="${empty principal}" >
 				<ul class="navbar-nav">
-					<li class="nav-item"><a class="nav-link" href="/auth/loginForm">로그인</a></li>
-					<li class="nav-item"><a class="nav-link" href="/auth/joinForm">회원가입</a></li>
+                    <li class="nav-item"><a class="nav-link">로그인</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/auth/joinForm">회원관리</a></li>
 				</ul>
 			</c:when>
 			<c:otherwise>
 				<ul class="navbar-nav">
-				              <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-                                  출결관리
-                                </a>
-                                <div class="dropdown-menu">
-                                  <a class="dropdown-item" href="/attendance/register">출결등록</a>
-                                  <a class="dropdown-item" href="/attendance/list/${principal.user.userId}">출결조회</a>
-                                  <a class="dropdown-item" href="/attendance/list/condition/${principal.user.userId}">출결현황</a>
-                                </div>
-                              </li>
-        					<li class="nav-item"><a class="nav-link" href="/user/updateForm">회원정보</a></li>
+        					<li class="nav-item"><a class="nav-link" href="/attendance/list/${principal.user.userId}">출결조회</a></li>
         					<li class="nav-item"><a class="nav-link" href="/admin/index">관리자페이지</a></li>
         					<li class="nav-item"><a class="nav-link" href="/logout">로그아웃</a></li>
 				</ul>
