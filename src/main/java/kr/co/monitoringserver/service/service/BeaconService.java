@@ -23,13 +23,10 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class BeaconService {
 
-    @Autowired
     private final BeaconRepository beaconRepository;
 
-    @Autowired
     private final UserBeaconRepository userBeaconRepository;
 
-    @Autowired
     private final UserRepository userRepository;
 
     /**
