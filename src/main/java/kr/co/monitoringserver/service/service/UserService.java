@@ -7,7 +7,6 @@ import kr.co.monitoringserver.persistence.repository.UserRepository;
 import kr.co.monitoringserver.service.dtos.request.UserReqDTO;
 import kr.co.monitoringserver.service.enums.AttendanceType;
 import kr.co.monitoringserver.service.enums.RoleType;
-import kr.co.monitoringserver.service.mappers.UserAttendanceMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,10 +30,6 @@ public class UserService {
     private final UserAttendanceRepository userAttendanceRepository;
 
     private final BCryptPasswordEncoder encoder;
-
-    private final UserAttendanceMapper userAttendanceMapper;
-
-    private final AttendanceService attendanceService;
 
     /**
      * join : 회원가입한다.

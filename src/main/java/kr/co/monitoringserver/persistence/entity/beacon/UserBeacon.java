@@ -30,4 +30,11 @@ public class UserBeacon {
 
     @Column(name = "beacon_rssi", nullable = false)
     private Short rssi;
+
+
+    // 사용자 위치 정보 수정
+    public void updateUserLocation(User user) {
+
+        this.user = user;
+    }
 }

@@ -74,4 +74,10 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<UserBeacon> userBeacons = new ArrayList<>();
+
+
+    public void updateUserLocation(Location userLocation) {
+
+        this.userLocation = userLocation;
+    }
 }

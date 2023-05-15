@@ -1,8 +1,6 @@
 package kr.co.monitoringserver.service.service;
 
-import kr.co.monitoringserver.infra.global.error.enums.ErrorCode;
 import kr.co.monitoringserver.infra.global.exception.BadRequestException;
-import kr.co.monitoringserver.infra.global.exception.NotFoundException;
 import kr.co.monitoringserver.persistence.entity.Location;
 import kr.co.monitoringserver.persistence.entity.beacon.Beacon;
 import kr.co.monitoringserver.persistence.entity.beacon.TrilaterationFunction;
@@ -303,18 +301,23 @@ public class BeaconService {
      */
     @Transactional
     @Scheduled(fixedRate = 60000)
-    public void updateAndSaveUserLocation(Long beaconId) {
+    public void updateAndSaveUserLocation() {
 
-        final Beacon beacon = beaconRepository.findById(beaconId)
-                .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_BEACON));
+        List<UserBeacon> userBeacons = userBeaconRepository.findAll();
 
         List<Long> beaconIds = Arrays.asList(1L, 2L, 3L);
-        // 실제 전송 전력 값으로 변경해야 한다
+
+        // txPowers 값을 실제 전송 전력 값으로 변경해야 한다
         int[] txPowers = new int[]{123, 456, 789};
 
-        Location location = determineUserLocationWithTrilateration(beaconIds, txPowers);
+        for (UserBeacon userBeacon : userBeacons) {
+            User user = userBeacon.getUser();
+            Location location = determineUserLocationWithTrilateration(beaconIds, txPowers);
 
-        beacon.updateUserLocation(location);
+            user.updateUserLocation(location);
+
+            userBeacon.updateUserLocation(user);
+        }
     }
 
 
