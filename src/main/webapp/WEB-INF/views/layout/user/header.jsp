@@ -30,7 +30,7 @@
 			<c:when test="${empty principal}" >
 				<ul class="navbar-nav">
                     <li class="nav-item"><a class="nav-link">로그인</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/auth/joinForm">회원관리</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/auth/joinForm">테스트용 회원가입</a></li>
 				</ul>
 			</c:when>
 			<c:otherwise>

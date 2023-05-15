@@ -2,18 +2,18 @@
 
 <%@ include file="layout/user/header.jsp"%>
 
-<div class="container">
-    <div>
-        <br>
+<div class="container" >
+	<form action="/auth/loginProc" method="POST">
+		<div class="form-group">
+			<label for="identity">ID</label>
+			<input type="text" name="identity" class="form-control" placeholder="Enter identity" id="identity">
+		</div>
+		<div class="form-group">
+			<label for="pwd">패스워드</label>
+			<input type="password" name="password" class="form-control" placeholder="Enter password" id="password">
+		</div>
+			<button id="btn-login" class="btn btn-dark">로그인</button>
+	</form>
 
-        <h1>사용자 페이지</h1>
-
-          <br>
-
-          회원가입 메뉴 - 테스트용입니다. 삭제 예정입니다.
-
-          <br>
-    </div>
 </div>
-
 <%@ include file="layout/user/footer.jsp"%>
