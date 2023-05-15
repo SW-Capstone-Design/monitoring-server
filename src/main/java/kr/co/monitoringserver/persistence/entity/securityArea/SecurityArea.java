@@ -2,6 +2,7 @@ package kr.co.monitoringserver.persistence.entity.securityArea;
 
 import jakarta.persistence.*;
 import kr.co.monitoringserver.persistence.entity.BaseEntity;
+import kr.co.monitoringserver.persistence.entity.Location;
 import kr.co.monitoringserver.persistence.entity.alert.SecurityAreaWarning;
 import kr.co.monitoringserver.service.dtos.request.SecurityAreaReqDTO;
 import lombok.AccessLevel;
@@ -33,7 +34,7 @@ public class SecurityArea extends BaseEntity {
     @Embedded
     @Column(name = "security_area_location",
             nullable = false)
-    private Position securityAreaLocation;
+    private Location securityAreaLocation;
 
     @OneToMany(mappedBy = "securityArea")
     private List<UserSecurityArea> userSecurityAreas = new ArrayList<>();
@@ -45,7 +46,7 @@ public class SecurityArea extends BaseEntity {
     @Builder
     private SecurityArea(String name,
                          String description,
-                         Position securityAreaLocation,
+                         Location securityAreaLocation,
                          List<SecurityAreaWarning> securityAreaWarnings) {
 
         this.name = name;
@@ -58,6 +59,6 @@ public class SecurityArea extends BaseEntity {
 
         this.name = update.getName();
         this.description = update.getDescription();
-        this.securityAreaLocation = update.getLocation();
+//        this.securityAreaLocation = update.getLocation();
     }
 }

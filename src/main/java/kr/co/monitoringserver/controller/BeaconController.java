@@ -8,7 +8,6 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 public class BeaconController {
@@ -37,10 +36,10 @@ public class BeaconController {
         return "admin/beacon/list";
     }
 
-    @GetMapping("/admin/beacon/info/{beacon_id}")
-    public String beaconUpdateForm(Model model, @PathVariable(name = "beacon_id") Long beaconId){
-        model.addAttribute("lists", beaconService.detail(beaconId));
-
-        return "admin/beacon/updateForm";
-    }
+//    @GetMapping("/admin/beacon/info/{beacon_id}")
+//    public String beaconUpdateForm(Model model, @PathVariable(name = "beacon_id") Long beaconId){
+//        model.addAttribute("lists", beaconService.detail(beaconId));
+//
+//        return "admin/beacon/updateForm";
+//    }
 }

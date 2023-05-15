@@ -2,7 +2,6 @@ package kr.co.monitoringserver.service.service;
 
 import kr.co.monitoringserver.infra.global.error.enums.ErrorCode;
 import kr.co.monitoringserver.infra.global.exception.NotFoundException;
-import kr.co.monitoringserver.persistence.entity.securityArea.Position;
 import kr.co.monitoringserver.persistence.entity.securityArea.SecurityArea;
 import kr.co.monitoringserver.persistence.entity.securityArea.UserSecurityArea;
 import kr.co.monitoringserver.persistence.entity.user.User;
@@ -70,32 +69,32 @@ public class UserSecurityAreaService {
     }
 
     // 하버사인 공식
-    public double haversineDistance(Position userLocation, Position securityAreaLocation) {
-
-        final double R = 6371e3; // 반경(meters)
-
-        double lat1 = Math.toRadians(userLocation.getLatitude());
-        double lon1 = Math.toRadians(userLocation.getLongitude());
-
-        double lat2 = Math.toRadians(securityAreaLocation.getLatitude());
-        double lon2 = Math.toRadians(securityAreaLocation.getLongitude());
-
-        double dLat = lat2 - lat1;
-        double dLon = lon2 - lon1;
-
-        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-                Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
-
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-        return R * c;
-    }
+//    public double haversineDistance(Location userLocation, Location securityAreaLocation) {
+//
+//        final double R = 6371e3; // 반경(meters)
+//
+//        double lat1 = Math.toRadians(userLocation.getLatitude());
+//        double lon1 = Math.toRadians(userLocation.getLongitude());
+//
+//        double lat2 = Math.toRadians(securityAreaLocation.getLatitude());
+//        double lon2 = Math.toRadians(securityAreaLocation.getLongitude());
+//
+//        double dLat = lat2 - lat1;
+//        double dLon = lon2 - lon1;
+//
+//        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+//                Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
+//
+//        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+//
+//        return R * c;
+//    }
 
     // 사용자 위치와 보안구역 위치를 비교
-    public boolean isWithinRange(Position userLocation, Position securityAreaLocation, double range) {
-
-        double distance = haversineDistance(userLocation, securityAreaLocation);
-
-        return distance <= range;
-    }
+//    public boolean isWithinRange(Location userLocation, Location securityAreaLocation, double range) {
+//
+//        double distance = haversineDistance(userLocation, securityAreaLocation);
+//
+//        return distance <= range;
+//    }
 }

@@ -1,5 +1,7 @@
 package kr.co.monitoringserver.controller.api;
 
+import kr.co.monitoringserver.infra.global.error.enums.ErrorCode;
+import kr.co.monitoringserver.infra.global.error.response.ResponseFormat;
 import kr.co.monitoringserver.persistence.entity.beacon.Beacon;
 import kr.co.monitoringserver.persistence.entity.beacon.UserBeacon;
 import kr.co.monitoringserver.persistence.repository.BeaconRepository;
@@ -125,5 +127,19 @@ public class BeaconApiController {
 
         beaconService.deleteBeacon(beaconReqDTO);
 
+    }
+
+    /**
+     * Check Beacon Battery Level And Send Notification Controller
+     */
+    @GetMapping("/api/v1/beacon/battery")
+    public ResponseFormat<Void> checkBatteryStatusAndSendNotification() {
+
+        beaconService.checkBatteryStatusAndSendNotification();
+
+        return ResponseFormat.successMessage(
+                ErrorCode.SUCCESS_EXECUTE,
+                "비콘의 배터리 잔량 20% 미만입니다"
+        );
     }
 }

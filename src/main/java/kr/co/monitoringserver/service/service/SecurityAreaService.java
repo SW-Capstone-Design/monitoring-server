@@ -119,9 +119,10 @@ public class SecurityAreaService {
 
         final SecurityArea securityArea = userSecurityAreaService.verifyAccessToSecurityArea(securityAreaName);
 
-        if (userSecurityAreaService.isWithinRange(user.getUserLocation(), securityArea.getSecurityAreaLocation(), 20)) {
-            userSecurityAreaService.createSecurityAccessLog(user, securityArea);
-        }
+//        if (userSecurityAreaService.isWithinRange(user.getUserLocation(), securityArea.getSecurityAreaLocation(), 20)) {
+//        }
+
+        userSecurityAreaService.createSecurityAccessLog(user, securityArea);
     }
 
     /**
