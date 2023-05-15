@@ -181,7 +181,7 @@ public class BeaconService {
     @Transactional
     public void calculateLocation(Long userId) {
 
-        KalmanFilter kalmanFilter = new KalmanFilter(0.0);
+        KalmanFilter kalmanFilter = new KalmanFilter(0.);
 
         List<UserBeacon> userBeacon = userBeaconRepository.findByUser_UserId(userId);
 
@@ -195,7 +195,7 @@ public class BeaconService {
         for (UserBeacon e : userBeacon){
             xArray.add(e.getBeacon().getX()); // 비콘 x 좌표
             yArray.add(e.getBeacon().getY()); // 비콘 y 좌표
-            rArray.add(Math.pow(10, txPower-e.getRssi()/(10*n))); // 비콘으로부터의 사용자까지의 직선거리
+            rArray.add(Math.pow(10, txPower-kalmanFilter.update(e.getRssi())/(10*n))); // 비콘으로부터의 사용자까지의 직선거리
             count++;
             if(count == 3){
                 break;
@@ -211,9 +211,9 @@ public class BeaconService {
         double y3 = yArray.get(2);
         
         // 3개의 비콘으로부터의 직선거리
-        double r1 = kalmanFilter.update(rArray.get(0));
-        double r2 = kalmanFilter.update(rArray.get(1));
-        double r3 = kalmanFilter.update(rArray.get(2));
+        double r1 = rArray.get(0);
+        double r2 = rArray.get(1);
+        double r3 = rArray.get(2);
         
         double S = (Math.pow(x3, 2.) - Math.pow(x2, 2.)
                 + Math.pow(y3, 2.) - Math.pow(y2, 2.))
