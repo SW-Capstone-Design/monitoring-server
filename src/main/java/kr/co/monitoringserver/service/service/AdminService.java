@@ -7,6 +7,7 @@ import kr.co.monitoringserver.persistence.repository.IndexNotificationRepository
 import kr.co.monitoringserver.persistence.repository.UserAttendanceRepository;
 import kr.co.monitoringserver.persistence.repository.UserRepository;
 import kr.co.monitoringserver.service.dtos.request.AdminReqDTO;
+import kr.co.monitoringserver.service.dtos.request.IndexNotificationReqDTO;
 import kr.co.monitoringserver.service.dtos.request.UserReqDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -136,6 +137,18 @@ public class AdminService {
      * alertList : 관리자페이지에 새알림 목록을 가져온다.
      */
     public Page<IndexNotification> alertList(Pageable pageable){
+
         return indexNotificationRepository.findAll(pageable);
+    }
+
+    @Transactional
+    public void deleteAlert(IndexNotificationReqDTO indexNotificationReqDTO){
+
+        IndexNotification indexNotification = indexNotificationRepository.findByIndexAlertId(indexNotificationReqDTO.getIndexAlertId())
+                .orElseThrow(()->{
+                    return new IllegalArgumentException("알림 조회 실패 : 알림을 찾을 수 없습니다.");
+                });
+
+        indexNotificationRepository.delete(indexNotification);
     }
 }

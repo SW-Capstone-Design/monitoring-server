@@ -9,7 +9,7 @@ public class UserController {
     /**
      * index : 로그인 성공시 인덱스를 매핑한다.
      */
-    @GetMapping("/index")
+    @GetMapping("/")
     public String index() {
 
         return "user/index";

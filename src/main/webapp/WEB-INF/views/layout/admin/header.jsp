@@ -38,7 +38,7 @@
 							<li class="nav-item"><a class="nav-link" href="/admin/beacon/info">비콘관리</a></li>
         					<li class="nav-item"><a class="nav-link" href="/admin/area/info">보안구역관리</a></li>
         					<li class="nav-item"><a class="nav-link" href="/admin/info">회원관리</a></li>
-        					<li class="nav-item"><a class="nav-link" href="/index">사용자페이지</a></li>
+        					<li class="nav-item"><a class="nav-link" href="/">사용자페이지</a></li>
         					<li class="nav-item"><a class="nav-link" href="/logout">로그아웃</a></li>
         					<!-- Trigger the modal with a button -->
         					<div style="position:relative; left:110%;">
@@ -65,7 +65,7 @@
                                     <h5 class="modal-title">알림</h5>
                                   </div>
                                   <div id="list" class="modal-body">
-                                    <form style="text-align:center;" action="info" method="get">
+                                    <form style="text-align:center;">
                                       <table class="table table-hover">
                                         <thead>
                                           <tr>
@@ -75,7 +75,8 @@
                                         </thead>
                                         <tbody>
                                         <c:forEach items="${alerts.content}" var="alert">
-                                          <tr>
+                                          <tr onclick="delAlert()">
+                                            <input type="hidden" class="form-control" value="${alert.indexAlertId}" id="indexAlertId">
                                             <td width="10%">${alert.indexAlertTime}</td>
                                             <td>${alert.indexAlertContent}</td>
                                           </tr>
@@ -89,6 +90,25 @@
                                 </div>
                               </div>
                             </div>
+                        <script>
+                            function delAlert() {
+                                    let data = {
+                                        indexAlertId: $("#indexAlertId").val()
+                                    };
+
+                                    $.ajax({
+                                        type: "DELETE",
+                                        url: "/admin/alert/delete",
+                                        data: JSON.stringify(data),
+                                        contentType: "application/json; charset=utf-8",
+                                        dataType: "json"
+                                    }).done(function(result) {
+                                        location.reload();
+                                    }).fail(function(error) {
+                                        location.reload();
+                                    });
+                            }
+                        </script>
 				</ul>
 			</c:otherwise>
 		</c:choose>

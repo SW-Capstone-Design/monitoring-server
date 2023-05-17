@@ -144,31 +144,31 @@ let index = {
         			});
         		},
 
-        		del: function() {
-                            if (confirm("삭제를 진행하시겠습니까?")) {
-                            let data = {
-                                    userId: $("#userId").val()
-                            };
+            del: function() {
+                        if (confirm("삭제를 진행하시겠습니까?")) {
+                        let data = {
+                                userId: $("#userId").val()
+                        };
 
-                            $.ajax({
-                                type: "DELETE",
-                                url: "/admin/info/delete",
-                                data: JSON.stringify(data),
-                                contentType: "application/json; charset=utf-8",
-                                dataType: "json"
-                            }).done(function(resp) {
-                                if(resp.status == 400 || resp.status == 500){
-                                      alert("회원삭제에 실패하였습니다.");
-                                  }
-                                  else{
-                                      alert("회원삭제가 완료되었습니다.");
-                                      location.href = "/admin/info";
-                                }
-                            }).fail(function(error) {
-                                alert("회원삭제가 완료되었습니다.");
-                                location.href = "/admin/info";
-                            });
-                        }
+                        $.ajax({
+                            type: "DELETE",
+                            url: "/admin/info/delete",
+                            data: JSON.stringify(data),
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json"
+                        }).done(function(resp) {
+                            if(resp.status == 400 || resp.status == 500){
+                                  alert("회원삭제에 실패하였습니다.");
+                              }
+                              else{
+                                  alert("회원삭제가 완료되었습니다.");
+                                  location.href = "/admin/info";
+                            }
+                        }).fail(function(error) {
+                            alert("회원삭제가 완료되었습니다.");
+                            location.href = "/admin/info";
+                        });
+                    }
                 },
 
                 back: function() {

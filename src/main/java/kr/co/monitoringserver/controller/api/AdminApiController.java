@@ -2,6 +2,7 @@ package kr.co.monitoringserver.controller.api;
 
 import jakarta.validation.Valid;
 import kr.co.monitoringserver.service.dtos.request.AdminReqDTO;
+import kr.co.monitoringserver.service.dtos.request.IndexNotificationReqDTO;
 import kr.co.monitoringserver.service.dtos.request.UserReqDTO;
 import kr.co.monitoringserver.service.dtos.response.ResponseDto;
 import kr.co.monitoringserver.service.service.AdminService;
@@ -57,8 +58,6 @@ public class AdminApiController {
 
     /**
      * deleteUser : 회원정보를 Delete 한다.
-     * 보완 필요 : 해당 유저의 UserAttendance 데이터가 남아있을 경우 회원탈퇴가 되지 않음.
-     * 어떻게 처리할지 논의가 필요하다.
      */
     @DeleteMapping("/admin/info/delete")
     public void deleteUser(@RequestBody UserReqDTO userReqDTO){
@@ -66,4 +65,11 @@ public class AdminApiController {
         adminService.deleteUser(userReqDTO);
 
     }
+
+    @DeleteMapping("/admin/alert/delete")
+    public void deleteAlert(@RequestBody IndexNotificationReqDTO indexNotificationReqDTO){
+
+        adminService.deleteAlert(indexNotificationReqDTO);
+    }
+
 }
