@@ -1,15 +1,15 @@
 package kr.co.monitoringserver.infra.global.exception;
 
-import kr.co.monitoringserver.infra.global.error.enums.ErrorCode;
+import kr.co.monitoringserver.infra.global.model.ResponseStatus;
 import lombok.Getter;
 
 @Getter
 public class BusinessException extends RuntimeException {
 
-    private final ErrorCode errorCode;
+    private final ResponseStatus responseStatus;
 
-    public BusinessException(ErrorCode errorCode) {
-        super(errorCode.getMessage());
-        this.errorCode = errorCode;
+    public BusinessException(ResponseStatus responseStatus) {
+        super(responseStatus.getMessage());
+        this.responseStatus = responseStatus;
     }
 }

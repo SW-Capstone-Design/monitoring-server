@@ -1,6 +1,5 @@
-package kr.co.monitoringserver.infra.global.error.response;
+package kr.co.monitoringserver.infra.global.model;
 
-import kr.co.monitoringserver.infra.global.error.enums.ErrorCode;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,29 +18,29 @@ public class ResponseFormat<T> {
     private T data;
 
 
-    public static <T> ResponseFormat<T> successMessage(ErrorCode errorCode , String message) {
+    public static <T> ResponseFormat<T> successMessage(ResponseStatus responseStatus, String message) {
         return ResponseFormat.<T>builder()
-                .status(errorCode.getStatus())
+                .status(responseStatus.getStatus())
                 .message(message)
                 .success(true)
                 .data(null)
                 .build();
     }
 
-    public static <T> ResponseFormat<T> successData(ErrorCode errorCode, T data) {
+    public static <T> ResponseFormat<T> successData(ResponseStatus responseStatus, T data) {
         return ResponseFormat.<T>builder()
-                .status(errorCode.getStatus())
-                .message(errorCode.getMessage())
+                .status(responseStatus.getStatus())
+                .message(responseStatus.getMessage())
                 .success(true)
                 .data(data)
                 .build();
 
     }
 
-    public static <T> ResponseFormat<T> fail(ErrorCode errorCode) {
+    public static <T> ResponseFormat<T> fail(ResponseStatus responseStatus) {
         return ResponseFormat.<T>builder()
-                .status(errorCode.getStatus())
-                .message(errorCode.getMessage())
+                .status(responseStatus.getStatus())
+                .message(responseStatus.getMessage())
                 .success(false)
                 .data(null)
                 .build();
