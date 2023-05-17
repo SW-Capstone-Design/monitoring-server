@@ -12,6 +12,9 @@ let index = {
             $("#btn-back").on("click", ()=>{
                 this.back();
             });
+            window.addEventListener("load", ()=>{
+                this.note();
+            });
 		},
 
         save: function() {
@@ -168,9 +171,21 @@ let index = {
                         }
                 },
 
-                    back: function() {
-                        window.history.back();
-                    }
+                back: function() {
+                    window.history.back();
+                },
+
+                note: function() {
+                    $.ajax({
+                        type: "GET",
+                        url: "/admin/alert",
+                        dataType: "text"
+                    }).done(function(result) {
+                        $("#result").load(location.href+" #result");
+                        $("#list").load(location.href+" #list");
+                    });
+                }
 }
 
 index.init();
+

@@ -120,4 +120,14 @@ public class AdminController {
 
         return "admin/attendance/inquireEarlyLeave";
     }
+
+    /**
+     * searchBeaconAlert : Beacon 배터리 잔량 알림 조회
+     */
+    @GetMapping("/admin/alert")
+    public String searchBeaconAlert(Model model, @PageableDefault(size=10, sort="indexAlertTime", direction = Sort.Direction.ASC) Pageable pageable) {
+        model.addAttribute("alerts", adminService.alertList(pageable));
+
+        return "admin/index";
+    }
 }

@@ -1,13 +1,14 @@
 package kr.co.monitoringserver.service.service;
 
+import kr.co.monitoringserver.persistence.entity.alert.IndexNotification;
 import kr.co.monitoringserver.persistence.entity.attendance.UserAttendance;
 import kr.co.monitoringserver.persistence.entity.user.User;
+import kr.co.monitoringserver.persistence.repository.IndexNotificationRepository;
 import kr.co.monitoringserver.persistence.repository.UserAttendanceRepository;
 import kr.co.monitoringserver.persistence.repository.UserRepository;
 import kr.co.monitoringserver.service.dtos.request.AdminReqDTO;
 import kr.co.monitoringserver.service.dtos.request.UserReqDTO;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -25,14 +26,13 @@ import java.util.Map;
 @Transactional(readOnly = true)
 public class AdminService {
 
-    @Autowired
-    public UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private BCryptPasswordEncoder encoder;
+    private final BCryptPasswordEncoder encoder;
 
-    @Autowired
-    private UserAttendanceRepository userAttendanceRepository;
+    private final UserAttendanceRepository userAttendanceRepository;
+
+    private final IndexNotificationRepository indexNotificationRepository;
 
     /**
      * list : 모든 회원정보를 조회한다.
@@ -130,5 +130,12 @@ public class AdminService {
     public Page<UserAttendance> searchAttendList(LocalDate searchKeyword, Pageable pageable) {
 
         return userAttendanceRepository.findByAttendance_Date(searchKeyword, pageable);
+    }
+
+    /**
+     * alertList : 관리자페이지에 새알림 목록을 가져온다.
+     */
+    public Page<IndexNotification> alertList(Pageable pageable){
+        return indexNotificationRepository.findAll(pageable);
     }
 }
