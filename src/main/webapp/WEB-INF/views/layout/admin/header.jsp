@@ -63,7 +63,8 @@
                                 <!-- Modal content-->
                                 <div style="width:1000px;" class="modal-content">
                                   <div class="modal-header">
-                                    <h5 class="modal-title">알림 - ${fn:length(alerts.content)}개</h5>
+                                    <h5 class="modal-title">알림 - ${count}개</h5>
+                                    <a href="/admin/alert">더보기</a>
                                   </div>
                                   <div id="list" class="modal-body">
                                     <form style="text-align:center;">

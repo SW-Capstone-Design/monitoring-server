@@ -1,16 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 
-<%@ include file="../../layout/admin/header.jsp"%>
+<%@ include file="../layout/admin/header.jsp"%>
 
 <div class="container">
-  <h2>알림 - ${fn:length(alerts)}개</h2>
+  <h2>알림 - ${count}개</h2>
   <span>
     알림 조회 및 삭제
   </span>
-  <form style="text-align:right;" action="info" method="get">
+  <br><br>
+  <form style="text-align:center;" action="info" method="get">
   <div style="display:inline-block; float:right;">
-    <input type="text" style="display:inline; width:200px;" class="form-control" name="searchKeyword" placeholder="Enter Id">
-    <button type="submit" class="btn btn-dark mb-1 mr-sm-1">검색</button>
   </div>
   <form>
   <table class="table table-hover">
@@ -30,7 +29,7 @@
       </c:forEach>
     </tbody>
   </table>
-  <button style="display:inline-block; float:left;" type="button" id="btn-delAlertAll" class="btn btn-dark">알림삭제</button>
+  <button style="display:inline-block; float:left;" type="button" id="btn-delAlertAll" class="btn btn-dark">최근알림 10개 삭제</button>
 
   <ul class="pagination" style="position:relative; left:35%">
   	<c:choose>
@@ -63,20 +62,7 @@
   	</c:choose>
 
 </div>
+</form>
 
-<script>
-    let index = {
-        init: function() {
-                    $("#btn-delAlertAll").on("click", ()=>{
-                        this.delAlertAll();
-                    });
-                },
-
-                joinForm: function() {
-                    location.href="/admin/joinForm"
-                }
-        }
-    index.init();
-</script>
-
-<%@ include file="../../layout/admin/footer.jsp"%>
+<script src="/js/admin.js"></script>
+<%@ include file="../layout/admin/footer.jsp"%>

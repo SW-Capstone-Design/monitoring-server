@@ -15,6 +15,9 @@ let index = {
             window.addEventListener("load", ()=>{
                 this.note();
             });
+            $("#btn-delAlertAll").on("click", ()=>{
+                this.delAlertAll();
+            });
 		},
 
         save: function() {
@@ -184,7 +187,21 @@ let index = {
                         $("#result").load(location.href+" #result");
                         $("#list").load(location.href+" #list");
                     });
-                }
+                },
+
+                delAlertAll: function() {
+
+                    $.ajax({
+                        type: "DELETE",
+                        url: "/admin/alert/delete/ten",
+                        dataType: "json"
+                    }).done(function(resp) {
+                        location.href = "/admin/alert";
+                    }).fail(function(error) {
+                        location.href = "/admin/alert";
+                    });
+            }
+
 }
 
 index.init();

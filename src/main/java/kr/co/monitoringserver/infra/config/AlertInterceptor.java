@@ -18,9 +18,11 @@ public class AlertInterceptor implements HandlerInterceptor {
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, @Nullable ModelAndView modelAndView) throws Exception {
         Object lists = modelAndView.getModel().get("alerts");
+        Object count = modelAndView.getModel().get("count");
 
         if (lists != null) {
             request.getSession().setAttribute("alerts", lists);
+            request.getSession().setAttribute("count", count);
         }
     }
 
