@@ -2,58 +2,40 @@
 
 <%@ include file="../../layout/admin/header.jsp"%>
 
-<div class="container">
+<div class="container" id="pack">
   <h2>모니터링</h2>
   <span>
     회원의 보안구역 접근 여부를 모니터링합니다.
   </span>
   <br><br>
-
+    <div class="panael panel-primary">
+        Alert TimeLine
+    </div>
 </div>
-<script type="text/javaScript">
-    function login() {
-        const id = document.getElementById('id').value;
+<script>
+    $(document).ready(function() {
 
-        const eventSource = new EventSource(`/subscribe/` + id);
+        var urlEndPoint = 'http://localhost:8080/auth/subscribe';
+        var eventSource = new EventSource(urlEndPoint);
 
-        eventSource.addEventListener("sse", function (event) {
-            console.log(event.data);
-
-            const data = JSON.parse(event.data);
-
-            (async () => {
-                // 브라우저 알림
-                const showNotification = () => {
-
-                    const notification = new Notification('코드 봐줘', {
-                        body: data.content
-                    });
-
-                    setTimeout(() => {
-                        notification.close();
-                    }, 10 * 1000);
-
-                    notification.addEventListener('click', () => {
-                        window.open(data.url, '_blank');
-                    });
-                }
-
-                // 브라우저 알림 허용 권한
-                let granted = false;
-
-                if (Notification.permission === 'granted') {
-                    granted = true;
-                } else if (Notification.permission !== 'denied') {
-                    let permission = await Notification.requestPermission();
-                    granted = permission === 'granted';
-                }
-
-                // 알림 보여주기
-                if (granted) {
-                    showNotification();
-                }
-            })();
+        eventSource.addEventListener("latest", function(event){
+            var articleData = JSON.parse(event.data);
+            addBlock(articleData.title, articleData.text);
+            })
         })
-    }
+
+        function addBlock(title, text){
+        var a = document.createElement("article");
+        var h = document.createElement("H3");
+        var t = document.createTextNode(title);
+        h.appendChild(t);
+
+        var para = document.createElement("P");
+        para.innerHTML = text;
+        a.appendChild(h);
+        a.appendChild(para);
+        document.getElementById("pack").appendChild(a);
+        }
+
 </script>
 <%@ include file="../../layout/admin/footer.jsp"%>

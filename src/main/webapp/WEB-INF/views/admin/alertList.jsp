@@ -5,7 +5,7 @@
 <div class="container">
   <h2>알림 - ${count}개</h2>
   <span>
-    알림 조회 및 삭제
+    알림 조회 및 삭제 : 클릭하면 해당 알림이 삭제됩니다.
       <button style="display:inline-block; float:right;" type="button" id="btn-delAlertAll" class="btn btn-dark">최근알림 10개 삭제</button>
   </span>
   <br><br>
@@ -30,36 +30,6 @@
       </c:forEach>
     </tbody>
   </table>
-  <ul class="pagination" style="position:relative; left:35%">
-  	<c:choose>
-  		<c:when test="${alerts.first}">
-  			<li class="page-item disabled"><a class="page-link" href="?page=${alerts.number-1}">Previous</a></li>
-  		</c:when>
-  		<c:otherwise>
-  			<li class="page-item"><a class="page-link" href="?page=${alerts.number-1}">Previous</a></li>
-  		</c:otherwise>
-  	</c:choose>
-
-  	<c:forEach var="i" begin="1" end="${alerts.totalPages}">
-  	<c:choose>
-      		<c:when test="${!empty param.searchKeyword}">
-      		    <li class="page-item"><a class="page-link" href="?page=${i-1}&searchKeyword=${param.searchKeyword}">${i}</a></li>
-      		</c:when>
-      		<c:otherwise>
-      	        <li class="page-item"><a class="page-link" href="?page=${i-1}">${i}</a></li>
-      		</c:otherwise>
-      	</c:choose>
-    </c:forEach>
-
-  	<c:choose>
-  		<c:when test="${alerts.last}">
-  			<li class="page-item disabled"><a class="page-link" href="?page=${alerts.number+1}">Next</a></li>
-  		</c:when>
-  		<c:otherwise>
-  			<li class="page-item"><a class="page-link" href="?page=${alerts.number+1}">Next</a></li>
-  		</c:otherwise>
-  	</c:choose>
-
 </div>
 </form>
 <script>

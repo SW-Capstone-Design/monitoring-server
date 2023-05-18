@@ -8,12 +8,21 @@ import kr.co.monitoringserver.service.dtos.response.ResponseDto;
 import kr.co.monitoringserver.service.service.AdminService;
 import kr.co.monitoringserver.service.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+import javax.print.attribute.standard.Media;
+import java.io.IOException;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
+
 @RestController
 @RequiredArgsConstructor
 public class AdminApiController {
@@ -23,6 +32,8 @@ public class AdminApiController {
 
     @Autowired
     private UserService userService;
+
+    public List<SseEmitter> emitters = new CopyOnWriteArrayList<>();
 
     /**
      * saveUser : 사용자정보를 Create하여 회원가입을 수행한다.
@@ -76,6 +87,39 @@ public class AdminApiController {
     public void deleteAlertTopTen(){
 
         adminService.deleteAlertTopTen();
+    }
+
+    @RequestMapping(value = "/auth/subscribe", consumes = MediaType.ALL_VALUE)
+    public SseEmitter subscribe() {
+        SseEmitter sseEmitter = new SseEmitter(Long.MAX_VALUE);
+        try {
+            sseEmitter.send(SseEmitter.event().name("INIT"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        sseEmitter.onCompletion(()->emitters.remove(sseEmitter));
+
+        emitters.add(sseEmitter);
+        return sseEmitter;
+    }
+
+    @PostMapping(value = "/auth/dispatchEvent")
+    public void dispatchEventToClients(@RequestParam String title, @RequestParam String text){
+
+        JSONObject obj = new JSONObject();
+        obj.put("title", title);
+        obj.put("text", text);
+
+        String eventFormatted = obj.toString();
+
+
+        for (SseEmitter emitter : emitters) {
+            try{
+                emitter.send(SseEmitter.event().name("latest").data(eventFormatted));
+            } catch (IOException e) {
+                emitters.remove(emitter);
+            }
+        }
     }
 
 }
