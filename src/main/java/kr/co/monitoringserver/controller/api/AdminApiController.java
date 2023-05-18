@@ -72,4 +72,10 @@ public class AdminApiController {
         adminService.deleteAlert(indexNotificationReqDTO);
     }
 
+    @DeleteMapping("/admin/alert/delete/ten")
+    public void deleteAlertTopTen(){
+
+        adminService.deleteAlertTopTen();
+    }
+
 }

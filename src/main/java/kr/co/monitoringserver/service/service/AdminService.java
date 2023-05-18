@@ -20,6 +20,7 @@ import org.springframework.validation.FieldError;
 
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -150,5 +151,13 @@ public class AdminService {
                 });
 
         indexNotificationRepository.delete(indexNotification);
+    }
+
+    @Transactional
+    public void deleteAlertTopTen(){
+
+        List<IndexNotification> list = indexNotificationRepository.findTop10ByOrderByIndexAlertTimeDesc();
+
+        indexNotificationRepository.deleteAll(list);
     }
 }

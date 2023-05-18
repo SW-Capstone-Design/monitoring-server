@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix = "fn" uri = "http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <sec:authorize access="isAuthenticated()">
 	<sec:authentication property="principal" var="principal"/>
@@ -45,12 +46,12 @@
         					<c:choose>
                                 <c:when test="${empty alerts.content}" >
                                 <div>
-                                    <button type="button" style="width:75px;" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">🔔</button>
+                                    <button type="button" style="width:75px;" class="btn btn-secondary btn-lg" data-toggle="modal" data-target="#myModal">🔔</button>
                                 </div>
                                 </c:when>
                                 <c:otherwise>
                                 <div>
-                                    <button type="button" style="width:75px;" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">🔔❗</button>
+                                    <button type="button" style="width:75px;" class="btn btn-secondary btn-lg" data-toggle="modal" data-target="#myModal">🔔❗</button>
                                 </div>
                                 </c:otherwise>
                             </c:choose>
@@ -62,7 +63,7 @@
                                 <!-- Modal content-->
                                 <div style="width:1000px;" class="modal-content">
                                   <div class="modal-header">
-                                    <h5 class="modal-title">알림</h5>
+                                    <h5 class="modal-title">알림 - ${fn:length(alerts.content)}개</h5>
                                   </div>
                                   <div id="list" class="modal-body">
                                     <form style="text-align:center;">
@@ -83,6 +84,7 @@
                                           </c:forEach>
                                         </tbody>
                                       </table>
+                                      </form>
                                   </div>
                                   <div class="modal-footer">
                                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
