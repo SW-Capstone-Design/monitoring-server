@@ -33,8 +33,7 @@
 			</c:when>
 			<c:otherwise>
 				<ul id="result" class="navbar-nav">
-				            <li class="nav-item"><a class="nav-link" href="#">모니터링</a></li>
-                            <li class="nav-item dropdown">
+				            <li class="nav-item"><a class="nav-link" href="/admin/monitoring">모니터링</a></li>
                             <li class="nav-item"><a class="nav-link" href="/admin/attendance/list">출결관리</a></li>
 							<li class="nav-item"><a class="nav-link" href="/admin/beacon/info">비콘관리</a></li>
         					<li class="nav-item"><a class="nav-link" href="/admin/area/info">보안구역관리</a></li>

@@ -6,6 +6,7 @@
   <h2>알림 - ${count}개</h2>
   <span>
     알림 조회 및 삭제
+      <button style="display:inline-block; float:right;" type="button" id="btn-delAlertAll" class="btn btn-dark">최근알림 10개 삭제</button>
   </span>
   <br><br>
   <form style="text-align:center;" action="info" method="get">
@@ -21,7 +22,7 @@
     </thead>
     <tbody>
     <c:forEach items="${alerts.content}" var="alert">
-      <tr>
+      <tr onclick="delAlert()">
         <input type="hidden" class="form-control" value="${alert.indexAlertId}" id="indexAlertId">
         <td width="10%">${alert.indexAlertTime}</td>
         <td>${alert.indexAlertContent}</td>
@@ -29,8 +30,6 @@
       </c:forEach>
     </tbody>
   </table>
-  <button style="display:inline-block; float:left;" type="button" id="btn-delAlertAll" class="btn btn-dark">최근알림 10개 삭제</button>
-
   <ul class="pagination" style="position:relative; left:35%">
   	<c:choose>
   		<c:when test="${alerts.first}">
@@ -63,6 +62,24 @@
 
 </div>
 </form>
+<script>
+        function delAlert() {
+                let data = {
+                    indexAlertId: $("#indexAlertId").val()
+                };
 
+                $.ajax({
+                    type: "DELETE",
+                    url: "/admin/alert/delete",
+                    data: JSON.stringify(data),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json"
+                }).done(function(result) {
+                    location.reload();
+                }).fail(function(error) {
+                    location.reload();
+                });
+        }
+</script>
 <script src="/js/admin.js"></script>
 <%@ include file="../layout/admin/footer.jsp"%>

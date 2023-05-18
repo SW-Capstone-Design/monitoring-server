@@ -126,13 +126,20 @@ public class AdminController {
     }
 
     /**
-     * searchAlert : Beacon 배터리 잔량 알림 조회
+     * searchAlert : 관리자페이지 알림 조회
      */
     @GetMapping("/admin/alert")
-    public String searchAlert(Model model, @PageableDefault(size=10, sort="indexAlertTime", direction = Sort.Direction.DESC) Pageable pageable) {
+    public String searchAlert(Model model, @PageableDefault(size=100, sort="indexAlertTime", direction = Sort.Direction.DESC) Pageable pageable) {
         model.addAttribute("alerts", adminService.alertList(pageable));
         model.addAttribute("count", indexNotificationRepository.countBy());
 
         return "admin/alertList";
     }
+
+    @GetMapping("/admin/monitoring")
+    public String monitoring(){
+
+        return "admin/monitoring/monitoring";
+    }
+
 }
