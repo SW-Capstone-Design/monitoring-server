@@ -3,6 +3,7 @@ package kr.co.monitoringserver.controller.api;
 import jakarta.validation.Valid;
 import kr.co.monitoringserver.service.dtos.request.AdminReqDTO;
 import kr.co.monitoringserver.service.dtos.request.IndexNotificationReqDTO;
+import kr.co.monitoringserver.service.dtos.request.MonitoringReqDTO;
 import kr.co.monitoringserver.service.dtos.request.UserReqDTO;
 import kr.co.monitoringserver.service.dtos.response.ResponseDto;
 import kr.co.monitoringserver.service.service.AdminService;
@@ -104,11 +105,11 @@ public class AdminApiController {
     }
 
     @PostMapping(value = "/auth/dispatchEvent")
-    public void dispatchEventToClients(@RequestParam String title, @RequestParam String text){
+    public void dispatchEventToClients(@RequestBody MonitoringReqDTO monitoringReqDTO){
 
         JSONObject obj = new JSONObject();
-        obj.put("title", title);
-        obj.put("text", text);
+        obj.put("title", monitoringReqDTO.getTitle());
+        obj.put("text", monitoringReqDTO.getText());
 
         String eventFormatted = obj.toString();
 
