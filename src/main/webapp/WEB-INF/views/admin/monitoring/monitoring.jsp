@@ -10,6 +10,7 @@
   <br><br>
     <div class="panael panel-primary">
         Alert TimeLine
+
     </div>
 </div>
 <script>
@@ -25,7 +26,7 @@
         })
 
         function addBlock(title, text){
-        var a = document.createElement("article");
+        var a = document.createElement("alert");
         var h = document.createElement("H3");
         var t = document.createTextNode(title);
         h.appendChild(t);

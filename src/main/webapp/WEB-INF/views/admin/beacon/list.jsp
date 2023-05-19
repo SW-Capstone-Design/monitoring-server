@@ -8,7 +8,7 @@
     비콘정보 조회 및 수정을 합니다.
   </span>
   <br><br>
-  <form style="text-align:right;" action="info" method="get">
+  <form style="text-align:center;" action="info" method="get">
   <table class="table table-hover">
     <thead>
       <tr>

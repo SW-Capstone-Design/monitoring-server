@@ -7,7 +7,7 @@
   <span>
     회원정보 조회 및 수정
   </span>
-  <form style="text-align:right;" action="info" method="get">
+  <form style="text-align:center;" action="info" method="get">
   <div style="display:inline-block; float:right;">
     <input type="text" style="display:inline; width:200px;" class="form-control" name="searchKeyword" placeholder="Enter Id">
     <button type="submit" class="btn btn-dark mb-1 mr-sm-1">검색</button>

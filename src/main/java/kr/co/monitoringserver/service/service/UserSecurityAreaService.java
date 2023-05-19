@@ -60,6 +60,14 @@ public class UserSecurityAreaService {
         return userSecurityAreaPage.map(userSecurityAreaMapper::toUserSecurityAreaReadDto);
     }
 
+    /**
+     * listSecurityAccessLog : 모든 SecurityArea 접근 기록을 조회한다.
+     */
+    public Page<UserSecurityArea> listSecurityAccessLog(Pageable pageable) {
+
+        return userSecurityAreaRepository.findAll(pageable);
+    }
+
     // 보안구역 접근 권한 검사
     public SecurityArea verifyAccessToSecurityArea(String securityAreaName) {
 

@@ -34,6 +34,7 @@
 			<c:otherwise>
 				<ul id="result" class="navbar-nav">
 				            <li class="nav-item"><a class="nav-link" href="/admin/monitoring">모니터링</a></li>
+				            <li class="nav-item"><a class="nav-link" href="/admin/area/accessInfo">경고조회</a></li>
                             <li class="nav-item"><a class="nav-link" href="/admin/attendance/list">출결관리</a></li>
 							<li class="nav-item"><a class="nav-link" href="/admin/beacon/info">비콘관리</a></li>
         					<li class="nav-item"><a class="nav-link" href="/admin/area/info">보안구역관리</a></li>
@@ -41,7 +42,7 @@
         					<li class="nav-item"><a class="nav-link" href="/">사용자페이지</a></li>
         					<li class="nav-item"><a class="nav-link" href="/logout">로그아웃</a></li>
         					<!-- Trigger the modal with a button -->
-        					<div style="position:relative; left:110%;">
+        					<div style="position:relative; left:90%;">
         					<c:choose>
                                 <c:when test="${empty alerts.content}" >
                                 <div>

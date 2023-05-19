@@ -7,7 +7,7 @@
   <span>
     출결상태를 조회 및 수정합니다.
   </span>
-  <form style="text-align:right;" action="list" method="get">
+  <form style="text-align:center;" action="list" method="get">
   <div style="display:inline-block; float:right;">
     <input type="date" style="display:inline; width:200px;" class="form-control" name="searchKeyword">
     <button type="submit" class="btn btn-dark mb-1 mr-sm-1">검색</button>

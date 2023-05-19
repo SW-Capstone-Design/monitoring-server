@@ -3,44 +3,39 @@
 <%@ include file="../../layout/admin/header.jsp"%>
 
 <div class="container">
-  <h2>보안구역조회</h2>
+  <h2>경고조회</h2>
   <span>
-    보안구역 조회 및 수정을 합니다.
+    경고를 조회 : 접근자 및 해당 보안구역을 조회합니다.
   </span>
   <br><br>
   <form style="text-align:center;" action="info" method="get">
   <table class="table table-hover">
     <thead>
       <tr>
-        <th>보안구역 ID</th>
+        <th>접근시간</th>
+        <th>접근자</th>
         <th>보안구역명</th>
-        <th>명세</th>
-        <th>위도</th>
-        <th>경도</th>
-        <th></th>
+        <th>보안구역명세</th>
       </tr>
     </thead>
     <tbody>
-    <c:forEach items="${lists.content}" var="securityArea">
+    <c:forEach items="${lists.content}" var="userSecurityArea">
       <tr>
-        <td>${securityArea.id}</td>
-        <td>${securityArea.name}</td>
-        <td>${securityArea.description}</td>
-        <td>${securityArea.securityAreaLocation.latitude}</td>
-        <td>${securityArea.securityAreaLocation.longitude}</td>
-        <td><b><a href="/admin/area/info/${securityArea.id}">수정</a></b></td>
+        <td>${userSecurityArea.accessTime}</td>
+        <td>${userSecurityArea.user.name}</td>
+        <td>${userSecurityArea.securityArea.name}</td>
+        <td>${userSecurityArea.securityArea.description}</td>
       </tr>
       </c:forEach>
     </tbody>
   </table>
-  <button style="display:inline-block; float:left;" type="button" id="btn-createForm" class="btn btn-dark">보안구역등록</button>
-    <ul class="pagination" style="position:relative; left:35%">
+    <ul class="pagination justify-content-center">
         <c:choose>
             <c:when test="${lists.first}">
                 <li class="page-item disabled"><a class="page-link" href="?page=${lists.number-1}">Previous</a></li>
             </c:when>
             <c:otherwise>
-                <li class="page-item"><a class="page-link" href="?page=${user.number-1}">Previous</a></li>
+                <li class="page-item"><a class="page-link" href="?page=${lists.number-1}">Previous</a></li>
             </c:otherwise>
         </c:choose>
 

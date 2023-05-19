@@ -1,6 +1,7 @@
 package kr.co.monitoringserver.controller;
 
 import kr.co.monitoringserver.service.service.SecurityAreaService;
+import kr.co.monitoringserver.service.service.UserSecurityAreaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -15,6 +16,9 @@ public class SecurityAreaController {
 
     @Autowired
     SecurityAreaService securityAreaService;
+
+    @Autowired
+    UserSecurityAreaService userSecurityAreaService;
 
     /**
      * securityAreaCreateForm : SecurityArea Create 폼으로 매핑한다.
@@ -45,5 +49,16 @@ public class SecurityAreaController {
         model.addAttribute("list", securityAreaService.securityAreaDetail(securityAreaId));
 
         return "admin/securityArea/detail";
+    }
+
+    /**
+     * securityAccessList : securityArea 접근 기록을 조회한다.
+     */
+    @GetMapping("/admin/area/accessInfo")
+    public String securityAccessList(Model model, @PageableDefault(size=10, sort="accessTime", direction = Sort.Direction.DESC) Pageable pageable){
+
+        model.addAttribute("lists", userSecurityAreaService.listSecurityAccessLog(pageable));
+
+        return "admin/securityArea/logList";
     }
 }

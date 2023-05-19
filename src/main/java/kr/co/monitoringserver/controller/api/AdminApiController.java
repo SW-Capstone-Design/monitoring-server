@@ -34,7 +34,7 @@ public class AdminApiController {
     @Autowired
     private UserService userService;
 
-    public List<SseEmitter> emitters = new CopyOnWriteArrayList<>();
+    public static List<SseEmitter> emitters = new CopyOnWriteArrayList<>();
 
     /**
      * saveUser : 사용자정보를 Create하여 회원가입을 수행한다.
@@ -98,9 +98,12 @@ public class AdminApiController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        sseEmitter.onCompletion(()->emitters.remove(sseEmitter));
-
         emitters.add(sseEmitter);
+        sseEmitter.onCompletion(()->emitters.remove(sseEmitter));
+        sseEmitter.onTimeout(() -> {
+            sseEmitter.complete();
+        });
+
         return sseEmitter;
     }
 

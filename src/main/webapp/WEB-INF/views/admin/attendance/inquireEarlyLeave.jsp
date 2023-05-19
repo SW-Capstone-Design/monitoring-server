@@ -8,7 +8,7 @@
     금일 혹은 특정날짜의 조퇴한 회원을 조회합니다.
 
   </span>
-  <form style="text-align:right;" action="earlyLeave" method="get">
+  <form style="text-align:center;" action="earlyLeave" method="get">
     <input type="date" style="display:inline-block;width:200px;" class="form-control" name="searchKeyword">
     <button type="submit" class="btn btn-dark mb-1 mr-sm-1">검색</button>
   <form>

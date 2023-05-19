@@ -7,9 +7,11 @@
   <span>
     출결상태를 조회합니다.
   </span>
-  <form style="text-align:right;" action="${principal.user.userId}" method="get">
-    <input type="date" name="searchKeyword">
+  <div style="display:inline-block; float:right;">
+  <form style="text-align:center;" action="${principal.user.userId}" method="get">
+    <input type="date" style="display:inline; width:200px;" name="searchKeyword">
     <button type="submit" class="btn btn-dark">검색</button>
+  </div>
   <table class="table table-hover">
     <thead>
       <tr>
