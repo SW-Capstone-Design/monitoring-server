@@ -2,21 +2,20 @@
 
 <%@ include file="../../layout/admin/header.jsp"%>
 
-<div class="container" id="pack">
+<div class="container">
   <h2>모니터링</h2>
   <span>
     회원의 보안구역 접근 여부를 모니터링합니다.
   </span>
   <br><br>
     <div class="panael panel-primary">
-        Alert TimeLine
+        <textarea id="pack"></textarea>
 
     </div>
 </div>
 <script>
     $(document).ready(function() {
-
-        var urlEndPoint = 'http://localhost:8080/auth/subscribe';
+        var urlEndPoint = '/auth/subscribe';
         var eventSource = new EventSource(urlEndPoint);
 
         eventSource.addEventListener("latest", function(event){
@@ -26,16 +25,12 @@
         })
 
         function addBlock(title, text){
-        var a = document.createElement("alert");
-        var h = document.createElement("H3");
-        var t = document.createTextNode(title);
-        h.appendChild(t);
+        var textarea_str = $("#pack").val();
+        textarea_str = textarea_str + text + "\n";
+        document.getElementById("pack").value = textarea_str;
 
-        var para = document.createElement("P");
-        para.innerHTML = text;
-        a.appendChild(h);
-        a.appendChild(para);
-        document.getElementById("pack").appendChild(a);
+        var vScrollDown = $("#pack").prop('scrollHeight');
+        $("#pack").scrollTop(vScrollDown);
         }
 
 </script>
