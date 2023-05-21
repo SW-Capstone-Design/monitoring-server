@@ -1,7 +1,7 @@
 package kr.co.monitoringserver.controller.api;
 
-import kr.co.monitoringserver.infra.global.error.enums.ErrorCode;
-import kr.co.monitoringserver.infra.global.error.response.ResponseFormat;
+import kr.co.monitoringserver.infra.global.model.ResponseFormat;
+import kr.co.monitoringserver.infra.global.model.ResponseStatus;
 import kr.co.monitoringserver.service.dtos.request.AttendanceReqDTO;
 import kr.co.monitoringserver.service.dtos.response.AttendanceResDTO;
 import kr.co.monitoringserver.service.service.AttendanceService;
@@ -31,7 +31,7 @@ public class AttendanceApiController {
         attendanceService.createAndSaveUserClockIn(userIdentity, create);
 
         return ResponseFormat.successMessage(
-                ErrorCode.SUCCESS_CREATED,
+                ResponseStatus.SUCCESS_CREATED,
                 userIdentity + "님 출근이 성공적으로 저장되었습니다"
         );
     }
@@ -46,7 +46,7 @@ public class AttendanceApiController {
         attendanceService.updateAndSaveUserClockOut(userIdentity, update);
 
         return ResponseFormat.successMessage(
-                ErrorCode.SUCCESS_CREATED,
+                ResponseStatus.SUCCESS_CREATED,
                 userIdentity + "님 퇴근이 성공적으로 저장되었습니다"
         );
     }
@@ -59,7 +59,7 @@ public class AttendanceApiController {
                                                                                    @PageableDefault Pageable pageable) {
 
         return ResponseFormat.successData(
-                ErrorCode.SUCCESS_EXECUTE,
+                ResponseStatus.SUCCESS_EXECUTE,
                 attendanceService.getAttendanceByUserIdentity(userIdentity, pageable)
         );
     }
@@ -72,7 +72,7 @@ public class AttendanceApiController {
                                                                           @PageableDefault Pageable pageable) {
 
         return ResponseFormat.successData(
-                ErrorCode.SUCCESS_EXECUTE,
+                ResponseStatus.SUCCESS_EXECUTE,
                 attendanceService.getLatecomerByDate(date, pageable)
         );
     }
@@ -85,7 +85,7 @@ public class AttendanceApiController {
                                                                          @PageableDefault Pageable pageable) {
 
         return ResponseFormat.successData(
-                ErrorCode.SUCCESS_EXECUTE,
+                ResponseStatus.SUCCESS_EXECUTE,
                 attendanceService.getAbsenteeByDate(date, pageable)
         );
     }
@@ -100,7 +100,7 @@ public class AttendanceApiController {
         attendanceService.updateAttendance(userIdentity, update);
 
         return ResponseFormat.successMessage(
-                ErrorCode.SUCCESS_EXECUTE,
+                ResponseStatus.SUCCESS_EXECUTE,
                 userIdentity + "님 출석 상태 정보가 성공적으로 수정되었습니다"
         );
     }
@@ -115,7 +115,7 @@ public class AttendanceApiController {
         attendanceService.deleteAttendance(userIdentity, date);
 
         return ResponseFormat.successMessage(
-                ErrorCode.SUCCESS_EXECUTE,
+                ResponseStatus.SUCCESS_EXECUTE,
                 "출석 상태 정보가 성공적으로 삭제되었습니다"
         );
     }

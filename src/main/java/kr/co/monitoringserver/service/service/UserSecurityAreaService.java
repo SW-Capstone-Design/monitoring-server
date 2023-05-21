@@ -1,7 +1,7 @@
 package kr.co.monitoringserver.service.service;
 
-import kr.co.monitoringserver.infra.global.error.enums.ErrorCode;
 import kr.co.monitoringserver.infra.global.exception.NotFoundException;
+import kr.co.monitoringserver.infra.global.model.ResponseStatus;
 import kr.co.monitoringserver.persistence.entity.securityArea.SecurityArea;
 import kr.co.monitoringserver.persistence.entity.securityArea.UserSecurityArea;
 import kr.co.monitoringserver.persistence.entity.user.User;
@@ -63,7 +63,7 @@ public class UserSecurityAreaService {
     public SecurityArea verifyAccessToSecurityArea(String securityAreaName) {
 
         SecurityArea securityArea = securityAreaRepository.findByName(securityAreaName)
-                .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_SECURITY_AREA));
+                .orElseThrow(() -> new NotFoundException(ResponseStatus.NOT_FOUND_SECURITY_AREA));
 
         return securityArea;
     }

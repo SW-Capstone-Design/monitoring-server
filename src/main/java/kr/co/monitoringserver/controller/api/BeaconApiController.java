@@ -1,7 +1,7 @@
 package kr.co.monitoringserver.controller.api;
 
-import kr.co.monitoringserver.infra.global.error.enums.ErrorCode;
-import kr.co.monitoringserver.infra.global.error.response.ResponseFormat;
+import kr.co.monitoringserver.infra.global.model.ResponseFormat;
+import kr.co.monitoringserver.infra.global.model.ResponseStatus;
 import kr.co.monitoringserver.persistence.entity.beacon.Beacon;
 import kr.co.monitoringserver.persistence.entity.beacon.UserBeacon;
 import kr.co.monitoringserver.persistence.repository.BeaconRepository;
@@ -17,6 +17,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -138,8 +139,23 @@ public class BeaconApiController {
         beaconService.checkBatteryStatusAndSendNotification();
 
         return ResponseFormat.successMessage(
-                ErrorCode.SUCCESS_EXECUTE,
+                ResponseStatus.SUCCESS_EXECUTE,
                 "비콘의 배터리 잔량 20% 미만입니다"
+        );
+    }
+
+    /**
+     * Create And Save Beacon And Beacon Location Controller
+     */
+    @PostMapping("/api/v1/beacon/{user_identity}")
+    public ResponseFormat<Void> createBeaconAndLocation(@PathVariable(name = "user_identity") String userIdentity,
+                                                        @RequestBody @Validated BeaconReqDTO.CREATE create) {
+
+        beaconService.createBeaconAndLocation(userIdentity, create);
+
+        return ResponseFormat.successMessage(
+                ResponseStatus.SUCCESS_CREATED,
+                "해당 비콘의 정보와 위치 정보가 성공적으로 생성되었습니다"
         );
     }
 }
