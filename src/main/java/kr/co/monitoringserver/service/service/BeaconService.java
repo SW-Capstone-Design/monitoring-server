@@ -1,9 +1,6 @@
 package kr.co.monitoringserver.service.service;
 
-import kr.co.monitoringserver.infra.global.exception.BadRequestException;
-import kr.co.monitoringserver.persistence.entity.Location;
 import kr.co.monitoringserver.persistence.entity.beacon.Beacon;
-import kr.co.monitoringserver.persistence.entity.beacon.TrilaterationFunction;
 import kr.co.monitoringserver.persistence.entity.beacon.UserBeacon;
 import kr.co.monitoringserver.persistence.entity.user.User;
 import kr.co.monitoringserver.persistence.repository.BeaconRepository;
@@ -11,11 +8,8 @@ import kr.co.monitoringserver.persistence.repository.UserBeaconRepository;
 import kr.co.monitoringserver.persistence.repository.UserRepository;
 import kr.co.monitoringserver.service.dtos.request.BeaconReqDTO;
 import kr.co.monitoringserver.service.dtos.response.BeaconResDTO;
+import kr.co.monitoringserver.service.mappers.BeaconMapper;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.math3.fitting.leastsquares.LeastSquaresBuilder;
-import org.apache.commons.math3.fitting.leastsquares.LeastSquaresOptimizer;
-import org.apache.commons.math3.fitting.leastsquares.LevenbergMarquardtOptimizer;
-import org.apache.commons.math3.linear.DiagonalMatrix;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -23,9 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -37,6 +29,10 @@ public class BeaconService {
     private final UserBeaconRepository userBeaconRepository;
 
     private final UserRepository userRepository;
+
+    private final BeaconMapper beaconMapper;
+
+    private final BeaconLocationService beaconLocationService;
 
     /**
      * createBeacon : Beacon 정보를 생성한다.
@@ -244,6 +240,8 @@ public class BeaconService {
 
     /**
      * Check Beacon Battery Level And Send Notification Service
+     * 해당 알림 버튼을 누를 경우,
+     * QueryDSL 을 사용해 배터리 잔량이 20% 미만인 경우 전체 조회를 할 수 있게 구현
      */
     @Scheduled(fixedRate = 60000)
     public void checkBatteryStatusAndSendNotification() {
@@ -256,151 +254,33 @@ public class BeaconService {
     }
 
     /**
-     * Create Beacon And Beacon Location
-     * 비콘 생성 시 비콘 정보와 비콘의 위치정보도 저장
+     * Create Beacon And Beacon Location Service
      */
     @Transactional
-    public void createBeaconAndLocation(String userIdentity, BeaconReqDTO.CREATE create) {
+    public void createBeaconInfoAndLocation(BeaconReqDTO.CREATE create) {
 
-        final User user = userRepository.findByIdentity(userIdentity)
-                .orElseThrow(BadRequestException::new);
+        Beacon beacon = beaconMapper.toUserBeaconEntity(create);
 
-        final Location location = Location.builder()
-                .x(create.getLocationX().getX())
-                .y(create.getLocationY().getY())
-                .build();
+        beaconLocationService.createBeaconLocation(create, beacon);
 
-        final Beacon beacon = Beacon.builder()
-                .beaconName(create.getBeaconName())
-                .major(create.getMajor())
-                .minor(create.getMinor())
-                .beaconRole(create.getBeaconRole())
-                .uuid(create.getUuid())
-                .location(location)
-                .build();
-
-        final UserBeacon userBeacon = UserBeacon.builder()
-                .user(user)
-                .beacon(beacon)
-                .rssi(create.getRssi())
-                .build();
-
-        userBeaconRepository.save(userBeacon);
+        beaconRepository.save(beacon);
     }
 
     /**
-     * Get All Beacons Service
+     * Get Beacon And Beacon Location Service
      */
-    public List<Beacon> getAllBeacons() {
-
-        return beaconRepository.findAll();
-    }
 
     /**
-     * Get Find User Location By Trilateration
+     * Update Beacon And Beacon Location Service
      */
     @Transactional
-    @Scheduled(fixedRate = 60000)
-    public void updateAndSaveUserLocation() {
+    public void updateBeaconInfoAndLocation(BeaconReqDTO.UPDATE update) {
 
         List<UserBeacon> userBeacons = userBeaconRepository.findAll();
 
-        List<Long> beaconIds = Arrays.asList(1L, 2L, 3L);
-
-        // txPowers 값을 실제 전송 전력 값으로 변경해야 한다
-        int[] txPowers = new int[]{123, 456, 789};
-
-        for (UserBeacon userBeacon : userBeacons) {
-            User user = userBeacon.getUser();
-            Location location = determineUserLocationWithTrilateration(beaconIds, txPowers);
-
-            user.updateUserLocation(location);
-
-            userBeacon.updateUserLocation(user);
-        }
+        List<Long> beaconIds = beaconRepository.getAllBeaconIds();
     }
 
-
-    // 각 비콘의 위치와 거리를 도출한 후 삼변측량을 사용해 사용자 위치를 계산
-    private Location determineUserLocationWithTrilateration(List<Long> beaconIds, int[] txPowers) {
-
-        // 데이터베이스에서 모든 비콘 객체를 가져온다
-        List<Beacon> beacons = getAllBeacons();
-
-        // 비콘 위치 정보를 2차원 배열로 변환한다
-        double[][] positions = getBeaconPositions(beacons);
-
-        // 사용자와 각 비콘 사이의 거리를 계산한다
-        double[] distances = getBeaconDistances(beaconIds, txPowers);
-
-        // 삼변 측량 기법을 사용하여 사용자 위치를 계산 및 반환한다
-        return findUserLocationUsingTrilateration(positions, distances);
-    }
-
-    // 비콘 객체 목록을 사용하여 각 비콘의 위치 정보를 2차원 배열로 추출 및 반환
-    private double[][] getBeaconPositions(List<Beacon> beacons) {
-
-        // 비콘 목록의 크기와 동일한 크기의 2차원 배열을 생성한다
-        // 배열의 각 행은 하나의 비콘 위치를 나타내며, 두 개의 열은 X, Y 좌표를 나타낸다
-        double[][] positions = new double[beacons.size()][2];
-
-        for (int i = 0; i < beacons.size(); i++) {
-            Beacon beacon = beacons.get(i);
-            // 비콘 목록을 순회하면서, 각 비콘의 Location 객체를 가져온다
-            Location location = beacon.getLocation();
-            // 가져온 위치 정보를 사용하여 두 개의 좌표(X, Y)를 추출하여 positions 배열에 저장한다
-            positions[i] = new double[]{location.getX(), location.getY()};
-        }
-
-        return positions;
-    }
-
-    // 비콘 ID 목록과 각 비콘의 전송전력 값을 사용하여 사용자와 각 비콘 사이의 거리를 계산
-    private double[] getBeaconDistances(List<Long> beaconIds, int[] txPowers) {
-
-        double[] distances = new double[beaconIds.size()];
-
-        for (int i = 0; i < beaconIds.size(); i++) {
-            Long beaconId = beaconIds.get(i);
-            // 각 비콘 ID에 해당하는 userBeaconOpt 객체를 찾는다
-            Optional<UserBeacon> userBeaconOpt = beaconRepository.findByBeaconId(beaconId);
-
-            // userBeaconOpt 객체가 존재하면, 해당 객체가 받은 RSSI 값을 사용하여 거리를 계산 및 distance 배열에 저장한다
-            if (userBeaconOpt.isPresent()) {
-                UserBeacon userBeacon = userBeaconOpt.get();
-                Short rssi = userBeacon.getRssi();
-                // 공식 : distance = 10 ^ ( (txPower - RSSI) / 10 )
-                distances[i] = Math.pow(10, (double) (txPowers[i] - rssi) / 10.0);
-            }
-        }
-
-        return distances;
-    }
-
-    // 비콘 위치 정보와 사용자와 각 비콘 사이의 거리 정보를 통해 삼변 측량 기법을 사용하여 사용자 위치를 계산
-    private Location findUserLocationUsingTrilateration(double[][] positions, double[] distances) {
-
-        // TrilaterationFunction 객체를 생성 및 비콘 위치와 거리 정보를 전달한다
-        TrilaterationFunction trilaterationFunction = new TrilaterationFunction(positions, distances);
-
-        // LeastSquaresOptimizer 클래스의 인스턴스 생성
-        LeastSquaresOptimizer leastSquaresOptimizer = new LevenbergMarquardtOptimizer();
-
-        // LeastSquaresOptimizer.Optimum 호출하여 최적화 작업을 수행
-        // 이 과정에서 최소제곱법을 사용하여 삼변 측량 기법으로 사용자 위치를 계산한다
-        LeastSquaresOptimizer.Optimum optimum = leastSquaresOptimizer.optimize(
-                        new LeastSquaresBuilder()
-                                .start(new double[]{0, 0})
-                                .model(trilaterationFunction)
-                                .target(distances)
-                                .weight(new DiagonalMatrix(distances))
-                                .build());
-
-        // 계산된 사용자 위치를 double 배열로 추출한다
-        double[] calculatedLocation = optimum.getPoint().toArray();
-
-        return new Location(calculatedLocation[0],calculatedLocation[1]);
-    }
 
     // 비콘 배터리가 20% 미만일 경우 알림 설정
     private void sendBatteryLowNotification(Beacon beacon) {

@@ -19,6 +19,7 @@ public interface BeaconRepository extends JpaRepository<Beacon, Long> {
             "where b.battery < :threshold")
     List<Beacon> findBeaconsByBatteryLessThan(int threshold);
 
-    Optional<UserBeacon> findByBeaconId(Long beaconId);
+    List<Long> getAllBeaconIds();
 
+    Optional<UserBeacon> findByBeaconId(Long beaconId);
 }

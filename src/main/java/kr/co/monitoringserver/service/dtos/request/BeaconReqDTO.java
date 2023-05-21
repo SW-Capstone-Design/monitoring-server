@@ -69,4 +69,27 @@ public class BeaconReqDTO {
         @NotBlank(message = "다른 비콘 간의 상대 거리를 입력해주세요")
         private List<BeaconLocationReqDTO.CREATE_LOCATION> createLocations;
     }
+
+    @Getter
+    @Builder
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class UPDATE{
+
+        private String beaconName;
+
+        private Integer major;
+
+        private Integer minor;
+
+        private BeaconRoleType beaconRole;
+
+        private Short rssi;
+
+        private String uuid;
+
+        private Location location;
+
+        private List<BeaconLocationReqDTO.CREATE_LOCATION> createLocations;
+    }
 }

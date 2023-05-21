@@ -57,8 +57,21 @@ public class Beacon {
     private List<UserBeacon> Beacons = new ArrayList<>();
 
 
-    public void updateUserLocation(Location location) {
+
+    // 이미 만들어진 Location 객체를 전달하여 비콘 위치를 설정
+    public void createBeaconLocation(Location location) {
 
         this.location = location;
     }
+
+//    // x, y 좌표를 직접 입력하여 새로운 Location 객체를 생성하고, 비콘 위치를 설정
+//    public void createBeaconLocationWithCoordinates(double x, double y) {
+//
+//        Location location = new Location(x, y);
+//
+//        this.location = Location.builder()
+//                .x(location.getX())
+//                .y(location.getY())
+//                .build();
+//    }
 }
