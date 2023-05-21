@@ -289,6 +289,18 @@ public class BeaconService {
         beacon.updateBeacon(update);
     }
 
+    /**
+     * Delete Beacon And Beacon Location Service
+     */
+    @Transactional
+    public void deleteBeaconInfoAndLocation(Long beaconId) {
+
+        final Beacon beacon = beaconRepository.findById(beaconId)
+                .orElseThrow(() -> new NotFoundException(ResponseStatus.NOT_FOUND_BEACON));
+
+        beaconRepository.delete(beacon);
+    }
+
 
     // TODO  fetch PR, Save BeaconName, Battery
     // 비콘 배터리가 20% 미만일 경우 알림 설정

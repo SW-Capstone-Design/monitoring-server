@@ -175,4 +175,18 @@ public class BeaconApiController {
                 "해당 비콘의 정보와 위치 정보가 성공적으로 수정되었습니다"
         );
     }
+
+    /**
+     * Delete Beacon And Beacon Location Controller
+     */
+    @DeleteMapping("/api/v1/beacon/{beacon_id}")
+    public ResponseFormat<Void> deleteBeaconInfoAndLocation(@PathVariable(name = "beacon_id") Long beaconId) {
+
+        beaconService.deleteBeaconInfoAndLocation(beaconId);
+
+        return ResponseFormat.successMessage(
+                ResponseStatus.SUCCESS_EXECUTE,
+                "해당 비콘의 정보와 위치 정보가 성공적으로 삭제되었습니다"
+        );
+    }
 }
