@@ -3,13 +3,15 @@ package kr.co.monitoringserver.service.mappers;
 import kr.co.monitoringserver.persistence.entity.Location;
 import kr.co.monitoringserver.persistence.entity.beacon.Beacon;
 import kr.co.monitoringserver.service.dtos.request.BeaconReqDTO;
+import kr.co.monitoringserver.service.dtos.response.BeaconResDTO;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface BeaconMapper {
 
     // BeaconReqDTO.CREATE -> Beacon Entity
-    default Beacon toUserBeaconEntity(BeaconReqDTO.CREATE create) {
+    default Beacon toBeaconEntity(BeaconReqDTO.CREATE create) {
 
         final Beacon beacon = Beacon.builder()
                 .beaconName(create.getBeaconName())
@@ -31,4 +33,13 @@ public interface BeaconMapper {
 
         return beacon;
     }
+
+    @Mapping(source = "beacon.beaconName", target = "beaconName")
+    @Mapping(source = "beacon.major", target = "major")
+    @Mapping(source = "beacon.minor", target = "minor")
+    @Mapping(source = "beacon.uuid", target = "uuid")
+    @Mapping(source = "beacon.location", target = "location")
+    @Mapping(source = "beacon.battery", target = "battery")
+    @Mapping(source = "beacon.beaconRole", target = "beaconRole")
+    BeaconResDTO.READ toBeaconReadDto(Beacon beacon);
 }

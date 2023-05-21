@@ -40,11 +40,11 @@ public class Beacon {
     @Column
     private Short battery;      // 비콘의 배터리 수준을 나타내는 값
 
-    @Column
-    private Double x;
-
-    @Column
-    private Double y;
+//    @Column
+//    private Double x;
+//
+//    @Column
+//    private Double y;
 
     @Column(name = "beacon_location")
     private Location location;
@@ -71,5 +71,6 @@ public class Beacon {
         this.uuid = update.getUuid();
         this.major = update.getMajor();
         this.minor = update.getMinor();
+        this.location = update.getLocation();
     }
 }

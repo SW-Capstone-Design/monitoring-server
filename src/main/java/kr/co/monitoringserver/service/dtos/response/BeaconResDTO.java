@@ -31,12 +31,10 @@ public class BeaconResDTO {
 
         private BeaconRoleType beaconRole;
 
-        private Short rssi;
+        private Short battery;
 
         private String uuid;
 
-        private Location locationX;
-
-        private Location locationY;
+        private Location location;
     }
 }

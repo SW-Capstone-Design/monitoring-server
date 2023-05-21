@@ -21,9 +21,32 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class BeaconLocationService {
+public class UserLocationService {
 
     private final BeaconRepository beaconRepository;
+
+    public void createBeaconLocation(BeaconReqDTO.CREATE create, Beacon beacon) {
+
+        Location location = createOrUpdateBeaconLocation(create.getLocationList(), create.getLocation());
+
+        if (location != null) {
+            beacon.createBeaconLocation(location);
+        } else {
+            throw new InvalidInputException();
+        }
+    }
+
+    // 비콘 정보와 비콘 위치 정보를 수정
+    public void updateBeaconLocation(BeaconReqDTO.UPDATE update, Beacon beacon) {
+
+        Location location = createOrUpdateBeaconLocation(update.getLocationList(), update.getLocation());
+
+        if (location != null) {
+            beacon.createBeaconLocation(location);
+        } else {
+            throw new InvalidInputException();
+        }
+    }
 
     public Location createOrUpdateBeaconLocation(List<BeaconLocationReqDTO.LOCATION> locationList, Location location) {
 
@@ -42,29 +65,6 @@ public class BeaconLocationService {
 
         // 삼변 측량 알고리즘을 이용하여 비콘의 위치를 설정
         return determineUserLocationWithTrilateration(beaconIds, distances);
-    }
-
-    // 비콘의 위치 정보를 생성
-    public void createBeaconLocation(BeaconReqDTO.CREATE create, Beacon beacon) {
-
-        Location location = createOrUpdateBeaconLocation(create.getLocationList(), create.getLocation());
-
-        if (location != null) {
-            beacon.createBeaconLocation(location);
-        } else {
-            throw new InvalidInputException();
-        }
-    }
-
-    public void updateBeaconLocation(BeaconReqDTO.UPDATE update, Beacon beacon) {
-
-        Location location = createOrUpdateBeaconLocation(update.getLocationList(), update.getLocation());
-
-        if (location != null) {
-            beacon.createBeaconLocation(location);
-        } else {
-            throw new InvalidInputException();
-        }
     }
 
     // 각 비콘의 위치와 거리를 도출한 후 삼변측량을 사용해 사용자 위치를 계산

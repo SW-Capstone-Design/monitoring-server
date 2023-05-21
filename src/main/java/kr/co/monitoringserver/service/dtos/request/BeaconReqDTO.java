@@ -56,7 +56,6 @@ public class BeaconReqDTO {
         @NotNull(message = "비콘 그룹 내 개별 비콘을 구분하기 위한 값을 입력해주세요")
         private Integer minor;
 
-        @NotBlank(message = "비콘 역할을 지정해주세요")
         private BeaconRoleType beaconRole;
 
         private Short rssi;
