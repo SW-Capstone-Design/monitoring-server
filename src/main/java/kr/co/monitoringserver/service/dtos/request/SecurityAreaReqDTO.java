@@ -11,7 +11,7 @@ public class SecurityAreaReqDTO {
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static class CREATE {
 
-        @NotBlank(message = "Please enter your security area name")
+        @NotBlank(message = "보안구역의 이름을 입력해주세요")
         private String name;
 
         private String description;
