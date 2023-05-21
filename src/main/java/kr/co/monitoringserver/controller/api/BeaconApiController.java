@@ -130,6 +130,8 @@ public class BeaconApiController {
 
     }
 
+
+
     /**
      * Check Beacon Battery Level And Send Notification Controller
      */
@@ -147,15 +149,29 @@ public class BeaconApiController {
     /**
      * Create And Save Beacon And Beacon Location Controller
      */
-    @PostMapping("/api/v1/beacon/{user_identity}")
-    public ResponseFormat<Void> createBeaconAndLocation(@PathVariable(name = "user_identity") String userIdentity,
-                                                        @RequestBody @Validated BeaconReqDTO.CREATE create) {
+    @PostMapping("/api/v1/beacon")
+    public ResponseFormat<Void> createBeaconInfoAndLocation(@RequestBody @Validated BeaconReqDTO.CREATE create) {
 
-        beaconService.createBeaconAndLocation(userIdentity, create);
+        beaconService.createBeaconInfoAndLocation(create);
 
         return ResponseFormat.successMessage(
                 ResponseStatus.SUCCESS_CREATED,
                 "해당 비콘의 정보와 위치 정보가 성공적으로 생성되었습니다"
+        );
+    }
+
+    /**
+     * Update And Save Beacon And Beacon Location Controller
+     */
+    @PutMapping("/api/v1/beacon/{beacon_id}")
+    public ResponseFormat<Void> updateBeaconInfoAndLocation(@PathVariable(name = "beacon_id") Long beaconId,
+                                                            @RequestBody @Validated BeaconReqDTO.UPDATE update) {
+
+        beaconService.updateBeaconInfoAndLocation(beaconId, update);
+
+        return ResponseFormat.successMessage(
+                ResponseStatus.SUCCESS_EXECUTE,
+                "해당 비콘의 정보와 위치 정보가 성공적으로 수정되었습니다"
         );
     }
 }

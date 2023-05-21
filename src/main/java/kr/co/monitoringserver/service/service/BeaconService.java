@@ -1,5 +1,7 @@
 package kr.co.monitoringserver.service.service;
 
+import kr.co.monitoringserver.infra.global.exception.NotFoundException;
+import kr.co.monitoringserver.infra.global.model.ResponseStatus;
 import kr.co.monitoringserver.persistence.entity.beacon.Beacon;
 import kr.co.monitoringserver.persistence.entity.beacon.UserBeacon;
 import kr.co.monitoringserver.persistence.entity.user.User;
@@ -267,21 +269,25 @@ public class BeaconService {
     }
 
     /**
-     * Get Beacon And Beacon Location Service
+     * TODO : Get Beacon And Beacon Location Service
      */
 
     /**
      * Update Beacon And Beacon Location Service
      */
     @Transactional
-    public void updateBeaconInfoAndLocation(BeaconReqDTO.UPDATE update) {
+    public void updateBeaconInfoAndLocation(Long beaconId, BeaconReqDTO.UPDATE update) {
 
-        List<UserBeacon> userBeacons = userBeaconRepository.findAll();
+        final Beacon beacon = beaconRepository.findById(beaconId)
+                .orElseThrow(() -> new NotFoundException(ResponseStatus.NOT_FOUND_BEACON));
 
-        List<Long> beaconIds = beaconRepository.getAllBeaconIds();
+        beaconLocationService.updateBeaconLocation(update, beacon);
+
+        beacon.updateBeacon(update);
     }
 
 
+    // TODO  fetch PR, Save BeaconName, Battery
     // 비콘 배터리가 20% 미만일 경우 알림 설정
     private void sendBatteryLowNotification(Beacon beacon) {
 

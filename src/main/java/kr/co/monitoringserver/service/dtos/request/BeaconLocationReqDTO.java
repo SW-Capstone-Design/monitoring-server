@@ -9,7 +9,7 @@ public class BeaconLocationReqDTO {
     @Builder
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
-    public static class CREATE_LOCATION {
+    public static class LOCATION {
 
         @NotNull(message = "비콘의 번호를 입력해주세요")
         private Long beaconId;

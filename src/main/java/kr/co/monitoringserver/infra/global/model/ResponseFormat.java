@@ -3,13 +3,14 @@ package kr.co.monitoringserver.infra.global.model;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import org.springframework.http.HttpStatus;
 
 @Getter
 @AllArgsConstructor
 @Builder
 public class ResponseFormat<T> {
 
-    private int status;
+    private HttpStatus httpStatus;
 
     private String message;
 
@@ -20,7 +21,7 @@ public class ResponseFormat<T> {
 
     public static <T> ResponseFormat<T> successMessage(ResponseStatus responseStatus, String message) {
         return ResponseFormat.<T>builder()
-                .status(responseStatus.getStatus())
+                .httpStatus(responseStatus.getHttpStatus())
                 .message(message)
                 .success(true)
                 .data(null)
@@ -29,7 +30,7 @@ public class ResponseFormat<T> {
 
     public static <T> ResponseFormat<T> successData(ResponseStatus responseStatus, T data) {
         return ResponseFormat.<T>builder()
-                .status(responseStatus.getStatus())
+                .httpStatus(responseStatus.getHttpStatus())
                 .message(responseStatus.getMessage())
                 .success(true)
                 .data(data)
@@ -39,7 +40,7 @@ public class ResponseFormat<T> {
 
     public static <T> ResponseFormat<T> fail(ResponseStatus responseStatus) {
         return ResponseFormat.<T>builder()
-                .status(responseStatus.getStatus())
+                .httpStatus(responseStatus.getHttpStatus())
                 .message(responseStatus.getMessage())
                 .success(false)
                 .data(null)

@@ -64,10 +64,9 @@ public class BeaconReqDTO {
         @NotBlank(message = "비콘의 UUID 값을 입력해주세요")
         private String uuid;
 
-        private Location location;  // 수동으로 입력할 위치 정보
+        private Location location;
 
-        @NotBlank(message = "다른 비콘 간의 상대 거리를 입력해주세요")
-        private List<BeaconLocationReqDTO.CREATE_LOCATION> createLocations;
+        private List<BeaconLocationReqDTO.LOCATION> locationList;
     }
 
     @Getter
@@ -90,6 +89,6 @@ public class BeaconReqDTO {
 
         private Location location;
 
-        private List<BeaconLocationReqDTO.CREATE_LOCATION> createLocations;
+        private List<BeaconLocationReqDTO.LOCATION> locationList;
     }
 }

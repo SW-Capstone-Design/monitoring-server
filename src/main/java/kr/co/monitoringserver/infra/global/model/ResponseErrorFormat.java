@@ -14,9 +14,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ResponseErrorFormat {
 
-    private String message;
+    private final String message;
 
-    private HttpStatus httpStatus;
+    private final HttpStatus httpStatus;
 
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private final List<ValidationException> validationExceptions;
@@ -27,9 +27,9 @@ public class ResponseErrorFormat {
     @RequiredArgsConstructor
     public static class ValidationException {
 
-        private String message;
+        private final String message;
 
-        private String field;
+        private final String field;
 
         public static ValidationException of(final FieldError fieldError) {
 

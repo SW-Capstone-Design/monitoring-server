@@ -25,27 +25,42 @@ public class BeaconLocationService {
 
     private final BeaconRepository beaconRepository;
 
+    public Location createOrUpdateBeaconLocation(List<BeaconLocationReqDTO.LOCATION> locationList, Location location) {
+
+        if (location != null) {
+            return location;
+        }
+
+        List<Long> beaconIds = new ArrayList<>();
+        double[] distances = new double[locationList.size()];
+        int i = 0;
+
+        for (BeaconLocationReqDTO.LOCATION locations : locationList) {
+            beaconIds.add(locations.getBeaconId());
+            distances[i++] = locations.getDistance();
+        }
+
+        // 삼변 측량 알고리즘을 이용하여 비콘의 위치를 설정
+        return determineUserLocationWithTrilateration(beaconIds, distances);
+    }
+
     // 비콘의 위치 정보를 생성
     public void createBeaconLocation(BeaconReqDTO.CREATE create, Beacon beacon) {
 
-        // 최초 비콘을 생성할 경우, 수동으로 위치 정보를 입력: x, y 좌표를 입력 받음
-        if (create.getLocation() != null) {
-            // 입력 받은 위치 정보로 비콘의 위치를 설정
-            beacon.createBeaconLocation(create.getLocation());
+        Location location = createOrUpdateBeaconLocation(create.getLocationList(), create.getLocation());
+
+        if (location != null) {
+            beacon.createBeaconLocation(location);
+        } else {
+            throw new InvalidInputException();
         }
-        // 삼변 측량을 통해 비콘의 위치를 설정하는 경우
-        else if (create.getCreateLocations() != null && !create.getCreateLocations().isEmpty()) {
-            List<Long> beaconIds = new ArrayList<>();
-            double[] distances = new double[create.getCreateLocations().size()];
-            int i = 0;
+    }
 
-            for (BeaconLocationReqDTO.CREATE_LOCATION createLocation : create.getCreateLocations()) {
-                beaconIds.add(createLocation.getBeaconId());
-                distances[i++] = createLocation.getDistance();
-            }
+    public void updateBeaconLocation(BeaconReqDTO.UPDATE update, Beacon beacon) {
 
-            // 삼변 측량 알고리즘을 이용하여 비콘의 위치를 설정
-            Location location = determineUserLocationWithTrilateration(beaconIds, distances);
+        Location location = createOrUpdateBeaconLocation(update.getLocationList(), update.getLocation());
+
+        if (location != null) {
             beacon.createBeaconLocation(location);
         } else {
             throw new InvalidInputException();

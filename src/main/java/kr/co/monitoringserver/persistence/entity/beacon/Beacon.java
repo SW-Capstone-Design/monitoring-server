@@ -2,6 +2,7 @@ package kr.co.monitoringserver.persistence.entity.beacon;
 
 import jakarta.persistence.*;
 import kr.co.monitoringserver.persistence.entity.Location;
+import kr.co.monitoringserver.service.dtos.request.BeaconReqDTO;
 import kr.co.monitoringserver.service.enums.BeaconRoleType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -64,14 +65,11 @@ public class Beacon {
         this.location = location;
     }
 
-//    // x, y 좌표를 직접 입력하여 새로운 Location 객체를 생성하고, 비콘 위치를 설정
-//    public void createBeaconLocationWithCoordinates(double x, double y) {
-//
-//        Location location = new Location(x, y);
-//
-//        this.location = Location.builder()
-//                .x(location.getX())
-//                .y(location.getY())
-//                .build();
-//    }
+    public void updateBeacon(BeaconReqDTO.UPDATE update) {
+
+        this.beaconName = update.getBeaconName();
+        this.uuid = update.getUuid();
+        this.major = update.getMajor();
+        this.minor = update.getMinor();
+    }
 }
