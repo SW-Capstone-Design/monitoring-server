@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface UserBeaconRepository extends JpaRepository<UserBeacon, Long> {
     UserBeacon findByBeacon_BeaconId(Long beaconId);
 
-    Optional<UserBeacon> findByUserBeaconId(Long UserBeaconId);
+    Optional<UserBeacon> findByUserBeaconId(Long userBeaconId);
 
     List<UserBeacon> findByUser_UserId(Long userId);
 }

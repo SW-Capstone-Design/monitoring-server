@@ -72,6 +72,9 @@ dependencies {
 
 	// H2
 	runtimeOnly 'com.h2database:h2'
+
+	// Trilateration
+	implementation 'org.apache.commons:commons-math3:3.6.1'
 }
 
 tasks.named('test') {

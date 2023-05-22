@@ -1,10 +1,10 @@
 package kr.co.monitoringserver.infra.global.exception;
 
-import kr.co.monitoringserver.infra.global.error.enums.ErrorCode;
+import kr.co.monitoringserver.infra.global.model.ResponseStatus;
 
 public class DuplicatedException extends BusinessException {
 
-    public DuplicatedException(ErrorCode errorCode) {
-        super(errorCode);
+    public DuplicatedException(ResponseStatus responseStatus) {
+        super(responseStatus);
     }
 }

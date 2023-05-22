@@ -40,7 +40,7 @@
 
   <button style="display:inline-block; float:left;" type="button" id="btn-createForm" class="btn btn-dark">비콘등록</button>
 
-  <ul class="pagination" style="position:relative; left:35%">
+  <ul class="pagination" style="location:relative; left:35%">
     	<c:choose>
     		<c:when test="${lists.first}">
     			<li class="page-item disabled"><a class="page-link" href="?page=${lists.number-1}">Previous</a></li>

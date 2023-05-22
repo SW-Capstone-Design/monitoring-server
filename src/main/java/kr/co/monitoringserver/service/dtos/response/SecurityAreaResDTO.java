@@ -1,6 +1,5 @@
 package kr.co.monitoringserver.service.dtos.response;
 
-import kr.co.monitoringserver.persistence.entity.securityArea.Position;
 import lombok.*;
 
 public class SecurityAreaResDTO {
@@ -15,6 +14,6 @@ public class SecurityAreaResDTO {
 
         private String description;
 
-        private Position location;
+//        private Location location;
     }
 }

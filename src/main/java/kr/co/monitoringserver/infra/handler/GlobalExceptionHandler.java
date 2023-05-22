@@ -1,17 +1,17 @@
 package kr.co.monitoringserver.infra.handler;
 
-import kr.co.monitoringserver.infra.global.error.response.ErrorResponse;
-import kr.co.monitoringserver.infra.global.exception.BusinessException;
+import kr.co.monitoringserver.infra.global.exception.DuplicatedException;
+import kr.co.monitoringserver.infra.global.exception.NotFoundException;
+import kr.co.monitoringserver.infra.global.model.ResponseErrorFormat;
+import kr.co.monitoringserver.infra.global.model.ResponseStatus;
 import kr.co.monitoringserver.service.dtos.response.ResponseDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@ControllerAdvice
-@RestController
+@RestControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
 
@@ -22,11 +22,42 @@ public class GlobalExceptionHandler {
 
 
 
-    @ExceptionHandler(BusinessException.class)
-    public ResponseEntity<ErrorResponse> handleBusinessException(BusinessException e) {
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<ResponseErrorFormat> handleNotFoundException(NotFoundException e) {
 
-        log.error("handleBusinessException throws BusinessException : {}", e.getErrorCode());
+        log.warn("======= HandleNotFoundException ======", e);
 
-        return ErrorResponse.toResponseEntity(e.getErrorCode());
+        ResponseErrorFormat responseErrorFormat = ResponseErrorFormat.builder()
+                .message(e.getMessage())
+                .httpStatus(ResponseStatus.FAIL_NOT_FOUND.getHttpStatus())
+                .build();
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseErrorFormat);
+    }
+
+    @ExceptionHandler(DuplicatedException.class)
+    public ResponseEntity<ResponseErrorFormat> handleDuplicatedException(DuplicatedException e) {
+
+        log.warn("======= HandleDuplicatedException ======", e);
+
+        ResponseErrorFormat responseErrorFormat = ResponseErrorFormat.builder()
+                .message(e.getMessage())
+                .httpStatus(ResponseStatus.FAIL_BAD_REQUEST.getHttpStatus())
+                .build();
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseErrorFormat);
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<ResponseErrorFormat> handleRuntimeException(RuntimeException e) {
+
+        log.warn("======= HandleRuntimeException ======", e);
+
+        ResponseErrorFormat responseErrorFormat = ResponseErrorFormat.builder()
+                .message(e.getMessage())
+                .httpStatus(ResponseStatus.FAIL_BAD_REQUEST.getHttpStatus())
+                .build();
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseErrorFormat);
     }
 }

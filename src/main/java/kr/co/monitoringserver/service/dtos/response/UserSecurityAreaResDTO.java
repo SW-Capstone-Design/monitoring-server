@@ -1,6 +1,6 @@
 package kr.co.monitoringserver.service.dtos.response;
 
-import kr.co.monitoringserver.persistence.entity.securityArea.Position;
+import kr.co.monitoringserver.persistence.entity.Location;
 import kr.co.monitoringserver.service.enums.RoleType;
 import lombok.*;
 
@@ -18,7 +18,7 @@ public class UserSecurityAreaResDTO {
 
         private String securityAreaDescription;
 
-        private Position securityAreaLocation;
+        private Location securityAreaLocation;
 
         private String userName;
 

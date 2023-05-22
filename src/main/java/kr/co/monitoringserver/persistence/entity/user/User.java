@@ -2,9 +2,9 @@ package kr.co.monitoringserver.persistence.entity.user;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import kr.co.monitoringserver.persistence.entity.Location;
 import kr.co.monitoringserver.persistence.entity.attendance.UserAttendance;
 import kr.co.monitoringserver.persistence.entity.beacon.UserBeacon;
-import kr.co.monitoringserver.persistence.entity.securityArea.Position;
 import kr.co.monitoringserver.persistence.entity.securityArea.UserSecurityArea;
 import kr.co.monitoringserver.service.enums.RoleType;
 import lombok.AllArgsConstructor;
@@ -61,7 +61,7 @@ public class User {
     @Embedded
     @Column(name = "user_location",
             nullable = false)
-    private Position userLocation;
+    private Location userLocation;
 
     @OneToMany(
             mappedBy = "user",
@@ -74,4 +74,10 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<UserBeacon> userBeacons = new ArrayList<>();
+
+
+    public void updateUserLocation(Location userLocation) {
+
+        this.userLocation = userLocation;
+    }
 }

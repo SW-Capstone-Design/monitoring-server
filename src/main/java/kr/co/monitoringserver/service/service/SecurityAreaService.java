@@ -1,9 +1,9 @@
 package kr.co.monitoringserver.service.service;
 
-import kr.co.monitoringserver.infra.global.error.enums.ErrorCode;
 import kr.co.monitoringserver.infra.global.exception.BadRequestException;
 import kr.co.monitoringserver.infra.global.exception.NotAuthenticateException;
 import kr.co.monitoringserver.infra.global.exception.NotFoundException;
+import kr.co.monitoringserver.infra.global.model.ResponseStatus;
 import kr.co.monitoringserver.persistence.entity.securityArea.SecurityArea;
 import kr.co.monitoringserver.persistence.entity.user.User;
 import kr.co.monitoringserver.persistence.repository.SecurityAreaRepository;
@@ -87,7 +87,7 @@ public class SecurityAreaService {
         checkSecurityAreaAccess(userIdentity);
 
         final SecurityArea securityArea = securityAreaRepository.findById(securityAreaId)
-                .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_SECURITY_AREA));
+                .orElseThrow(() -> new NotFoundException(ResponseStatus.NOT_FOUND_SECURITY_AREA));
 
         securityArea.updateSecurityArea(update);
     }
@@ -101,7 +101,7 @@ public class SecurityAreaService {
         checkSecurityAreaAccess(userIdentity);
 
         final SecurityArea securityArea = securityAreaRepository.findById(securityAreaId)
-                .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_SECURITY_AREA));
+                .orElseThrow(() -> new NotFoundException(ResponseStatus.NOT_FOUND_SECURITY_AREA));
 
         securityAreaRepository.delete(securityArea);
     }
@@ -119,9 +119,10 @@ public class SecurityAreaService {
 
         final SecurityArea securityArea = userSecurityAreaService.verifyAccessToSecurityArea(securityAreaName);
 
-        if (userSecurityAreaService.isWithinRange(user.getUserLocation(), securityArea.getSecurityAreaLocation(), 20)) {
-            userSecurityAreaService.createSecurityAccessLog(user, securityArea);
-        }
+//        if (userSecurityAreaService.isWithinRange(user.getUserLocation(), securityArea.getSecurityAreaLocation(), 20)) {
+//        }
+
+        userSecurityAreaService.createSecurityAccessLog(user, securityArea);
     }
 
     /**
