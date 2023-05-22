@@ -19,6 +19,8 @@
         <th>Minor</th>
         <th>배터리잔량</th>
         <th>용도</th>
+        <th>X좌표</th>
+        <th>Y좌표</th>
         <th></th>
       </tr>
     </thead>
@@ -31,7 +33,9 @@
         <td>${beacon.major}</td>
         <td>${beacon.minor}</td>
         <td>${beacon.battery} %</td>
-        <th>${beacon.beaconRole}</th>
+        <td>${beacon.beaconRole}</td>
+        <td>${beacon.location.x}</td>
+        <td>${beacon.location.y}</td>
         <td><b><a href="/admin/beacon/info/${beacon.beaconId}">수정</a></b></td>
       </tr>
       </c:forEach>
@@ -46,7 +50,7 @@
     			<li class="page-item disabled"><a class="page-link" href="?page=${lists.number-1}">Previous</a></li>
     		</c:when>
     		<c:otherwise>
-    			<li class="page-item"><a class="page-link" href="?page=${user.number-1}">Previous</a></li>
+    			<li class="page-item"><a class="page-link" href="?page=${lists.number-1}">Previous</a></li>
     		</c:otherwise>
     	</c:choose>
 
