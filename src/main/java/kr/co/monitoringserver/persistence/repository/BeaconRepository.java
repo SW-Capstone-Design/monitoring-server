@@ -5,12 +5,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface BeaconRepository extends JpaRepository<Beacon, Long> {
 
-//    Optional<Beacon> findOptionalByBeaconId(Long beaconId);
+    Optional<Beacon> findOptionalByBeaconId(Long beaconId);
 
-//    Beacon findByBeaconId(Long beaconId);
+    Beacon findByBeaconId(Long beaconId);
 
     @Query(" select b " +
             "from Beacon b " +

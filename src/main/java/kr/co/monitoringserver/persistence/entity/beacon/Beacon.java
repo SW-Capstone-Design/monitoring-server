@@ -42,12 +42,6 @@ public class Beacon {
 
     private int txPower;
 
-//    @Column
-//    private Double x;
-//
-//    @Column
-//    private Double y;
-
     @Column(name = "beacon_location")
     private Location location;
 
