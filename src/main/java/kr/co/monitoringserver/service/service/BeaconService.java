@@ -239,8 +239,6 @@ public class BeaconService {
 
     /**
      * Check Beacon Battery Level And Send Notification Service
-     * 해당 알림 버튼을 누를 경우,
-     * QueryDSL 을 사용해 배터리 잔량이 20% 미만인 경우 전체 조회를 할 수 있게 구현
      */
     @Scheduled(fixedRate = 60000)
     public void checkBatteryStatusAndSendNotification() {

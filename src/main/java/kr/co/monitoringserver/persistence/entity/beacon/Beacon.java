@@ -40,6 +40,8 @@ public class Beacon {
     @Column
     private Short battery;      // 비콘의 배터리 수준을 나타내는 값
 
+    private int txPower;
+
 //    @Column
 //    private Double x;
 //
