@@ -23,4 +23,9 @@ public class Location {
         this.x = x;
         this.y = y;
     }
+
+    public double[] positionArray() {
+
+        return new double[]{x, y};
+    }
 }
