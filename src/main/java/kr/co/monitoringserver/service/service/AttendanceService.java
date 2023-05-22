@@ -1,10 +1,10 @@
 package kr.co.monitoringserver.service.service;
 
-import kr.co.monitoringserver.infra.global.error.enums.ErrorCode;
 import kr.co.monitoringserver.infra.global.exception.BadRequestException;
 import kr.co.monitoringserver.infra.global.exception.DuplicatedException;
 import kr.co.monitoringserver.infra.global.exception.InvalidInputException;
 import kr.co.monitoringserver.infra.global.exception.NotFoundException;
+import kr.co.monitoringserver.infra.global.model.ResponseStatus;
 import kr.co.monitoringserver.persistence.entity.attendance.UserAttendance;
 import kr.co.monitoringserver.persistence.entity.user.User;
 import kr.co.monitoringserver.persistence.repository.UserAttendanceRepository;
@@ -69,7 +69,7 @@ public class AttendanceService {
                 .orElseThrow(BadRequestException::new);
 
         final UserAttendance userAttendance = userAttendanceRepository.findByUserAndAttendance_Date(user, update.getDate())
-                        .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_ATTENDANCE));
+                        .orElseThrow(() -> new NotFoundException(ResponseStatus.NOT_FOUND_ATTENDANCE));
 
         AttendanceType leaveWork = Optional.ofNullable(update.getLeaveTime())
                 .map(this::calculateLeaveWorkAttendanceType)
@@ -115,7 +115,7 @@ public class AttendanceService {
                 .orElseThrow(BadRequestException::new);
 
         final UserAttendance userAttendance = userAttendanceRepository.findByUserAndAttendance_Date(user, update.getDate())
-                .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_ATTENDANCE));
+                .orElseThrow(() -> new NotFoundException(ResponseStatus.NOT_FOUND_ATTENDANCE));
 
         AttendanceType goWork = Optional.ofNullable(update.getEnterTime())
                 .map(this::calculateGoWorkAttendanceType)
@@ -135,10 +135,10 @@ public class AttendanceService {
     public void deleteAttendance(String userIdentity, LocalDate date) {
 
         final User user = userRepository.findByIdentity(userIdentity)
-                .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_USER));
+                .orElseThrow(() -> new NotFoundException(ResponseStatus.NOT_FOUND_USER));
 
         final UserAttendance userAttendance = userAttendanceRepository.findByUserAndAttendance_Date(user, date)
-                .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_ATTENDANCE));
+                .orElseThrow(() -> new NotFoundException(ResponseStatus.NOT_FOUND_ATTENDANCE));
 
         userAttendanceRepository.delete(userAttendance);
     }
@@ -193,7 +193,7 @@ public class AttendanceService {
                 .orElse(null);
 
         if (userAttendance != null) {
-            throw new DuplicatedException(ErrorCode.DUPLICATE_USER_ATTENDANCE);
+            throw new DuplicatedException(ResponseStatus.DUPLICATE_USER_ATTENDANCE);
         }
     }
 
@@ -215,7 +215,7 @@ public class AttendanceService {
     private void validateUserClockInExists(UserAttendance userAttendance) {
 
         if (userAttendance.getAttendance().getGoWork() == null) {
-            throw new NotFoundException(ErrorCode.NOT_FOUND_ATTENDANCE);
+            throw new NotFoundException(ResponseStatus.NOT_FOUND_ATTENDANCE);
         }
     }
 }

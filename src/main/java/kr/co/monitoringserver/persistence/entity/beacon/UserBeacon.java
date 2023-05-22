@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "tbl_user_beacon")
 public class UserBeacon {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_beacon_id")
@@ -27,7 +28,6 @@ public class UserBeacon {
     @JoinColumn(name = "beacon_id", nullable = false)
     private Beacon beacon;
 
-    @Column(nullable = false)
+    @Column(name = "beacon_rssi", nullable = false)
     private Short rssi;
-
 }

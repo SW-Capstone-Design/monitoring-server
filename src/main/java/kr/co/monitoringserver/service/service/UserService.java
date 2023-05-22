@@ -1,16 +1,19 @@
 package kr.co.monitoringserver.service.service;
 
+import kr.co.monitoringserver.persistence.entity.Location;
 import kr.co.monitoringserver.persistence.entity.attendance.UserAttendance;
+import kr.co.monitoringserver.persistence.entity.beacon.Beacon;
 import kr.co.monitoringserver.persistence.entity.user.User;
+import kr.co.monitoringserver.persistence.repository.BeaconRepository;
 import kr.co.monitoringserver.persistence.repository.UserAttendanceRepository;
 import kr.co.monitoringserver.persistence.repository.UserRepository;
 import kr.co.monitoringserver.service.dtos.request.UserReqDTO;
 import kr.co.monitoringserver.service.enums.AttendanceType;
 import kr.co.monitoringserver.service.enums.RoleType;
-import kr.co.monitoringserver.service.mappers.UserAttendanceMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +22,9 @@ import org.springframework.validation.FieldError;
 
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -32,9 +37,8 @@ public class UserService {
 
     private final BCryptPasswordEncoder encoder;
 
-    private final UserAttendanceMapper userAttendanceMapper;
-
-    private final AttendanceService attendanceService;
+    private final UserLocationService userLocationService;
+    private final BeaconRepository beaconRepository;
 
     /**
      * join : 회원가입한다.
@@ -138,5 +142,34 @@ public class UserService {
     public Page<UserAttendance> searchEarlyLeaveAttendList(AttendanceType goWorkType, Pageable pageable, LocalDate searchKeyword) {
 
         return userAttendanceRepository.findByAttendance_LeaveWorkAndAttendance_Date(goWorkType, searchKeyword, pageable);
+    }
+
+    /**
+     * Update User Location By Beacon With Trilateration Service
+     */
+    @Transactional
+    @Scheduled(fixedDelay = 30000)
+    public void updateUserLocationByBeaconWithTrilateration() {
+
+        List<Long> beaconIds = getAllBeaconIds();
+
+        List<User> users = userRepository.findAll();
+
+        for (User user : users) {
+            if (!beaconIds.isEmpty()) {
+                Location location = userLocationService.determineUserLocationWithTrilateration(beaconIds);
+                user.updateUserLocation(location);
+            }
+        }
+    }
+
+    private List<Long> getAllBeaconIds() {
+
+        List<Beacon> beacons = beaconRepository.findAll();
+
+        return beacons
+                .stream()
+                .map(Beacon::getBeaconId)
+                .collect(Collectors.toList());
     }
 }

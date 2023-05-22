@@ -1,7 +1,7 @@
 package kr.co.monitoringserver.controller.api;
 
-import kr.co.monitoringserver.infra.global.error.enums.ErrorCode;
-import kr.co.monitoringserver.infra.global.error.response.ResponseFormat;
+import kr.co.monitoringserver.infra.global.model.ResponseFormat;
+import kr.co.monitoringserver.infra.global.model.ResponseStatus;
 import kr.co.monitoringserver.service.dtos.request.SecurityAreaReqDTO;
 import kr.co.monitoringserver.service.dtos.response.SecurityAreaResDTO;
 import kr.co.monitoringserver.service.dtos.response.UserSecurityAreaResDTO;
@@ -29,7 +29,7 @@ public class SecurityAreaApiController {
         securityAreaService.createSecurityArea(userIdentity, create);
 
         return ResponseFormat.successMessage(
-                ErrorCode.SUCCESS_CREATED,
+                ResponseStatus.SUCCESS_CREATED,
                 create.getName() + "의 보안구역 정보가 성공적으로 생성되었습니다"
         );
     }
@@ -43,7 +43,7 @@ public class SecurityAreaApiController {
                                                                              @PageableDefault Pageable pageable) {
 
         return ResponseFormat.successData(
-                ErrorCode.SUCCESS_EXECUTE,
+                ResponseStatus.SUCCESS_EXECUTE,
                 securityAreaService.getSecurityAreaById(userIdentity, securityAreaId, pageable)
         );
     }
@@ -59,7 +59,7 @@ public class SecurityAreaApiController {
         securityAreaService.updateSecurityArea(userIdentity, securityAreaId, update);
 
         return ResponseFormat.successMessage(
-                ErrorCode.SUCCESS_EXECUTE,
+                ResponseStatus.SUCCESS_EXECUTE,
                 update.getName() + "의 보안구역 정보가 성공적으로 수정되었습니다"
         );
     }
@@ -74,7 +74,7 @@ public class SecurityAreaApiController {
         securityAreaService.deleteSecurityArea(userIdentity, securityAreaId);
 
         return ResponseFormat.successMessage(
-                ErrorCode.SUCCESS_EXECUTE,
+                ResponseStatus.SUCCESS_EXECUTE,
                 "보안구역 정보가 성공적으로 삭제되었습니다"
         );
     }
@@ -91,7 +91,7 @@ public class SecurityAreaApiController {
         securityAreaService.detectingAccessToUserSecurityArea(userIdentity, securityAreaName);
 
         return ResponseFormat.successMessage(
-                ErrorCode.SUCCESS_EXECUTE,
+                ResponseStatus.SUCCESS_EXECUTE,
                 userIdentity + "님의 보안구역 접근이 감지되었습니다"
         );
     }
@@ -105,7 +105,7 @@ public class SecurityAreaApiController {
                                                                                               @PageableDefault Pageable pageable) {
 
         return ResponseFormat.successData(
-                ErrorCode.SUCCESS_EXECUTE,
+                ResponseStatus.SUCCESS_EXECUTE,
                 securityAreaService.getUserSecurityAreaByUserAndSecurityArea(userIdentity, securityAreaName, pageable)
         );
     }
