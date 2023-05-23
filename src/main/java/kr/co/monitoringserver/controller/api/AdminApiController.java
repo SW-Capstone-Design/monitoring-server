@@ -2,17 +2,28 @@ package kr.co.monitoringserver.controller.api;
 
 import jakarta.validation.Valid;
 import kr.co.monitoringserver.service.dtos.request.AdminReqDTO;
+import kr.co.monitoringserver.service.dtos.request.IndexNotificationReqDTO;
+import kr.co.monitoringserver.service.dtos.request.MonitoringReqDTO;
 import kr.co.monitoringserver.service.dtos.request.UserReqDTO;
 import kr.co.monitoringserver.service.dtos.response.ResponseDto;
 import kr.co.monitoringserver.service.service.AdminService;
 import kr.co.monitoringserver.service.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+import javax.print.attribute.standard.Media;
+import java.io.IOException;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
+
 @RestController
 @RequiredArgsConstructor
 public class AdminApiController {
@@ -22,6 +33,8 @@ public class AdminApiController {
 
     @Autowired
     private UserService userService;
+
+    public static List<SseEmitter> emitters = new CopyOnWriteArrayList<>();
 
     /**
      * saveUser : 사용자정보를 Create하여 회원가입을 수행한다.
@@ -57,8 +70,6 @@ public class AdminApiController {
 
     /**
      * deleteUser : 회원정보를 Delete 한다.
-     * 보완 필요 : 해당 유저의 UserAttendance 데이터가 남아있을 경우 회원탈퇴가 되지 않음.
-     * 어떻게 처리할지 논의가 필요하다.
      */
     @DeleteMapping("/admin/info/delete")
     public void deleteUser(@RequestBody UserReqDTO userReqDTO){
@@ -66,4 +77,52 @@ public class AdminApiController {
         adminService.deleteUser(userReqDTO);
 
     }
+
+    @DeleteMapping("/admin/alert/delete")
+    public void deleteAlert(@RequestBody IndexNotificationReqDTO indexNotificationReqDTO){
+
+        adminService.deleteAlert(indexNotificationReqDTO);
+    }
+
+    @DeleteMapping("/admin/alert/delete/ten")
+    public void deleteAlertTopTen(){
+
+        adminService.deleteAlertTopTen();
+    }
+
+    @RequestMapping(value = "/auth/subscribe", consumes = MediaType.ALL_VALUE)
+    public SseEmitter subscribe() {
+        SseEmitter sseEmitter = new SseEmitter(Long.MAX_VALUE);
+        try {
+            sseEmitter.send(SseEmitter.event().name("INIT"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        emitters.add(sseEmitter);
+        sseEmitter.onCompletion(()->emitters.remove(sseEmitter));
+        sseEmitter.onTimeout(() -> {
+            sseEmitter.complete();
+        });
+
+        return sseEmitter;
+    }
+
+    @PostMapping(value = "/auth/dispatchEvent")
+    public void dispatchEventToClients(@RequestParam String text){
+
+        JSONObject obj = new JSONObject();
+        obj.put("text", text);
+
+        String eventFormatted = obj.toString();
+
+
+        for (SseEmitter emitter : emitters) {
+            try{
+                emitter.send(SseEmitter.event().name("latest").data(eventFormatted));
+            } catch (IOException e) {
+                emitters.remove(emitter);
+            }
+        }
+    }
+
 }

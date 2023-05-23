@@ -20,12 +20,16 @@ let index = {
                         uuid: $("#uuid").val(),
                         major: $("#major").val(),
                         minor: $("#minor").val(),
-                        beaconRole: $("#beaconRole").val()
+                        beaconRole: $("#beaconRole").val(),
+                        location: {
+                            x: $("#x").val(),
+                            y: $("#y").val()
+                        }
 			};
 
         $.ajax({
                 type: "POST",
-                url: "/admin/createBeacon",
+                url: "/api/v1/beacon",
                 data: JSON.stringify(data),
                 contentType: "application/json; charset=utf-8"
             }).done(function(resp) {
@@ -43,18 +47,24 @@ let index = {
 	},
 
 			update: function() {
+			    var beaconId = $("#beaconId").val();
+
                 let data = {
                             beaconId: $("#beaconId").val(),
                             beaconName: $("#beaconName").val(),
                             uuid: $("#uuid").val(),
                             major: $("#major").val(),
                             minor: $("#minor").val(),
-                            beaconRole: $("#beaconRole").val()
+                            beaconRole: $("#beaconRole").val(),
+                            location: {
+                                x: $("#x").val(),
+                                y: $("#y").val()
+                            }
     			};
 
             $.ajax({
                     type: "PUT",
-                    url: "/admin/beacon/info/update",
+                    url: "/api/v1/beacon/"+beaconId,
                     data: JSON.stringify(data),
                     contentType: "application/json; charset=utf-8"
                 }).done(function(resp) {
@@ -73,13 +83,15 @@ let index = {
 
             del: function() {
             if (confirm("삭제를 진행하시겠습니까?")) {
+            var beaconId = $("#beaconId").val();
+
             let data = {
                         beaconId: $("#beaconId").val()
             };
 
             $.ajax({
                     type: "DELETE",
-                    url: "/admin/beacon/info/delete",
+                    url: "/api/v1/beacon/" + beaconId,
                     data: JSON.stringify(data),
                     contentType: "application/json; charset=utf-8"
                 }).done(function(resp) {

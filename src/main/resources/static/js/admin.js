@@ -12,6 +12,12 @@ let index = {
             $("#btn-back").on("click", ()=>{
                 this.back();
             });
+            window.addEventListener("load", ()=>{
+                this.note();
+            });
+            $("#btn-delAlertAll").on("click", ()=>{
+                this.delAlertAll();
+            });
 		},
 
         save: function() {
@@ -141,36 +147,62 @@ let index = {
         			});
         		},
 
-        		del: function() {
-                            if (confirm("삭제를 진행하시겠습니까?")) {
-                            let data = {
-                                    userId: $("#userId").val()
-                            };
+            del: function() {
+                        if (confirm("삭제를 진행하시겠습니까?")) {
+                        let data = {
+                                userId: $("#userId").val()
+                        };
 
-                            $.ajax({
-                                type: "DELETE",
-                                url: "/admin/info/delete",
-                                data: JSON.stringify(data),
-                                contentType: "application/json; charset=utf-8",
-                                dataType: "json"
-                            }).done(function(resp) {
-                                if(resp.status == 400 || resp.status == 500){
-                                      alert("회원삭제에 실패하였습니다.");
-                                  }
-                                  else{
-                                      alert("회원삭제가 완료되었습니다.");
-                                      location.href = "/admin/info";
-                                }
-                            }).fail(function(error) {
-                                alert("회원삭제가 완료되었습니다.");
-                                location.href = "/admin/info";
-                            });
-                        }
+                        $.ajax({
+                            type: "DELETE",
+                            url: "/admin/info/delete",
+                            data: JSON.stringify(data),
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json"
+                        }).done(function(resp) {
+                            if(resp.status == 400 || resp.status == 500){
+                                  alert("회원삭제에 실패하였습니다.");
+                              }
+                              else{
+                                  alert("회원삭제가 완료되었습니다.");
+                                  location.href = "/admin/info";
+                            }
+                        }).fail(function(error) {
+                            alert("회원삭제가 완료되었습니다.");
+                            location.href = "/admin/info";
+                        });
+                    }
                 },
 
-                    back: function() {
-                        window.history.back();
-                    }
+                back: function() {
+                    window.history.back();
+                },
+
+                note: function() {
+                    $.ajax({
+                        type: "GET",
+                        url: "/admin/alert",
+                        dataType: "text"
+                    }).done(function(result) {
+                        $("#result").load(location.href+" #result");
+                        $("#list").load(location.href+" #list");
+                    });
+                },
+
+                delAlertAll: function() {
+
+                    $.ajax({
+                        type: "DELETE",
+                        url: "/admin/alert/delete/ten",
+                        dataType: "json"
+                    }).done(function(resp) {
+                        location.href = "/admin/alert";
+                    }).fail(function(error) {
+                        location.href = "/admin/alert";
+                    });
+            }
+
 }
 
 index.init();
+

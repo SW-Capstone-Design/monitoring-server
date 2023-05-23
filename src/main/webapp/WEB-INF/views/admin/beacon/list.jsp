@@ -8,7 +8,7 @@
     비콘정보 조회 및 수정을 합니다.
   </span>
   <br><br>
-  <form style="text-align:right;" action="info" method="get">
+  <form style="text-align:center;" action="info" method="get">
   <table class="table table-hover">
     <thead>
       <tr>
@@ -19,6 +19,8 @@
         <th>Minor</th>
         <th>배터리잔량</th>
         <th>용도</th>
+        <th>X좌표</th>
+        <th>Y좌표</th>
         <th></th>
       </tr>
     </thead>
@@ -31,7 +33,9 @@
         <td>${beacon.major}</td>
         <td>${beacon.minor}</td>
         <td>${beacon.battery} %</td>
-        <th>${beacon.beaconRole}</th>
+        <td>${beacon.beaconRole}</td>
+        <td>${beacon.location.x}</td>
+        <td>${beacon.location.y}</td>
         <td><b><a href="/admin/beacon/info/${beacon.beaconId}">수정</a></b></td>
       </tr>
       </c:forEach>
@@ -40,13 +44,13 @@
 
   <button style="display:inline-block; float:left;" type="button" id="btn-createForm" class="btn btn-dark">비콘등록</button>
 
-  <ul class="pagination" style="location:relative; left:35%">
+  <ul class="pagination" style="position:relative; left:35%">
     	<c:choose>
     		<c:when test="${lists.first}">
     			<li class="page-item disabled"><a class="page-link" href="?page=${lists.number-1}">Previous</a></li>
     		</c:when>
     		<c:otherwise>
-    			<li class="page-item"><a class="page-link" href="?page=${user.number-1}">Previous</a></li>
+    			<li class="page-item"><a class="page-link" href="?page=${lists.number-1}">Previous</a></li>
     		</c:otherwise>
     	</c:choose>
 

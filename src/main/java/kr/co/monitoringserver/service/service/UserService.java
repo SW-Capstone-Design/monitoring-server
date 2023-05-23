@@ -53,6 +53,10 @@ public class UserService {
                 .telephone(userDto.getTelephone())
                 .department(userDto.getDepartment())
                 .roleType(RoleType.USER1)
+                .userLocation(Location.builder()
+                        .x(.0)
+                        .y(.0)
+                        .build())
                 .build();
 
         userRepository.save(user);
@@ -90,9 +94,7 @@ public class UserService {
         persistance.setTelephone(userDto.getTelephone());
     }
 
-
-
-
+   /* ========================================================================== */
 
     /**
      * attendList : 출결정보를 조회한다.

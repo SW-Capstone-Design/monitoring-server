@@ -4,6 +4,7 @@
 	<p>Monitoring-server</p>
 	<p>Created by SYU Software CapstoneDesign TEAM2</p>
 </div>
+<script src="/js/admin.js"></script>
 </body>
 </html>
 

@@ -11,23 +11,31 @@
     <form>
 		<div class="form-group">
 		    <label for="beaconName">비콘명</label>
-		    <input type="beaconName" id="beaconName" class="form-control" placeholder="Enter name"/>
+		    <input type="beaconName" id="beaconName" class="form-control" placeholder="비콘명을 입력하세요."/>
 		</div>
         <div class="form-group">
         <label for="uuid">UUID</label>
-            <input type="uuid" id="uuid" class="form-control" placeholder="Enter uuid" />
+            <input type="uuid" id="uuid" class="form-control" placeholder="UUID를 입력하세요." />
         </div>
         <div class="form-group">
         <label for="major">Major</label>
-            <input type="major" id="major" class="form-control" placeholder="Enter major" />
+            <input type="major" id="major" class="form-control" placeholder="Major를 입력하세요." />
         </div>
         <div class="form-group">
         <label for="minor">Minor</label>
-            <input type="minor" id="minor" class="form-control" placeholder="Enter minor" />
+            <input type="minor" id="minor" class="form-control" placeholder="Minor를 입력하세요." />
+        </div>
+        <div class="form-group">
+        <label for="x">X좌표</label>
+            <input type="x" id="x" class="form-control" placeholder="X좌표를 입력하세요." />
+        </div>
+        <div class="form-group">
+        <label for="y">Y좌표</label>
+            <input type="y" id="y" class="form-control" placeholder="Y좌표를 입력하세요." />
         </div>
         <div class="form-group">
         <label for="beaconRole">용도</label>
-            <input type="beaconRole" id="beaconRole" class="form-control" placeholder="Enter beaconRole" />
+            <input type="beaconRole" id="beaconRole" class="form-control" placeholder="용도를 입력하세요." />
             <p style="color:red;">ATTENDANCE, LOCATION</p>
         </div>
   </form>

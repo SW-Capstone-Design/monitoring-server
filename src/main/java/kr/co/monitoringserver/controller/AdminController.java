@@ -1,5 +1,6 @@
 package kr.co.monitoringserver.controller;
 
+import kr.co.monitoringserver.persistence.repository.IndexNotificationRepository;
 import kr.co.monitoringserver.service.enums.AttendanceType;
 import kr.co.monitoringserver.service.service.AdminService;
 import kr.co.monitoringserver.service.service.UserService;
@@ -22,6 +23,9 @@ public class AdminController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private IndexNotificationRepository indexNotificationRepository;
 
     /**
      * IndexForm : 관리자페이지 홈페이지로 매핑한다.
@@ -120,4 +124,22 @@ public class AdminController {
 
         return "admin/attendance/inquireEarlyLeave";
     }
+
+    /**
+     * searchAlert : 관리자페이지 알림 조회
+     */
+    @GetMapping("/admin/alert")
+    public String searchAlert(Model model, @PageableDefault(size=100, sort="indexAlertTime", direction = Sort.Direction.DESC) Pageable pageable) {
+        model.addAttribute("alerts", adminService.alertList(pageable));
+        model.addAttribute("count", indexNotificationRepository.countBy());
+
+        return "admin/alertList";
+    }
+
+    @GetMapping("/admin/monitoring")
+    public String monitoring(){
+
+        return "admin/monitoring/monitoring";
+    }
+
 }

@@ -11,23 +11,6 @@ import java.util.List;
 
 
 public class BeaconReqDTO {
-    @Data
-    @AllArgsConstructor
-    @NoArgsConstructor
-    @Builder
-    public static class SERVER {
-        private Long beaconId;
-
-        private String uuid;
-
-        private String beaconName;
-
-        private Integer major;
-
-        private Integer minor;
-
-        private BeaconRoleType beaconRole;
-    }
 
     @Data
     @AllArgsConstructor
