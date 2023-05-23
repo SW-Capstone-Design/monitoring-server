@@ -20,11 +20,11 @@
 
         eventSource.addEventListener("latest", function(event){
             var articleData = JSON.parse(event.data);
-            addBlock(articleData.title, articleData.text);
+            addBlock(articleData.text);
             })
         })
 
-        function addBlock(title, text){
+        function addBlock(text){
         var textarea_str = $("#pack").val();
         textarea_str = textarea_str + text + "\n";
         document.getElementById("pack").value = textarea_str;

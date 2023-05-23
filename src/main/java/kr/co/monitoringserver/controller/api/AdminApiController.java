@@ -108,11 +108,10 @@ public class AdminApiController {
     }
 
     @PostMapping(value = "/auth/dispatchEvent")
-    public void dispatchEventToClients(@RequestBody MonitoringReqDTO monitoringReqDTO){
+    public void dispatchEventToClients(@RequestParam String text){
 
         JSONObject obj = new JSONObject();
-        obj.put("title", monitoringReqDTO.getTitle());
-        obj.put("text", monitoringReqDTO.getText());
+        obj.put("text", text);
 
         String eventFormatted = obj.toString();
 
