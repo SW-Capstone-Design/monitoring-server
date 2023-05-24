@@ -45,14 +45,13 @@ public class BeaconReqDTO {
 
         private Short battery;
 
-        @NotBlank(message = "해당 비콘의 용도를 입력해주세요")
         private BeaconRoleType beaconRole;
 
         private Location location;
 
         private List<BeaconLocationReqDTO.LOCATION> locationList;
 
-        private Short rssi;
+        private Short rssi;     // -99 dBm ~ 35 dBm
 
         private String userIdentity;
     }
@@ -83,5 +82,16 @@ public class BeaconReqDTO {
 
         @NotBlank(message = "사용자의 아이디를 입력해주세요")
         private String userIdentity;
+    }
+
+    @Getter
+    @Builder
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class MAPPING {
+
+        private String userIdentity;
+
+        private Short rssi;
     }
 }

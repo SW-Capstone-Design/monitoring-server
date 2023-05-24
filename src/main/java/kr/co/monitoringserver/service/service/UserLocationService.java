@@ -38,7 +38,7 @@ public class UserLocationService {
 
             int txPower = beacon.getTxPower();
 
-            UserBeacon userBeacon = userBeaconRepository.findByUserBeaconId(beaconId)
+            UserBeacon userBeacon = userBeaconRepository.findByBeacon_BeaconId(beaconId)
                     .orElseThrow(() -> new NotFoundException(ResponseStatus.NOT_FOUND_BEACON));
 
             distances[i] = getBeaconDistances(txPower, userBeacon.getRssi());
@@ -94,11 +94,17 @@ public class UserLocationService {
 
         TrilaterationFunction trilaterationFunction = new TrilaterationFunction(positions, distances);
 
+        int maxEval = 1000; // 최대 평가 횟수 설정
+
+        int maxIter = 1000; // 최대 반복 횟수 설정
+
         LeastSquaresOptimizer leastSquaresOptimizer = new LevenbergMarquardtOptimizer();
 
         // 이 과정에서 최소제곱법을 사용하여 삼변 측량 기법으로 사용자 위치를 계산한다
         LeastSquaresOptimizer.Optimum optimum = leastSquaresOptimizer
                 .optimize(new LeastSquaresBuilder()
+                        .maxEvaluations(maxEval)    // 설정된 최대 평가 횟수를 추가함
+                        .maxIterations(maxIter)     // 설정된 최대 반복 횟수를 추가함
                         .start(new double[]{0, 0})
                         .model(trilaterationFunction)
                         .target(distances)

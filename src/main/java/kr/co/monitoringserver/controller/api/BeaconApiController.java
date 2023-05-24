@@ -1,5 +1,6 @@
 package kr.co.monitoringserver.controller.api;
 
+import kr.co.monitoringserver.infra.global.exception.NotFoundException;
 import kr.co.monitoringserver.infra.global.model.ResponseFormat;
 import kr.co.monitoringserver.infra.global.model.ResponseStatus;
 import kr.co.monitoringserver.persistence.entity.beacon.Beacon;
@@ -77,7 +78,9 @@ public class BeaconApiController {
             Short b = Short.valueOf(battery).shortValue();
             beaconReqDTO.setBattery(b);
 
-            UserBeacon userBeacon = userBeaconRepository.findByBeacon_BeaconId(bi);
+            UserBeacon userBeacon = userBeaconRepository.findByBeacon_BeaconId(bi)
+                    .orElseThrow(() -> new NotFoundException(ResponseStatus.NOT_FOUND_BEACON));
+
             if (userBeacon == null) {
                 beaconService.createDistance(userId, beaconReqDTO);
             } else {
