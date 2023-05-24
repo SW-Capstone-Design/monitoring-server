@@ -61,12 +61,11 @@ public class User {
     @Embedded
     @Column(name = "user_location",
             nullable = false)
-    private Location userLocation;
+    private Location location;
 
     @OneToMany(
             mappedBy = "user",
-            cascade = CascadeType.ALL
-    )
+            cascade = CascadeType.ALL)
     private List<UserAttendance> userAttendances = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
@@ -76,8 +75,8 @@ public class User {
     private List<UserBeacon> userBeacons = new ArrayList<>();
 
 
-    public void updateUserLocation(Location userLocation) {
+    public void updateUserLocation(Location location) {
 
-        this.userLocation = userLocation;
+        this.location = location;
     }
 }

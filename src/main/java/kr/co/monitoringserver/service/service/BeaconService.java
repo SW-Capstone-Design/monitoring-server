@@ -105,7 +105,7 @@ public class BeaconService {
     }
 
     /**
-     * beaocnList : 모바일 클라이언트에 넘겨주기 위해 Beacon 목록을 조회하여 List 객체로 반환한다.
+     * beaconList : 모바일 클라이언트에 넘겨주기 위해 Beacon 목록을 조회하여 List 객체로 반환한다.
      */
     public List<BeaconResDTO> beaconList() {
         List<Beacon> all = beaconRepository.findAll();
@@ -158,6 +158,13 @@ public class BeaconService {
         Beacon beacon = beaconMapper.toBeaconEntity(create);
 
         beaconRepository.save(beacon);
+
+        final User user = userRepository.findByIdentity(create.getUserIdentity())
+                .orElseThrow(() -> new NotFoundException(ResponseStatus.NOT_FOUND_USER));
+
+        UserBeacon userBeacon = beaconMapper.toUserBeaconEntity(user, beacon, create.getRssi());
+
+        userBeaconRepository.save(userBeacon);
     }
 
     /**
@@ -183,7 +190,7 @@ public class BeaconService {
         final Beacon beacon = beaconRepository.findById(beaconId)
                 .orElseThrow(() -> new NotFoundException(ResponseStatus.NOT_FOUND_BEACON));
 
-        beacon.updateBeacon(update);
+        beacon.updateBeaconInfoAndLocation(update);
     }
 
     /**

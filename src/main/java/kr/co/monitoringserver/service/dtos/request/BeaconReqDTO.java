@@ -9,7 +9,6 @@ import lombok.*;
 
 import java.util.List;
 
-
 public class BeaconReqDTO {
 
     @Data
@@ -17,6 +16,7 @@ public class BeaconReqDTO {
     @NoArgsConstructor
     @Builder
     public static class CLIENT {
+
         private Beacon beacon;
 
         private Short rssi;
@@ -39,9 +39,10 @@ public class BeaconReqDTO {
         @NotNull(message = "비콘 그룹 내 개별 비콘을 구분하기 위한 값을 입력해주세요")
         private Integer minor;
 
+        @NotBlank(message = "해당 비콘의 용도를 입력해주세요")
         private BeaconRoleType beaconRole;
 
-        private Short rssi;
+        private Short battery;
 
         @NotBlank(message = "비콘의 UUID 값을 입력해주세요")
         private String uuid;
@@ -49,6 +50,10 @@ public class BeaconReqDTO {
         private Location location;
 
         private List<BeaconLocationReqDTO.LOCATION> locationList;
+
+        private Short rssi;
+
+        private String userIdentity;
     }
 
     @Getter

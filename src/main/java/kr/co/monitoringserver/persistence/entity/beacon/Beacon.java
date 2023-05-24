@@ -37,11 +37,13 @@ public class Beacon {
     @Column(name = "beacon_minor", length = 30)
     private Integer minor;      // 비콘 그룹 내 개별 비콘을 구분하는데 사용(같은 건물 내에서 다른 방에 있는 비콘을 구분)
 
-    @Column
+    @Column(name = "beacon_battery")
     private Short battery;      // 비콘의 배터리 수준을 나타내는 값
 
-    private int txPower;
+    @Column(name = "beacon_tx_power", nullable = false)
+    private int txPower;        // 비콘의 송신 전력(비콘에서 출력되는 신호의 강도)
 
+    @Embedded
     @Column(name = "beacon_location")
     private Location location;
 
@@ -55,13 +57,12 @@ public class Beacon {
 
 
 
-    // 이미 만들어진 Location 객체를 전달하여 비콘 위치를 설정
     public void createBeaconLocation(Location location) {
 
         this.location = location;
     }
 
-    public void updateBeacon(BeaconReqDTO.UPDATE update) {
+    public void updateBeaconInfoAndLocation(BeaconReqDTO.UPDATE update) {
 
         this.beaconName = update.getBeaconName();
         this.uuid = update.getUuid();

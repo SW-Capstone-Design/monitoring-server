@@ -106,8 +106,6 @@ public class SecurityAreaService {
         securityAreaRepository.delete(securityArea);
     }
 
-
-
     /**
      * Detecting Access To User Security Area Service
      */
