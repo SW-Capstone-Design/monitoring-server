@@ -1,5 +1,6 @@
 package kr.co.monitoringserver.service.service;
 
+import kr.co.monitoringserver.infra.global.exception.BadRequestException;
 import kr.co.monitoringserver.infra.global.exception.NotFoundException;
 import kr.co.monitoringserver.infra.global.model.ResponseStatus;
 import kr.co.monitoringserver.persistence.entity.beacon.Beacon;
@@ -160,7 +161,7 @@ public class BeaconService {
         beaconRepository.save(beacon);
 
         final User user = userRepository.findByIdentity(create.getUserIdentity())
-                .orElseThrow(() -> new NotFoundException(ResponseStatus.NOT_FOUND_USER));
+                .orElseThrow(BadRequestException::new);
 
         UserBeacon userBeacon = beaconMapper.toUserBeaconEntity(user, beacon, create.getRssi());
 
@@ -191,6 +192,14 @@ public class BeaconService {
                 .orElseThrow(() -> new NotFoundException(ResponseStatus.NOT_FOUND_BEACON));
 
         beacon.updateBeaconInfoAndLocation(update);
+
+        final User user = userRepository.findByIdentity(update.getUserIdentity())
+                .orElseThrow(BadRequestException::new);
+
+        final UserBeacon userBeacon = userBeaconRepository.findByUserAndBeacon(user, beacon)
+                .orElseThrow(() -> new NotFoundException(ResponseStatus.NOT_FOUND_BEACON));
+
+        userBeacon.updateRssiAndUserIdentity(user, update.getRssi());
     }
 
     /**

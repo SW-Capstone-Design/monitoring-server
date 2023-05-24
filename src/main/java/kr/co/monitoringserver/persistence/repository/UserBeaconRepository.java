@@ -1,6 +1,8 @@
 package kr.co.monitoringserver.persistence.repository;
 
+import kr.co.monitoringserver.persistence.entity.beacon.Beacon;
 import kr.co.monitoringserver.persistence.entity.beacon.UserBeacon;
+import kr.co.monitoringserver.persistence.entity.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -12,4 +14,6 @@ public interface UserBeaconRepository extends JpaRepository<UserBeacon, Long> {
     Optional<UserBeacon> findByUserBeaconId(Long userBeaconId);
 
     List<UserBeacon> findByUser_UserId(Long userId);
+
+    Optional<UserBeacon> findByUserAndBeacon(User user, Beacon beacon);
 }

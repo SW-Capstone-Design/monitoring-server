@@ -30,4 +30,12 @@ public class UserBeacon {
 
     @Column(name = "beacon_rssi", nullable = false)
     private Short rssi;
+
+
+    public void updateRssiAndUserIdentity(User user,
+                                          Short rssi) {
+
+        this.user = user;
+        this.rssi = rssi;
+    }
 }

@@ -33,19 +33,20 @@ public class BeaconReqDTO {
         @NotBlank(message = "비콘 이름을 입력해주세요")
         private String beaconName;
 
+        @NotBlank(message = "비콘의 UUID 값을 입력해주세요")
+        private String uuid;
+
+
         @NotNull(message = "비콘 그룹을 구분하기 위한 값을 입력해주세요")
         private Integer major;
 
         @NotNull(message = "비콘 그룹 내 개별 비콘을 구분하기 위한 값을 입력해주세요")
         private Integer minor;
 
-        @NotBlank(message = "해당 비콘의 용도를 입력해주세요")
-        private BeaconRoleType beaconRole;
-
         private Short battery;
 
-        @NotBlank(message = "비콘의 UUID 값을 입력해주세요")
-        private String uuid;
+        @NotBlank(message = "해당 비콘의 용도를 입력해주세요")
+        private BeaconRoleType beaconRole;
 
         private Location location;
 
@@ -64,18 +65,23 @@ public class BeaconReqDTO {
 
         private String beaconName;
 
+        private String uuid;
+
         private Integer major;
 
         private Integer minor;
 
+        private Short battery;
+
         private BeaconRoleType beaconRole;
-
-        private Short rssi;
-
-        private String uuid;
 
         private Location location;
 
         private List<BeaconLocationReqDTO.LOCATION> locationList;
+
+        private Short rssi;
+
+        @NotBlank(message = "사용자의 아이디를 입력해주세요")
+        private String userIdentity;
     }
 }
