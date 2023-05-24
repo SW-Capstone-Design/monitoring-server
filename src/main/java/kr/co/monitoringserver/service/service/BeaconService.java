@@ -42,14 +42,14 @@ public class BeaconService {
      * createDistance : tbl_user_beacon에 RSSI 저장
      */
     @Transactional
-    public void createDistance(Long userId, BeaconReqDTO.CLIENT beaconReqDTO){
+    public void createDistance(String identity, BeaconReqDTO.CLIENT beaconReqDTO){
         Beacon beacon = beaconRepository.findOptionalByBeaconId(beaconReqDTO.getBeacon().getBeaconId())
                 .orElseThrow(()->{
                     return new IllegalArgumentException("비콘 찾기 실패");
                 });
         beacon.setBattery(beaconReqDTO.getBattery());
 
-        User user = userRepository.findByUserId(userId)
+        User user = userRepository.findByIdentity(identity)
                 .orElseThrow(()->{
                     return new IllegalArgumentException("유저 찾기 실패");
                 });
@@ -67,7 +67,7 @@ public class BeaconService {
      * updateDistance : tbl_user_beacon에 RSSI 저장
      */
     @Transactional
-    public void updateDistance(Long userId, Long userBeaconId,BeaconReqDTO.CLIENT beaconReqDTO){
+    public void updateDistance(String identity, Long userBeaconId, BeaconReqDTO.CLIENT beaconReqDTO){
 
         Beacon beacon = beaconRepository.findOptionalByBeaconId(beaconReqDTO.getBeacon().getBeaconId())
                 .orElseThrow(()->{
@@ -75,7 +75,7 @@ public class BeaconService {
                 });
         beacon.setBattery(beaconReqDTO.getBattery());
 
-        User user = userRepository.findByUserId(userId)
+        User user = userRepository.findByIdentity(identity)
                 .orElseThrow(()->{
                     return new IllegalArgumentException("유저 찾기 실패");
                 });
@@ -90,8 +90,8 @@ public class BeaconService {
     }
 
     @Transactional
-    public void deleteDistance(Long userId){
-        List<UserBeacon> userBeacon = userBeaconRepository.findByUser_UserId(userId);
+    public void deleteDistance(String identity){
+        List<UserBeacon> userBeacon = userBeaconRepository.findByUser_Identity(identity);
 
         userBeaconRepository.deleteAllInBatch(userBeacon);
     }

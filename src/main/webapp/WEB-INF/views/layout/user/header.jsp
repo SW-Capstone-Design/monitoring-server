@@ -35,7 +35,7 @@
 			</c:when>
 			<c:otherwise>
 				<ul class="navbar-nav">
-        					<li class="nav-item"><a class="nav-link" href="/attendance/list/${principal.user.userId}">출결조회</a></li>
+        					<li class="nav-item"><a class="nav-link" href="/attendance/list">출결조회</a></li>
         					<li class="nav-item"><a class="nav-link" href="/user/updateForm">개인정보수정</a></li>
         					<li class="nav-item"><a class="nav-link" href="/admin/index">관리자페이지</a></li>
         					<li class="nav-item"><a class="nav-link" href="/logout">로그아웃</a></li>
