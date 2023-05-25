@@ -32,10 +32,15 @@ public class UserBeacon {
     private Short rssi;
 
 
-    public void updateRssiAndUserIdentity(User user,
-                                          Short rssi) {
+    public void updateUserAndBeacon(User user,
+                                    Beacon beacon) {
 
         this.user = user;
+        this.beacon = beacon;
+    }
+
+    public void updateRssi(Short rssi) {
+
         this.rssi = rssi;
     }
 }

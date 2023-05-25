@@ -18,4 +18,8 @@ public interface UserBeaconRepository extends JpaRepository<UserBeacon, Long> {
     List<UserBeacon> findByUser_UserId(Long userId);
 
     Optional<UserBeacon> findByUserAndBeacon(User user, Beacon beacon);
+
+    List<UserBeacon> findAllByUser(User user);
+
+    Optional<UserBeacon> findByUserAndBeacon_BeaconId(User user, Long beaconId);
 }

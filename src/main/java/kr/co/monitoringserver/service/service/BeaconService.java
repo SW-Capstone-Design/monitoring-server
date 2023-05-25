@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -159,13 +160,18 @@ public class BeaconService {
         Beacon beacon = beaconMapper.toBeaconEntity(create);
 
         beaconRepository.save(beacon);
+    }
 
-        final User user = userRepository.findByIdentity(create.getUserIdentity())
-                .orElseThrow(BadRequestException::new);
+    /**
+     * Create Users RSSI Info For Existing Beacon Service
+     * 이미 존재하는 비콘에 기존 사용자들의 RSSI 정보를 생성 : 여러 사용자와 한 비콘 사이의 관계를 처리
+     */
+    @Transactional
+    public void createUsersRssiInfoForExistingBeacon(List<BeaconReqDTO.MAPPING> mappingList) {
 
-        UserBeacon userBeacon = beaconMapper.toUserBeaconEntity(user, beacon, create.getRssi());
-
-        userBeaconRepository.save(userBeacon);
+        for (BeaconReqDTO.MAPPING mapping : mappingList) {
+            getOrCreateUserRssiInfo(mapping.getBeaconId(), mapping.getUserIdentity(), mapping.getRssi());
+        }
     }
 
     /**
@@ -199,7 +205,8 @@ public class BeaconService {
         final UserBeacon userBeacon = userBeaconRepository.findByUserAndBeacon(user, beacon)
                 .orElseThrow(() -> new NotFoundException(ResponseStatus.NOT_FOUND_BEACON));
 
-        userBeacon.updateRssiAndUserIdentity(user, update.getRssi());
+        userBeacon.updateUserAndBeacon(user, beacon);
+        userBeacon.updateRssi(update.getRssi());
     }
 
     /**
@@ -215,8 +222,34 @@ public class BeaconService {
     }
 
 
-    // TODO  fetch PR, Save BeaconName, Battery
+
+    // 사용자와 비콘에 해당하는 RSSI 값을 확인하고 없으면 생성, 이미 있으면 업데이트
+    private void getOrCreateUserRssiInfo(Long beaconId, String userIdentity, short rssi) {
+
+        final User user = userRepository.findByIdentity(userIdentity)
+                .orElseThrow(BadRequestException::new);
+
+        final Beacon beacon = beaconRepository.findById(beaconId)
+                .orElseThrow(() -> new NotFoundException(ResponseStatus.NOT_FOUND_BEACON));
+
+        Optional<UserBeacon> userBeaconOptional = userBeaconRepository.findByUserAndBeacon(user, beacon);
+
+        if (!userBeaconOptional.isPresent()) {
+
+            UserBeacon newUserBeacon = beaconMapper.toUserBeaconEntity(user, beacon, rssi);
+
+            userBeaconRepository.save(newUserBeacon);
+
+        } else {
+
+            UserBeacon existingUserBeacon = userBeaconOptional.get();
+
+            existingUserBeacon.updateRssi(rssi);
+        }
+    }
+
     // 비콘 배터리가 20% 미만일 경우 알림 설정
+    // TODO : 생성된 경고알림 정보를 경고알림 Repository 저장
     private void sendBatteryLowNotification(Beacon beacon) {
 
         System.out.printf(

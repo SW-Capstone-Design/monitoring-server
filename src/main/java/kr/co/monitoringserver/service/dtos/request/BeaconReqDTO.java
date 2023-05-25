@@ -50,10 +50,6 @@ public class BeaconReqDTO {
         private Location location;
 
         private List<BeaconLocationReqDTO.LOCATION> locationList;
-
-        private Short rssi;     // -99 dBm ~ 35 dBm
-
-        private String userIdentity;
     }
 
     @Getter
@@ -90,8 +86,10 @@ public class BeaconReqDTO {
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static class MAPPING {
 
+        private Long beaconId;
+
         private String userIdentity;
 
-        private Short rssi;
+        private Short rssi;     // -99 dBm ~ 35 dBm
     }
 }

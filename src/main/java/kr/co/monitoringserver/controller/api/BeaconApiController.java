@@ -130,6 +130,20 @@ public class BeaconApiController {
     }
 
     /**
+     * Create Users RSSI Info For Existing Beacon Controller
+     */
+    @PostMapping("/api/v1/beacon/users_rssi")
+    public ResponseFormat<Void> createUsersRssiInfoForExistingBeacon(@RequestBody @Validated List<BeaconReqDTO.MAPPING> mappingList) {
+
+        beaconService.createUsersRssiInfoForExistingBeacon(mappingList);
+
+        return ResponseFormat.successMessage(
+                ResponseStatus.SUCCESS_CREATED,
+                "해당 사용자의 RSSI 정보가 성공적으로 생성되었습니다"
+        );
+    }
+
+    /**
      * Get All Beacon And Beacon Location Controller
      */
     @GetMapping("/api/v1/beacon")
