@@ -21,7 +21,7 @@ public interface BeaconMapper {
                 .minor(create.getMinor())
                 .beaconRole(create.getBeaconRole())
                 .uuid(create.getUuid())
-                .txPower(1)
+                .txPower(create.getTxPower())
                 .build();
 
         // 위치 정보가 있는 경우에만 Location 객체를 생성하고 비콘에 설정

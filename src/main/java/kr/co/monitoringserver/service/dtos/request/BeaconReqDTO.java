@@ -45,6 +45,8 @@ public class BeaconReqDTO {
 
         private Short battery;
 
+        private int txPower;
+
         private BeaconRoleType beaconRole;
 
         private Location location;
