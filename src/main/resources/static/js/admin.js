@@ -15,8 +15,8 @@ let index = {
             window.addEventListener("load", ()=>{
                 this.note();
             });
-            $("#btn-delAlertAll").on("click", ()=>{
-                this.delAlertAll();
+            $("#btn-delAlertTen").on("click", ()=>{
+                this.delAlertTen();
             });
 		},
 
@@ -189,7 +189,7 @@ let index = {
                     });
                 },
 
-                delAlertAll: function() {
+                delAlertTen: function() {
 
                     $.ajax({
                         type: "DELETE",
