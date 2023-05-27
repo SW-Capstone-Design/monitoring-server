@@ -77,6 +77,9 @@ public class User {
 
     public void updateUserLocation(Location location) {
 
-        this.location = location;
+        this.location = Location.builder()
+                .x(location.getX())
+                .y(location.getY())
+                .build();
     }
 }

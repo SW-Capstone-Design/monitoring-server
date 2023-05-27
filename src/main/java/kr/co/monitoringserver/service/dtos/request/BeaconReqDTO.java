@@ -36,7 +36,6 @@ public class BeaconReqDTO {
         @NotBlank(message = "비콘의 UUID 값을 입력해주세요")
         private String uuid;
 
-
         @NotNull(message = "비콘 그룹을 구분하기 위한 값을 입력해주세요")
         private Integer major;
 
@@ -76,10 +75,9 @@ public class BeaconReqDTO {
 
         private List<BeaconLocationReqDTO.LOCATION> locationList;
 
-        private Short rssi;
+        private int txPower;
 
-        @NotBlank(message = "사용자의 아이디를 입력해주세요")
-        private String userIdentity;
+        private Short rssi;
     }
 
     @Getter

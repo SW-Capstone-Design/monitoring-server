@@ -193,7 +193,7 @@ public class AttendanceService {
                 .orElse(null);
 
         if (userAttendance != null) {
-            throw new DuplicatedException(ResponseStatus.DUPLICATE_USER_ATTENDANCE);
+            throw new DuplicatedException();
         }
     }
 

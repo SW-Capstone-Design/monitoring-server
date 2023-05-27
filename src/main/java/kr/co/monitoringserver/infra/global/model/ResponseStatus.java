@@ -12,7 +12,9 @@ public enum ResponseStatus {
 
     // Fail
     FAIL_BAD_REQUEST(HttpStatus.BAD_REQUEST, "실행에 실패했고, 해당 요청이 잘못되었습니다"),
+
     // TODO : 오류 종류 추가 및 수정
+
     FAIL_INVALID_VALUE(HttpStatus.BAD_REQUEST, "실행에 실패했고, 해당 항목의 값이 존재하지 않습니다"),
     FAIL_NOT_FOUND(HttpStatus.NOT_FOUND, "실행에 실패했고, 해당 정보를 찾을 수 없습니다"),
     FAIL_NOT_AUTHENTICATE(HttpStatus.UNAUTHORIZED, "실행에 실패했고, 해당 권한이 없습니다"),

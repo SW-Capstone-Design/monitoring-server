@@ -1,6 +1,8 @@
 package kr.co.monitoringserver.controller.api;
 
 import jakarta.validation.Valid;
+import kr.co.monitoringserver.infra.global.model.ResponseFormat;
+import kr.co.monitoringserver.infra.global.model.ResponseStatus;
 import kr.co.monitoringserver.service.dtos.request.UserReqDTO;
 import kr.co.monitoringserver.service.dtos.response.ResponseDto;
 import kr.co.monitoringserver.service.service.UserService;
@@ -11,10 +13,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -61,4 +60,14 @@ public class UserApiController {
         return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
     }
 
+    @PutMapping("/api/v1/user/{user_identity}")
+    public ResponseFormat<Void> updateAndSaveUserLocation(@PathVariable(name = "user_identity") String userIdentity) {
+
+        userService.updateAndSaveUserLocation(userIdentity);
+
+        return ResponseFormat.successMessage(
+                ResponseStatus.SUCCESS_CREATED,
+                userIdentity + "님 성공적으로 위치 정보가 생성되었습니다"
+        );
+    }
 }

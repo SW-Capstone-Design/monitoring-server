@@ -158,11 +158,12 @@ public class BeaconApiController {
     /**
      * Update Beacon And Beacon Location Controller
      */
-    @PutMapping("/api/v1/beacon/{beacon_id}")
+    @PutMapping("/api/v1/beacon/{beacon_id}/{user_identity}")
     public ResponseFormat<Void> updateBeaconInfoAndLocation(@PathVariable(name = "beacon_id") Long beaconId,
+                                                            @PathVariable(name = "user_identity") String userIdentity,
                                                             @RequestBody @Validated BeaconReqDTO.UPDATE update) {
 
-        beaconService.updateBeaconInfoAndLocation(beaconId, update);
+        beaconService.updateBeaconInfoAndLocation(beaconId, userIdentity, update);
 
         return ResponseFormat.successMessage(
                 ResponseStatus.SUCCESS_EXECUTE,

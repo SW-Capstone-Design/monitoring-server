@@ -64,10 +64,12 @@ public class Beacon {
 
     public void updateBeaconInfoAndLocation(BeaconReqDTO.UPDATE update) {
 
-        this.beaconName = update.getBeaconName();
-        this.uuid = update.getUuid();
-        this.major = update.getMajor();
-        this.minor = update.getMinor();
-        this.location = update.getLocation();
+            this.beaconName = update.getBeaconName();
+            this.uuid = update.getUuid();
+            this.major = update.getMajor();
+            this.minor = update.getMinor();
+            this.beaconRole = update.getBeaconRole();
+            this.location = update.getLocation();
+            this.txPower = update.getTxPower();
     }
 }

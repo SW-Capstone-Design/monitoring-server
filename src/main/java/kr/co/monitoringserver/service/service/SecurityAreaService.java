@@ -1,8 +1,8 @@
 package kr.co.monitoringserver.service.service;
 
 import kr.co.monitoringserver.infra.global.exception.BadRequestException;
-import kr.co.monitoringserver.infra.global.exception.NotAuthenticateException;
 import kr.co.monitoringserver.infra.global.exception.NotFoundException;
+import kr.co.monitoringserver.infra.global.exception.UnAuthenticateException;
 import kr.co.monitoringserver.infra.global.model.ResponseStatus;
 import kr.co.monitoringserver.persistence.entity.securityArea.SecurityArea;
 import kr.co.monitoringserver.persistence.entity.user.User;
@@ -145,7 +145,7 @@ public class SecurityAreaService {
                 .orElseThrow(BadRequestException::new);
 
         if (!user.getRoleType().equals(RoleType.ADMIN)) {
-            throw new NotAuthenticateException();
+            throw new UnAuthenticateException();
         }
     }
 }

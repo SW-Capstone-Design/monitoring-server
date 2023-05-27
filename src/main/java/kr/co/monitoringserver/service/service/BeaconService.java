@@ -192,21 +192,20 @@ public class BeaconService {
      * Update Beacon And Beacon Location Service
      */
     @Transactional
-    public void updateBeaconInfoAndLocation(Long beaconId, BeaconReqDTO.UPDATE update) {
+    public void updateBeaconInfoAndLocation(Long beaconId, String userIdentity, BeaconReqDTO.UPDATE update) {
 
         final Beacon beacon = beaconRepository.findById(beaconId)
                 .orElseThrow(() -> new NotFoundException(ResponseStatus.NOT_FOUND_BEACON));
 
         beacon.updateBeaconInfoAndLocation(update);
 
-        final User user = userRepository.findByIdentity(update.getUserIdentity())
+        final User user = userRepository.findByIdentity(userIdentity)
                 .orElseThrow(BadRequestException::new);
 
         final UserBeacon userBeacon = userBeaconRepository.findByUserAndBeacon(user, beacon)
                 .orElseThrow(() -> new NotFoundException(ResponseStatus.NOT_FOUND_BEACON));
 
-        userBeacon.updateUserAndBeacon(user, beacon);
-        userBeacon.updateRssi(update.getRssi());
+        userBeacon.updateUserAndBeacon(user, beacon, update.getRssi());
     }
 
     /**

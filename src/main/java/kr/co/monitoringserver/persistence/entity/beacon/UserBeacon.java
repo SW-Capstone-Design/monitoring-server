@@ -28,15 +28,17 @@ public class UserBeacon {
     @JoinColumn(name = "beacon_id", nullable = false)
     private Beacon beacon;
 
-    @Column(name = "beacon_rssi", nullable = false)
+    @Column(name = "beacon_rssi")
     private Short rssi;
 
 
     public void updateUserAndBeacon(User user,
-                                    Beacon beacon) {
+                                    Beacon beacon,
+                                    Short rssi) {
 
         this.user = user;
         this.beacon = beacon;
+        this.rssi = rssi;
     }
 
     public void updateRssi(Short rssi) {
