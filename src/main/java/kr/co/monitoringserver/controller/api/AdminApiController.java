@@ -79,15 +79,21 @@ public class AdminApiController {
     }
 
     @DeleteMapping("/admin/alert/delete")
-    public void deleteAlert(@RequestBody IndexNotificationReqDTO indexNotificationReqDTO){
+    public void deleteAlert(){
 
-        adminService.deleteAlert(indexNotificationReqDTO);
+        adminService.deleteAlert();
     }
 
     @DeleteMapping("/admin/alert/delete/ten")
     public void deleteAlertTopTen(){
 
         adminService.deleteAlertTopTen();
+    }
+
+    @DeleteMapping("/admin/alert/delete/all")
+    public void deleteAlertAll(){
+
+        adminService.deleteAlertAll();
     }
 
     @RequestMapping(value = "/auth/subscribe", consumes = MediaType.ALL_VALUE)
