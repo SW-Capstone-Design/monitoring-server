@@ -1,24 +1,30 @@
 package kr.co.monitoringserver.service.service;
 
+import kr.co.monitoringserver.controller.api.AdminApiController;
 import kr.co.monitoringserver.infra.global.exception.NotFoundException;
 import kr.co.monitoringserver.infra.global.model.ResponseStatus;
+import kr.co.monitoringserver.persistence.entity.alert.IndexNotification;
 import kr.co.monitoringserver.persistence.entity.beacon.Beacon;
 import kr.co.monitoringserver.persistence.entity.beacon.UserBeacon;
 import kr.co.monitoringserver.persistence.entity.user.User;
 import kr.co.monitoringserver.persistence.repository.BeaconRepository;
+import kr.co.monitoringserver.persistence.repository.IndexNotificationRepository;
 import kr.co.monitoringserver.persistence.repository.UserBeaconRepository;
 import kr.co.monitoringserver.persistence.repository.UserRepository;
 import kr.co.monitoringserver.service.dtos.request.BeaconReqDTO;
 import kr.co.monitoringserver.service.dtos.response.BeaconResDTO;
 import kr.co.monitoringserver.service.mappers.BeaconMapper;
 import lombok.RequiredArgsConstructor;
+import org.json.simple.JSONObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,6 +42,7 @@ public class BeaconService {
 
     private final BeaconMapper beaconMapper;
 
+    private final IndexNotificationRepository indexNotificationRepository;
 
 
     /**
@@ -146,6 +153,29 @@ public class BeaconService {
 
         for (Beacon beacon : beacons) {
             sendBatteryLowNotification(beacon);
+            String lowBatteryBeacon = "Beacon : " + beacon.getBeaconName() + "의 배터리 잔량이 20% 미만입니다." +
+                    " 현재 잔량 : " + beacon.getBattery().toString() + "%";
+
+            JSONObject obj = new JSONObject();
+            obj.put("text", lowBatteryBeacon);
+
+            String eventFormatted = obj.toString();
+            List<SseEmitter> emitters = AdminApiController.emitters;
+
+            for (SseEmitter emitter : emitters) {
+                try{
+                    emitter.send(SseEmitter.event().name("latest").data(eventFormatted));
+                } catch (IOException e) {
+                    emitters.remove(emitter);
+                }
+            }
+
+            IndexNotification indexNotification = indexNotificationRepository.findByIndexAlertContent(lowBatteryBeacon);
+            if(indexNotification == null){
+                IndexNotification alert = new IndexNotification();
+                alert.setIndexAlertContent(lowBatteryBeacon);
+                indexNotificationRepository.save(alert);
+            }
         }
     }
 

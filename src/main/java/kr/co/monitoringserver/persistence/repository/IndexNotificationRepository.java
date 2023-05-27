@@ -13,4 +13,6 @@ public interface IndexNotificationRepository extends JpaRepository<IndexNotifica
     List<IndexNotification> findTop10ByOrderByIndexAlertTimeDesc();
 
     Long countBy();
+
+    IndexNotification findByIndexAlertContent(String indexAlertContent);
 }
