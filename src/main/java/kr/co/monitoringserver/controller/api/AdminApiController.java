@@ -1,24 +1,21 @@
 package kr.co.monitoringserver.controller.api;
 
 import jakarta.validation.Valid;
-import kr.co.monitoringserver.service.dtos.request.AdminReqDTO;
-import kr.co.monitoringserver.service.dtos.request.IndexNotificationReqDTO;
-import kr.co.monitoringserver.service.dtos.request.MonitoringReqDTO;
-import kr.co.monitoringserver.service.dtos.request.UserReqDTO;
+import kr.co.monitoringserver.service.dtos.request.*;
 import kr.co.monitoringserver.service.dtos.response.ResponseDto;
 import kr.co.monitoringserver.service.service.AdminService;
+import kr.co.monitoringserver.service.service.FirebaseCloudMessageService;
 import kr.co.monitoringserver.service.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
-import javax.print.attribute.standard.Media;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -113,22 +110,22 @@ public class AdminApiController {
         return sseEmitter;
     }
 
-    @PostMapping(value = "/auth/dispatchEvent")
-    public void dispatchEventToClients(@RequestParam String text){
+    @RestController
+    @RequiredArgsConstructor
+    public class MainController {
 
-        JSONObject obj = new JSONObject();
-        obj.put("text", text);
+        private final FirebaseCloudMessageService firebaseCloudMessageService;
 
-        String eventFormatted = obj.toString();
+        @PostMapping("/auth/fcm")
+        public ResponseEntity pushMessage(@RequestBody RequestDTO requestDTO) throws IOException {
+            System.out.println(requestDTO.getTargetToken() + " "
+                    +requestDTO.getTitle() + " " + requestDTO.getBody());
 
-
-        for (SseEmitter emitter : emitters) {
-            try{
-                emitter.send(SseEmitter.event().name("latest").data(eventFormatted));
-            } catch (IOException e) {
-                emitters.remove(emitter);
-            }
+            firebaseCloudMessageService.sendMessageTo(
+                    requestDTO.getTargetToken(),
+                    requestDTO.getTitle(),
+                    requestDTO.getBody());
+            return ResponseEntity.ok().build();
         }
     }
-
 }
