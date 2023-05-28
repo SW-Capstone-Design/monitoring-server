@@ -32,9 +32,14 @@ public class SecurityArea extends BaseEntity {
     private String description;
 
     @Embedded
-    @Column(name = "security_area_location",
+    @Column(name = "lower_left_corner",
             nullable = false)
-    private Location securityAreaLocation;
+    private Location lowerLeft;
+
+    @Embedded
+    @Column(name = "upper_right_corner",
+            nullable = false)
+    private Location upperRight;
 
     @OneToMany(mappedBy = "securityArea")
     private List<UserSecurityArea> userSecurityAreas = new ArrayList<>();
@@ -46,19 +51,38 @@ public class SecurityArea extends BaseEntity {
     @Builder
     private SecurityArea(String name,
                          String description,
-                         Location securityAreaLocation,
+                         Location lowerLeft,
+                         Location upperRight,
                          List<SecurityAreaWarning> securityAreaWarnings) {
 
         this.name = name;
         this.description = description;
-        this.securityAreaLocation = securityAreaLocation;
+        this.lowerLeft = lowerLeft;
+        this.upperRight = upperRight;
         this.securityAreaWarnings = securityAreaWarnings;
+    }
+
+
+    public void createSecurityAreaLocation(Location lowerLeft,
+                                           Location upperRight) {
+
+        this.lowerLeft = lowerLeft;
+        this.upperRight = upperRight;
     }
 
     public void updateSecurityArea(SecurityAreaReqDTO.UPDATE update) {
 
         this.name = update.getName();
         this.description = update.getDescription();
-//        this.securityAreaLocation = update.getLocation();
+
+        this.lowerLeft = Location.builder()
+                .x(lowerLeft.getX())
+                .y(lowerLeft.getY())
+                .build();
+
+        this.upperRight = Location.builder()
+                .x(upperRight.getX())
+                .y(upperRight.getY())
+                .build();
     }
 }

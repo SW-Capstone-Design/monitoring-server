@@ -12,7 +12,6 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface BeaconMapper {
 
-    // BeaconReqDTO.CREATE -> Beacon Entity
     default Beacon toBeaconEntity(BeaconReqDTO.CREATE create) {
 
         final Beacon beacon = Beacon.builder()
@@ -26,6 +25,7 @@ public interface BeaconMapper {
 
         // 위치 정보가 있는 경우에만 Location 객체를 생성하고 비콘에 설정
         if (create.getLocation() != null) {
+
             final Location location = Location.builder()
                     .x(create.getLocation().getX())
                     .y(create.getLocation().getY())

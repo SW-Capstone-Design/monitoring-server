@@ -1,6 +1,7 @@
 package kr.co.monitoringserver.service.dtos.request;
 
 import jakarta.validation.constraints.NotBlank;
+import kr.co.monitoringserver.persistence.entity.Location;
 import lombok.*;
 
 public class SecurityAreaReqDTO {
@@ -16,7 +17,9 @@ public class SecurityAreaReqDTO {
 
         private String description;
 
-//        private Location location;
+        private Location lowerLeft;
+
+        private Location upperRight;
     }
 
     @Getter
@@ -29,6 +32,8 @@ public class SecurityAreaReqDTO {
 
         private String description;
 
-//        private Location location;
+        private Location lowerLeft;
+
+        private Location upperRight;
     }
 }

@@ -12,7 +12,7 @@ import kr.co.monitoringserver.persistence.repository.UserRepository;
 import kr.co.monitoringserver.service.dtos.request.AttendanceReqDTO;
 import kr.co.monitoringserver.service.dtos.response.AttendanceResDTO;
 import kr.co.monitoringserver.service.enums.AttendanceType;
-import kr.co.monitoringserver.service.mappers.UserAttendanceMapper;
+import kr.co.monitoringserver.service.mappers.AttendanceMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -35,7 +35,7 @@ public class AttendanceService {
 
     private final UserAttendanceRepository userAttendanceRepository;
 
-    private final UserAttendanceMapper userAttendanceMapper;
+    private final AttendanceMapper attendanceMapper;
 
     // TODO : 수정 - 퇴근 정보 수정, 수정 로직 실행 시 기존에 생성된 출석 정보의 값을 수정하는게 아닌 새로운 출석 정보를 생성함
 
@@ -54,7 +54,7 @@ public class AttendanceService {
                 .map(this::calculateGoWorkAttendanceType)
                 .orElseThrow(InvalidInputException::new);
 
-        UserAttendance userAttendance = userAttendanceMapper.toUserAttendanceEntity(user, create, goWork);
+        UserAttendance userAttendance = attendanceMapper.toUserAttendanceEntity(user, create, goWork);
 
         userAttendanceRepository.save(userAttendance);
     }
@@ -86,7 +86,7 @@ public class AttendanceService {
         final Page<UserAttendance> userAttendancePage =
                 userAttendanceRepository.findByUser_Identity(userIdentity, pageable);
 
-        return userAttendancePage.map(userAttendanceMapper::toUserAttendanceReadDto);
+        return userAttendancePage.map(attendanceMapper::toUserAttendanceReadDto);
     }
 
     /**
@@ -205,7 +205,7 @@ public class AttendanceService {
                 .stream()
                 .filter(userAttendance -> status == AttendanceType.TARDINESS ?
                         this.isLate(userAttendance) : this.isAbsent(userAttendance))
-                .map(userAttendanceMapper::toAttendTypeReadDto)
+                .map(attendanceMapper::toAttendTypeReadDto)
                 .distinct()
                 .collect(Collectors.toList());
 

@@ -10,9 +10,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
-public interface UserAttendanceMapper {
+public interface AttendanceMapper {
 
-    // AttendanceReqDTO.CREATE -> UserAttendance Entity
     default UserAttendance toUserAttendanceEntity(User user, AttendanceReqDTO.CREATE create, AttendanceType goWork) {
 
         return UserAttendance.builder()
@@ -25,8 +24,6 @@ public interface UserAttendanceMapper {
                 .build();
     }
 
-
-    // UserAttendance Entity -> AttendanceResDTO.READ
     @Mapping(source = "userAttendance.user.identity", target = "userIdentity")
     @Mapping(source = "userAttendance.user.name", target = "userName")
     @Mapping(source = "userAttendance.user.department", target = "userDepartment")
