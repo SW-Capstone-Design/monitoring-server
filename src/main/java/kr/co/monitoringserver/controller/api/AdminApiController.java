@@ -32,6 +32,9 @@ public class AdminApiController {
 
     public static List<SseEmitter> emitters = new CopyOnWriteArrayList<>();
 
+    private final FirebaseCloudMessageService firebaseCloudMessageService;
+
+
     /**
      * saveUser : 사용자정보를 Create하여 회원가입을 수행한다.
      */
@@ -109,22 +112,15 @@ public class AdminApiController {
         return sseEmitter;
     }
 
-    @RestController
-    @RequiredArgsConstructor
-    public class MainController {
+    @PostMapping("/auth/fcm")
+    public ResponseEntity pushMessage(@RequestBody FCMRequestDTO fCMRequestDTO) throws IOException {
+        System.out.println(fCMRequestDTO.getTargetToken() + " "
+                + fCMRequestDTO.getTitle() + " " + fCMRequestDTO.getBody());
 
-        private final FirebaseCloudMessageService firebaseCloudMessageService;
-
-        @PostMapping("/auth/fcm")
-        public ResponseEntity pushMessage(@RequestBody FCMRequestDTO FCMRequestDTO) throws IOException {
-            System.out.println(FCMRequestDTO.getTargetToken() + " "
-                    + FCMRequestDTO.getTitle() + " " + FCMRequestDTO.getBody());
-
-            firebaseCloudMessageService.sendMessageTo(
-                    FCMRequestDTO.getTargetToken(),
-                    FCMRequestDTO.getTitle(),
-                    FCMRequestDTO.getBody());
-            return ResponseEntity.ok().build();
-        }
+        firebaseCloudMessageService.sendMessageTo(
+                fCMRequestDTO.getTargetToken(),
+                fCMRequestDTO.getTitle(),
+                fCMRequestDTO.getBody());
+        return ResponseEntity.ok().build();
     }
 }
