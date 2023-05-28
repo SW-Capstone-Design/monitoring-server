@@ -1,11 +1,10 @@
 package kr.co.monitoringserver.service.service;
 
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.common.net.HttpHeaders;
-import kr.co.monitoringserver.service.dtos.request.FcmMessage;
+import kr.co.monitoringserver.service.dtos.request.FCMMessageDTO;
 import lombok.RequiredArgsConstructor;
 import okhttp3.*;
 import org.springframework.core.io.ClassPathResource;
@@ -21,6 +20,9 @@ public class FirebaseCloudMessageService {
     private final String API_URL = "https://fcm.googleapis.com/v1/projects/monitoring-service-e3f5e/messages:send";
     private final ObjectMapper objectMapper;
 
+    /**
+     * sendMessageTo : 요청 생성 및 알림 푸시
+     */
     public void sendMessageTo(String targetToken, String title, String body) throws IOException {
         String message = makeMessage(targetToken, title, body);
 
@@ -38,21 +40,27 @@ public class FirebaseCloudMessageService {
         System.out.println(response.body().string());
     }
 
-    private String makeMessage(String targetToken, String title, String body) throws JsonParseException, JsonProcessingException {
-        FcmMessage fcmMessage = FcmMessage.builder()
-                .message(FcmMessage.Message
+    /**
+     * makeMessage : FCM에 적합한 형태의 메시지 생성
+     */
+    private String makeMessage(String targetToken, String title, String body) throws JsonProcessingException {
+        FCMMessageDTO fcmMessageDTO = FCMMessageDTO.builder()
+                .message(FCMMessageDTO.Message
                         .builder()
                         .token(targetToken)
-                        .notification(FcmMessage.Notification.builder()
+                        .notification(FCMMessageDTO.Notification.builder()
                                 .title(title)
                                 .body(body)
                                 .image(null)
                                 .build())
                 .build()).validateOnly(false).build();
 
-        return objectMapper.writeValueAsString(fcmMessage);
+        return objectMapper.writeValueAsString(fcmMessageDTO);
     }
 
+    /**
+     * getAccessToken : FireBase로부터 AccessToken을 가져온다.
+     */
     private String getAccessToken() throws IOException {
         String firebaseConfigPath = "firebase/firebase_service.json";
 
@@ -61,6 +69,7 @@ public class FirebaseCloudMessageService {
                 .createScoped(List.of("https://www.googleapis.com/auth/cloud-platform"));
 
         googleCredentials.refreshIfExpired();
+
         return googleCredentials.getAccessToken().getTokenValue();
     }
 }

@@ -7,7 +7,6 @@ import kr.co.monitoringserver.service.service.AdminService;
 import kr.co.monitoringserver.service.service.FirebaseCloudMessageService;
 import kr.co.monitoringserver.service.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -117,14 +116,14 @@ public class AdminApiController {
         private final FirebaseCloudMessageService firebaseCloudMessageService;
 
         @PostMapping("/auth/fcm")
-        public ResponseEntity pushMessage(@RequestBody RequestDTO requestDTO) throws IOException {
-            System.out.println(requestDTO.getTargetToken() + " "
-                    +requestDTO.getTitle() + " " + requestDTO.getBody());
+        public ResponseEntity pushMessage(@RequestBody FCMRequestDTO FCMRequestDTO) throws IOException {
+            System.out.println(FCMRequestDTO.getTargetToken() + " "
+                    + FCMRequestDTO.getTitle() + " " + FCMRequestDTO.getBody());
 
             firebaseCloudMessageService.sendMessageTo(
-                    requestDTO.getTargetToken(),
-                    requestDTO.getTitle(),
-                    requestDTO.getBody());
+                    FCMRequestDTO.getTargetToken(),
+                    FCMRequestDTO.getTitle(),
+                    FCMRequestDTO.getBody());
             return ResponseEntity.ok().build();
         }
     }
