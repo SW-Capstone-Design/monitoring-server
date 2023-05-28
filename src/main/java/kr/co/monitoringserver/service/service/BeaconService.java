@@ -25,6 +25,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.io.IOException;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -150,6 +152,9 @@ public class BeaconService {
     public void checkBatteryStatusAndSendNotification() {
 
         List<Beacon> beacons = beaconRepository.findBeaconsByBatteryLessThan(20);
+        LocalTime now = LocalTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+        String formatedNow = now.format(formatter);
 
         for (Beacon beacon : beacons) {
             sendBatteryLowNotification(beacon);
@@ -157,7 +162,7 @@ public class BeaconService {
                     " 현재 잔량 : " + beacon.getBattery().toString() + "%";
 
             JSONObject obj = new JSONObject();
-            obj.put("text", lowBatteryBeacon);
+            obj.put("text", "[" + formatedNow + "] " + lowBatteryBeacon);
 
             String eventFormatted = obj.toString();
             List<SseEmitter> emitters = AdminApiController.emitters;

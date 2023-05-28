@@ -25,7 +25,6 @@ public class IndexNotification {
     @Column(name = "index_alert_time")
     private Timestamp indexAlertTime;
 
-    @Column(name = "index_alert_content",
-            length = 50)
+    @Column(name = "index_alert_content")
     private String indexAlertContent;
 }
