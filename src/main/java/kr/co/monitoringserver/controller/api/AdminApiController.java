@@ -7,6 +7,10 @@ import kr.co.monitoringserver.service.service.AdminService;
 import kr.co.monitoringserver.service.service.FirebaseCloudMessageService;
 import kr.co.monitoringserver.service.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -16,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -123,4 +128,11 @@ public class AdminApiController {
                 fCMRequestDTO.getBody());
         return ResponseEntity.ok().build();
     }
+
+    @PostMapping("/auth/setFCMToken")
+    public void setFCMToken(@RequestBody AdminReqDTO adminReqDTO, Principal principal){
+
+        adminService.setFCMToken(adminReqDTO, principal);
+    }
+
 }

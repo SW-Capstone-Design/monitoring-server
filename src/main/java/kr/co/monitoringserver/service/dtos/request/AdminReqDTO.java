@@ -31,4 +31,6 @@ public class AdminReqDTO {
     private String telephone;
 
     private RoleType roleType;
+
+    private String token;
 }

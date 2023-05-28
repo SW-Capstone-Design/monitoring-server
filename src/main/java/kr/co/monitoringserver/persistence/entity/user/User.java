@@ -58,6 +58,9 @@ public class User {
     @Column(nullable = false, length = 30)
     private String telephone;
 
+    @Column
+    private String deviceToken;
+
     @Embedded
     @Column(name = "user_location",
             nullable = false)
