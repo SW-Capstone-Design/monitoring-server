@@ -90,8 +90,7 @@ textarea {
                                         </thead>
                                         <tbody>
                                         <c:forEach items="${alerts.content}" var="alert">
-                                          <tr onclick="delAlert()">
-                                            <input type="hidden" class="form-control" value="${alert.indexAlertId}" id="indexAlertId">
+                                          <tr>
                                             <td width="10%">${alert.indexAlertTime}</td>
                                             <td>${alert.indexAlertContent}</td>
                                           </tr>
@@ -106,25 +105,6 @@ textarea {
                                 </div>
                               </div>
                             </div>
-                        <script>
-                            function delAlert() {
-                                    let data = {
-                                        indexAlertId: $("#indexAlertId").val()
-                                    };
-
-                                    $.ajax({
-                                        type: "DELETE",
-                                        url: "/admin/alert/delete",
-                                        data: JSON.stringify(data),
-                                        contentType: "application/json; charset=utf-8",
-                                        dataType: "json"
-                                    }).done(function(result) {
-                                        location.reload();
-                                    }).fail(function(error) {
-                                        location.reload();
-                                    });
-                            }
-                        </script>
 				</ul>
 			</c:otherwise>
 		</c:choose>

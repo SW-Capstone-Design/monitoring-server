@@ -26,8 +26,8 @@
         <td>${securityArea.id}</td>
         <td>${securityArea.name}</td>
         <td>${securityArea.description}</td>
-        <td>${securityArea.securityAreaLocation.latitude}</td>
-        <td>${securityArea.securityAreaLocation.longitude}</td>
+        <td>${securityArea.securityAreaLocation.x}</td>
+        <td>${securityArea.securityAreaLocation.y}</td>
         <td><b><a href="/admin/area/info/${securityArea.id}">수정</a></b></td>
       </tr>
       </c:forEach>
@@ -40,7 +40,7 @@
                 <li class="page-item disabled"><a class="page-link" href="?page=${lists.number-1}">Previous</a></li>
             </c:when>
             <c:otherwise>
-                <li class="page-item"><a class="page-link" href="?page=${user.number-1}">Previous</a></li>
+                <li class="page-item"><a class="page-link" href="?page=${lists.number-1}">Previous</a></li>
             </c:otherwise>
         </c:choose>
 

@@ -1,24 +1,30 @@
 package kr.co.monitoringserver.service.service;
 
+import kr.co.monitoringserver.controller.api.AdminApiController;
 import kr.co.monitoringserver.infra.global.exception.NotFoundException;
 import kr.co.monitoringserver.infra.global.model.ResponseStatus;
+import kr.co.monitoringserver.persistence.entity.alert.IndexNotification;
 import kr.co.monitoringserver.persistence.entity.beacon.Beacon;
 import kr.co.monitoringserver.persistence.entity.beacon.UserBeacon;
 import kr.co.monitoringserver.persistence.entity.user.User;
 import kr.co.monitoringserver.persistence.repository.BeaconRepository;
+import kr.co.monitoringserver.persistence.repository.IndexNotificationRepository;
 import kr.co.monitoringserver.persistence.repository.UserBeaconRepository;
 import kr.co.monitoringserver.persistence.repository.UserRepository;
 import kr.co.monitoringserver.service.dtos.request.BeaconReqDTO;
 import kr.co.monitoringserver.service.dtos.response.BeaconResDTO;
 import kr.co.monitoringserver.service.mappers.BeaconMapper;
 import lombok.RequiredArgsConstructor;
+import org.json.simple.JSONObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,20 +42,21 @@ public class BeaconService {
 
     private final BeaconMapper beaconMapper;
 
+    private final IndexNotificationRepository indexNotificationRepository;
 
 
     /**
      * createDistance : tbl_user_beacon에 RSSI 저장
      */
     @Transactional
-    public void createDistance(Long userId, BeaconReqDTO.CLIENT beaconReqDTO){
+    public void createDistance(String identity, BeaconReqDTO.CLIENT beaconReqDTO){
         Beacon beacon = beaconRepository.findOptionalByBeaconId(beaconReqDTO.getBeacon().getBeaconId())
                 .orElseThrow(()->{
                     return new IllegalArgumentException("비콘 찾기 실패");
                 });
         beacon.setBattery(beaconReqDTO.getBattery());
 
-        User user = userRepository.findByUserId(userId)
+        User user = userRepository.findByIdentity(identity)
                 .orElseThrow(()->{
                     return new IllegalArgumentException("유저 찾기 실패");
                 });
@@ -67,7 +74,7 @@ public class BeaconService {
      * updateDistance : tbl_user_beacon에 RSSI 저장
      */
     @Transactional
-    public void updateDistance(Long userId, Long userBeaconId,BeaconReqDTO.CLIENT beaconReqDTO){
+    public void updateDistance(String identity, Long userBeaconId, BeaconReqDTO.CLIENT beaconReqDTO){
 
         Beacon beacon = beaconRepository.findOptionalByBeaconId(beaconReqDTO.getBeacon().getBeaconId())
                 .orElseThrow(()->{
@@ -75,7 +82,7 @@ public class BeaconService {
                 });
         beacon.setBattery(beaconReqDTO.getBattery());
 
-        User user = userRepository.findByUserId(userId)
+        User user = userRepository.findByIdentity(identity)
                 .orElseThrow(()->{
                     return new IllegalArgumentException("유저 찾기 실패");
                 });
@@ -90,8 +97,8 @@ public class BeaconService {
     }
 
     @Transactional
-    public void deleteDistance(Long userId){
-        List<UserBeacon> userBeacon = userBeaconRepository.findByUser_UserId(userId);
+    public void deleteDistance(String identity){
+        List<UserBeacon> userBeacon = userBeaconRepository.findByUser_Identity(identity);
 
         userBeaconRepository.deleteAllInBatch(userBeacon);
     }
@@ -146,6 +153,29 @@ public class BeaconService {
 
         for (Beacon beacon : beacons) {
             sendBatteryLowNotification(beacon);
+            String lowBatteryBeacon = "Beacon : " + beacon.getBeaconName() + "의 배터리 잔량이 20% 미만입니다." +
+                    " 현재 잔량 : " + beacon.getBattery().toString() + "%";
+
+            JSONObject obj = new JSONObject();
+            obj.put("text", lowBatteryBeacon);
+
+            String eventFormatted = obj.toString();
+            List<SseEmitter> emitters = AdminApiController.emitters;
+
+            for (SseEmitter emitter : emitters) {
+                try{
+                    emitter.send(SseEmitter.event().name("latest").data(eventFormatted));
+                } catch (IOException e) {
+                    emitters.remove(emitter);
+                }
+            }
+
+            IndexNotification indexNotification = indexNotificationRepository.findByIndexAlertContent(lowBatteryBeacon);
+            if(indexNotification == null){
+                IndexNotification alert = new IndexNotification();
+                alert.setIndexAlertContent(lowBatteryBeacon);
+                indexNotificationRepository.save(alert);
+            }
         }
     }
 

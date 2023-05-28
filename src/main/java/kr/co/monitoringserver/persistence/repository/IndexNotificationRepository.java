@@ -8,9 +8,11 @@ import java.util.Optional;
 
 public interface IndexNotificationRepository extends JpaRepository<IndexNotification, Long> {
 
-    Optional<IndexNotification> findByIndexAlertId(Long indexAlertId);
+    Optional<IndexNotification> findTop1ByOrderByIndexAlertTimeDesc();
 
     List<IndexNotification> findTop10ByOrderByIndexAlertTimeDesc();
 
     Long countBy();
+
+    IndexNotification findByIndexAlertContent(String indexAlertContent);
 }

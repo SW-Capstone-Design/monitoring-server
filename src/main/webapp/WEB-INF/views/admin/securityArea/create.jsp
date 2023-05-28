@@ -14,13 +14,13 @@
             <input type="description" class="form-control" placeholder="Enter description" id="description">
         </div>
 		<div class="form-group">
-			<label for="latitude">위도</label>
-			<input type="latitude" class="form-control" placeholder="Enter latitude" id="latitude">
+			<label for="x">X좌표</label>
+			<input type="x" class="form-control" placeholder="Enter x" id="x">
 		</div>
 
 		<div class="form-group">
-            <label for="longitude">경도</label>
-            <input type="longitude" class="form-control" placeholder="Enter longitude" id="longitude">
+            <label for="y">Y좌표</label>
+            <input type="y" class="form-control" placeholder="Enter y" id="y">
         </div>
 	</form>
 	<button id="btn-create" class="btn btn-dark">등록</button>

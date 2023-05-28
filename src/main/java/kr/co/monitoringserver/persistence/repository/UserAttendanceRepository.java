@@ -15,8 +15,6 @@ import java.util.Optional;
 @Repository
 public interface UserAttendanceRepository extends JpaRepository<UserAttendance, Long> {
 
-    Page<UserAttendance> findByUser_UserId(Long userId, Pageable pageable);
-
     Page<UserAttendance> findByUser_Identity(String identity, Pageable pageable);
 
     Optional<UserAttendance> findByUserAndAttendance_Date(User user, LocalDate date);
@@ -29,9 +27,9 @@ public interface UserAttendanceRepository extends JpaRepository<UserAttendance, 
 
     Page<UserAttendance> findByAttendance_LeaveWorkAndAttendance_Date(AttendanceType goWorkType, LocalDate date, Pageable pageable);
 
-    Long countByUser_UserIdAndAttendance_GoWork(Long userId, AttendanceType goWorkType);
+    Long countByUser_IdentityAndAttendance_GoWork(String identity, AttendanceType goWorkType);
 
-    Long countByUser_UserIdAndAttendance_LeaveWork(Long userId, AttendanceType leaveWorkType);
+    Long countByUser_IdentityAndAttendance_LeaveWork(String identity, AttendanceType leaveWorkType);
 
-    Long countByUser_UserIdAndAttendance_GoWorkAndAttendance_LeaveWork(Long userId, AttendanceType goWorkType, AttendanceType leaveWorkType);
+    Long countByUser_IdentityAndAttendance_GoWorkAndAttendance_LeaveWork(String identity, AttendanceType goWorkType, AttendanceType leaveWorkType);
 }

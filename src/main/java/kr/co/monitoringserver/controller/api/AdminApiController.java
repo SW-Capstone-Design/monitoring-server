@@ -1,24 +1,20 @@
 package kr.co.monitoringserver.controller.api;
 
 import jakarta.validation.Valid;
-import kr.co.monitoringserver.service.dtos.request.AdminReqDTO;
-import kr.co.monitoringserver.service.dtos.request.IndexNotificationReqDTO;
-import kr.co.monitoringserver.service.dtos.request.MonitoringReqDTO;
-import kr.co.monitoringserver.service.dtos.request.UserReqDTO;
+import kr.co.monitoringserver.service.dtos.request.*;
 import kr.co.monitoringserver.service.dtos.response.ResponseDto;
 import kr.co.monitoringserver.service.service.AdminService;
+import kr.co.monitoringserver.service.service.FirebaseCloudMessageService;
 import kr.co.monitoringserver.service.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
-import javax.print.attribute.standard.Media;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +31,9 @@ public class AdminApiController {
     private UserService userService;
 
     public static List<SseEmitter> emitters = new CopyOnWriteArrayList<>();
+
+    private final FirebaseCloudMessageService firebaseCloudMessageService;
+
 
     /**
      * saveUser : 사용자정보를 Create하여 회원가입을 수행한다.
@@ -79,15 +78,21 @@ public class AdminApiController {
     }
 
     @DeleteMapping("/admin/alert/delete")
-    public void deleteAlert(@RequestBody IndexNotificationReqDTO indexNotificationReqDTO){
+    public void deleteAlert(){
 
-        adminService.deleteAlert(indexNotificationReqDTO);
+        adminService.deleteAlert();
     }
 
     @DeleteMapping("/admin/alert/delete/ten")
     public void deleteAlertTopTen(){
 
         adminService.deleteAlertTopTen();
+    }
+
+    @DeleteMapping("/admin/alert/delete/all")
+    public void deleteAlertAll(){
+
+        adminService.deleteAlertAll();
     }
 
     @RequestMapping(value = "/auth/subscribe", consumes = MediaType.ALL_VALUE)
@@ -107,22 +112,15 @@ public class AdminApiController {
         return sseEmitter;
     }
 
-    @PostMapping(value = "/auth/dispatchEvent")
-    public void dispatchEventToClients(@RequestParam String text){
+    @PostMapping("/auth/fcm")
+    public ResponseEntity pushMessage(@RequestBody FCMRequestDTO fCMRequestDTO) throws IOException {
+        System.out.println(fCMRequestDTO.getTargetToken() + " "
+                + fCMRequestDTO.getTitle() + " " + fCMRequestDTO.getBody());
 
-        JSONObject obj = new JSONObject();
-        obj.put("text", text);
-
-        String eventFormatted = obj.toString();
-
-
-        for (SseEmitter emitter : emitters) {
-            try{
-                emitter.send(SseEmitter.event().name("latest").data(eventFormatted));
-            } catch (IOException e) {
-                emitters.remove(emitter);
-            }
-        }
+        firebaseCloudMessageService.sendMessageTo(
+                fCMRequestDTO.getTargetToken(),
+                fCMRequestDTO.getTitle(),
+                fCMRequestDTO.getBody());
+        return ResponseEntity.ok().build();
     }
-
 }
