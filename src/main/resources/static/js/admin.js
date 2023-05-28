@@ -15,6 +15,12 @@ let index = {
             window.addEventListener("load", ()=>{
                 this.note();
             });
+            $("#btn-delAlert").on("click", ()=>{
+                this.delAlert();
+            });
+            $("#btn-delAlertTen").on("click", ()=>{
+                this.delAlertTen();
+            });
             $("#btn-delAlertAll").on("click", ()=>{
                 this.delAlertAll();
             });
@@ -189,7 +195,7 @@ let index = {
                     });
                 },
 
-                delAlertAll: function() {
+                delAlertTen: function() {
 
                     $.ajax({
                         type: "DELETE",
@@ -200,8 +206,33 @@ let index = {
                     }).fail(function(error) {
                         location.href = "/admin/alert";
                     });
-            }
+            },
 
+                delAlert: function() {
+
+                    $.ajax({
+                        type: "DELETE",
+                        url: "/admin/alert/delete",
+                        dataType: "json"
+                    }).done(function(resp) {
+                        location.href = "/admin/alert";
+                    }).fail(function(error) {
+                        location.href = "/admin/alert";
+                    });
+            },
+
+                delAlertAll: function() {
+
+                    $.ajax({
+                        type: "DELETE",
+                        url: "/admin/alert/delete/all",
+                        dataType: "json"
+                    }).done(function(resp) {
+                        location.href = "/admin/alert";
+                    }).fail(function(error) {
+                        location.href = "/admin/alert";
+                    });
+            }
 }
 
 index.init();

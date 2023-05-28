@@ -102,9 +102,9 @@ public class UserService {
      * attendList : 출결정보를 조회한다.
      * Page 객체를 반환하기 위해 구현하였음.
      */
-    public Page<UserAttendance> userAttendList(Long userId, Pageable pageable) {
+    public Page<UserAttendance> userAttendList(String identity, Pageable pageable) {
 
-        return userAttendanceRepository.findByUser_UserId(userId, pageable);
+        return userAttendanceRepository.findByUser_Identity(identity, pageable);
     }
 
     /**

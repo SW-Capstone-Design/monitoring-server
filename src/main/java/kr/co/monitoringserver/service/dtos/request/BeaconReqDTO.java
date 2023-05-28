@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import kr.co.monitoringserver.persistence.entity.Location;
 import kr.co.monitoringserver.persistence.entity.beacon.Beacon;
+import kr.co.monitoringserver.persistence.entity.user.User;
 import kr.co.monitoringserver.service.enums.BeaconRoleType;
 import lombok.*;
 

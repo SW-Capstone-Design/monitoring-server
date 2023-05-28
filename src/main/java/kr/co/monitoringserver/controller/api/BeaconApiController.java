@@ -1,6 +1,5 @@
 package kr.co.monitoringserver.controller.api;
 
-import kr.co.monitoringserver.infra.global.exception.NotFoundException;
 import kr.co.monitoringserver.infra.global.model.ResponseFormat;
 import kr.co.monitoringserver.infra.global.model.ResponseStatus;
 import kr.co.monitoringserver.persistence.entity.beacon.Beacon;
@@ -21,6 +20,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 
@@ -46,8 +46,8 @@ public class BeaconApiController {
     /**
      * receiveBeacon : 모바일 클라이언트에서 서버로 비콘과 사용자 간의 거리 정보를 보낸다.
      */
-    @PostMapping("/auth/receiveBeacon/{user_id}")
-    public void receiveBeacon(@PathVariable(name = "user_id") Long userId, @RequestBody String data, BeaconReqDTO.CLIENT beaconReqDTO) {
+    @PostMapping("/auth/receiveBeacon")
+    public void receiveBeacon(@RequestBody String data, BeaconReqDTO.CLIENT beaconReqDTO, Principal principal) {
         JSONParser jsonParser = new JSONParser();
         JSONArray insertParam = null;
         try {
@@ -78,13 +78,12 @@ public class BeaconApiController {
             Short b = Short.valueOf(battery).shortValue();
             beaconReqDTO.setBattery(b);
 
-            UserBeacon userBeacon = userBeaconRepository.findByBeacon_BeaconId(bi)
-                    .orElseThrow(() -> new NotFoundException(ResponseStatus.NOT_FOUND_BEACON));
+            UserBeacon userBeacon = userBeaconRepository.findByBeacon_BeaconIdAndUser_UserId(bi, principal.getName());
 
             if (userBeacon == null) {
-                beaconService.createDistance(userId, beaconReqDTO);
+                beaconService.createDistance(principal.getName(), beaconReqDTO);
             } else {
-                beaconService.updateDistance(userId, userBeacon.getUserBeaconId(), beaconReqDTO);
+                beaconService.updateDistance(principal.getName(), userBeacon.getUserBeaconId(), beaconReqDTO);
             }
         }
     }
@@ -92,10 +91,10 @@ public class BeaconApiController {
     /**
      * deleteBeaconConnection : 모바일 클라이언트에서 연결을 끊을 시 tbl_user_beacon에서 해당 유저의 Data 전부 삭제
      */
-    @DeleteMapping("/auth/deleteBeaconConnection/{user_id}")
-    public void deleteBeaconConnection(@PathVariable(name = "user_id")Long userId) {
+    @DeleteMapping("/auth/deleteBeaconConnection")
+    public void deleteBeaconConnection(Principal principal) {
 
-        beaconService.deleteDistance(userId);
+        beaconService.deleteDistance(principal.getName());
     }
 
 

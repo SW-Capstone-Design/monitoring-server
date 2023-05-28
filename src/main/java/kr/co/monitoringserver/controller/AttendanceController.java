@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.security.Principal;
 import java.time.LocalDate;
 
 @Controller
@@ -27,14 +28,13 @@ public class AttendanceController {
     /**
      * userAttendList : 출결정보 조회 페이지로 매핑한다.
      */
-    @GetMapping("/attendance/list/{user_id}")
+    @GetMapping("/attendance/list")
     public String userAttendList(Model model, @PageableDefault(size=10, sort="attendance.date", direction = Sort.Direction.DESC) Pageable pageable,
-                                 @PathVariable(name = "user_id") Long userId
-            , LocalDate searchKeyword){
+                                 LocalDate searchKeyword, Principal principal){
 
-        if(searchKeyword == null) {
-            model.addAttribute("lists", userService.userAttendList(userId, pageable));
-        }else{
+        if (searchKeyword == null) {
+            model.addAttribute("lists", userService.userAttendList(principal.getName(), pageable));
+        } else {
             model.addAttribute("lists", userService.searchUserAttendList(searchKeyword, pageable));
         }
 
@@ -44,13 +44,13 @@ public class AttendanceController {
     /**
      * userAttendConditionList : 출결정보 현황 페이지로 매핑한다.
      */
-    @GetMapping("/attendance/list/condition/{user_id}")
-    public String userAttendConditionList(Model model, @PathVariable(name = "user_id") Long userId){
+    @GetMapping("/attendance/list/condition")
+    public String userAttendConditionList(Model model, Principal principal){
 
-        model.addAttribute("work", userAttendanceRepository.countByUser_UserIdAndAttendance_GoWorkAndAttendance_LeaveWork(userId, AttendanceType.GO_WORK, AttendanceType.LEAVE_WORK));
-        model.addAttribute("tardiness", userAttendanceRepository.countByUser_UserIdAndAttendance_GoWork(userId, AttendanceType.TARDINESS));
-        model.addAttribute("earlyLeave", userAttendanceRepository.countByUser_UserIdAndAttendance_LeaveWork(userId, AttendanceType.EARLY_LEAVE));
-        model.addAttribute("absent", userAttendanceRepository.countByUser_UserIdAndAttendance_LeaveWork(userId, AttendanceType.ABSENT));
+        model.addAttribute("work", userAttendanceRepository.countByUser_IdentityAndAttendance_GoWorkAndAttendance_LeaveWork(principal.getName(), AttendanceType.GO_WORK, AttendanceType.LEAVE_WORK));
+        model.addAttribute("tardiness", userAttendanceRepository.countByUser_IdentityAndAttendance_GoWork(principal.getName(), AttendanceType.TARDINESS));
+        model.addAttribute("earlyLeave", userAttendanceRepository.countByUser_IdentityAndAttendance_LeaveWork(principal.getName(), AttendanceType.EARLY_LEAVE));
+        model.addAttribute("absent", userAttendanceRepository.countByUser_IdentityAndAttendance_LeaveWork(principal.getName(), AttendanceType.ABSENT));
 
         return "user/attendance/condition";
     }

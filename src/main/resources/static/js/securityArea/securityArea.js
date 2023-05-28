@@ -16,17 +16,13 @@ let index = {
 
 		create: function() {
 		    var param = $("#identity").val();
-		    var name = $("#name").val();
-		    var description = $("#description").val();
-		    var latitude = $("#latitude").val();
-		    var longitude = $("#longitude").val();
 
 			let data = {
-                           name: name,
-                           description: description,
+                           name: $("#name").val(),
+                           description: $("#description").val(),
                            location: {
-                                           latitude: latitude,
-                                           longitude: longitude
+                                           x: $("#x").val(),
+                                           y: $("#y").val()
                                      }
                        };
 
@@ -55,15 +51,15 @@ let index = {
 
     		    var name = $("#name").val();
     		    var description = $("#description").val();
-    		    var latitude = $("#latitude").val();
-    		    var longitude = $("#longitude").val();
+    		    var x = $("#x").val();
+    		    var y = $("#y").val();
 
     			let data = {
                                name: name,
                                description: description,
                                location: {
-                                               latitude: latitude,
-                                               longitude: longitude
+                                               x: x,
+                                               y: y
                                          }
                            };
 

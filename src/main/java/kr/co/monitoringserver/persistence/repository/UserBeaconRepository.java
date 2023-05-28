@@ -9,17 +9,12 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserBeaconRepository extends JpaRepository<UserBeacon, Long> {
-//    UserBeacon findByBeacon_BeaconId(Long beaconId);
+
+    UserBeacon findByBeacon_BeaconIdAndUser_UserId(Long beaconId, String identity);
 
     Optional<UserBeacon> findByUserBeaconId(Long userBeaconId);
 
-    Optional<UserBeacon> findByBeacon_BeaconId(Long userBeaconId);
-
-    List<UserBeacon> findByUser_UserId(Long userId);
+    List<UserBeacon> findByUser_Identity(String identity);
 
     Optional<UserBeacon> findByUserAndBeacon(User user, Beacon beacon);
-
-    List<UserBeacon> findAllByUser(User user);
-
-    Optional<UserBeacon> findByUserAndBeacon_BeaconId(User user, Long beaconId);
 }

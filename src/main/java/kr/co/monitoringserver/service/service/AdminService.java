@@ -142,10 +142,13 @@ public class AdminService {
         return indexNotificationRepository.findAll(pageable);
     }
 
+    /**
+     * deleteAlert : 관리자페이지의 최근 알림 1개를 삭제한다.
+     */
     @Transactional
-    public void deleteAlert(IndexNotificationReqDTO indexNotificationReqDTO){
+    public void deleteAlert(){
 
-        IndexNotification indexNotification = indexNotificationRepository.findByIndexAlertId(indexNotificationReqDTO.getIndexAlertId())
+        IndexNotification indexNotification = indexNotificationRepository.findTop1ByOrderByIndexAlertTimeDesc()
                 .orElseThrow(()->{
                     return new IllegalArgumentException("알림 조회 실패 : 알림을 찾을 수 없습니다.");
                 });
@@ -153,11 +156,23 @@ public class AdminService {
         indexNotificationRepository.delete(indexNotification);
     }
 
+    /**
+     * deleteAlertTopTen : 관리자페이지의 최근 알림 10개를 삭제한다.
+     */
     @Transactional
     public void deleteAlertTopTen(){
 
         List<IndexNotification> list = indexNotificationRepository.findTop10ByOrderByIndexAlertTimeDesc();
 
         indexNotificationRepository.deleteAll(list);
+    }
+
+    /**
+     *  deleteAlertAll : 관리자페이지의 모든 알림을 삭제한다.
+     */
+    @Transactional
+    public void deleteAlertAll() {
+
+        indexNotificationRepository.deleteAll();
     }
 }

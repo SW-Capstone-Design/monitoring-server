@@ -84,17 +84,17 @@ public class SecurityAreaApiController {
     /**
      * Detecting Access To User Security Area Controller
      */
-    @PostMapping("/access_log/{security_area_name}/{user_identity}")
-    public ResponseFormat<Void> detectingAccessToUserSecurityArea(@PathVariable(name = "user_identity") String userIdentity,
-                                                                  @PathVariable(name = "security_area_name") String securityAreaName) {
-
-        securityAreaService.detectingAccessToUserSecurityArea(userIdentity, securityAreaName);
-
-        return ResponseFormat.successMessage(
-                ResponseStatus.SUCCESS_EXECUTE,
-                userIdentity + "님의 보안구역 접근이 감지되었습니다"
-        );
-    }
+//    @PostMapping("/access_log/{security_area_name}/{user_identity}")
+//    public ResponseFormat<Void> detectingAccessToUserSecurityArea(@PathVariable(name = "user_identity") String userIdentity,
+//                                                                  @PathVariable(name = "security_area_name") String securityAreaName) {
+//
+//        securityAreaService.handleUserAccessToSecurityZone(userIdentity, securityAreaName);
+//
+//        return ResponseFormat.successMessage(
+//                ResponseStatus.SUCCESS_EXECUTE,
+//                userIdentity + "님의 보안구역 접근이 감지되었습니다"
+//        );
+//    }
 
     /**
      * Get User Security Area By User And Security Area Controller

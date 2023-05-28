@@ -37,7 +37,7 @@ public class SecurityAreaLocationService {
     public boolean isUserInsideZone(Location userLocation, SecurityArea securityArea) {
 
         // 사용자 위치와 보안 구역의 위치를 비교하여 접근 여부를 판별합니다.
-
+        return true;
     }
 
     // 사용자가 보안 구역 내에 접근하는 경우 보안 구역 출입 기록 정보를 생성하는 메서드

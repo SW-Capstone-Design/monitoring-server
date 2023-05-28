@@ -82,7 +82,7 @@
                 },
 
                 condition: function() {
-                    location.href="/attendance/list/condition/${principal.user.userId}"
+                    location.href="/attendance/list/condition"
                 }
         }
     index.init();
