@@ -45,7 +45,8 @@ public class SecurityArea extends BaseEntity {
     })
     private Location upperRight;
 
-    @OneToMany(mappedBy = "securityArea")
+    @OneToMany(mappedBy = "securityArea",
+               cascade = CascadeType.REMOVE)
     private List<UserSecurityArea> userSecurityAreas = new ArrayList<>();
 
     @OneToMany(mappedBy = "securityArea")

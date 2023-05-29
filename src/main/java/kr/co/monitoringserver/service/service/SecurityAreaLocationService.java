@@ -51,14 +51,15 @@ public class SecurityAreaLocationService {
     /**
      * Create SecurityArea Access Log Service
      */
-    public void createSecurityAreaAccessLog(boolean isInsideSecurityArea, boolean isAuthorization, User user, SecurityArea securityArea) {
+    public void createSecurityAreaAccessLog(boolean isAuthorization, User user, SecurityArea securityArea) {
 
-        // 사용자가 보안구역 내에 있을 경우(조건이 참일 경우), 보안구역 출입 기록 정보 생성
-        if (isInsideSecurityArea && isAuthorization) {
-            UserSecurityArea userSecurityArea = securityAreaMapper.toUserSecurityAreaEntity(user, securityArea, LocalTime.now());
+        UserSecurityArea userSecurityArea =
+                securityAreaMapper.toUserSecurityAreaEntity(user, securityArea, LocalTime.now());
 
-            userSecurityAreaRepository.save(userSecurityArea);
-        } else {
+        userSecurityAreaRepository.save(userSecurityArea);
+
+        // 비인가 사용자에 대한 경고 알림 생성
+        if (!isAuthorization) {
             warningNotificationService.createAndSendWarningNotification(user);
         }
     }

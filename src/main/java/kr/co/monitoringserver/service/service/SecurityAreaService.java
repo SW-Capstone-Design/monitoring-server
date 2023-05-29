@@ -126,7 +126,9 @@ public class SecurityAreaService {
         boolean isInsideSecurityArea = securityAreaLocationService.isUserInsideSecurityArea(user, securityArea);
 
         // 사용자가 보안구역 내에 있을 경우, 보안구역 출입 기록 정보를 생성 : 사용자-보안구역 위치 서비스 호출
-        securityAreaLocationService.createSecurityAreaAccessLog(isInsideSecurityArea, isAuthorization, user, securityArea);
+        if (isInsideSecurityArea) {
+            securityAreaLocationService.createSecurityAreaAccessLog(isAuthorization, user, securityArea);
+        }
 
         return isAuthorization;
     }
