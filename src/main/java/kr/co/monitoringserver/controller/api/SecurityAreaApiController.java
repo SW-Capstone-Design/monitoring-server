@@ -2,14 +2,16 @@ package kr.co.monitoringserver.controller.api;
 
 import kr.co.monitoringserver.infra.global.model.ResponseFormat;
 import kr.co.monitoringserver.infra.global.model.ResponseStatus;
+import kr.co.monitoringserver.service.dtos.request.SecurityAreaLocationReqDTO;
 import kr.co.monitoringserver.service.dtos.request.SecurityAreaReqDTO;
+import kr.co.monitoringserver.service.dtos.response.SecurityAreaLocationResDTO;
 import kr.co.monitoringserver.service.dtos.response.SecurityAreaResDTO;
-import kr.co.monitoringserver.service.dtos.response.UserSecurityAreaResDTO;
 import kr.co.monitoringserver.service.service.SecurityAreaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -82,31 +84,34 @@ public class SecurityAreaApiController {
 
 
     /**
-     * Detecting Access To User Security Area Controller
+     * Handle User Access To SecurityArea Controller
      */
-//    @PostMapping("/access_log/{security_area_name}/{user_identity}")
-//    public ResponseFormat<Void> detectingAccessToUserSecurityArea(@PathVariable(name = "user_identity") String userIdentity,
-//                                                                  @PathVariable(name = "security_area_name") String securityAreaName) {
-//
-//        securityAreaService.handleUserAccessToSecurityZone(userIdentity, securityAreaName);
-//
-//        return ResponseFormat.successMessage(
-//                ResponseStatus.SUCCESS_EXECUTE,
-//                userIdentity + "님의 보안구역 접근이 감지되었습니다"
-//        );
-//    }
+    @PostMapping("/access_log")
+    public ResponseFormat<Void> handleUserAccessToSecurityArea(@RequestBody @Validated SecurityAreaLocationReqDTO.CREATE create) {
+
+        boolean isAuthorized = securityAreaService.handleUserAccessToSecurityArea(create);
+
+        String message = isAuthorized ?
+                create.getUserIdentity() + "님의 보안구역 접근이 감지되었습니다. 인가된 사용자입니다." :
+                create.getUserIdentity() + "님의 보안구역 접근이 감지되었습니다. 비인가된 사용자입니다.";
+
+        return ResponseFormat.successMessage(
+                ResponseStatus.SUCCESS_EXECUTE,
+                message
+        );
+    }
 
     /**
-     * Get User Security Area By User And Security Area Controller
+     * Get User Security Area Access Logs Controller
      */
-    @GetMapping("/access_log/{security_area_name}/{user_identity}")
-    public ResponseFormat<Page<UserSecurityAreaResDTO.READ>> getUserSecurityAreaByUserAndArea(@PathVariable(name = "user_identity") String userIdentity,
-                                                                                              @PathVariable(name = "security_area_name") String securityAreaName,
-                                                                                              @PageableDefault Pageable pageable) {
+    @GetMapping("/access_log/{security_area_id}/{user_identity}")
+    public ResponseFormat<Page<SecurityAreaLocationResDTO.READ>> getUserSecurityAreaAccessLogs(@PathVariable(name = "user_identity") String userIdentity,
+                                                                                               @PathVariable(name = "security_area_id") Long securityAreaId,
+                                                                                               @PageableDefault Pageable pageable) {
 
         return ResponseFormat.successData(
                 ResponseStatus.SUCCESS_EXECUTE,
-                securityAreaService.getUserSecurityAreaByUserAndSecurityArea(userIdentity, securityAreaName, pageable)
+                securityAreaService.getUserSecurityAreaAccessLogs(userIdentity, securityAreaId, pageable)
         );
     }
 }

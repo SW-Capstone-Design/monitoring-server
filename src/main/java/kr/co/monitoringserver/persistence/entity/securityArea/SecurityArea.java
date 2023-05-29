@@ -32,13 +32,17 @@ public class SecurityArea extends BaseEntity {
     private String description;
 
     @Embedded
-    @Column(name = "lower_left_corner",
-            nullable = false)
+    @AttributeOverrides({
+            @AttributeOverride(name = "x", column = @Column(name = "lower_left_corner_x", nullable = false)),
+            @AttributeOverride(name = "y", column = @Column(name = "lower_left_corner_y", nullable = false))
+    })
     private Location lowerLeft;
 
     @Embedded
-    @Column(name = "upper_right_corner",
-            nullable = false)
+    @AttributeOverrides({
+            @AttributeOverride(name = "x", column = @Column(name = "upper_right_corner_x", nullable = false)),
+            @AttributeOverride(name = "y", column = @Column(name = "upper_right_corner_y", nullable = false))
+    })
     private Location upperRight;
 
     @OneToMany(mappedBy = "securityArea")

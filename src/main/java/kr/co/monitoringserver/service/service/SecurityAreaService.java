@@ -4,14 +4,14 @@ import kr.co.monitoringserver.infra.global.exception.BadRequestException;
 import kr.co.monitoringserver.infra.global.exception.NotFoundException;
 import kr.co.monitoringserver.infra.global.exception.UnAuthenticateException;
 import kr.co.monitoringserver.infra.global.model.ResponseStatus;
-import kr.co.monitoringserver.persistence.entity.Location;
 import kr.co.monitoringserver.persistence.entity.securityArea.SecurityArea;
 import kr.co.monitoringserver.persistence.entity.user.User;
 import kr.co.monitoringserver.persistence.repository.SecurityAreaRepository;
 import kr.co.monitoringserver.persistence.repository.UserRepository;
+import kr.co.monitoringserver.service.dtos.request.SecurityAreaLocationReqDTO;
 import kr.co.monitoringserver.service.dtos.request.SecurityAreaReqDTO;
+import kr.co.monitoringserver.service.dtos.response.SecurityAreaLocationResDTO;
 import kr.co.monitoringserver.service.dtos.response.SecurityAreaResDTO;
-import kr.co.monitoringserver.service.dtos.response.UserSecurityAreaResDTO;
 import kr.co.monitoringserver.service.enums.RoleType;
 import kr.co.monitoringserver.service.mappers.SecurityAreaMapper;
 import lombok.RequiredArgsConstructor;
@@ -39,7 +39,7 @@ public class SecurityAreaService {
     @Transactional
     public void createSecurityArea(String userIdentity, SecurityAreaReqDTO.CREATE create) {
 
-        checkSecurityAreaAccess(userIdentity);
+        checkUserAuthorization(userIdentity);
 
         SecurityArea securityArea = securityAreaMapper.toSecurityAreaEntity(create);
 
@@ -51,7 +51,7 @@ public class SecurityAreaService {
      */
     public Page<SecurityAreaResDTO.READ> getSecurityAreaById(String userIdentity, Long securityAreaId, Pageable pageable) {
 
-        checkSecurityAreaAccess(userIdentity);
+        checkUserAuthorization(userIdentity);
 
         Page<SecurityArea> securityAreaPage = securityAreaRepository.findById(securityAreaId, pageable);
 
@@ -85,7 +85,7 @@ public class SecurityAreaService {
     @Transactional
     public void updateSecurityArea(String userIdentity, Long securityAreaId, SecurityAreaReqDTO.UPDATE update) {
 
-        checkSecurityAreaAccess(userIdentity);
+        checkUserAuthorization(userIdentity);
 
         final SecurityArea securityArea = securityAreaRepository.findById(securityAreaId)
                 .orElseThrow(() -> new NotFoundException(ResponseStatus.NOT_FOUND_SECURITY_AREA));
@@ -99,7 +99,7 @@ public class SecurityAreaService {
     @Transactional
     public void deleteSecurityArea(String userIdentity, Long securityAreaId) {
 
-        checkSecurityAreaAccess(userIdentity);
+        checkUserAuthorization(userIdentity);
 
         final SecurityArea securityArea = securityAreaRepository.findById(securityAreaId)
                 .orElseThrow(() -> new NotFoundException(ResponseStatus.NOT_FOUND_SECURITY_AREA));
@@ -108,33 +108,46 @@ public class SecurityAreaService {
     }
 
     /**
-     * Detecting Access To User Security Area Service
+     * Handle User Access To SecurityArea Service
      */
     @Transactional
-    public void handleUserAccessToSecurityZone(String userIdentity, Location location, Long securityAreaId) {
+    public boolean handleUserAccessToSecurityArea(SecurityAreaLocationReqDTO.CREATE create) {
+
+        // 사용자 인가 권한 여부 확인
+        boolean isAuthorization = checkUserAuthorization(create.getUserIdentity());
+
+        final User user = userRepository.findByIdentity(create.getUserIdentity())
+                .orElseThrow(BadRequestException::new);
+
+        final SecurityArea securityArea = securityAreaRepository.findById(create.getSecurityAreaId())
+                .orElseThrow(() -> new NotFoundException(ResponseStatus.NOT_FOUND_SECURITY_AREA));
+
+        // 사용자가 보안구역 내에 있는지 확인 : 사용자-보안구역 위치 서비스 호출
+        boolean isInsideSecurityArea = securityAreaLocationService.isUserInsideSecurityArea(user, securityArea);
+
+        // 사용자가 보안구역 내에 있을 경우, 보안구역 출입 기록 정보를 생성 : 사용자-보안구역 위치 서비스 호출
+        securityAreaLocationService.createSecurityAreaAccessLog(isInsideSecurityArea, isAuthorization, user, securityArea);
+
+        return isAuthorization;
+    }
+
+    /**
+     * Get User Security Area Access Logs Service
+     */
+    public Page<SecurityAreaLocationResDTO.READ> getUserSecurityAreaAccessLogs(String userIdentity, Long securityAreaId, Pageable pageable) {
+
+        final User user = userRepository.findByIdentity(userIdentity)
+                .orElseThrow(BadRequestException::new);
 
         final SecurityArea securityArea = securityAreaRepository.findById(securityAreaId)
                 .orElseThrow(() -> new NotFoundException(ResponseStatus.NOT_FOUND_SECURITY_AREA));
 
-        // 2. 사용자의 권한을 확인하는 메서드 호출
-        boolean isUserAuthorized = checkUserAuthorization(userIdentity);
-
-        // 3. 사용자-보안 구역 위치 서비스 호출
-        boolean isUserInsideSecurityArea = securityAreaLocationService.isUserInsideZone(location, securityArea);
-
-        // 5. 보안 구역 출입 기록 저장
-        if (isUserInsideSecurityArea) {
-            securityAreaLocationService.saveUserSecurityZoneAccessRecord(securityArea, isUserAuthorized);
-        }
-
-
-
-        // detecting 로직은 사용자 인가 여부와 사용자-보안구역 위치 서비스를 호출
-
-        // 사용자의 위치와 보안구역의 위치를 비교 : 만약 사용자가 보안구역의 위치랑 일치할 경우, 보안구역 출입 기록을 생성
+        return securityAreaLocationService.getSecurityAccessLogByArea(user, securityArea, pageable);
     }
 
-    // 인가 혹은 비인가 사용자 여부 확인
+
+
+    // 사용자 인가 권한 여부 확인
     private boolean checkUserAuthorization(String userIdentity) {
 
         final User user = userRepository.findByIdentity(userIdentity)
@@ -143,33 +156,6 @@ public class SecurityAreaService {
         if (user.getRoleType().equals(RoleType.ADMIN)) {
             return true;
         } else {
-            throw new UnAuthenticateException();
-        }
-    }
-
-    /**
-     * Get User Security Area By User And Security Area Service
-     * TODO : 메서드명 직관적이게 수정
-     */
-    public Page<UserSecurityAreaResDTO.READ> getUserSecurityAreaByUserAndSecurityArea(String userIdentity, String securityAreaName, Pageable pageable) {
-
-        final User user = userRepository.findByIdentity(userIdentity)
-                .orElseThrow(BadRequestException::new);
-
-        final SecurityArea securityArea = securityAreaLocationService.verifyAccessToSecurityArea(securityAreaName);
-
-        return securityAreaLocationService.getSecurityAccessLogByArea(user, securityArea, pageable);
-    }
-
-
-
-    // 사용자 권한 검사
-    private void checkSecurityAreaAccess(String userIdentity) {
-
-        final User user = userRepository.findByIdentity(userIdentity)
-                .orElseThrow(BadRequestException::new);
-
-        if (!user.getRoleType().equals(RoleType.ADMIN)) {
             throw new UnAuthenticateException();
         }
     }

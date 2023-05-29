@@ -6,7 +6,7 @@ import lombok.*;
 
 import java.time.LocalTime;
 
-public class UserSecurityAreaResDTO {
+public class SecurityAreaLocationResDTO {
 
     @Getter
     @Builder

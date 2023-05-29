@@ -11,9 +11,9 @@ import lombok.NoArgsConstructor;
 @Embeddable
 public class Location {
 
-    private double x;
+    private double x = 0.0;
 
-    private double y;
+    private double y = 0.0;
 
 
     @Builder

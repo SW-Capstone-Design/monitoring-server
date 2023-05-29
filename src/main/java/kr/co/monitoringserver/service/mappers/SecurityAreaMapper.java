@@ -5,8 +5,8 @@ import kr.co.monitoringserver.persistence.entity.securityArea.SecurityArea;
 import kr.co.monitoringserver.persistence.entity.securityArea.UserSecurityArea;
 import kr.co.monitoringserver.persistence.entity.user.User;
 import kr.co.monitoringserver.service.dtos.request.SecurityAreaReqDTO;
+import kr.co.monitoringserver.service.dtos.response.SecurityAreaLocationResDTO;
 import kr.co.monitoringserver.service.dtos.response.SecurityAreaResDTO;
-import kr.co.monitoringserver.service.dtos.response.UserSecurityAreaResDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -59,5 +59,5 @@ public interface SecurityAreaMapper {
     @Mapping(source = "user.roleType", target = "userRoleType")
     @Mapping(source = "user.department", target = "userDepartment")
     @Mapping(source = "accessTime", target = "accessTime")
-    UserSecurityAreaResDTO.READ toUserSecurityAreaReadDto(UserSecurityArea userSecurityArea);
+    SecurityAreaLocationResDTO.READ toUserSecurityAreaReadDto(UserSecurityArea userSecurityArea);
 }
