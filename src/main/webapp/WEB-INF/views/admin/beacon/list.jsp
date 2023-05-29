@@ -25,20 +25,29 @@
       </tr>
     </thead>
     <tbody>
-    <c:forEach items="${lists.content}" var="beacon">
-      <tr>
-        <td>${beacon.beaconId}</td>
-        <td>${beacon.beaconName}</td>
-        <td>${beacon.uuid}</td>
-        <td>${beacon.major}</td>
-        <td>${beacon.minor}</td>
-        <td>${beacon.battery} %</td>
-        <td>${beacon.beaconRole}</td>
-        <td>${beacon.location.x}</td>
-        <td>${beacon.location.y}</td>
-        <td><b><a href="/admin/beacon/info/${beacon.beaconId}">수정</a></b></td>
-      </tr>
-      </c:forEach>
+      <c:choose>
+        <c:when test="${empty lists.content}">
+            <tr>
+                <td colspan="10" style="text-align:center;">조회결과가 없습니다.</td>
+            </tr>
+        </c:when>
+    <c:otherwise>
+        <c:forEach items="${lists.content}" var="beacon">
+          <tr>
+            <td>${beacon.beaconId}</td>
+            <td>${beacon.beaconName}</td>
+            <td>${beacon.uuid}</td>
+            <td>${beacon.major}</td>
+            <td>${beacon.minor}</td>
+            <td>${beacon.battery} %</td>
+            <td>${beacon.beaconRole}</td>
+            <td>${beacon.location.x}</td>
+            <td>${beacon.location.y}</td>
+            <td><b><a href="/admin/beacon/info/${beacon.beaconId}">수정</a></b></td>
+          </tr>
+          </c:forEach>
+          </c:otherwise>
+      </c:choose>
     </tbody>
   </table>
 

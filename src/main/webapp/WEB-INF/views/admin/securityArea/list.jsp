@@ -21,16 +21,25 @@
       </tr>
     </thead>
     <tbody>
-    <c:forEach items="${lists.content}" var="securityArea">
-      <tr>
-        <td>${securityArea.id}</td>
-        <td>${securityArea.name}</td>
-        <td>${securityArea.description}</td>
-        <td>${securityArea.securityAreaLocation.x}</td>
-        <td>${securityArea.securityAreaLocation.y}</td>
-        <td><b><a href="/admin/area/info/${securityArea.id}">수정</a></b></td>
-      </tr>
-      </c:forEach>
+      <c:choose>
+        <c:when test="${empty lists.content}">
+            <tr>
+                <td colspan="6" style="text-align:center;">조회결과가 없습니다.</td>
+            </tr>
+        </c:when>
+    <c:otherwise>
+        <c:forEach items="${lists.content}" var="securityArea">
+          <tr>
+            <td>${securityArea.id}</td>
+            <td>${securityArea.name}</td>
+            <td>${securityArea.description}</td>
+            <td>${securityArea.securityAreaLocation.x}</td>
+            <td>${securityArea.securityAreaLocation.y}</td>
+            <td><b><a href="/admin/area/info/${securityArea.id}">수정</a></b></td>
+          </tr>
+          </c:forEach>
+          </c:otherwise>
+      </c:choose>
     </tbody>
   </table>
   <button style="display:inline-block; float:left;" type="button" id="btn-createForm" class="btn btn-dark">보안구역등록</button>
