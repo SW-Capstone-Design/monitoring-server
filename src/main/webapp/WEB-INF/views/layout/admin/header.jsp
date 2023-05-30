@@ -30,7 +30,7 @@ textarea {
 }
 </style>
 </head>
-<body>
+<body onload="draw();">
 	<nav class="navbar navbar-expand-md bg-dark navbar-dark">
 		<a class="navbar-brand" href="/admin/index">통합관제시스템</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">

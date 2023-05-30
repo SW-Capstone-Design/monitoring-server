@@ -20,10 +20,14 @@ let index = {
 			let data = {
                            name: $("#name").val(),
                            description: $("#description").val(),
-                           location: {
-                                           x: $("#x").val(),
-                                           y: $("#y").val()
-                                     }
+                           lowerLeft: {
+                                        x: $('#lowerLeft_X').val(),
+                                        y: $('#lowerLeft_Y').val()
+                           },
+                           upperRight: {
+                                        x: $('#upperRight_X').val(),
+                                        y: $('#upperRight_Y').val()
+                           }
                        };
 
        $.ajax({
@@ -49,18 +53,17 @@ let index = {
     		    var param1 = $("#identity").val();
     		    var param2 = $("#securityAreaId").val();
 
-    		    var name = $("#name").val();
-    		    var description = $("#description").val();
-    		    var x = $("#x").val();
-    		    var y = $("#y").val();
-
     			let data = {
-                               name: name,
-                               description: description,
-                               location: {
-                                               x: x,
-                                               y: y
-                                         }
+                               name: $("#name").val(),
+                               description: $("#description").val(),
+                               lowerLeft: {
+                                            x: $('#lowerLeft_X').val(),
+                                            y: $('#lowerLeft_Y').val()
+                               },
+                               upperRight: {
+                                            x: $('#upperRight_X').val(),
+                                            y: $('#upperRight_Y').val()
+                               }
                            };
 
            $.ajax({

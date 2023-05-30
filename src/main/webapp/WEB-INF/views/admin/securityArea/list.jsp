@@ -15,8 +15,8 @@
         <th>보안구역 ID</th>
         <th>보안구역명</th>
         <th>명세</th>
-        <th>위도</th>
-        <th>경도</th>
+        <th>upperRight A좌표</th>
+        <th>lowerLeft B좌표</th>
         <th></th>
       </tr>
     </thead>
@@ -33,8 +33,8 @@
             <td>${securityArea.id}</td>
             <td>${securityArea.name}</td>
             <td>${securityArea.description}</td>
-            <td>${securityArea.securityAreaLocation.x}</td>
-            <td>${securityArea.securityAreaLocation.y}</td>
+            <td>${securityArea.lowerLeft}</td>
+            <td>${securityArea.upperRight}</td>
             <td><b><a href="/admin/area/info/${securityArea.id}">수정</a></b></td>
           </tr>
           </c:forEach>
