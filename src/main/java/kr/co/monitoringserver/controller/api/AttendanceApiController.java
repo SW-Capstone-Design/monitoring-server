@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -25,10 +24,9 @@ public class AttendanceApiController {
      * Create And Save User Clock In Controller
      */
     @PostMapping("/clock_in/{user_identity}")
-    public ResponseFormat<Void> createAndSaveUserClockIn(@PathVariable(name = "user_identity") String userIdentity,
-                                                         @RequestBody @Validated AttendanceReqDTO.CREATE create) {
+    public ResponseFormat<Void> createAndSaveUserClockIn(@PathVariable(name = "user_identity") String userIdentity) {
 
-        attendanceService.createAndSaveUserClockIn(userIdentity, create);
+        attendanceService.createAndSaveUserClockIn(userIdentity);
 
         return ResponseFormat.successMessage(
                 ResponseStatus.SUCCESS_CREATED,
@@ -41,9 +39,9 @@ public class AttendanceApiController {
      */
     @PutMapping("/clock_out/{user_identity}")
     public ResponseFormat<Void> updateAndSaveUserClockOut(@PathVariable(name = "user_identity") String userIdentity,
-                                                          @RequestBody @Validated AttendanceReqDTO.UPDATE update) {
+                                                          @RequestParam(name = "date") LocalDate date) {
 
-        attendanceService.updateAndSaveUserClockOut(userIdentity, update);
+        attendanceService.updateAndSaveUserClockOut(userIdentity, date);
 
         return ResponseFormat.successMessage(
                 ResponseStatus.SUCCESS_CREATED,

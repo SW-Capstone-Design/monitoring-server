@@ -5,8 +5,10 @@ import kr.co.monitoringserver.infra.global.exception.DuplicatedException;
 import kr.co.monitoringserver.infra.global.exception.InvalidInputException;
 import kr.co.monitoringserver.infra.global.exception.NotFoundException;
 import kr.co.monitoringserver.infra.global.model.ResponseStatus;
+import kr.co.monitoringserver.persistence.entity.attendance.Attendance;
 import kr.co.monitoringserver.persistence.entity.attendance.UserAttendance;
 import kr.co.monitoringserver.persistence.entity.user.User;
+import kr.co.monitoringserver.persistence.repository.AttendanceRepository;
 import kr.co.monitoringserver.persistence.repository.UserAttendanceRepository;
 import kr.co.monitoringserver.persistence.repository.UserRepository;
 import kr.co.monitoringserver.service.dtos.request.AttendanceReqDTO;
@@ -35,47 +37,54 @@ public class AttendanceService {
 
     private final UserAttendanceRepository userAttendanceRepository;
 
-    private final AttendanceMapper attendanceMapper;
+    private final AttendanceRepository attendanceRepository;
 
-    // TODO : 수정 - 퇴근 정보 수정, 수정 로직 실행 시 기존에 생성된 출석 정보의 값을 수정하는게 아닌 새로운 출석 정보를 생성함
+    private final AttendanceMapper attendanceMapper;
 
     /**
      * Create And Save User Clock In Service
      */
     @Transactional
-    public void createAndSaveUserClockIn(String userIdentity, AttendanceReqDTO.CREATE create) {
+    public void createAndSaveUserClockIn(String userIdentity) {
 
         final User user = userRepository.findByIdentity(userIdentity)
                 .orElseThrow(BadRequestException::new);
 
-        isAttendanceAlreadyTakenOnDate(user, create.getDate());
+        isAttendanceAlreadyTakenOnDate(user, LocalDate.now());
 
-        AttendanceType goWork = Optional.ofNullable(create.getEnterTime())
+        AttendanceType goWork = Optional.ofNullable(LocalTime.now())
                 .map(this::calculateGoWorkAttendanceType)
                 .orElseThrow(InvalidInputException::new);
 
-        UserAttendance userAttendance = attendanceMapper.toUserAttendanceEntity(user, create, goWork);
+        Attendance attendance = attendanceMapper.toAttendanceEntity(goWork);
+
+        attendanceRepository.save(attendance);
+
+        UserAttendance userAttendance = attendanceMapper.toUserAttendanceEntity(user, attendance);
 
         userAttendanceRepository.save(userAttendance);
     }
 
     /**
      * Update And Save User Clock Out Service
+     * 사용자-출석 테이블에서 사용자 아이디와 해당 날짜로 정보를 가지고 와야 할거 같음
      */
     @Transactional
-    public void updateAndSaveUserClockOut(String userIdentity, AttendanceReqDTO.UPDATE update) {
+    public void updateAndSaveUserClockOut(String userIdentity, LocalDate date) {
 
         final User user = userRepository.findByIdentity(userIdentity)
                 .orElseThrow(BadRequestException::new);
 
-        final UserAttendance userAttendance = userAttendanceRepository.findByUserAndAttendance_Date(user, update.getDate())
-                        .orElseThrow(() -> new NotFoundException(ResponseStatus.NOT_FOUND_ATTENDANCE));
+        final Attendance attendance = attendanceRepository.findByDate(date)
+                .orElseThrow(() -> new NotFoundException(ResponseStatus.NOT_FOUND_ATTENDANCE));
 
-        AttendanceType leaveWork = Optional.ofNullable(update.getLeaveTime())
+        validateUserClockInExists(user, attendance);
+
+        AttendanceType leaveWork = Optional.ofNullable(LocalTime.now())
                 .map(this::calculateLeaveWorkAttendanceType)
                 .orElseThrow(InvalidInputException::new);
 
-        userAttendance.updateClockOutRecord(update, leaveWork);
+        attendance.updateClockOutRecord(leaveWork);
     }
 
     /**
@@ -212,9 +221,13 @@ public class AttendanceService {
         return new PageImpl<>(attendanceList, pageable, userAttendancePage.getTotalElements());
     }
 
-    private void validateUserClockInExists(UserAttendance userAttendance) {
+    private void validateUserClockInExists(User user, Attendance attendance) {
 
-        if (userAttendance.getAttendance().getGoWork() == null) {
+        final UserAttendance userAttendance = userAttendanceRepository.findByUserAndAttendance(user, attendance)
+                .orElseThrow(() -> new NotFoundException(ResponseStatus.NOT_FOUND_ATTENDANCE));
+
+        if (userAttendance.getAttendance().getGoWork()  == null) {
+
             throw new NotFoundException(ResponseStatus.NOT_FOUND_ATTENDANCE);
         }
     }

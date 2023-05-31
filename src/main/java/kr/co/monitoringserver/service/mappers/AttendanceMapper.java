@@ -3,24 +3,32 @@ package kr.co.monitoringserver.service.mappers;
 import kr.co.monitoringserver.persistence.entity.attendance.Attendance;
 import kr.co.monitoringserver.persistence.entity.attendance.UserAttendance;
 import kr.co.monitoringserver.persistence.entity.user.User;
-import kr.co.monitoringserver.service.dtos.request.AttendanceReqDTO;
 import kr.co.monitoringserver.service.dtos.response.AttendanceResDTO;
 import kr.co.monitoringserver.service.enums.AttendanceType;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 @Mapper(componentModel = "spring")
 public interface AttendanceMapper {
 
-    default UserAttendance toUserAttendanceEntity(User user, AttendanceReqDTO.CREATE create, AttendanceType goWork) {
+
+    default Attendance toAttendanceEntity(AttendanceType goWork) {
+
+        return Attendance.builder()
+                .enterTime(LocalTime.now())
+                .goWork(goWork)
+                .date(LocalDate.now())
+                .build();
+    }
+
+    default UserAttendance toUserAttendanceEntity(User user, Attendance attendance) {
 
         return UserAttendance.builder()
                 .user(user)
-                .attendance(Attendance.builder()
-                        .enterTime(create.getEnterTime())
-                        .goWork(goWork)
-                        .date(create.getDate())
-                        .build())
+                .attendance(attendance)
                 .build();
     }
 

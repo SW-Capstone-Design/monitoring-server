@@ -50,13 +50,4 @@ public class UserAttendance extends BaseEntity {
                 .date(update.getDate())
                 .build();
     }
-
-    public void updateClockOutRecord(AttendanceReqDTO.UPDATE update,
-                                     AttendanceType leaveWork) {
-
-        this.attendance = Attendance.builder()
-                .leaveTime(update.getLeaveTime())
-                .leaveWork(leaveWork)
-                .build();
-    }
 }

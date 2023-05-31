@@ -59,4 +59,11 @@ public class Attendance extends BaseEntity {
         this.date = date;
         this.attendanceDays = attendanceDays;
     }
+
+
+    public void updateClockOutRecord(AttendanceType leaveWork) {
+
+        this.leaveTime = LocalTime.now();
+        this.leaveWork = leaveWork;
+    }
 }
