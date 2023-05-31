@@ -68,16 +68,19 @@ public class AttendanceService {
 
     /**
      * Update And Save User Clock Out Service
-     * 사용자-출석 테이블에서 사용자 아이디와 해당 날짜로 정보를 가지고 와야 할거 같음
      */
     @Transactional
-    public void updateAndSaveUserClockOut(String userIdentity, LocalDate date) {
+    public void updateAndSaveUserClockOut(String userIdentity) {
 
         final User user = userRepository.findByIdentity(userIdentity)
                 .orElseThrow(BadRequestException::new);
 
-        final Attendance attendance = attendanceRepository.findByDate(date)
+        LocalDate today = LocalDate.now();
+
+        final UserAttendance userAttendance = userAttendanceRepository.findByUserAndAttendance_Date(user, today)
                 .orElseThrow(() -> new NotFoundException(ResponseStatus.NOT_FOUND_ATTENDANCE));
+
+        final Attendance attendance = userAttendance.getAttendance();
 
         checkUserAttendanceExists(user, attendance);
 

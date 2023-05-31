@@ -10,6 +10,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalTime;
+
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
@@ -48,6 +50,15 @@ public class UserAttendance extends BaseEntity {
                 .goWork(goWork)
                 .leaveWork(leaveWork)
                 .date(update.getDate())
+                .build();
+    }
+
+    public void updateClockOutRecord(LocalTime leaveTime,
+                                     AttendanceType leaveWork) {
+
+        this.attendance = Attendance.builder()
+                .leaveTime(leaveTime)
+                .leaveWork(leaveWork)
                 .build();
     }
 }

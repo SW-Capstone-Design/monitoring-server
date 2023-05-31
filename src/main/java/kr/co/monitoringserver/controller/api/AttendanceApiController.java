@@ -39,10 +39,9 @@ public class AttendanceApiController {
      * Update And Save User Clock Out Controller
      */
     @PutMapping("/clock_out/{user_identity}")
-    public ResponseFormat<Void> updateAndSaveUserClockOut(@PathVariable(name = "user_identity") String userIdentity,
-                                                          @RequestParam(name = "date") LocalDate date) {
+    public ResponseFormat<Void> updateAndSaveUserClockOut(@PathVariable(name = "user_identity") String userIdentity) {
 
-        attendanceService.updateAndSaveUserClockOut(userIdentity, date);
+        attendanceService.updateAndSaveUserClockOut(userIdentity);
 
         return ResponseFormat.successMessage(
                 ResponseStatus.SUCCESS_CREATED,
