@@ -11,7 +11,7 @@ import kr.co.monitoringserver.persistence.entity.user.User;
 import kr.co.monitoringserver.persistence.repository.AttendanceRepository;
 import kr.co.monitoringserver.persistence.repository.UserAttendanceRepository;
 import kr.co.monitoringserver.persistence.repository.UserRepository;
-import kr.co.monitoringserver.service.dtos.request.AttendanceReqDTO;
+import kr.co.monitoringserver.service.dtos.request.attendance.AttendanceReqDTO;
 import kr.co.monitoringserver.service.dtos.response.AttendanceResDTO;
 import kr.co.monitoringserver.service.enums.AttendanceType;
 import kr.co.monitoringserver.service.mappers.AttendanceMapper;

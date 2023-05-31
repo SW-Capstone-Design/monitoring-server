@@ -1,4 +1,4 @@
-package kr.co.monitoringserver.service.service;
+package kr.co.monitoringserver.service.service.beacon;
 
 import kr.co.monitoringserver.controller.api.AdminApiController;
 import kr.co.monitoringserver.infra.global.exception.BadRequestException;

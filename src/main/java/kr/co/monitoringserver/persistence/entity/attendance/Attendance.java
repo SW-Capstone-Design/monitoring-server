@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Map;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -30,11 +29,6 @@ public class Attendance extends BaseEntity {
     @Column(name = "date", length = 30)
     private LocalDate date;         // 출근 일자
 
-    @ElementCollection
-    @MapKeyEnumerated(EnumType.STRING)
-    @Column(name = "attendance_days")
-    private Map<AttendanceType, Integer> attendanceDays;    // 출석 일수
-
     @Enumerated(value = EnumType.STRING)
     @Column(name = "go_work")
     private AttendanceType goWork;  // 출근 상태 종류
@@ -49,15 +43,13 @@ public class Attendance extends BaseEntity {
                        AttendanceType leaveWork,
                        LocalTime enterTime,
                        LocalTime leaveTime,
-                       LocalDate date,
-                       Map<AttendanceType, Integer> attendanceDays) {
+                       LocalDate date) {
 
         this.goWork = goWork;
         this.leaveWork = leaveWork;
         this.enterTime = enterTime;
         this.leaveTime = leaveTime;
         this.date = date;
-        this.attendanceDays = attendanceDays;
     }
 
 

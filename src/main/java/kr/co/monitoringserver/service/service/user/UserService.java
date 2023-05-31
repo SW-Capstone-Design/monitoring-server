@@ -11,7 +11,7 @@ import kr.co.monitoringserver.persistence.repository.UserBeaconRepository;
 import kr.co.monitoringserver.persistence.repository.UserRepository;
 import kr.co.monitoringserver.service.dtos.request.user.UserReqDTO;
 import kr.co.monitoringserver.service.enums.AttendanceType;
-import kr.co.monitoringserver.service.enums.RoleType;
+import kr.co.monitoringserver.service.enums.UserRoleType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -54,7 +54,7 @@ public class UserService {
                 .name(userDto.getName())
                 .telephone(userDto.getTelephone())
                 .department(userDto.getDepartment())
-                .roleType(RoleType.USER1)
+                .userRoleType(UserRoleType.USER1)
                 .location(Location.builder()
                         .x(.0)
                         .y(.0)

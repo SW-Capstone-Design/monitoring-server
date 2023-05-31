@@ -6,7 +6,7 @@ import kr.co.monitoringserver.persistence.entity.Location;
 import kr.co.monitoringserver.persistence.entity.attendance.UserAttendance;
 import kr.co.monitoringserver.persistence.entity.beacon.UserBeacon;
 import kr.co.monitoringserver.persistence.entity.securityArea.UserSecurityArea;
-import kr.co.monitoringserver.service.enums.RoleType;
+import kr.co.monitoringserver.service.enums.UserRoleType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -44,8 +44,8 @@ public class User {
     private String department;
 
     @Enumerated(EnumType.STRING)
-    @Column(name="role_type")
-    private RoleType roleType;
+    @Column(name="user_role_type")
+    private UserRoleType userRoleType;
 
     @CreationTimestamp
     @Column(name="created_at")

@@ -56,7 +56,7 @@ public interface SecurityAreaMapper {
     @Mapping(source = "securityArea.name", target = "securityAreaName")
     @Mapping(source = "securityArea.description", target = "securityAreaDescription")
     @Mapping(source = "user.name", target = "userName")
-    @Mapping(source = "user.roleType", target = "userRoleType")
+    @Mapping(source = "user.userRoleType", target = "userRoleType")
     @Mapping(source = "user.department", target = "userDepartment")
     @Mapping(source = "accessTime", target = "accessTime")
     SecurityAreaLocationResDTO.READ toUserSecurityAreaReadDto(UserSecurityArea userSecurityArea);

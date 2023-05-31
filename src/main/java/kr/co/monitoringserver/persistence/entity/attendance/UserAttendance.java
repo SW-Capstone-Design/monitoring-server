@@ -3,7 +3,7 @@ package kr.co.monitoringserver.persistence.entity.attendance;
 import jakarta.persistence.*;
 import kr.co.monitoringserver.persistence.entity.BaseEntity;
 import kr.co.monitoringserver.persistence.entity.user.User;
-import kr.co.monitoringserver.service.dtos.request.AttendanceReqDTO;
+import kr.co.monitoringserver.service.dtos.request.attendance.AttendanceReqDTO;
 import kr.co.monitoringserver.service.enums.AttendanceType;
 import lombok.AccessLevel;
 import lombok.Builder;

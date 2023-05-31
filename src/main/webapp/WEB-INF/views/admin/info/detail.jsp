@@ -30,8 +30,8 @@
         </div>
         <p id="valid_telephone"></p>
        <div class="form-group">
-            <label for="roleType">보안등급</label>
-            <input type="roleType" value="${list.roleType}" class="form-control" placeholder="Enter roleType" id="roleType">
+            <label for="userRoleType">보안등급</label>
+            <input type="userRoleType" value="${list.userRoleType}" class="form-control" placeholder="Enter userRoleType" id="userRoleType">
         <p style="color:red;">USER1, USER2, USER3</p>
        </div>
 	</form>

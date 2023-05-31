@@ -6,7 +6,7 @@ import kr.co.monitoringserver.persistence.entity.user.User;
 import kr.co.monitoringserver.persistence.repository.UserSecurityAreaRepository;
 import kr.co.monitoringserver.service.dtos.response.SecurityAreaLocationResDTO;
 import kr.co.monitoringserver.service.mappers.SecurityAreaMapper;
-import kr.co.monitoringserver.service.service.WarningNotificationService;
+import kr.co.monitoringserver.service.service.alert.WarningNotificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

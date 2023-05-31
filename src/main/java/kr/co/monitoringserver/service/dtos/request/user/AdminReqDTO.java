@@ -2,7 +2,7 @@ package kr.co.monitoringserver.service.dtos.request.user;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
-import kr.co.monitoringserver.service.enums.RoleType;
+import kr.co.monitoringserver.service.enums.UserRoleType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -30,5 +30,5 @@ public class AdminReqDTO {
     @Pattern(regexp = "^\\d{2,3}-\\d{3,4}-\\d{4}$", message = "10~11자리의 숫자만 입력가능합니다")
     private String telephone;
 
-    private RoleType roleType;
+    private UserRoleType userRoleType;
 }

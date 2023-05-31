@@ -2,7 +2,7 @@ package kr.co.monitoringserver.controller.api;
 
 import kr.co.monitoringserver.infra.global.model.ResponseFormat;
 import kr.co.monitoringserver.infra.global.model.ResponseStatus;
-import kr.co.monitoringserver.service.dtos.request.AttendanceReqDTO;
+import kr.co.monitoringserver.service.dtos.request.attendance.AttendanceReqDTO;
 import kr.co.monitoringserver.service.dtos.response.AttendanceResDTO;
 import kr.co.monitoringserver.service.service.attendance.AttendanceService;
 import lombok.RequiredArgsConstructor;

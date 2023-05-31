@@ -8,7 +8,7 @@ import kr.co.monitoringserver.persistence.repository.BeaconRepository;
 import kr.co.monitoringserver.persistence.repository.UserBeaconRepository;
 import kr.co.monitoringserver.service.dtos.request.beacon.BeaconReqDTO;
 import kr.co.monitoringserver.service.dtos.response.BeaconResDTO;
-import kr.co.monitoringserver.service.service.BeaconService;
+import kr.co.monitoringserver.service.service.beacon.BeaconService;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;

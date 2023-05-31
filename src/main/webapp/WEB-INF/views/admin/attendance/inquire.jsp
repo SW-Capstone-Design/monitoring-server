@@ -35,7 +35,7 @@
         <td>${userAttendance.user.identity}</td>
         <td>${userAttendance.user.name}</td>
         <td>${userAttendance.user.department}</td>
-        <td>${userAttendance.user.roleType}</td>
+        <td>${userAttendance.user.userRoleType}</td>
         <td>${userAttendance.attendance.enterTime}</td>
         <td>${userAttendance.attendance.leaveTime}</td>
         <td>${userAttendance.attendance.goWork}</td>

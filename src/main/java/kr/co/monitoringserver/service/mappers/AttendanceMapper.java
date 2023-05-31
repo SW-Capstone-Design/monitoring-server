@@ -32,20 +32,20 @@ public interface AttendanceMapper {
                 .build();
     }
 
-    @Mapping(source = "userAttendance.user.identity", target = "userIdentity")
-    @Mapping(source = "userAttendance.user.name", target = "userName")
-    @Mapping(source = "userAttendance.user.department", target = "userDepartment")
-    @Mapping(source = "userAttendance.user.roleType", target = "userRoleType")
-    @Mapping(source = "userAttendance.attendance.enterTime", target = "enterTime")
-    @Mapping(source = "userAttendance.attendance.leaveTime", target = "leaveTime")
-    @Mapping(source = "userAttendance.attendance.goWork", target = "goWork")
-    @Mapping(source = "userAttendance.attendance.leaveWork", target = "leaveWork")
-    @Mapping(source = "userAttendance.attendance.date", target = "date")
+    @Mapping(source = "user.identity", target = "userIdentity")
+    @Mapping(source = "user.name", target = "userName")
+    @Mapping(source = "user.department", target = "userDepartment")
+    @Mapping(source = "user.userRoleType", target = "userRoleType")
+    @Mapping(source = "attendance.enterTime", target = "enterTime")
+    @Mapping(source = "attendance.leaveTime", target = "leaveTime")
+    @Mapping(source = "attendance.goWork", target = "goWork")
+    @Mapping(source = "attendance.leaveWork", target = "leaveWork")
+    @Mapping(source = "attendance.date", target = "date")
     AttendanceResDTO.READ toUserAttendanceReadDto(UserAttendance userAttendance);
 
 
-    @Mapping(source = "userAttendance.attendance.goWork", target = "goWork")
-    @Mapping(source = "userAttendance.attendance.enterTime", target = "enterTime")
-    @Mapping(source = "userAttendance.attendance.date", target = "date")
+    @Mapping(source = "attendance.goWork", target = "goWork")
+    @Mapping(source = "attendance.enterTime", target = "enterTime")
+    @Mapping(source = "attendance.date", target = "date")
     AttendanceResDTO.READ toAttendTypeReadDto(UserAttendance userAttendance);
 }

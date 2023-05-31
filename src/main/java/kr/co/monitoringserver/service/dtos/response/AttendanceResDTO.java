@@ -1,7 +1,7 @@
 package kr.co.monitoringserver.service.dtos.response;
 
 import kr.co.monitoringserver.service.enums.AttendanceType;
-import kr.co.monitoringserver.service.enums.RoleType;
+import kr.co.monitoringserver.service.enums.UserRoleType;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -21,7 +21,7 @@ public class AttendanceResDTO {
 
         private String userDepartment;
 
-        private RoleType userRoleType;
+        private UserRoleType userRoleType;
 
         private LocalTime enterTime;
 

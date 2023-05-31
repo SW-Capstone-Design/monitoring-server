@@ -12,7 +12,7 @@ import kr.co.monitoringserver.service.dtos.request.securityArea.SecurityAreaLoca
 import kr.co.monitoringserver.service.dtos.request.securityArea.SecurityAreaReqDTO;
 import kr.co.monitoringserver.service.dtos.response.SecurityAreaLocationResDTO;
 import kr.co.monitoringserver.service.dtos.response.SecurityAreaResDTO;
-import kr.co.monitoringserver.service.enums.RoleType;
+import kr.co.monitoringserver.service.enums.UserRoleType;
 import kr.co.monitoringserver.service.mappers.SecurityAreaMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -155,7 +155,7 @@ public class SecurityAreaService {
         final User user = userRepository.findByIdentity(userIdentity)
                 .orElseThrow(BadRequestException::new);
 
-        if (user.getRoleType().equals(RoleType.ADMIN)) {
+        if (user.getUserRoleType().equals(UserRoleType.ADMIN)) {
             return true;
         } else {
             throw new UnAuthenticateException();

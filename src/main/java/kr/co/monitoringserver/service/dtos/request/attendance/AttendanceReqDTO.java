@@ -1,4 +1,4 @@
-package kr.co.monitoringserver.service.dtos.request;
+package kr.co.monitoringserver.service.dtos.request.attendance;
 
 import jakarta.validation.constraints.NotBlank;
 import kr.co.monitoringserver.service.enums.AttendanceType;

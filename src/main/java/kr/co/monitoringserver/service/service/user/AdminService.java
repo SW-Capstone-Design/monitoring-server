@@ -70,7 +70,7 @@ public class AdminService {
         persistence.setName(adminDto.getName());
         persistence.setDepartment(adminDto.getDepartment());
         persistence.setTelephone(adminDto.getTelephone());
-        persistence.setRoleType(adminDto.getRoleType());
+        persistence.setUserRoleType(adminDto.getUserRoleType());
     }
 
     /**
