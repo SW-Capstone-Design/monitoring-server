@@ -1,4 +1,4 @@
-package kr.co.monitoringserver.service.service;
+package kr.co.monitoringserver.service.service.user;
 
 import kr.co.monitoringserver.persistence.entity.alert.IndexNotification;
 import kr.co.monitoringserver.persistence.entity.attendance.UserAttendance;
@@ -6,9 +6,8 @@ import kr.co.monitoringserver.persistence.entity.user.User;
 import kr.co.monitoringserver.persistence.repository.IndexNotificationRepository;
 import kr.co.monitoringserver.persistence.repository.UserAttendanceRepository;
 import kr.co.monitoringserver.persistence.repository.UserRepository;
-import kr.co.monitoringserver.service.dtos.request.AdminReqDTO;
-import kr.co.monitoringserver.service.dtos.request.IndexNotificationReqDTO;
-import kr.co.monitoringserver.service.dtos.request.UserReqDTO;
+import kr.co.monitoringserver.service.dtos.request.user.AdminReqDTO;
+import kr.co.monitoringserver.service.dtos.request.user.UserReqDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

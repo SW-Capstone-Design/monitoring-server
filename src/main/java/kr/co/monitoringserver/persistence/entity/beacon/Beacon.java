@@ -2,7 +2,7 @@ package kr.co.monitoringserver.persistence.entity.beacon;
 
 import jakarta.persistence.*;
 import kr.co.monitoringserver.persistence.entity.Location;
-import kr.co.monitoringserver.service.dtos.request.BeaconReqDTO;
+import kr.co.monitoringserver.service.dtos.request.beacon.BeaconReqDTO;
 import kr.co.monitoringserver.service.enums.BeaconRoleType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

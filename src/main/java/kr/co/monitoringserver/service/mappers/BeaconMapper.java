@@ -4,7 +4,7 @@ import kr.co.monitoringserver.persistence.entity.Location;
 import kr.co.monitoringserver.persistence.entity.beacon.Beacon;
 import kr.co.monitoringserver.persistence.entity.beacon.UserBeacon;
 import kr.co.monitoringserver.persistence.entity.user.User;
-import kr.co.monitoringserver.service.dtos.request.BeaconReqDTO;
+import kr.co.monitoringserver.service.dtos.request.beacon.BeaconReqDTO;
 import kr.co.monitoringserver.service.dtos.response.BeaconResDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

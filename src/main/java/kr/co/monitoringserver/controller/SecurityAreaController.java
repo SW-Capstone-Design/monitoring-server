@@ -1,7 +1,7 @@
 package kr.co.monitoringserver.controller;
 
-import kr.co.monitoringserver.service.service.SecurityAreaLocationService;
-import kr.co.monitoringserver.service.service.SecurityAreaService;
+import kr.co.monitoringserver.service.service.securityArea.SecurityAreaLocationService;
+import kr.co.monitoringserver.service.service.securityArea.SecurityAreaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;

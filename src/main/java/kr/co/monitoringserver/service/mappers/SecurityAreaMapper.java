@@ -4,7 +4,7 @@ import kr.co.monitoringserver.persistence.entity.Location;
 import kr.co.monitoringserver.persistence.entity.securityArea.SecurityArea;
 import kr.co.monitoringserver.persistence.entity.securityArea.UserSecurityArea;
 import kr.co.monitoringserver.persistence.entity.user.User;
-import kr.co.monitoringserver.service.dtos.request.SecurityAreaReqDTO;
+import kr.co.monitoringserver.service.dtos.request.securityArea.SecurityAreaReqDTO;
 import kr.co.monitoringserver.service.dtos.response.SecurityAreaLocationResDTO;
 import kr.co.monitoringserver.service.dtos.response.SecurityAreaResDTO;
 import org.mapstruct.Mapper;

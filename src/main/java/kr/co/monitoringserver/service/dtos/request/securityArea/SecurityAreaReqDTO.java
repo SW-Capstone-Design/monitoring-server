@@ -1,4 +1,4 @@
-package kr.co.monitoringserver.service.dtos.request;
+package kr.co.monitoringserver.service.dtos.request.securityArea;
 
 import jakarta.validation.constraints.NotBlank;
 import kr.co.monitoringserver.persistence.entity.Location;

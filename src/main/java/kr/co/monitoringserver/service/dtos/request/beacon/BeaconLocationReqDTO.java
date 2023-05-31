@@ -1,4 +1,4 @@
-package kr.co.monitoringserver.service.dtos.request;
+package kr.co.monitoringserver.service.dtos.request.beacon;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.*;

@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import kr.co.monitoringserver.persistence.entity.BaseEntity;
 import kr.co.monitoringserver.persistence.entity.Location;
 import kr.co.monitoringserver.persistence.entity.alert.SecurityAreaWarning;
-import kr.co.monitoringserver.service.dtos.request.SecurityAreaReqDTO;
+import kr.co.monitoringserver.service.dtos.request.securityArea.SecurityAreaReqDTO;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;

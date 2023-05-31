@@ -1,4 +1,4 @@
-package kr.co.monitoringserver.service.service;
+package kr.co.monitoringserver.service.service.securityArea;
 
 import kr.co.monitoringserver.infra.global.exception.BadRequestException;
 import kr.co.monitoringserver.infra.global.exception.NotFoundException;
@@ -8,8 +8,8 @@ import kr.co.monitoringserver.persistence.entity.securityArea.SecurityArea;
 import kr.co.monitoringserver.persistence.entity.user.User;
 import kr.co.monitoringserver.persistence.repository.SecurityAreaRepository;
 import kr.co.monitoringserver.persistence.repository.UserRepository;
-import kr.co.monitoringserver.service.dtos.request.SecurityAreaLocationReqDTO;
-import kr.co.monitoringserver.service.dtos.request.SecurityAreaReqDTO;
+import kr.co.monitoringserver.service.dtos.request.securityArea.SecurityAreaLocationReqDTO;
+import kr.co.monitoringserver.service.dtos.request.securityArea.SecurityAreaReqDTO;
 import kr.co.monitoringserver.service.dtos.response.SecurityAreaLocationResDTO;
 import kr.co.monitoringserver.service.dtos.response.SecurityAreaResDTO;
 import kr.co.monitoringserver.service.enums.RoleType;

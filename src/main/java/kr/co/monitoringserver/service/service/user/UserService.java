@@ -1,4 +1,4 @@
-package kr.co.monitoringserver.service.service;
+package kr.co.monitoringserver.service.service.user;
 
 import kr.co.monitoringserver.infra.global.exception.NotFoundException;
 import kr.co.monitoringserver.infra.global.model.ResponseStatus;
@@ -9,7 +9,7 @@ import kr.co.monitoringserver.persistence.repository.BeaconRepository;
 import kr.co.monitoringserver.persistence.repository.UserAttendanceRepository;
 import kr.co.monitoringserver.persistence.repository.UserBeaconRepository;
 import kr.co.monitoringserver.persistence.repository.UserRepository;
-import kr.co.monitoringserver.service.dtos.request.UserReqDTO;
+import kr.co.monitoringserver.service.dtos.request.user.UserReqDTO;
 import kr.co.monitoringserver.service.enums.AttendanceType;
 import kr.co.monitoringserver.service.enums.RoleType;
 import lombok.RequiredArgsConstructor;
@@ -152,7 +152,6 @@ public class UserService {
      * Periodically Update All Users Locations Service
      * 모든 사용자의 위치를 주기적으로 업데이트
      */
-//    @Scheduled(fixedDelay = 30000)
     @Transactional
     public void updateAndSaveUserLocation(String userIdentity) {
 

@@ -4,13 +4,14 @@ import kr.co.monitoringserver.infra.global.model.ResponseFormat;
 import kr.co.monitoringserver.infra.global.model.ResponseStatus;
 import kr.co.monitoringserver.service.dtos.request.AttendanceReqDTO;
 import kr.co.monitoringserver.service.dtos.response.AttendanceResDTO;
-import kr.co.monitoringserver.service.service.AttendanceService;
+import kr.co.monitoringserver.service.service.attendance.AttendanceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.time.LocalDate;
 
 @RestController
@@ -52,13 +53,13 @@ public class AttendanceApiController {
     /**
      * Get UserAttendance By User Identity Controller
      */
-    @GetMapping("/{user_identity}")
-    public ResponseFormat<Page<AttendanceResDTO.READ>> getAttendanceByUserIdentity(@PathVariable(name = "user_identity") String userIdentity,
+    @GetMapping()
+    public ResponseFormat<Page<AttendanceResDTO.READ>> getAttendanceByUserIdentity(Principal principal,
                                                                                    @PageableDefault Pageable pageable) {
 
         return ResponseFormat.successData(
                 ResponseStatus.SUCCESS_EXECUTE,
-                attendanceService.getAttendanceByUserIdentity(userIdentity, pageable)
+                attendanceService.getAttendanceByUserIdentity(principal, pageable)
         );
     }
 

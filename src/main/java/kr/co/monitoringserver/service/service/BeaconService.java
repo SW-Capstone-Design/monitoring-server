@@ -12,7 +12,7 @@ import kr.co.monitoringserver.persistence.repository.BeaconRepository;
 import kr.co.monitoringserver.persistence.repository.IndexNotificationRepository;
 import kr.co.monitoringserver.persistence.repository.UserBeaconRepository;
 import kr.co.monitoringserver.persistence.repository.UserRepository;
-import kr.co.monitoringserver.service.dtos.request.BeaconReqDTO;
+import kr.co.monitoringserver.service.dtos.request.beacon.BeaconReqDTO;
 import kr.co.monitoringserver.service.dtos.response.BeaconResDTO;
 import kr.co.monitoringserver.service.mappers.BeaconMapper;
 import lombok.RequiredArgsConstructor;
