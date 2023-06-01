@@ -37,7 +37,7 @@
         <td>${user.telephone}</td>
         <td>${user.createdAt}</td>
         <td>${user.updatedAt}</td>
-        <td>${user.roleType}</td>
+        <td>${user.userRoleType}</td>
         <td><b><a href="/admin/info/${user.userId}">수정</a></b></td>
       </tr>
       </c:forEach>

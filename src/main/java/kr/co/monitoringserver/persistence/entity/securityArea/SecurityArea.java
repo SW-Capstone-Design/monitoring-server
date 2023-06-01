@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import kr.co.monitoringserver.persistence.entity.BaseEntity;
 import kr.co.monitoringserver.persistence.entity.Location;
 import kr.co.monitoringserver.persistence.entity.alert.SecurityAreaWarning;
-import kr.co.monitoringserver.service.dtos.request.SecurityAreaReqDTO;
+import kr.co.monitoringserver.service.dtos.request.securityArea.SecurityAreaReqDTO;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,7 +19,8 @@ import java.util.List;
 @Table(name = "tbl_security_area")
 @AttributeOverride(
         name = "id",
-        column = @Column(name = "security_area_id", length = 4))
+        column = @Column(name = "security_area_id", length = 4)
+)
 public class SecurityArea extends BaseEntity {
 
     @Column(name = "security_area_name",
@@ -32,11 +33,21 @@ public class SecurityArea extends BaseEntity {
     private String description;
 
     @Embedded
-    @Column(name = "security_area_location",
-            nullable = false)
-    private Location securityAreaLocation;
+    @AttributeOverrides({
+            @AttributeOverride(name = "x", column = @Column(name = "lower_left_corner_x", nullable = false)),
+            @AttributeOverride(name = "y", column = @Column(name = "lower_left_corner_y", nullable = false))
+    })
+    private Location lowerLeft;
 
-    @OneToMany(mappedBy = "securityArea")
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "x", column = @Column(name = "upper_right_corner_x", nullable = false)),
+            @AttributeOverride(name = "y", column = @Column(name = "upper_right_corner_y", nullable = false))
+    })
+    private Location upperRight;
+
+    @OneToMany(mappedBy = "securityArea",
+               cascade = CascadeType.REMOVE)
     private List<UserSecurityArea> userSecurityAreas = new ArrayList<>();
 
     @OneToMany(mappedBy = "securityArea")
@@ -46,19 +57,38 @@ public class SecurityArea extends BaseEntity {
     @Builder
     private SecurityArea(String name,
                          String description,
-                         Location securityAreaLocation,
+                         Location lowerLeft,
+                         Location upperRight,
                          List<SecurityAreaWarning> securityAreaWarnings) {
 
         this.name = name;
         this.description = description;
-        this.securityAreaLocation = securityAreaLocation;
+        this.lowerLeft = lowerLeft;
+        this.upperRight = upperRight;
         this.securityAreaWarnings = securityAreaWarnings;
+    }
+
+
+    public void createSecurityAreaLocation(Location lowerLeft,
+                                           Location upperRight) {
+
+        this.lowerLeft = lowerLeft;
+        this.upperRight = upperRight;
     }
 
     public void updateSecurityArea(SecurityAreaReqDTO.UPDATE update) {
 
         this.name = update.getName();
         this.description = update.getDescription();
-//        this.securityAreaLocation = update.getLocation();
+
+        this.lowerLeft = Location.builder()
+                .x(lowerLeft.getX())
+                .y(lowerLeft.getY())
+                .build();
+
+        this.upperRight = Location.builder()
+                .x(upperRight.getX())
+                .y(upperRight.getY())
+                .build();
     }
 }

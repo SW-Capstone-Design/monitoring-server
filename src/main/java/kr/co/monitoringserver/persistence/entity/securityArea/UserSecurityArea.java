@@ -16,17 +16,18 @@ import java.time.LocalTime;
 @Table(name = "tbl_user_security_area")
 @AttributeOverride(
         name = "id",
-        column = @Column(name = "user_security_area_id", length = 4))
+        column = @Column(name = "user_security_area_id", length = 4)
+)
 public class UserSecurityArea extends BaseEntity {
 
     @Column(name = "access_time")
     private LocalTime accessTime;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "security_area_id")
     private SecurityArea securityArea;
 

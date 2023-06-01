@@ -6,9 +6,9 @@ import kr.co.monitoringserver.persistence.entity.beacon.Beacon;
 import kr.co.monitoringserver.persistence.entity.beacon.UserBeacon;
 import kr.co.monitoringserver.persistence.repository.BeaconRepository;
 import kr.co.monitoringserver.persistence.repository.UserBeaconRepository;
-import kr.co.monitoringserver.service.dtos.request.BeaconReqDTO;
+import kr.co.monitoringserver.service.dtos.request.beacon.BeaconReqDTO;
 import kr.co.monitoringserver.service.dtos.response.BeaconResDTO;
-import kr.co.monitoringserver.service.service.BeaconService;
+import kr.co.monitoringserver.service.service.beacon.BeaconService;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -79,6 +79,7 @@ public class BeaconApiController {
             beaconReqDTO.setBattery(b);
 
             UserBeacon userBeacon = userBeaconRepository.findByBeacon_BeaconIdAndUser_UserId(bi, principal.getName());
+
             if (userBeacon == null) {
                 beaconService.createDistance(principal.getName(), beaconReqDTO);
             } else {
@@ -128,6 +129,20 @@ public class BeaconApiController {
     }
 
     /**
+     * Create Users RSSI Info For Existing Beacon Controller
+     */
+    @PostMapping("/api/v1/beacon/users_rssi")
+    public ResponseFormat<Void> createUsersRssiInfoForExistingBeacon(@RequestBody @Validated List<BeaconReqDTO.MAPPING> mappingList) {
+
+        beaconService.createUsersRssiInfoForExistingBeacon(mappingList);
+
+        return ResponseFormat.successMessage(
+                ResponseStatus.SUCCESS_CREATED,
+                "해당 사용자의 RSSI 정보가 성공적으로 생성되었습니다"
+        );
+    }
+
+    /**
      * Get All Beacon And Beacon Location Controller
      */
     @GetMapping("/api/v1/beacon")
@@ -144,9 +159,10 @@ public class BeaconApiController {
      */
     @PutMapping("/api/v1/beacon/{beacon_id}")
     public ResponseFormat<Void> updateBeaconInfoAndLocation(@PathVariable(name = "beacon_id") Long beaconId,
+                                                            Principal principal,
                                                             @RequestBody @Validated BeaconReqDTO.UPDATE update) {
 
-        beaconService.updateBeaconInfoAndLocation(beaconId, update);
+        beaconService.updateBeaconInfoAndLocation(beaconId, principal, update);
 
         return ResponseFormat.successMessage(
                 ResponseStatus.SUCCESS_EXECUTE,

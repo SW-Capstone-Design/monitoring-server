@@ -1,6 +1,6 @@
 package kr.co.monitoringserver.controller;
 
-import kr.co.monitoringserver.service.service.BeaconService;
+import kr.co.monitoringserver.service.service.beacon.BeaconService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;

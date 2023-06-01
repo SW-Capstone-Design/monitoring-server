@@ -1,19 +1,20 @@
-package kr.co.monitoringserver.service.service;
+package kr.co.monitoringserver.service.service.user;
 
+import kr.co.monitoringserver.infra.global.exception.NotFoundException;
+import kr.co.monitoringserver.infra.global.model.ResponseStatus;
 import kr.co.monitoringserver.persistence.entity.Location;
 import kr.co.monitoringserver.persistence.entity.attendance.UserAttendance;
-import kr.co.monitoringserver.persistence.entity.beacon.Beacon;
 import kr.co.monitoringserver.persistence.entity.user.User;
 import kr.co.monitoringserver.persistence.repository.BeaconRepository;
 import kr.co.monitoringserver.persistence.repository.UserAttendanceRepository;
+import kr.co.monitoringserver.persistence.repository.UserBeaconRepository;
 import kr.co.monitoringserver.persistence.repository.UserRepository;
-import kr.co.monitoringserver.service.dtos.request.UserReqDTO;
+import kr.co.monitoringserver.service.dtos.request.user.UserReqDTO;
 import kr.co.monitoringserver.service.enums.AttendanceType;
-import kr.co.monitoringserver.service.enums.RoleType;
+import kr.co.monitoringserver.service.enums.UserRoleType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,9 +23,7 @@ import org.springframework.validation.FieldError;
 
 import java.time.LocalDate;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -38,7 +37,10 @@ public class UserService {
     private final BCryptPasswordEncoder encoder;
 
     private final UserLocationService userLocationService;
+
     private final BeaconRepository beaconRepository;
+
+    private final UserBeaconRepository userBeaconRepository;
 
     /**
      * join : 회원가입한다.
@@ -52,8 +54,8 @@ public class UserService {
                 .name(userDto.getName())
                 .telephone(userDto.getTelephone())
                 .department(userDto.getDepartment())
-                .roleType(RoleType.USER1)
-                .userLocation(Location.builder()
+                .userRoleType(UserRoleType.USER1)
+                .location(Location.builder()
                         .x(.0)
                         .y(.0)
                         .build())
@@ -147,31 +149,17 @@ public class UserService {
     }
 
     /**
-     * Update User Location By Beacon With Trilateration Service
+     * Periodically Update All Users Locations Service
+     * 모든 사용자의 위치를 주기적으로 업데이트
      */
     @Transactional
-    @Scheduled(fixedDelay = 30000)
-    public void updateUserLocationByBeaconWithTrilateration() {
+    public void updateAndSaveUserLocation(String userIdentity) {
 
-        List<Long> beaconIds = getAllBeaconIds();
+        final User user = userRepository.findByIdentity(userIdentity)
+                .orElseThrow(() -> new NotFoundException(ResponseStatus.NOT_FOUND_USER));
 
-        List<User> users = userRepository.findAll();
+        Location location = userLocationService.updateUserLocationByTrilateration(user);
 
-        for (User user : users) {
-            if (!beaconIds.isEmpty()) {
-                Location location = userLocationService.determineUserLocationWithTrilateration(beaconIds);
-                user.updateUserLocation(location);
-            }
-        }
-    }
-
-    private List<Long> getAllBeaconIds() {
-
-        List<Beacon> beacons = beaconRepository.findAll();
-
-        return beacons
-                .stream()
-                .map(Beacon::getBeaconId)
-                .collect(Collectors.toList());
+        user.updateUserLocation(location);
     }
 }

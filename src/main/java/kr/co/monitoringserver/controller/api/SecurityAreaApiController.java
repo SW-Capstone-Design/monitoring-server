@@ -2,15 +2,19 @@ package kr.co.monitoringserver.controller.api;
 
 import kr.co.monitoringserver.infra.global.model.ResponseFormat;
 import kr.co.monitoringserver.infra.global.model.ResponseStatus;
-import kr.co.monitoringserver.service.dtos.request.SecurityAreaReqDTO;
+import kr.co.monitoringserver.service.dtos.request.securityArea.SecurityAreaLocationReqDTO;
+import kr.co.monitoringserver.service.dtos.request.securityArea.SecurityAreaReqDTO;
+import kr.co.monitoringserver.service.dtos.response.SecurityAreaLocationResDTO;
 import kr.co.monitoringserver.service.dtos.response.SecurityAreaResDTO;
-import kr.co.monitoringserver.service.dtos.response.UserSecurityAreaResDTO;
-import kr.co.monitoringserver.service.service.SecurityAreaService;
+import kr.co.monitoringserver.service.service.securityArea.SecurityAreaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,11 +26,11 @@ public class SecurityAreaApiController {
     /**
      * Create Security Area Controller
      */
-    @PostMapping("/{user_identity}")
-    public ResponseFormat<Void> createSecurityArea(@PathVariable(name = "user_identity") String userIdentity,
-                                                   @RequestBody SecurityAreaReqDTO.CREATE create) {
+    @PostMapping()
+    public ResponseFormat<Void> createSecurityArea(@RequestBody @Validated SecurityAreaReqDTO.CREATE create,
+                                                   Principal principal) {
 
-        securityAreaService.createSecurityArea(userIdentity, create);
+        securityAreaService.createSecurityArea(principal, create);
 
         return ResponseFormat.successMessage(
                 ResponseStatus.SUCCESS_CREATED,
@@ -37,26 +41,26 @@ public class SecurityAreaApiController {
     /**
      * Get Security Area By id Controller
      */
-    @GetMapping("/{user_identity}/{security_area_id}")
-    public ResponseFormat<Page<SecurityAreaResDTO.READ>> getSecurityAreaById(@PathVariable(name = "user_identity") String userIdentity,
-                                                                             @PathVariable(name = "security_area_id") Long securityAreaId,
-                                                                             @PageableDefault Pageable pageable) {
+    @GetMapping("/{security_area_id}")
+    public ResponseFormat<Page<SecurityAreaResDTO.READ>> getSecurityAreaById(@PathVariable(name = "security_area_id") Long securityAreaId,
+                                                                             @PageableDefault Pageable pageable,
+                                                                             Principal principal) {
 
         return ResponseFormat.successData(
                 ResponseStatus.SUCCESS_EXECUTE,
-                securityAreaService.getSecurityAreaById(userIdentity, securityAreaId, pageable)
+                securityAreaService.getSecurityAreaById(principal, securityAreaId, pageable)
         );
     }
 
     /**
      * Update Security Area Controller
      */
-    @PutMapping("/{user_identity}/{security_area_id}")
-    public ResponseFormat<Void> updateSecurityArea(@PathVariable(name = "user_identity") String userIdentity,
-                                                   @PathVariable(name = "security_area_id") Long securityAreaId,
-                                                   @RequestBody SecurityAreaReqDTO.UPDATE update) {
+    @PutMapping("/{security_area_id}")
+    public ResponseFormat<Void> updateSecurityArea(@PathVariable(name = "security_area_id") Long securityAreaId,
+                                                   @RequestBody @Validated SecurityAreaReqDTO.UPDATE update,
+                                                   Principal principal) {
 
-        securityAreaService.updateSecurityArea(userIdentity, securityAreaId, update);
+        securityAreaService.updateSecurityArea(principal, securityAreaId, update);
 
         return ResponseFormat.successMessage(
                 ResponseStatus.SUCCESS_EXECUTE,
@@ -67,11 +71,11 @@ public class SecurityAreaApiController {
     /**
      * Delete Security Area Controller
      */
-    @DeleteMapping("/{user_identity}/{security_area_id}")
-    public ResponseFormat<Void> deleteSecurityArea(@PathVariable(name = "user_identity") String userIdentity,
-                                                   @PathVariable(name = "security_area_id") Long securityAreaId) {
+    @DeleteMapping("/{security_area_id}")
+    public ResponseFormat<Void> deleteSecurityArea(@PathVariable(name = "security_area_id") Long securityAreaId,
+                                                   Principal principal) {
 
-        securityAreaService.deleteSecurityArea(userIdentity, securityAreaId);
+        securityAreaService.deleteSecurityArea(principal, securityAreaId);
 
         return ResponseFormat.successMessage(
                 ResponseStatus.SUCCESS_EXECUTE,
@@ -82,31 +86,34 @@ public class SecurityAreaApiController {
 
 
     /**
-     * Detecting Access To User Security Area Controller
+     * Handle User Access To SecurityArea Controller
      */
-    @PostMapping("/access_log/{security_area_name}/{user_identity}")
-    public ResponseFormat<Void> detectingAccessToUserSecurityArea(@PathVariable(name = "user_identity") String userIdentity,
-                                                                  @PathVariable(name = "security_area_name") String securityAreaName) {
+    @PostMapping("/access_log")
+    public ResponseFormat<Void> handleUserAccessToSecurityArea(@RequestBody @Validated SecurityAreaLocationReqDTO.CREATE create) {
 
-        securityAreaService.detectingAccessToUserSecurityArea(userIdentity, securityAreaName);
+        boolean isAuthorized = securityAreaService.handleUserAccessToSecurityArea(create);
+
+        String message = isAuthorized ?
+                create.getUserIdentity() + "님의 보안구역 접근이 감지되었습니다. 인가된 사용자입니다." :
+                create.getUserIdentity() + "님의 보안구역 접근이 감지되었습니다. 비인가된 사용자입니다.";
 
         return ResponseFormat.successMessage(
                 ResponseStatus.SUCCESS_EXECUTE,
-                userIdentity + "님의 보안구역 접근이 감지되었습니다"
+                message
         );
     }
 
     /**
-     * Get User Security Area By User And Security Area Controller
+     * Get User Security Area Access Logs Controller
      */
-    @GetMapping("/access_log/{security_area_name}/{user_identity}")
-    public ResponseFormat<Page<UserSecurityAreaResDTO.READ>> getUserSecurityAreaByUserAndArea(@PathVariable(name = "user_identity") String userIdentity,
-                                                                                              @PathVariable(name = "security_area_name") String securityAreaName,
-                                                                                              @PageableDefault Pageable pageable) {
+    @GetMapping("/access_log/{security_area_id}")
+    public ResponseFormat<Page<SecurityAreaLocationResDTO.READ>> getUserSecurityAreaAccessLogs(@PathVariable(name = "security_area_id") Long securityAreaId,
+                                                                                               @PageableDefault Pageable pageable,
+                                                                                               Principal principal) {
 
         return ResponseFormat.successData(
                 ResponseStatus.SUCCESS_EXECUTE,
-                securityAreaService.getUserSecurityAreaByUserAndSecurityArea(userIdentity, securityAreaName, pageable)
+                securityAreaService.getUserSecurityAreaAccessLogs(principal, securityAreaId, pageable)
         );
     }
 }

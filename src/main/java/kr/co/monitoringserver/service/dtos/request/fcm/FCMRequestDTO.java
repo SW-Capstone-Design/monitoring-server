@@ -1,4 +1,4 @@
-package kr.co.monitoringserver.service.dtos.request;
+package kr.co.monitoringserver.service.dtos.request.fcm;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

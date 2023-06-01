@@ -1,11 +1,13 @@
 package kr.co.monitoringserver.controller.api;
 
 import jakarta.validation.Valid;
-import kr.co.monitoringserver.service.dtos.request.*;
+import kr.co.monitoringserver.service.dtos.request.fcm.FCMRequestDTO;
+import kr.co.monitoringserver.service.dtos.request.user.AdminReqDTO;
+import kr.co.monitoringserver.service.dtos.request.user.UserReqDTO;
 import kr.co.monitoringserver.service.dtos.response.ResponseDto;
-import kr.co.monitoringserver.service.service.AdminService;
-import kr.co.monitoringserver.service.service.FirebaseCloudMessageService;
-import kr.co.monitoringserver.service.service.UserService;
+import kr.co.monitoringserver.service.service.user.AdminService;
+import kr.co.monitoringserver.service.service.fcm.FirebaseCloudMessageService;
+import kr.co.monitoringserver.service.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

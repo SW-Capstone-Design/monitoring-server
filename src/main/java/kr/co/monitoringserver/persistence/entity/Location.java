@@ -11,9 +11,9 @@ import lombok.NoArgsConstructor;
 @Embeddable
 public class Location {
 
-    private double x;
+    private double x = 0.0;
 
-    private double y;
+    private double y = 0.0;
 
 
     @Builder
@@ -22,10 +22,5 @@ public class Location {
 
         this.x = x;
         this.y = y;
-    }
-
-    public double[] positionArray() {
-
-        return new double[]{x, y};
     }
 }

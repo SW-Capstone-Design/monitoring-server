@@ -2,8 +2,8 @@ package kr.co.monitoringserver.controller;
 
 import kr.co.monitoringserver.persistence.repository.IndexNotificationRepository;
 import kr.co.monitoringserver.service.enums.AttendanceType;
-import kr.co.monitoringserver.service.service.AdminService;
-import kr.co.monitoringserver.service.service.UserService;
+import kr.co.monitoringserver.service.service.user.AdminService;
+import kr.co.monitoringserver.service.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;

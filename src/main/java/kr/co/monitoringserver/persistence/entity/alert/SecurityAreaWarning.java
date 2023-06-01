@@ -17,11 +17,11 @@ import lombok.NoArgsConstructor;
         column = @Column(name = "security_area_alert_id", length = 4))
 public class SecurityAreaWarning extends BaseEntity {
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "security_area_id")
     private SecurityArea securityArea;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "alert_id")
     private WarningNotification warningNotification;
 

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestControllerAdvice
 @Slf4j
@@ -40,7 +41,8 @@ public class ValidationExceptionHandler {
         final List<ResponseErrorFormat.ValidationException> validationExceptions = e.getBindingResult()
                 .getFieldErrors()
                 .stream()
-                .map(ResponseErrorFormat.ValidationException::of).toList();
+                .map(ResponseErrorFormat.ValidationException::of)
+                .collect(Collectors.toList());
 
         return ResponseErrorFormat.builder()
                 .message(responseStatus.getMessage())

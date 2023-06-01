@@ -1,4 +1,4 @@
-package kr.co.monitoringserver.service.dtos.request;
+package kr.co.monitoringserver.service.dtos.request.user;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;

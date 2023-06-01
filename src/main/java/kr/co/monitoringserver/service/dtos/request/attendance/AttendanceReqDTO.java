@@ -1,4 +1,4 @@
-package kr.co.monitoringserver.service.dtos.request;
+package kr.co.monitoringserver.service.dtos.request.attendance;
 
 import jakarta.validation.constraints.NotBlank;
 import kr.co.monitoringserver.service.enums.AttendanceType;
@@ -15,10 +15,8 @@ public class AttendanceReqDTO {
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static class CREATE {
 
-        @NotBlank(message = "출근 시간을 입력해주세요")
         private LocalTime enterTime;
 
-        @NotBlank(message = "출근 날짜를 입력해주세요")
         private LocalDate date;
     }
 

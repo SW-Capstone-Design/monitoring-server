@@ -7,4 +7,8 @@ public class BadRequestException extends BusinessException {
     public BadRequestException() {
         super(ResponseStatus.FAIL_BAD_REQUEST);
     }
+
+    public BadRequestException(String message) {
+        super(message, ResponseStatus.FAIL_BAD_REQUEST);
+    }
 }
