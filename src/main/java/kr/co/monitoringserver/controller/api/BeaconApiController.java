@@ -46,8 +46,8 @@ public class BeaconApiController {
     /**
      * receiveBeacon : 모바일 클라이언트에서 서버로 비콘과 사용자 간의 거리 정보를 보낸다.
      */
-    @PostMapping("/auth/receiveBeacon")
-    public void receiveBeacon(@RequestBody String data, BeaconReqDTO.CLIENT beaconReqDTO, Principal principal) {
+    @PostMapping("/auth/receiveBeacon/{user_identity}")
+    public void receiveBeacon(@RequestBody String data, BeaconReqDTO.CLIENT beaconReqDTO, @PathVariable(name = "user_identity") String identity) {
         JSONParser jsonParser = new JSONParser();
         JSONArray insertParam = null;
         try {
@@ -78,12 +78,12 @@ public class BeaconApiController {
             Short b = Short.valueOf(battery).shortValue();
             beaconReqDTO.setBattery(b);
 
-            UserBeacon userBeacon = userBeaconRepository.findByBeacon_BeaconIdAndUser_UserId(bi, principal.getName());
+            UserBeacon userBeacon = userBeaconRepository.findByBeacon_BeaconIdAndUser_Identity(bi, identity);
 
             if (userBeacon == null) {
-                beaconService.createDistance(principal.getName(), beaconReqDTO);
+                beaconService.createDistance(identity, beaconReqDTO);
             } else {
-                beaconService.updateDistance(principal.getName(), userBeacon.getUserBeaconId(), beaconReqDTO);
+                beaconService.updateDistance(identity, userBeacon.getUserBeaconId(), beaconReqDTO);
             }
         }
     }

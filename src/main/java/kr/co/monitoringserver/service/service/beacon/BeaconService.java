@@ -27,6 +27,8 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -153,14 +155,19 @@ public class BeaconService {
     public void checkBatteryStatusAndSendNotification() {
 
         List<Beacon> beacons = beaconRepository.findBeaconsByBatteryLessThan(20);
+        LocalTime now = LocalTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+        String formattedNow = now.format(formatter);
 
         for (Beacon beacon : beacons) {
             sendBatteryLowNotification(beacon);
+
+            // SSE
             String lowBatteryBeacon = "Beacon : " + beacon.getBeaconName() + "의 배터리 잔량이 20% 미만입니다." +
                     " 현재 잔량 : " + beacon.getBattery().toString() + "%";
 
             JSONObject obj = new JSONObject();
-            obj.put("text", lowBatteryBeacon);
+            obj.put("text", "[" + formattedNow + "] " + lowBatteryBeacon);
 
             String eventFormatted = obj.toString();
             List<SseEmitter> emitters = AdminApiController.emitters;
@@ -173,6 +180,7 @@ public class BeaconService {
                 }
             }
 
+            // 관리자페이지 알림
             IndexNotification indexNotification = indexNotificationRepository.findByIndexAlertContent(lowBatteryBeacon);
             if(indexNotification == null){
                 IndexNotification alert = new IndexNotification();

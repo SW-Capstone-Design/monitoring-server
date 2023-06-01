@@ -33,8 +33,8 @@
             <td>${securityArea.id}</td>
             <td>${securityArea.name}</td>
             <td>${securityArea.description}</td>
-            <td>${securityArea.lowerLeft}</td>
-            <td>${securityArea.upperRight}</td>
+            <td>(${securityArea.lowerLeft.x}, ${securityArea.lowerLeft.y})</td>
+            <td>(${securityArea.upperRight.x}, ${securityArea.upperRight.y})</td>
             <td><b><a href="/admin/area/info/${securityArea.id}">수정</a></b></td>
           </tr>
           </c:forEach>
