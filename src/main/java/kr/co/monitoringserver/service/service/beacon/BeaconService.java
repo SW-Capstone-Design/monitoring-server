@@ -1,6 +1,7 @@
-package kr.co.monitoringserver.service.service;
+package kr.co.monitoringserver.service.service.beacon;
 
 import kr.co.monitoringserver.controller.api.AdminApiController;
+import kr.co.monitoringserver.infra.global.exception.BadRequestException;
 import kr.co.monitoringserver.infra.global.exception.NotFoundException;
 import kr.co.monitoringserver.infra.global.model.ResponseStatus;
 import kr.co.monitoringserver.persistence.entity.alert.IndexNotification;
@@ -11,7 +12,7 @@ import kr.co.monitoringserver.persistence.repository.BeaconRepository;
 import kr.co.monitoringserver.persistence.repository.IndexNotificationRepository;
 import kr.co.monitoringserver.persistence.repository.UserBeaconRepository;
 import kr.co.monitoringserver.persistence.repository.UserRepository;
-import kr.co.monitoringserver.service.dtos.request.BeaconReqDTO;
+import kr.co.monitoringserver.service.dtos.request.beacon.BeaconReqDTO;
 import kr.co.monitoringserver.service.dtos.response.BeaconResDTO;
 import kr.co.monitoringserver.service.mappers.BeaconMapper;
 import lombok.RequiredArgsConstructor;
@@ -25,10 +26,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.io.IOException;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -90,9 +91,9 @@ public class BeaconService {
                 });
 
         UserBeacon userBeacon = userBeaconRepository.findByUserBeaconId(userBeaconId)
-                    .orElseThrow(()->{
-                        return new IllegalArgumentException("비콘 찾기 실패");
-                    });
+                .orElseThrow(()->{
+                    return new IllegalArgumentException("비콘 찾기 실패");
+                });
         userBeacon.setBeacon(beaconReqDTO.getBeacon());
         userBeacon.setUser(user);
         userBeacon.setRssi(beaconReqDTO.getRssi());
@@ -114,7 +115,7 @@ public class BeaconService {
     }
 
     /**
-     * beaocnList : 모바일 클라이언트에 넘겨주기 위해 Beacon 목록을 조회하여 List 객체로 반환한다.
+     * beaconList : 모바일 클라이언트에 넘겨주기 위해 Beacon 목록을 조회하여 List 객체로 반환한다.
      */
     public List<BeaconResDTO> beaconList() {
         List<Beacon> all = beaconRepository.findAll();
@@ -152,9 +153,6 @@ public class BeaconService {
     public void checkBatteryStatusAndSendNotification() {
 
         List<Beacon> beacons = beaconRepository.findBeaconsByBatteryLessThan(20);
-        LocalTime now = LocalTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-        String formatedNow = now.format(formatter);
 
         for (Beacon beacon : beacons) {
             sendBatteryLowNotification(beacon);
@@ -162,7 +160,7 @@ public class BeaconService {
                     " 현재 잔량 : " + beacon.getBattery().toString() + "%";
 
             JSONObject obj = new JSONObject();
-            obj.put("text", "[" + formatedNow + "] " + lowBatteryBeacon);
+            obj.put("text", lowBatteryBeacon);
 
             String eventFormatted = obj.toString();
             List<SseEmitter> emitters = AdminApiController.emitters;
@@ -196,6 +194,18 @@ public class BeaconService {
     }
 
     /**
+     * Create Users RSSI Info For Existing Beacon Service
+     * 이미 존재하는 비콘에 기존 사용자들의 RSSI 정보를 생성 : 여러 사용자와 한 비콘 사이의 관계를 처리
+     */
+    @Transactional
+    public void createUsersRssiInfoForExistingBeacon(List<BeaconReqDTO.MAPPING> mappingList) {
+
+        for (BeaconReqDTO.MAPPING mapping : mappingList) {
+            getOrCreateUserRssiInfo(mapping.getBeaconId(), mapping.getUserIdentity(), mapping.getRssi());
+        }
+    }
+
+    /**
      * Get All Beacon And Beacon Location Service
      */
     public Page<BeaconResDTO.READ> getAllBeaconInfoAndLocation(Pageable pageable) {
@@ -213,12 +223,20 @@ public class BeaconService {
      * Update Beacon And Beacon Location Service
      */
     @Transactional
-    public void updateBeaconInfoAndLocation(Long beaconId, BeaconReqDTO.UPDATE update) {
+    public void updateBeaconInfoAndLocation(Long beaconId, Principal principal, BeaconReqDTO.UPDATE update) {
 
         final Beacon beacon = beaconRepository.findById(beaconId)
                 .orElseThrow(() -> new NotFoundException(ResponseStatus.NOT_FOUND_BEACON));
 
-        beacon.updateBeacon(update);
+        beacon.updateBeaconInfoAndLocation(update);
+
+        final User user = userRepository.findByIdentity(principal.getName())
+                .orElseThrow(BadRequestException::new);
+
+        final UserBeacon userBeacon = userBeaconRepository.findByUserAndBeacon(user, beacon)
+                .orElseThrow(() -> new NotFoundException(ResponseStatus.NOT_FOUND_BEACON));
+
+        userBeacon.updateUserAndBeacon(user, beacon, update.getRssi());
     }
 
     /**
@@ -234,8 +252,34 @@ public class BeaconService {
     }
 
 
-    // TODO  fetch PR, Save BeaconName, Battery
+
+    // 사용자와 비콘에 해당하는 RSSI 값을 확인하고 없으면 생성, 이미 있으면 업데이트
+    private void getOrCreateUserRssiInfo(Long beaconId, String userIdentity, short rssi) {
+
+        final User user = userRepository.findByIdentity(userIdentity)
+                .orElseThrow(BadRequestException::new);
+
+        final Beacon beacon = beaconRepository.findById(beaconId)
+                .orElseThrow(() -> new NotFoundException(ResponseStatus.NOT_FOUND_BEACON));
+
+        Optional<UserBeacon> userBeaconOptional = userBeaconRepository.findByUserAndBeacon(user, beacon);
+
+        if (!userBeaconOptional.isPresent()) {
+
+            UserBeacon newUserBeacon = beaconMapper.toUserBeaconEntity(user, beacon, rssi);
+
+            userBeaconRepository.save(newUserBeacon);
+
+        } else {
+
+            UserBeacon existingUserBeacon = userBeaconOptional.get();
+
+            existingUserBeacon.updateRssi(rssi);
+        }
+    }
+
     // 비콘 배터리가 20% 미만일 경우 알림 설정
+    // TODO : 생성된 경고알림 정보를 경고알림 Repository 저장
     private void sendBatteryLowNotification(Beacon beacon) {
 
         System.out.printf(

@@ -12,4 +12,9 @@ public class BusinessException extends RuntimeException {
         super(responseStatus.getMessage());
         this.responseStatus = responseStatus;
     }
+
+    public BusinessException(String message, ResponseStatus responseStatus) {
+        super(message);
+        this.responseStatus = responseStatus;
+    }
 }

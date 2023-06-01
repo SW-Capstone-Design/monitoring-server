@@ -1,4 +1,4 @@
-package kr.co.monitoringserver.service.service;
+package kr.co.monitoringserver.service.service.alert;
 
 import kr.co.monitoringserver.persistence.entity.alert.WarningNotification;
 import kr.co.monitoringserver.persistence.entity.user.User;

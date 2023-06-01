@@ -1,5 +1,6 @@
 package kr.co.monitoringserver.persistence.repository;
 
+import kr.co.monitoringserver.persistence.entity.attendance.Attendance;
 import kr.co.monitoringserver.persistence.entity.attendance.UserAttendance;
 import kr.co.monitoringserver.persistence.entity.user.User;
 import kr.co.monitoringserver.service.enums.AttendanceType;
@@ -9,7 +10,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.Optional;
 
 @Repository
@@ -20,6 +20,9 @@ public interface UserAttendanceRepository extends JpaRepository<UserAttendance, 
     Optional<UserAttendance> findByUserAndAttendance_Date(User user, LocalDate date);
 
     Page<UserAttendance> findByAttendance_Date(LocalDate date, Pageable pageable);
+
+    Optional<UserAttendance> findByUserAndAttendance(User user, Attendance attendance);
+
 
     UserAttendance findByUser_UserIdAndAttendance_Date(Long userId, LocalDate date);
 

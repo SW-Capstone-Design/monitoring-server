@@ -1,12 +1,12 @@
 package kr.co.monitoringserver.service.dtos.response;
 
 import kr.co.monitoringserver.persistence.entity.Location;
-import kr.co.monitoringserver.service.enums.RoleType;
+import kr.co.monitoringserver.service.enums.UserRoleType;
 import lombok.*;
 
 import java.time.LocalTime;
 
-public class UserSecurityAreaResDTO {
+public class SecurityAreaLocationResDTO {
 
     @Getter
     @Builder
@@ -22,7 +22,7 @@ public class UserSecurityAreaResDTO {
 
         private String userName;
 
-        private RoleType userRoleType;
+        private UserRoleType userRoleType;
 
         private String userDepartment;
 
