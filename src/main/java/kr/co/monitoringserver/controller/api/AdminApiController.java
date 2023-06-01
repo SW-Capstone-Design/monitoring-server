@@ -9,7 +9,6 @@ import kr.co.monitoringserver.service.service.user.AdminService;
 import kr.co.monitoringserver.service.service.fcm.FirebaseCloudMessageService;
 import kr.co.monitoringserver.service.service.user.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -26,11 +26,9 @@ import java.util.concurrent.CopyOnWriteArrayList;
 @RequiredArgsConstructor
 public class AdminApiController {
 
-    @Autowired
-    private AdminService adminService;
+    private final AdminService adminService;
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
     public static List<SseEmitter> emitters = new CopyOnWriteArrayList<>();
 
@@ -125,4 +123,11 @@ public class AdminApiController {
                 fCMRequestDTO.getBody());
         return ResponseEntity.ok().build();
     }
+
+    @PostMapping("/auth/setFCMToken")
+    public void setFCMToken(@RequestBody AdminReqDTO adminReqDTO, Principal principal){
+
+        adminService.setFCMToken(adminReqDTO, principal);
+    }
+
 }

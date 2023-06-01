@@ -28,19 +28,28 @@
       </tr>
     </thead>
     <tbody>
-    <c:forEach items="${lists.content}" var="user">
-      <tr>
-        <td>${user.userId}</td>
-        <td>${user.identity}</td>
-        <td>${user.name}</td>
-        <td>${user.department}</td>
-        <td>${user.telephone}</td>
-        <td>${user.createdAt}</td>
-        <td>${user.updatedAt}</td>
-        <td>${user.userRoleType}</td>
-        <td><b><a href="/admin/info/${user.userId}">수정</a></b></td>
-      </tr>
-      </c:forEach>
+      <c:choose>
+        <c:when test="${empty lists.content}">
+            <tr>
+                <td colspan="6" style="text-align:center;">조회결과가 없습니다.</td>
+            </tr>
+        </c:when>
+    <c:otherwise>
+        <c:forEach items="${lists.content}" var="user">
+          <tr>
+            <td>${user.userId}</td>
+            <td>${user.identity}</td>
+            <td>${user.name}</td>
+            <td>${user.department}</td>
+            <td>${user.telephone}</td>
+            <td>${user.createdAt}</td>
+            <td>${user.updatedAt}</td>
+            <td>${user.userRoleType}</td>
+            <td><b><a href="/admin/info/${user.userId}">수정</a></b></td>
+          </tr>
+          </c:forEach>
+        </c:otherwise>
+    </c:choose>
     </tbody>
   </table>
   <button style="display:inline-block; float:left;" type="button" id="btn-joinForm" class="btn btn-dark">회원등록</button>

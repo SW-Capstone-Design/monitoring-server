@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
+import java.security.Principal;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
@@ -173,5 +174,16 @@ public class AdminService {
     public void deleteAlertAll() {
 
         indexNotificationRepository.deleteAll();
+    }
+
+    @Transactional
+    public void setFCMToken(AdminReqDTO adminReqDTO, Principal principal){
+
+        User user = userRepository.findByIdentity(principal.getName())
+                .orElseThrow(()->{
+                    return new IllegalArgumentException("유저 조회 실패 : 아이디를 찾을 수 없습니다.");
+                });
+
+        user.setDeviceToken(adminReqDTO.getToken());
     }
 }

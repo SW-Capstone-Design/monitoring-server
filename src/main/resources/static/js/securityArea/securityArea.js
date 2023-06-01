@@ -15,20 +15,23 @@ let index = {
 		},
 
 		create: function() {
-		    var param = $("#identity").val();
 
 			let data = {
                            name: $("#name").val(),
                            description: $("#description").val(),
-                           location: {
-                                           x: $("#x").val(),
-                                           y: $("#y").val()
-                                     }
+                           lowerLeft: {
+                                        x: $('#lowerLeft_X').val(),
+                                        y: $('#lowerLeft_Y').val()
+                           },
+                           upperRight: {
+                                        x: $('#upperRight_X').val(),
+                                        y: $('#upperRight_Y').val()
+                           }
                        };
 
        $.ajax({
                type: "POST",
-               url: "/api/v1/security_area/"+param,
+               url: "/api/v1/security_area",
                data: JSON.stringify(data),
                contentType: "application/json; charset=utf-8"
            }).done(function(resp) {
@@ -46,26 +49,24 @@ let index = {
 	},
 
 	   update: function() {
-    		    var param1 = $("#identity").val();
-    		    var param2 = $("#securityAreaId").val();
-
-    		    var name = $("#name").val();
-    		    var description = $("#description").val();
-    		    var x = $("#x").val();
-    		    var y = $("#y").val();
+    		    var param = $("#securityAreaId").val();
 
     			let data = {
-                               name: name,
-                               description: description,
-                               location: {
-                                               x: x,
-                                               y: y
-                                         }
+                               name: $("#name").val(),
+                               description: $("#description").val(),
+                               lowerLeft: {
+                                            x: $('#lowerLeft_X').val(),
+                                            y: $('#lowerLeft_Y').val()
+                               },
+                               upperRight: {
+                                            x: $('#upperRight_X').val(),
+                                            y: $('#upperRight_Y').val()
+                               }
                            };
 
            $.ajax({
                    type: "PUT",
-                   url: "/api/v1/security_area/"+param1+"/"+param2,
+                   url: "/api/v1/security_area/"+param,
                    data: JSON.stringify(data),
                    contentType: "application/json; charset=utf-8"
                }).done(function(resp) {
@@ -84,12 +85,11 @@ let index = {
 
     	del: function() {
                 if (confirm("삭제를 진행하시겠습니까?")) {
-    		    var param1 = $("#identity").val();
-    		    var param2 = $("#securityAreaId").val();
+    		    var param = $("#securityAreaId").val();
 
                 $.ajax({
                     type: "DELETE",
-                    url: "/api/v1/security_area/"+param1+"/"+param2,
+                    url: "/api/v1/security_area/"+param,
                     contentType: "application/json; charset=utf-8"
                 }).done(function(resp) {
                     if(resp.status == 400 || resp.status == 500){

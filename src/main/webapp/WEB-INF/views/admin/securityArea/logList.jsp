@@ -5,7 +5,7 @@
 <div class="container">
   <h2>경고조회</h2>
   <span>
-    경고를 조회 : 접근자 및 해당 보안구역을 조회합니다.
+    접근자 및 해당 보안구역에 대한 경고를 조회합니다.
   </span>
   <br><br>
   <form style="text-align:center;" action="info" method="get">
@@ -19,14 +19,23 @@
       </tr>
     </thead>
     <tbody>
-    <c:forEach items="${lists.content}" var="userSecurityArea">
-      <tr>
-        <td>${userSecurityArea.accessTime}</td>
-        <td>${userSecurityArea.user.name}</td>
-        <td>${userSecurityArea.securityArea.name}</td>
-        <td>${userSecurityArea.securityArea.description}</td>
-      </tr>
-      </c:forEach>
+      <c:choose>
+        <c:when test="${empty lists.content}">
+            <tr>
+                <td colspan="4" style="text-align:center;">조회결과가 없습니다.</td>
+            </tr>
+        </c:when>
+    <c:otherwise>
+        <c:forEach items="${lists.content}" var="userSecurityArea">
+          <tr>
+            <td>${userSecurityArea.accessTime}</td>
+            <td>${userSecurityArea.user.name}</td>
+            <td>${userSecurityArea.securityArea.name}</td>
+            <td>${userSecurityArea.securityArea.description}</td>
+          </tr>
+          </c:forEach>
+        </c:otherwise>
+    </c:choose>
     </tbody>
   </table>
     <ul class="pagination justify-content-center">

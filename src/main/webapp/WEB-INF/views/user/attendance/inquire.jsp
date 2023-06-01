@@ -8,7 +8,7 @@
     출결상태를 조회합니다.
   </span>
   <div style="display:inline-block; float:right;">
-  <form style="text-align:center;" action="${principal.user.userId}" method="get">
+  <form style="text-align:center;" action="list" method="get">
     <input type="date" style="display:inline; width:200px;" name="searchKeyword">
     <button type="submit" class="btn btn-dark">검색</button>
   </div>
@@ -25,17 +25,26 @@
       </tr>
     </thead>
     <tbody>
-    <c:forEach items="${lists.content}" var="userAttendance">
-      <tr>
-        <td>${userAttendance.attendance.date}</td>
-        <td>${userAttendance.user.name}</td>
-        <td>${userAttendance.user.department}</td>
-        <td>${userAttendance.attendance.enterTime}</td>
-        <td>${userAttendance.attendance.leaveTime}</td>
-        <td>${userAttendance.attendance.goWork}</td>
-        <td>${userAttendance.attendance.leaveWork}</td>
-      </tr>
-      </c:forEach>
+    <c:choose>
+      		<c:when test="${empty lists.content}">
+      			<tr>
+      			    <td colspan="7" style="text-align:center;">조회결과가 없습니다.</td>
+      			</tr>
+      		</c:when>
+      		<c:otherwise>
+                <c:forEach items="${lists.content}" var="userAttendance">
+                  <tr>
+                    <td>${userAttendance.attendance.date}</td>
+                    <td>${userAttendance.user.name}</td>
+                    <td>${userAttendance.user.department}</td>
+                    <td>${userAttendance.attendance.enterTime}</td>
+                    <td>${userAttendance.attendance.leaveTime}</td>
+                    <td>${userAttendance.attendance.goWork}</td>
+                    <td>${userAttendance.attendance.leaveWork}</td>
+                  </tr>
+                </c:forEach>
+      		</c:otherwise>
+      	</c:choose>
     </tbody>
   </table>
 

@@ -10,19 +10,19 @@
 <hr>
 </span>
 	<form>
-		<div class="form-group">
+		<div class="form-group" style="width:402px;">
 			<label for="work">정상출퇴근</label>
 			<input type="text" value="${work}" class="form-control" id="work" readonly>
 		</div>
-        <div class="form-group">
+        <div class="form-group" style="width:402px;">
             <label for="tardiness">지각</label>
             <input type="text" value="${tardiness}" class="form-control" id="tardiness" readonly>
         </div>
-        <div class="form-group">
+        <div class="form-group" style="width:402px;">
             <label for="earlyLeave">조퇴</label>
             <input type="text" value="${earlyLeave}" class="form-control" id="earlyLeave" readonly>
         </div>
-        <div class="form-group">
+        <div class="form-group" style="width:402px;">
             <label for="absent">결근</label>
             <input type="text" value="${absent}" class="form-control" id="absent" readonly>
         </div>

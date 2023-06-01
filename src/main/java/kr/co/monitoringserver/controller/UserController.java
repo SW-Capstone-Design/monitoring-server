@@ -7,9 +7,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class UserController {
 
     /**
-     * index : 로그인 성공시 인덱스를 매핑한다.
+     * start : 최초 사이트 접속시 로그인 페이지를 매핑한다.
      */
     @GetMapping("/")
+    public String start() {
+
+        return "user/loginForm";
+    }
+
+    /**
+     * index : 로그인 성공시 인덱스를 매핑한다.
+     */
+    @GetMapping("/index")
     public String index() {
 
         return "user/index";

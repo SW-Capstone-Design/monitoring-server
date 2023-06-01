@@ -78,7 +78,7 @@ public class BeaconApiController {
             Short b = Short.valueOf(battery).shortValue();
             beaconReqDTO.setBattery(b);
 
-            UserBeacon userBeacon = userBeaconRepository.findByBeacon_BeaconIdAndUser_UserId(bi, principal.getName());
+            UserBeacon userBeacon = userBeaconRepository.findByBeacon_BeaconIdAndUser_Identity(bi, principal.getName());
 
             if (userBeacon == null) {
                 beaconService.createDistance(principal.getName(), beaconReqDTO);

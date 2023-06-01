@@ -25,7 +25,7 @@ public class SecurityConfig {
     }
 
     private static final String[] AUTH_WHITELIST = {
-        "/auth/**", "/js/**", "/css/**", "/image/**", "/api/**"
+        "/", "/auth/**", "/js/**", "/css/**", "/image/**", "/api/**"
     };
 
     @Bean
@@ -55,7 +55,7 @@ public class SecurityConfig {
                 .loginProcessingUrl("/auth/loginProc")
                 .usernameParameter("identity")
                 .passwordParameter("password")
-                .defaultSuccessUrl("/", false)
+                .defaultSuccessUrl("/index", false)
                 .permitAll())
                 .logout(Customizer.withDefaults());
 

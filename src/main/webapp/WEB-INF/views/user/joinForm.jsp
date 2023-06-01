@@ -5,27 +5,27 @@
 <div class="container">
 	<form>
 
-		<div class="form-group">
-			<label for="identity">ID</label> <input type="text" class="form-control" placeholder="Enter identity" id="identity">
+		<div class="form-group" style="width:402px;">
+			<label for="identity">ID</label> <input type="text" class="form-control" placeholder="아이디를 입력하세요." id="identity">
 		</div>
 		<p id="valid_identity"></p>
-		<div class="form-group">
-			<label for="pwd">패스워드</label> <input type="password" class="form-control" placeholder="Enter password" id="password">
+		<div class="form-group" style="width:402px;">
+			<label for="pwd">패스워드</label> <input type="password" class="form-control" placeholder="패스워드를 입력하세요." id="password">
 		</div>
 		<p id="valid_password"></p>
-        <div class="form-group">
-            <label for="pwd">패스워드 확인</label> <input type="password" class="form-control" placeholder="Enter confirm" id="confirm">
+        <div class="form-group" style="width:402px;">
+            <label for="pwd">패스워드 확인</label> <input type="password" class="form-control" placeholder="패스워드를 입력하세요." id="confirm">
         </div>
-		<div class="form-group">
-			<label for="name">이름</label> <input type="name" class="form-control" placeholder="Enter name" id="name">
+		<div class="form-group" style="width:402px;">
+			<label for="name">이름</label> <input type="name" class="form-control" placeholder="이름을 입력하세요." id="name">
 		</div>
 		<p id="valid_name"></p>
-		<div class="form-group">
-            <label for="department">부서</label> <input type="department" class="form-control" placeholder="Enter department" id="department">
+		<div class="form-group" style="width:402px;">
+            <label for="department">부서</label> <input type="department" class="form-control" placeholder="부서를 입력하세요." id="department">
         </div>
         <p id="valid_department"></p>
-		<div class="form-group">
-        	<label for="telephone">전화번호</label> <input type="telephone" class="form-control" placeholder="Enter telephone" id="telephone">
+		<div class="form-group" style="width:402px;">
+        	<label for="telephone">전화번호</label> <input type="telephone" class="form-control" placeholder="전화번호를 입력하세요." id="telephone">
         </div>
         <p id="valid_telephone"></p>
 	</form>
