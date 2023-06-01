@@ -14,6 +14,8 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/security_area")
@@ -24,11 +26,11 @@ public class SecurityAreaApiController {
     /**
      * Create Security Area Controller
      */
-    @PostMapping("/{user_identity}")
-    public ResponseFormat<Void> createSecurityArea(@PathVariable(name = "user_identity") String userIdentity,
-                                                   @RequestBody SecurityAreaReqDTO.CREATE create) {
+    @PostMapping()
+    public ResponseFormat<Void> createSecurityArea(@RequestBody @Validated SecurityAreaReqDTO.CREATE create,
+                                                   Principal principal) {
 
-        securityAreaService.createSecurityArea(userIdentity, create);
+        securityAreaService.createSecurityArea(principal, create);
 
         return ResponseFormat.successMessage(
                 ResponseStatus.SUCCESS_CREATED,
@@ -39,26 +41,26 @@ public class SecurityAreaApiController {
     /**
      * Get Security Area By id Controller
      */
-    @GetMapping("/{user_identity}/{security_area_id}")
-    public ResponseFormat<Page<SecurityAreaResDTO.READ>> getSecurityAreaById(@PathVariable(name = "user_identity") String userIdentity,
-                                                                             @PathVariable(name = "security_area_id") Long securityAreaId,
-                                                                             @PageableDefault Pageable pageable) {
+    @GetMapping("/{security_area_id}")
+    public ResponseFormat<Page<SecurityAreaResDTO.READ>> getSecurityAreaById(@PathVariable(name = "security_area_id") Long securityAreaId,
+                                                                             @PageableDefault Pageable pageable,
+                                                                             Principal principal) {
 
         return ResponseFormat.successData(
                 ResponseStatus.SUCCESS_EXECUTE,
-                securityAreaService.getSecurityAreaById(userIdentity, securityAreaId, pageable)
+                securityAreaService.getSecurityAreaById(principal, securityAreaId, pageable)
         );
     }
 
     /**
      * Update Security Area Controller
      */
-    @PutMapping("/{user_identity}/{security_area_id}")
-    public ResponseFormat<Void> updateSecurityArea(@PathVariable(name = "user_identity") String userIdentity,
-                                                   @PathVariable(name = "security_area_id") Long securityAreaId,
-                                                   @RequestBody SecurityAreaReqDTO.UPDATE update) {
+    @PutMapping("/{security_area_id}")
+    public ResponseFormat<Void> updateSecurityArea(@PathVariable(name = "security_area_id") Long securityAreaId,
+                                                   @RequestBody @Validated SecurityAreaReqDTO.UPDATE update,
+                                                   Principal principal) {
 
-        securityAreaService.updateSecurityArea(userIdentity, securityAreaId, update);
+        securityAreaService.updateSecurityArea(principal, securityAreaId, update);
 
         return ResponseFormat.successMessage(
                 ResponseStatus.SUCCESS_EXECUTE,
@@ -69,11 +71,11 @@ public class SecurityAreaApiController {
     /**
      * Delete Security Area Controller
      */
-    @DeleteMapping("/{user_identity}/{security_area_id}")
-    public ResponseFormat<Void> deleteSecurityArea(@PathVariable(name = "user_identity") String userIdentity,
-                                                   @PathVariable(name = "security_area_id") Long securityAreaId) {
+    @DeleteMapping("/{security_area_id}")
+    public ResponseFormat<Void> deleteSecurityArea(@PathVariable(name = "security_area_id") Long securityAreaId,
+                                                   Principal principal) {
 
-        securityAreaService.deleteSecurityArea(userIdentity, securityAreaId);
+        securityAreaService.deleteSecurityArea(principal, securityAreaId);
 
         return ResponseFormat.successMessage(
                 ResponseStatus.SUCCESS_EXECUTE,
@@ -104,14 +106,14 @@ public class SecurityAreaApiController {
     /**
      * Get User Security Area Access Logs Controller
      */
-    @GetMapping("/access_log/{security_area_id}/{user_identity}")
-    public ResponseFormat<Page<SecurityAreaLocationResDTO.READ>> getUserSecurityAreaAccessLogs(@PathVariable(name = "user_identity") String userIdentity,
-                                                                                               @PathVariable(name = "security_area_id") Long securityAreaId,
-                                                                                               @PageableDefault Pageable pageable) {
+    @GetMapping("/access_log/{security_area_id}")
+    public ResponseFormat<Page<SecurityAreaLocationResDTO.READ>> getUserSecurityAreaAccessLogs(@PathVariable(name = "security_area_id") Long securityAreaId,
+                                                                                               @PageableDefault Pageable pageable,
+                                                                                               Principal principal) {
 
         return ResponseFormat.successData(
                 ResponseStatus.SUCCESS_EXECUTE,
-                securityAreaService.getUserSecurityAreaAccessLogs(userIdentity, securityAreaId, pageable)
+                securityAreaService.getUserSecurityAreaAccessLogs(principal, securityAreaId, pageable)
         );
     }
 }

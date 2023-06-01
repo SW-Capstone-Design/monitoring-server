@@ -20,6 +20,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.Principal;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -37,9 +39,9 @@ public class SecurityAreaService {
      * Create Security Area Service
      */
     @Transactional
-    public void createSecurityArea(String userIdentity, SecurityAreaReqDTO.CREATE create) {
+    public void createSecurityArea(Principal principal, SecurityAreaReqDTO.CREATE create) {
 
-        checkUserAuthorization(userIdentity);
+        checkUserAuthorization(principal.getName());
 
         SecurityArea securityArea = securityAreaMapper.toSecurityAreaEntity(create);
 
@@ -49,9 +51,9 @@ public class SecurityAreaService {
     /**
      * Get Security Area By id Service
      */
-    public Page<SecurityAreaResDTO.READ> getSecurityAreaById(String userIdentity, Long securityAreaId, Pageable pageable) {
+    public Page<SecurityAreaResDTO.READ> getSecurityAreaById(Principal principal, Long securityAreaId, Pageable pageable) {
 
-        checkUserAuthorization(userIdentity);
+        checkUserAuthorization(principal.getName());
 
         Page<SecurityArea> securityAreaPage = securityAreaRepository.findById(securityAreaId, pageable);
 
@@ -83,9 +85,9 @@ public class SecurityAreaService {
      * Update Security Area Service
      */
     @Transactional
-    public void updateSecurityArea(String userIdentity, Long securityAreaId, SecurityAreaReqDTO.UPDATE update) {
+    public void updateSecurityArea(Principal principal, Long securityAreaId, SecurityAreaReqDTO.UPDATE update) {
 
-        checkUserAuthorization(userIdentity);
+        checkUserAuthorization(principal.getName());
 
         final SecurityArea securityArea = securityAreaRepository.findById(securityAreaId)
                 .orElseThrow(() -> new NotFoundException(ResponseStatus.NOT_FOUND_SECURITY_AREA));
@@ -97,9 +99,9 @@ public class SecurityAreaService {
      * Delete Security Area Service
      */
     @Transactional
-    public void deleteSecurityArea(String userIdentity, Long securityAreaId) {
+    public void deleteSecurityArea(Principal principal, Long securityAreaId) {
 
-        checkUserAuthorization(userIdentity);
+        checkUserAuthorization(principal.getName());
 
         final SecurityArea securityArea = securityAreaRepository.findById(securityAreaId)
                 .orElseThrow(() -> new NotFoundException(ResponseStatus.NOT_FOUND_SECURITY_AREA));
@@ -136,9 +138,9 @@ public class SecurityAreaService {
     /**
      * Get User Security Area Access Logs Service
      */
-    public Page<SecurityAreaLocationResDTO.READ> getUserSecurityAreaAccessLogs(String userIdentity, Long securityAreaId, Pageable pageable) {
+    public Page<SecurityAreaLocationResDTO.READ> getUserSecurityAreaAccessLogs(Principal principal, Long securityAreaId, Pageable pageable) {
 
-        final User user = userRepository.findByIdentity(userIdentity)
+        final User user = userRepository.findByIdentity(principal.getName())
                 .orElseThrow(BadRequestException::new);
 
         final SecurityArea securityArea = securityAreaRepository.findById(securityAreaId)

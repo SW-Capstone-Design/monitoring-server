@@ -26,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -222,14 +223,14 @@ public class BeaconService {
      * Update Beacon And Beacon Location Service
      */
     @Transactional
-    public void updateBeaconInfoAndLocation(Long beaconId, String userIdentity, BeaconReqDTO.UPDATE update) {
+    public void updateBeaconInfoAndLocation(Long beaconId, Principal principal, BeaconReqDTO.UPDATE update) {
 
         final Beacon beacon = beaconRepository.findById(beaconId)
                 .orElseThrow(() -> new NotFoundException(ResponseStatus.NOT_FOUND_BEACON));
 
         beacon.updateBeaconInfoAndLocation(update);
 
-        final User user = userRepository.findByIdentity(userIdentity)
+        final User user = userRepository.findByIdentity(principal.getName())
                 .orElseThrow(BadRequestException::new);
 
         final UserBeacon userBeacon = userBeaconRepository.findByUserAndBeacon(user, beacon)
