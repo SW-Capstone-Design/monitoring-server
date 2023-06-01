@@ -29,19 +29,28 @@
       </tr>
     </thead>
     <tbody>
-    <c:forEach items="${lists.content}" var="userAttendance">
-      <tr>
-        <td>${userAttendance.attendance.date}</td>
-        <td>${userAttendance.user.identity}</td>
-        <td>${userAttendance.user.name}</td>
-        <td>${userAttendance.user.department}</td>
-        <td>${userAttendance.user.userRoleType}</td>
-        <td>${userAttendance.attendance.enterTime}</td>
-        <td>${userAttendance.attendance.leaveTime}</td>
-        <td>${userAttendance.attendance.goWork}</td>
-        <td>${userAttendance.attendance.leaveWork}</td>
-      </tr>
-      </c:forEach>
+      <c:choose>
+        <c:when test="${empty lists.content}">
+            <tr>
+                <td colspan="9" style="text-align:center;">조회결과가 없습니다.</td>
+            </tr>
+        </c:when>
+    <c:otherwise>
+        <c:forEach items="${lists.content}" var="userAttendance">
+          <tr>
+            <td>${userAttendance.attendance.date}</td>
+            <td>${userAttendance.user.identity}</td>
+            <td>${userAttendance.user.name}</td>
+            <td>${userAttendance.user.department}</td>
+            <td>${userAttendance.user.userRoleType}</td>
+            <td>${userAttendance.attendance.enterTime}</td>
+            <td>${userAttendance.attendance.leaveTime}</td>
+            <td>${userAttendance.attendance.goWork}</td>
+            <td>${userAttendance.attendance.leaveWork}</td>
+          </tr>
+          </c:forEach>
+          </c:otherwise>
+      </c:choose>
     </tbody>
   </table>
 

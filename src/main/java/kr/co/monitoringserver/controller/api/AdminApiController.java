@@ -9,6 +9,7 @@ import kr.co.monitoringserver.service.service.user.AdminService;
 import kr.co.monitoringserver.service.service.fcm.FirebaseCloudMessageService;
 import kr.co.monitoringserver.service.service.user.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -26,12 +27,15 @@ import java.util.concurrent.CopyOnWriteArrayList;
 @RequiredArgsConstructor
 public class AdminApiController {
 
+    @Autowired
     private AdminService adminService;
 
+    @Autowired
     private UserService userService;
 
     public static List<SseEmitter> emitters = new CopyOnWriteArrayList<>();
 
+    @Autowired
     private final FirebaseCloudMessageService firebaseCloudMessageService;
 
 

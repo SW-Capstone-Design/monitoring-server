@@ -30,5 +30,6 @@ public class AdminReqDTO {
     @Pattern(regexp = "^\\d{2,3}-\\d{3,4}-\\d{4}$", message = "10~11자리의 숫자만 입력가능합니다")
     private String telephone;
 
+    private String token;
     private UserRoleType userRoleType;
 }

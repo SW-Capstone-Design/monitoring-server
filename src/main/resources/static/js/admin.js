@@ -101,7 +101,7 @@ let index = {
         					name: $("#name").val(),
         					department: $("#department").val(),
         					telephone: $("#telephone").val(),
-        					roleType: $("#roleType").val()
+        					userRoleType: $("#userRoleType").val()
         			};
 
         			$.ajax({
