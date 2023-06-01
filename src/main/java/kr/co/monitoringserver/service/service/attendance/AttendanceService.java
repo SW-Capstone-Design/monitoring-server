@@ -46,9 +46,9 @@ public class AttendanceService {
      * Create And Save User Clock In Service
      */
     @Transactional
-    public void createAndSaveUserClockIn(String userIdentity) {
+    public void createAndSaveUserClockIn(Principal principal) {
 
-        final User user = userRepository.findByIdentity(userIdentity)
+        final User user = userRepository.findByIdentity(principal.getName())
                 .orElseThrow(BadRequestException::new);
 
         isAttendanceAlreadyTakenOnDate(user, LocalDate.now());
@@ -68,11 +68,12 @@ public class AttendanceService {
 
     /**
      * Update And Save User Clock Out Service
+     * 이미 퇴근했던 기록이 있어도 퇴근을 누르면 퇴근이 진행됨 : 해당 날짜에 퇴근을 하게 되면 다시 퇴근을 못하게 막을지 그냥 둘지 고민해봐야 할거 같음
      */
     @Transactional
-    public void updateAndSaveUserClockOut(String userIdentity) {
+    public void updateAndSaveUserClockOut(Principal principal) {
 
-        final User user = userRepository.findByIdentity(userIdentity)
+        final User user = userRepository.findByIdentity(principal.getName())
                 .orElseThrow(BadRequestException::new);
 
         LocalDate today = LocalDate.now();
@@ -122,9 +123,9 @@ public class AttendanceService {
      * Update UserAttendance Service
      */
     @Transactional
-    public void updateAttendance(String userIdentity, AttendanceReqDTO.UPDATE update) {
+    public void updateAttendance(Principal principal, AttendanceReqDTO.UPDATE update) {
 
-        final User user = userRepository.findByIdentity(userIdentity)
+        final User user = userRepository.findByIdentity(principal.getName())
                 .orElseThrow(BadRequestException::new);
 
         final UserAttendance userAttendance = userAttendanceRepository.findByUserAndAttendance_Date(user, update.getDate())
@@ -145,9 +146,9 @@ public class AttendanceService {
      * Delete UserAttendance Service
      */
     @Transactional
-    public void deleteAttendance(String userIdentity, LocalDate date) {
+    public void deleteAttendance(Principal principal, LocalDate date) {
 
-        final User user = userRepository.findByIdentity(userIdentity)
+        final User user = userRepository.findByIdentity(principal.getName())
                 .orElseThrow(() -> new NotFoundException(ResponseStatus.NOT_FOUND_USER));
 
         final UserAttendance userAttendance = userAttendanceRepository.findByUserAndAttendance_Date(user, date)

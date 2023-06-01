@@ -24,28 +24,28 @@ public class AttendanceApiController {
     /**
      * Create And Save User Clock In Controller
      */
-    @PostMapping("/clock_in/{user_identity}")
-    public ResponseFormat<Void> createAndSaveUserClockIn(@PathVariable(name = "user_identity") String userIdentity) {
+    @PostMapping("/clock_in")
+    public ResponseFormat<Void> createAndSaveUserClockIn(Principal principal) {
 
-        attendanceService.createAndSaveUserClockIn(userIdentity);
+        attendanceService.createAndSaveUserClockIn(principal);
 
         return ResponseFormat.successMessage(
                 ResponseStatus.SUCCESS_CREATED,
-                userIdentity + "님 출근이 성공적으로 저장되었습니다"
+                principal.getName() + "님 출근이 성공적으로 저장되었습니다"
         );
     }
 
     /**
      * Update And Save User Clock Out Controller
      */
-    @PutMapping("/clock_out/{user_identity}")
-    public ResponseFormat<Void> updateAndSaveUserClockOut(@PathVariable(name = "user_identity") String userIdentity) {
+    @PutMapping("/clock_out")
+    public ResponseFormat<Void> updateAndSaveUserClockOut(Principal principal) {
 
-        attendanceService.updateAndSaveUserClockOut(userIdentity);
+        attendanceService.updateAndSaveUserClockOut(principal);
 
         return ResponseFormat.successMessage(
                 ResponseStatus.SUCCESS_CREATED,
-                userIdentity + "님 퇴근이 성공적으로 저장되었습니다"
+                principal.getName() + "님 퇴근이 성공적으로 저장되었습니다"
         );
     }
 
@@ -91,26 +91,26 @@ public class AttendanceApiController {
     /**
      * Update UserAttendance Controller
      */
-    @PutMapping("/{user_identity}")
-    public ResponseFormat<Void> updateAttendance(@PathVariable(name = "user_identity") String userIdentity,
+    @PutMapping()
+    public ResponseFormat<Void> updateAttendance(Principal principal,
                                                  @RequestBody AttendanceReqDTO.UPDATE update) {
 
-        attendanceService.updateAttendance(userIdentity, update);
+        attendanceService.updateAttendance(principal, update);
 
         return ResponseFormat.successMessage(
                 ResponseStatus.SUCCESS_EXECUTE,
-                userIdentity + "님 출석 상태 정보가 성공적으로 수정되었습니다"
+                principal.getName() + "님 출석 상태 정보가 성공적으로 수정되었습니다"
         );
     }
 
     /**
      * Delete UserAttendance Controller
      */
-    @DeleteMapping("/{user_identity}")
-    public ResponseFormat<Void> deleteAttendance(@PathVariable(name = "user_identity") String userIdentity,
+    @DeleteMapping()
+    public ResponseFormat<Void> deleteAttendance(Principal principal,
                                                  @RequestParam(name = "date") LocalDate date) {
 
-        attendanceService.deleteAttendance(userIdentity, date);
+        attendanceService.deleteAttendance(principal, date);
 
         return ResponseFormat.successMessage(
                 ResponseStatus.SUCCESS_EXECUTE,

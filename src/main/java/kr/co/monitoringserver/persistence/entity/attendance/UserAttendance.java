@@ -10,15 +10,14 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalTime;
-
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "tbl_user_attendance")
 @AttributeOverride(
         name = "id",
-        column = @Column(name = "user_attendance_id", length = 4))
+        column = @Column(name = "user_attendance_id", length = 4)
+)
 public class UserAttendance extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -50,15 +49,6 @@ public class UserAttendance extends BaseEntity {
                 .goWork(goWork)
                 .leaveWork(leaveWork)
                 .date(update.getDate())
-                .build();
-    }
-
-    public void updateClockOutRecord(LocalTime leaveTime,
-                                     AttendanceType leaveWork) {
-
-        this.attendance = Attendance.builder()
-                .leaveTime(leaveTime)
-                .leaveWork(leaveWork)
                 .build();
     }
 }

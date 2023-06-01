@@ -19,7 +19,8 @@ import java.util.List;
 @Table(name = "tbl_security_area")
 @AttributeOverride(
         name = "id",
-        column = @Column(name = "security_area_id", length = 4))
+        column = @Column(name = "security_area_id", length = 4)
+)
 public class SecurityArea extends BaseEntity {
 
     @Column(name = "security_area_name",
