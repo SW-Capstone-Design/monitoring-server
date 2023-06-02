@@ -3,6 +3,8 @@ package kr.co.monitoringserver.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.security.Principal;
+
 @Controller
 public class UserController {
 
@@ -10,9 +12,13 @@ public class UserController {
      * start : 최초 사이트 접속시 로그인 페이지를 매핑한다.
      */
     @GetMapping("/")
-    public String start() {
+    public String start(Principal principal) {
 
-        return "user/loginForm";
+        if(principal != null){
+            return "redirect:/index";
+        } else {
+            return "user/loginForm";
+        }
     }
 
     /**
