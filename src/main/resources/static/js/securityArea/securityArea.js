@@ -49,7 +49,8 @@ let index = {
 	},
 
 	   update: function() {
-    		    var param = $("#securityAreaId").val();
+    		    var param1 = $("#securityAreaId").val();
+    		    var param2 = $("#identity").val();
 
     			let data = {
                                name: $("#name").val(),
@@ -66,7 +67,7 @@ let index = {
 
            $.ajax({
                    type: "PUT",
-                   url: "/api/v1/security_area/"+param,
+                   url: "/api/v1/security_area/"+param1+"/"+param2,
                    data: JSON.stringify(data),
                    contentType: "application/json; charset=utf-8"
                }).done(function(resp) {
