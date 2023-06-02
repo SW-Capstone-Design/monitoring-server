@@ -8,6 +8,7 @@ import kr.co.monitoringserver.persistence.entity.securityArea.SecurityArea;
 import kr.co.monitoringserver.persistence.entity.user.User;
 import kr.co.monitoringserver.persistence.repository.SecurityAreaRepository;
 import kr.co.monitoringserver.persistence.repository.UserRepository;
+import kr.co.monitoringserver.persistence.repository.UserSecurityAreaRepository;
 import kr.co.monitoringserver.service.dtos.request.securityArea.SecurityAreaLocationReqDTO;
 import kr.co.monitoringserver.service.dtos.request.securityArea.SecurityAreaReqDTO;
 import kr.co.monitoringserver.service.dtos.response.SecurityAreaLocationResDTO;
@@ -34,6 +35,7 @@ public class SecurityAreaService {
     private final UserRepository userRepository;
 
     private final SecurityAreaLocationService securityAreaLocationService;
+    private final UserSecurityAreaRepository userSecurityAreaRepository;
 
     /**
      * Create Security Area Service
@@ -85,9 +87,9 @@ public class SecurityAreaService {
      * Update Security Area Service
      */
     @Transactional
-    public void updateSecurityArea(Principal principal, Long securityAreaId, SecurityAreaReqDTO.UPDATE update) {
+    public void updateSecurityArea(String userIdentity, Long securityAreaId, SecurityAreaReqDTO.UPDATE update) {
 
-        checkUserAuthorization(principal.getName());
+        checkUserAuthorization(userIdentity);
 
         final SecurityArea securityArea = securityAreaRepository.findById(securityAreaId)
                 .orElseThrow(() -> new NotFoundException(ResponseStatus.NOT_FOUND_SECURITY_AREA));
