@@ -82,13 +82,13 @@ public class SecurityArea extends BaseEntity {
         this.description = update.getDescription();
 
         this.lowerLeft = Location.builder()
-                .x(lowerLeft.getX())
-                .y(lowerLeft.getY())
+                .x(update.getLowerLeft().getX())
+                .y(update.getLowerLeft().getY())
                 .build();
 
         this.upperRight = Location.builder()
-                .x(upperRight.getX())
-                .y(upperRight.getY())
+                .x(update.getUpperRight().getX())
+                .y(update.getUpperRight().getY())
                 .build();
     }
 }

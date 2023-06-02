@@ -24,6 +24,8 @@ public interface AttendanceMapper {
                 .build();
     }
 
+    // ============UserAttendance============//
+
     default UserAttendance toUserAttendanceEntity(User user, Attendance attendance) {
 
         return UserAttendance.builder()
