@@ -73,11 +73,11 @@ Beacon 센서를 활용한 자동화 출입 및 안전 관리 시스템
 
 
 ## 📌 주요 기능
-#### 회원가입 - <a href="https://github.com/SW-Capstone-Design/monitoring-server/wiki/%ED%9A%8C%EC%9B%90%EA%B0%80%EC%9E%85" >상세보기 - WIKI 이동</a>
+#### 회원가입 - <a href="https://github.com/SW-Capstone-Design/monitoring-server/wiki/%EA%B8%B0%EB%8A%A5-%7C-MainPage-&-MyPage(UserPage)" >상세보기 - WIKI 이동</a>
 - 주소 API 연동
 - ID 중복 체크
 - Security를 통해 PW 암호화
-#### 마이 페이지 (사용자 페이지) - <a href="https://github.com/SW-Capstone-Design/monitoring-server/wiki/%EB%A7%88%EC%9D%B4-%ED%8E%98%EC%9D%B4%EC%A7%80-(%EC%82%AC%EC%9A%A9%EC%9E%90-%ED%8E%98%EC%9D%B4%EC%A7%80)" >상세보기 - WIKI 이동</a>
+#### 마이 페이지 (사용자 페이지) - <a href="https://github.com/SW-Capstone-Design/monitoring-server/wiki/%EA%B8%B0%EB%8A%A5-%7C-MainPage-&-MyPage(UserPage)" >상세보기 - WIKI 이동</a>
 - 주소 API 연동
 - 회원정보 변경
 - 출/퇴근 정보 확인
