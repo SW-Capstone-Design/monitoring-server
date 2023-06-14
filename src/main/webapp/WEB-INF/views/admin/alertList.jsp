@@ -21,12 +21,21 @@
       </tr>
     </thead>
     <tbody>
+      <c:choose>
+        <c:when test="${empty alerts.content}">
+            <tr>
+                <td colspan="2" style="text-align:center;">새 알림이 없습니다.</td>
+            </tr>
+        </c:when>
+    <c:otherwise>
     <c:forEach items="${alerts.content}" var="alert">
       <tr>
         <td width="10%">${alert.indexAlertTime}</td>
         <td>${alert.indexAlertContent}</td>
       </tr>
       </c:forEach>
+        </c:otherwise>
+    </c:choose>
     </tbody>
   </table>
     <div style="position:relative; right:35%">

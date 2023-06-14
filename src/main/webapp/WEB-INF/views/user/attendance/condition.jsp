@@ -9,6 +9,7 @@
     <br><br>
 <hr>
 </span>
+<div style="display:inline-block;">
 	<form>
 		<div class="form-group" style="width:402px;">
 			<label for="work">정상출퇴근</label>
@@ -29,6 +30,11 @@
 	</form>
 	<button id="btn-back" class="btn btn-dark">뒤로가기</button>
 </div>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<div style="display:inline-block;">
+   <canvas id="myChart" style="display:inline-block;" width=500 height=400></canvas>
+</div>
+</div>
 
 <script>
     let index = {
@@ -44,6 +50,41 @@
         }
     index.init();
 </script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+<script>
+const ctx = document.getElementById('myChart');
+          var work = $("#work").val();
+          var tardiness = $("#tardiness").val();
+          var earlyLeave = $("#earlyLeave").val();
+          var absent = $("#absent").val();
 
+          new Chart(ctx, {
+            type: 'bar',
+            data: {
+              labels: ['정상출퇴근', '지각', '조퇴', '결근'],
+              datasets: [{
+                label: '데이터',
+                data: [work, tardiness, earlyLeave, absent],
+                borderWidth: 1,
+                backgroundColor: 'rgba(255, 99, 132, 0.4)'
+              }]
+            },
+            options: {
+              responsive: false,
+              scales: {
+                y: {
+                  title: {
+                       display: true,
+                       text: '개수'
+                  },
+                  beginAtZero: true,
+                  ticks: {
+                      stepSize: 1
+                  }
+                }
+              }
+            }
+          });
+</script>
 <%@ include file="../../layout/user/footer.jsp"%>

@@ -1,6 +1,6 @@
 package kr.co.monitoringserver.controller;
 
-import kr.co.monitoringserver.persistence.repository.IndexNotificationRepository;
+import kr.co.monitoringserver.persistence.repository.*;
 import kr.co.monitoringserver.service.enums.AttendanceType;
 import kr.co.monitoringserver.service.service.user.AdminService;
 import kr.co.monitoringserver.service.service.user.UserService;
@@ -13,7 +13,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Controller
 public class AdminController {
@@ -25,13 +27,38 @@ public class AdminController {
     private UserService userService;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private BeaconRepository beaconRepository;
+
+    @Autowired
+    private SecurityAreaRepository securityAreaRepository;
+
+    @Autowired
     private IndexNotificationRepository indexNotificationRepository;
+
+    @Autowired
+    private UserSecurityAreaRepository userSecurityAreaRepository;
 
     /**
      * IndexForm : 관리자페이지 홈페이지로 매핑한다.
      */
     @GetMapping("/admin/index")
-    public String IndexForm() {
+    public String IndexForm(Model model) {
+
+        LocalDate now = LocalDate.now();
+        LocalDate beforeTwodays = now.minusDays(2);
+        LocalDate yesterday = now.minusDays(1);
+
+        model.addAttribute("userCounts",userRepository.count());
+        model.addAttribute("beaconCounts", beaconRepository.count());
+        model.addAttribute("securityAreaCounts", securityAreaRepository.count());
+        model.addAttribute("indexNotificationCounts", indexNotificationRepository.count());
+
+        model.addAttribute("day1", userSecurityAreaRepository.countByCreatedAt(beforeTwodays));
+        model.addAttribute("day2", userSecurityAreaRepository.countByCreatedAt(yesterday));
+        model.addAttribute("day3", userSecurityAreaRepository.countByCreatedAt(now));
 
         return "admin/index";
     }

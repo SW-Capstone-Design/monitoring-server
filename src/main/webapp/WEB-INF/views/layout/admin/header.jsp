@@ -52,7 +52,7 @@ textarea {
 							<li class="nav-item"><a class="nav-link" href="/admin/beacon/info">비콘관리</a></li>
         					<li class="nav-item"><a class="nav-link" href="/admin/area/info">보안구역관리</a></li>
         					<li class="nav-item"><a class="nav-link" href="/admin/info">회원관리</a></li>
-        					<li class="nav-item"><a class="nav-link" href="/">사용자페이지</a></li>
+        					<li class="nav-item"><a class="nav-link" href="/index">사용자페이지</a></li>
         					<li class="nav-item"><a class="nav-link" href="/logout">로그아웃</a></li>
         					<!-- Trigger the modal with a button -->
         					<div style="position:relative; left:90%;">
@@ -89,12 +89,21 @@ textarea {
                                           </tr>
                                         </thead>
                                         <tbody>
+                                          <c:choose>
+                                                <c:when test="${empty alerts.content}">
+                                                    <tr>
+                                                        <td colspan="2" style="text-align:center;">새 알림이 없습니다.</td>
+                                                    </tr>
+                                                </c:when>
+                                            <c:otherwise>
                                         <c:forEach items="${alerts.content}" var="alert">
                                           <tr>
                                             <td width="10%">${alert.indexAlertTime}</td>
                                             <td>${alert.indexAlertContent}</td>
                                           </tr>
                                           </c:forEach>
+                                          </c:otherwise>
+                                      </c:choose>
                                         </tbody>
                                       </table>
                                       </form>

@@ -55,7 +55,7 @@ public class SecurityAreaController {
      * securityAccessList : securityArea 접근 기록을 조회한다.
      */
     @GetMapping("/admin/area/accessInfo")
-    public String securityAccessList(Model model, @PageableDefault(size=10, sort="accessTime", direction = Sort.Direction.DESC) Pageable pageable){
+    public String securityAccessList(Model model, @PageableDefault(size=10, sort="createdAt", direction = Sort.Direction.DESC) Pageable pageable){
 
         model.addAttribute("lists", securityAreaLocationService.listSecurityAccessLog(pageable));
 
