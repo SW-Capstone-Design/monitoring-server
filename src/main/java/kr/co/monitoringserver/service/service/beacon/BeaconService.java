@@ -241,10 +241,14 @@ public class BeaconService {
         final User user = userRepository.findByIdentity(principal.getName())
                 .orElseThrow(BadRequestException::new);
 
-        final UserBeacon userBeacon = userBeaconRepository.findByUserAndBeacon(user, beacon)
-                .orElseThrow(() -> new NotFoundException(ResponseStatus.NOT_FOUND_BEACON));
+        final Optional<UserBeacon> userBeaconOpt = userBeaconRepository.findByUserAndBeacon(user, beacon);
 
-        userBeacon.updateUserAndBeacon(user, beacon, update.getRssi());
+        // 사용자-비콘 테이블에 데이터가 존재할 경우, RSSI 값을 수정한다
+        if (userBeaconOpt.isPresent()) {
+            UserBeacon userBeacon = userBeaconOpt.get();
+
+            userBeacon.updateUserAndBeacon(user, beacon, update.getRssi());
+        }
     }
 
     /**
