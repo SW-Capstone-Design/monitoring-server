@@ -29,8 +29,8 @@
             <br>
 
           <h5><b>⚙️ 개발 환경</b></h5>
-            <h6>Java 17</h6>
-            <h6>IDE : IntelliJ</h6>
+            <h6>Language : Java 17 /Kotlin</h6>
+            <h6>IDE : IntelliJ /Android Studio</h6>
             <h6>Framework : Springboot(3.0.4)</h6>
             <h6>Database : MariaDB</h6>
             <h6>ORM : JPA</h6>
