@@ -4,11 +4,11 @@
 
 <div class="container">
     <div>
-        <br><br><br>
+        <br><br>
           <img src="/image/beacon.png" width=120>
           &nbsp;&nbsp;
-          <img src="/image/teamtwo.png">
-          <br><br><br><br><br>
+          <img src="/image/teamtwo.png" height=90 width=500>
+          <br><br><br><br>
 
           <h5><b>✅ 프로젝트 정보</b></h5>
             <h6>Beacon 센서를 활용한 자동화 출입 및 안전 관리 시스템</h6>
