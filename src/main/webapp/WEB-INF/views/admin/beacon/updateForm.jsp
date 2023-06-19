@@ -3,9 +3,9 @@
 <%@ include file="../../layout/admin/header.jsp"%>
 
 <div class="container">
-  <h2>비콘등록</h2>
+  <h2>비콘정보수정</h2>
   <span>
-    비콘데이터를 등록할 수 있습니다.
+    비콘 데이터를 수정합니다.
   </span>
   <br><br>
     <form>

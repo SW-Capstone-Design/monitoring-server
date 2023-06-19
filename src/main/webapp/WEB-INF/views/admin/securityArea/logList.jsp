@@ -12,6 +12,8 @@
   <table class="table table-hover">
     <thead>
       <tr>
+        <th>생성일자</th>
+        <th>갱신일자</th>
         <th>접근시간</th>
         <th>접근자</th>
         <th>보안구역명</th>
@@ -28,6 +30,8 @@
     <c:otherwise>
         <c:forEach items="${lists.content}" var="userSecurityArea">
           <tr>
+            <td>${userSecurityArea.createdAt}</td>
+            <td>${userSecurityArea.modifiedAt}</td>
             <td>${userSecurityArea.accessTime}</td>
             <td>${userSecurityArea.user.name}</td>
             <td>${userSecurityArea.securityArea.name}</td>

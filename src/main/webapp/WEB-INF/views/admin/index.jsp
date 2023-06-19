@@ -14,7 +14,7 @@
         <input type="hidden" value="${day2}" class="form-control" id="day2">
         <input type="hidden" value="${day3}" class="form-control" id="day3">
 
-        <h1>관리자 페이지</h1>
+        <h1><b>관리자 페이지</b></h1>
         <br>
         <div>
           <canvas id="myChart" style="display:inline-block;" width=500 height=400></canvas>
@@ -69,7 +69,7 @@
                     labels: [year+"/"+month+"/"+(date-2), year+"/"+month+"/"+(date-1), year+"/"+month+"/"+date],
                     datasets: [{
                       label: '경고',
-                      data: [day1, day2, day3],
+                      data: ["${day1}", "${day2}", "${day3}"],
                       borderWidth: 1
                     }]
                   },

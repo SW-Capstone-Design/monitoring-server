@@ -53,13 +53,4 @@ public class AttendanceController {
 
         return "user/attendance/condition";
     }
-
-    /**
-     * attendCreateForm : 출결정보 생성 폼이다.
-     */
-    @GetMapping("/attendance/register")
-    public String attendCreateForm() {
-
-        return "user/attendance/register";
-    }
 }
