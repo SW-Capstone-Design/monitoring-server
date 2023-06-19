@@ -109,11 +109,11 @@ public class SecurityAreaApiController {
     @GetMapping("/access_log/{security_area_id}")
     public ResponseFormat<Page<SecurityAreaLocationResDTO.READ>> getUserSecurityAreaAccessLogs(@PathVariable(name = "security_area_id") Long securityAreaId,
                                                                                                @PageableDefault Pageable pageable,
-                                                                                               Principal principal) {
+                                                                                               @PathVariable(name = "user_identity") String userIdentity) {
 
         return ResponseFormat.successData(
                 ResponseStatus.SUCCESS_EXECUTE,
-                securityAreaService.getUserSecurityAreaAccessLogs(principal, securityAreaId, pageable)
+                securityAreaService.getUserSecurityAreaAccessLogs(userIdentity, securityAreaId, pageable)
         );
     }
 }

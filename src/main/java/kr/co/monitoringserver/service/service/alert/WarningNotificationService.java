@@ -23,7 +23,9 @@ public class WarningNotificationService {
     public void createAndSendWarningNotification(User user) {
 
         WarningNotification warningNotification =
-                warningNotificationMapper.toWarningNotificationEntity(LocalTime.now(), "주의 : 보안구역에 진입하였습니다");
+                warningNotificationMapper.toWarningNotificationEntity(
+                        LocalTime.now(),
+                        "주의 : " + user.getName() + "님이 보안구역에 진입하였습니다");
 
         warningNotificationRepository.save(warningNotification);
 

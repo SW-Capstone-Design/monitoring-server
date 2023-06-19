@@ -24,28 +24,28 @@ public class AttendanceApiController {
     /**
      * Create And Save User Clock In Controller
      */
-    @PostMapping("/clock_in")
-    public ResponseFormat<Void> createAndSaveUserClockIn(Principal principal) {
+    @PostMapping("/clock_in/{user_identity}")
+    public ResponseFormat<Void> createAndSaveUserClockIn(@PathVariable(name = "user_identity") String userIdentity) {
 
-        attendanceService.createAndSaveUserClockIn(principal);
+        attendanceService.createAndSaveUserClockIn(userIdentity);
 
         return ResponseFormat.successMessage(
                 ResponseStatus.SUCCESS_CREATED,
-                principal.getName() + "님 출근이 성공적으로 저장되었습니다"
+                userIdentity + "님 출근이 성공적으로 저장되었습니다"
         );
     }
 
     /**
      * Update And Save User Clock Out Controller
      */
-    @PutMapping("/clock_out")
-    public ResponseFormat<Void> updateAndSaveUserClockOut(Principal principal) {
+    @PutMapping("/clock_out/{user_identity}")
+    public ResponseFormat<Void> updateAndSaveUserClockOut(@PathVariable(name = "user_identity") String userIdentity) {
 
-        attendanceService.updateAndSaveUserClockOut(principal);
+        attendanceService.updateAndSaveUserClockOut(userIdentity);
 
         return ResponseFormat.successMessage(
                 ResponseStatus.SUCCESS_CREATED,
-                principal.getName() + "님 퇴근이 성공적으로 저장되었습니다"
+                userIdentity + "님 퇴근이 성공적으로 저장되었습니다"
         );
     }
 

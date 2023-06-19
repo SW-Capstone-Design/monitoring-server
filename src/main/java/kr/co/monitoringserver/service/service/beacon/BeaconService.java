@@ -291,7 +291,6 @@ public class BeaconService {
     }
 
     // 비콘 배터리가 20% 미만일 경우 알림 설정
-    // TODO : 생성된 경고알림 정보를 경고알림 Repository 저장
     private void sendBatteryLowNotification(Beacon beacon) {
 
         System.out.printf(

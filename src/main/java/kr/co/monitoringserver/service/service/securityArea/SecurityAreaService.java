@@ -3,7 +3,6 @@ package kr.co.monitoringserver.service.service.securityArea;
 import kr.co.monitoringserver.controller.api.AdminApiController;
 import kr.co.monitoringserver.infra.global.exception.BadRequestException;
 import kr.co.monitoringserver.infra.global.exception.NotFoundException;
-import kr.co.monitoringserver.infra.global.exception.UnAuthenticateException;
 import kr.co.monitoringserver.infra.global.model.ResponseStatus;
 import kr.co.monitoringserver.persistence.entity.alert.IndexNotification;
 import kr.co.monitoringserver.persistence.entity.securityArea.SecurityArea;
@@ -11,7 +10,6 @@ import kr.co.monitoringserver.persistence.entity.user.User;
 import kr.co.monitoringserver.persistence.repository.IndexNotificationRepository;
 import kr.co.monitoringserver.persistence.repository.SecurityAreaRepository;
 import kr.co.monitoringserver.persistence.repository.UserRepository;
-import kr.co.monitoringserver.persistence.repository.UserSecurityAreaRepository;
 import kr.co.monitoringserver.service.dtos.request.securityArea.SecurityAreaLocationReqDTO;
 import kr.co.monitoringserver.service.dtos.request.securityArea.SecurityAreaReqDTO;
 import kr.co.monitoringserver.service.dtos.response.SecurityAreaLocationResDTO;
@@ -23,7 +21,6 @@ import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
@@ -46,7 +43,6 @@ public class SecurityAreaService {
     private final UserRepository userRepository;
 
     private final SecurityAreaLocationService securityAreaLocationService;
-    private final UserSecurityAreaRepository userSecurityAreaRepository;
 
     private final IndexNotificationRepository indexNotificationRepository;
 
@@ -191,9 +187,9 @@ public class SecurityAreaService {
     /**
      * Get User Security Area Access Logs Service
      */
-    public Page<SecurityAreaLocationResDTO.READ> getUserSecurityAreaAccessLogs(Principal principal, Long securityAreaId, Pageable pageable) {
+    public Page<SecurityAreaLocationResDTO.READ> getUserSecurityAreaAccessLogs(String userIdentity, Long securityAreaId, Pageable pageable) {
 
-        final User user = userRepository.findByIdentity(principal.getName())
+        final User user = userRepository.findByIdentity(userIdentity)
                 .orElseThrow(BadRequestException::new);
 
         final SecurityArea securityArea = securityAreaRepository.findById(securityAreaId)
@@ -213,7 +209,7 @@ public class SecurityAreaService {
         if (user.getUserRoleType().equals(UserRoleType.ADMIN)) {
             return true;
         } else {
-            throw new UnAuthenticateException();
+            return false;
         }
     }
 }
