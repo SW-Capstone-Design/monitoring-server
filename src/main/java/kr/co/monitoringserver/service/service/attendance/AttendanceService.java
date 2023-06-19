@@ -46,9 +46,9 @@ public class AttendanceService {
      * Create And Save User Clock In Service
      */
     @Transactional
-    public void createAndSaveUserClockIn(String userIdentity) {
+    public void createAndSaveUserClockIn(Principal principal) {
 
-        final User user = userRepository.findByIdentity(userIdentity)
+        final User user = userRepository.findByIdentity(principal.getName())
                 .orElseThrow(BadRequestException::new);
 
         isAttendanceAlreadyTakenOnDate(user, LocalDate.now());
@@ -70,9 +70,9 @@ public class AttendanceService {
      * Update And Save User Clock Out Service
      */
     @Transactional
-    public void updateAndSaveUserClockOut(String userIdentity) {
+    public void updateAndSaveUserClockOut(Principal principal) {
 
-        final User user = userRepository.findByIdentity(userIdentity)
+        final User user = userRepository.findByIdentity(principal.getName())
                 .orElseThrow(BadRequestException::new);
 
         LocalDate today = LocalDate.now();
