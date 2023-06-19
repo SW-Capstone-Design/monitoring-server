@@ -69,7 +69,7 @@
                     labels: [year+"/"+month+"/"+(date-2), year+"/"+month+"/"+(date-1), year+"/"+month+"/"+date],
                     datasets: [{
                       label: '경고',
-                      data: [day1, day2, day3],
+                      data: ["${day1}", "${day2}", "${day3}"],
                       borderWidth: 1
                     }]
                   },
