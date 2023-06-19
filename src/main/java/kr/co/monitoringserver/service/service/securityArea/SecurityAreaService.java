@@ -98,9 +98,9 @@ public class SecurityAreaService {
      * Update Security Area Service
      */
     @Transactional
-    public void updateSecurityArea(String userIdentity, Long securityAreaId, SecurityAreaReqDTO.UPDATE update) {
+    public void updateSecurityArea(Principal principal, Long securityAreaId, SecurityAreaReqDTO.UPDATE update) {
 
-        checkUserAuthorization(userIdentity);
+        checkUserAuthorization(principal.getName());
 
         final SecurityArea securityArea = securityAreaRepository.findById(securityAreaId)
                 .orElseThrow(() -> new NotFoundException(ResponseStatus.NOT_FOUND_SECURITY_AREA));
@@ -187,9 +187,9 @@ public class SecurityAreaService {
     /**
      * Get User Security Area Access Logs Service
      */
-    public Page<SecurityAreaLocationResDTO.READ> getUserSecurityAreaAccessLogs(String userIdentity, Long securityAreaId, Pageable pageable) {
+    public Page<SecurityAreaLocationResDTO.READ> getUserSecurityAreaAccessLogs(Principal principal, Long securityAreaId, Pageable pageable) {
 
-        final User user = userRepository.findByIdentity(userIdentity)
+        final User user = userRepository.findByIdentity(principal.getName())
                 .orElseThrow(BadRequestException::new);
 
         final SecurityArea securityArea = securityAreaRepository.findById(securityAreaId)

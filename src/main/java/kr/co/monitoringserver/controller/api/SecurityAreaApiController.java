@@ -55,12 +55,12 @@ public class SecurityAreaApiController {
     /**
      * Update Security Area Controller
      */
-    @PutMapping("/{security_area_id}/{user_identity}")
+    @PutMapping("/{security_area_id}")
     public ResponseFormat<Void> updateSecurityArea(@PathVariable(name = "security_area_id") Long securityAreaId,
                                                    @RequestBody @Validated SecurityAreaReqDTO.UPDATE update,
-                                                   @PathVariable(name = "user_identity") String userIdentity) {
+                                                   Principal principal) {
 
-        securityAreaService.updateSecurityArea(userIdentity, securityAreaId, update);
+        securityAreaService.updateSecurityArea(principal, securityAreaId, update);
 
         return ResponseFormat.successMessage(
                 ResponseStatus.SUCCESS_EXECUTE,
@@ -109,11 +109,11 @@ public class SecurityAreaApiController {
     @GetMapping("/access_log/{security_area_id}")
     public ResponseFormat<Page<SecurityAreaLocationResDTO.READ>> getUserSecurityAreaAccessLogs(@PathVariable(name = "security_area_id") Long securityAreaId,
                                                                                                @PageableDefault Pageable pageable,
-                                                                                               @PathVariable(name = "user_identity") String userIdentity) {
+                                                                                               Principal principal) {
 
         return ResponseFormat.successData(
                 ResponseStatus.SUCCESS_EXECUTE,
-                securityAreaService.getUserSecurityAreaAccessLogs(userIdentity, securityAreaId, pageable)
+                securityAreaService.getUserSecurityAreaAccessLogs(principal, securityAreaId, pageable)
         );
     }
 }
