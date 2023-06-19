@@ -3,7 +3,6 @@ package kr.co.monitoringserver.service.service.securityArea;
 import kr.co.monitoringserver.controller.api.AdminApiController;
 import kr.co.monitoringserver.infra.global.exception.BadRequestException;
 import kr.co.monitoringserver.infra.global.exception.NotFoundException;
-import kr.co.monitoringserver.infra.global.exception.UnAuthenticateException;
 import kr.co.monitoringserver.infra.global.model.ResponseStatus;
 import kr.co.monitoringserver.persistence.entity.alert.IndexNotification;
 import kr.co.monitoringserver.persistence.entity.securityArea.SecurityArea;
@@ -11,7 +10,6 @@ import kr.co.monitoringserver.persistence.entity.user.User;
 import kr.co.monitoringserver.persistence.repository.IndexNotificationRepository;
 import kr.co.monitoringserver.persistence.repository.SecurityAreaRepository;
 import kr.co.monitoringserver.persistence.repository.UserRepository;
-import kr.co.monitoringserver.persistence.repository.UserSecurityAreaRepository;
 import kr.co.monitoringserver.service.dtos.request.securityArea.SecurityAreaLocationReqDTO;
 import kr.co.monitoringserver.service.dtos.request.securityArea.SecurityAreaReqDTO;
 import kr.co.monitoringserver.service.dtos.response.SecurityAreaLocationResDTO;
@@ -23,7 +21,6 @@ import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
@@ -46,7 +43,6 @@ public class SecurityAreaService {
     private final UserRepository userRepository;
 
     private final SecurityAreaLocationService securityAreaLocationService;
-    private final UserSecurityAreaRepository userSecurityAreaRepository;
 
     private final IndexNotificationRepository indexNotificationRepository;
 
@@ -102,9 +98,9 @@ public class SecurityAreaService {
      * Update Security Area Service
      */
     @Transactional
-    public void updateSecurityArea(String userIdentity, Long securityAreaId, SecurityAreaReqDTO.UPDATE update) {
+    public void updateSecurityArea(Principal principal, Long securityAreaId, SecurityAreaReqDTO.UPDATE update) {
 
-        checkUserAuthorization(userIdentity);
+        checkUserAuthorization(principal.getName());
 
         final SecurityArea securityArea = securityAreaRepository.findById(securityAreaId)
                 .orElseThrow(() -> new NotFoundException(ResponseStatus.NOT_FOUND_SECURITY_AREA));
@@ -213,7 +209,7 @@ public class SecurityAreaService {
         if (user.getUserRoleType().equals(UserRoleType.ADMIN)) {
             return true;
         } else {
-            throw new UnAuthenticateException();
+            return false;
         }
     }
 }

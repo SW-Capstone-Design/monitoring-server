@@ -68,7 +68,6 @@ public class AttendanceService {
 
     /**
      * Update And Save User Clock Out Service
-     * 이미 퇴근했던 기록이 있어도 퇴근을 누르면 퇴근이 진행됨 : 해당 날짜에 퇴근을 하게 되면 다시 퇴근을 못하게 막을지 그냥 둘지 고민해봐야 할거 같음
      */
     @Transactional
     public void updateAndSaveUserClockOut(Principal principal) {
@@ -211,7 +210,7 @@ public class AttendanceService {
         }
     }
 
-    // 출/퇴근 상태를 통해 출근 리스트를 조회
+    // 출 / 퇴근 상태를 통해 출근 리스트를 조회
     private Page<AttendanceResDTO.READ> getAttendanceListByStatus(LocalDate date, AttendanceType status, Pageable pageable) {
 
         final Page<UserAttendance> userAttendancePage = userAttendanceRepository.findByAttendance_Date(date, pageable);

@@ -5,9 +5,7 @@ import kr.co.monitoringserver.infra.global.model.ResponseStatus;
 import kr.co.monitoringserver.persistence.entity.Location;
 import kr.co.monitoringserver.persistence.entity.attendance.UserAttendance;
 import kr.co.monitoringserver.persistence.entity.user.User;
-import kr.co.monitoringserver.persistence.repository.BeaconRepository;
 import kr.co.monitoringserver.persistence.repository.UserAttendanceRepository;
-import kr.co.monitoringserver.persistence.repository.UserBeaconRepository;
 import kr.co.monitoringserver.persistence.repository.UserRepository;
 import kr.co.monitoringserver.service.dtos.request.user.UserReqDTO;
 import kr.co.monitoringserver.service.enums.AttendanceType;
@@ -37,10 +35,6 @@ public class UserService {
     private final BCryptPasswordEncoder encoder;
 
     private final UserLocationService userLocationService;
-
-    private final BeaconRepository beaconRepository;
-
-    private final UserBeaconRepository userBeaconRepository;
 
     /**
      * join : 회원가입한다.

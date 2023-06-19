@@ -22,7 +22,7 @@ public class SecurityAreaWarning extends BaseEntity {
     private SecurityArea securityArea;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "alert_id")
+    @JoinColumn(name = "warning_notification_id")
     private WarningNotification warningNotification;
 
 

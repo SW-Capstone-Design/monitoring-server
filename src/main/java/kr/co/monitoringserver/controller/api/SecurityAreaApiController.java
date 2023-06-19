@@ -55,12 +55,12 @@ public class SecurityAreaApiController {
     /**
      * Update Security Area Controller
      */
-    @PutMapping("/{security_area_id}/{user_identity}")
+    @PutMapping("/{security_area_id}")
     public ResponseFormat<Void> updateSecurityArea(@PathVariable(name = "security_area_id") Long securityAreaId,
                                                    @RequestBody @Validated SecurityAreaReqDTO.UPDATE update,
-                                                   @PathVariable(name = "user_identity") String userIdentity) {
+                                                   Principal principal) {
 
-        securityAreaService.updateSecurityArea(userIdentity, securityAreaId, update);
+        securityAreaService.updateSecurityArea(principal, securityAreaId, update);
 
         return ResponseFormat.successMessage(
                 ResponseStatus.SUCCESS_EXECUTE,
