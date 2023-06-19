@@ -53,7 +53,6 @@ Beacon 센서를 활용한 자동화 출입 및 안전 관리 시스템
 │                   ├── enums
 │                   ├── mappers
 │                   └── service
-|
 ```
 
 
