@@ -44,31 +44,16 @@ Beacon 센서를 활용한 자동화 출입 및 안전 관리 시스템
 │               │   └── handler
 │               ├── persistence
 │               │   ├── entity
-│               │   │   ├── alert
-│               │   │   ├── attendance
-│               │   │   ├── beacon
-│               │   │   ├── securityArea
-│               │   │   └── user
 │               │   └── repository
 │               │       
 │               └── service
 │                   ├── dtos
 │                   │   ├── request
-│                   │   │   ├── attendance
-│                   │   │   ├── beacon
-│                   │   │   ├── fcm
-│                   │   │   ├── securityArea
-│                   │   │   └── user
 │                   │   └── response
 │                   ├── enums
 │                   ├── mappers
 │                   └── service
-│                       ├── alert
-│                       ├── attendance
-│                       ├── beacon
-│                       ├── fcm
-│                       ├── securityArea
-│                       └── user
+|
 ```
 
 
