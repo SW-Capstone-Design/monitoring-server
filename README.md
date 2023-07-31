@@ -56,36 +56,40 @@ Beacon 센서를 활용한 자동화 출입 및 안전 관리 시스템
 
 
 ## 📌 주요 기능
-#### 회원가입 - <a href="https://github.com/SW-Capstone-Design/monitoring-server/wiki/%EA%B8%B0%EB%8A%A5-%7C-MainPage-&-MyPage(UserPage)" >상세보기 - WIKI 이동</a>
+#### 회원가입
 - 주소 API 연동
 - ID 중복 체크
 - Security를 통해 PW 암호화
-#### 마이 페이지 (사용자 페이지) - <a href="https://github.com/SW-Capstone-Design/monitoring-server/wiki/%EA%B8%B0%EB%8A%A5-%7C-MainPage-&-MyPage(UserPage)" >상세보기 - WIKI 이동</a>
+  
+#### 마이 페이지 (사용자 페이지)
 - 주소 API 연동
 - 회원정보 변경
 - 출/퇴근 정보 확인
 
-#### 삼변 측량 - <a href="https://github.com/SW-Capstone-Design/monitoring-server/wiki/%EC%82%BC%EB%B3%80%EC%B8%A1%EB%9F%89" >상세보기 - WIKI 이동</a>
+#### 삼변 측량
 - 사용자 위치 계산
 - 보안구역 접근 감지
 - 사용자 RSSI 값과 비콘의 txPower 값 계산을 통해 position과 distance를 계산
 
-#### 사용자 위치 계산 - <a href="https://github.com/SW-Capstone-Design/monitoring-server/wiki/%EC%82%AC%EC%9A%A9%EC%9E%90-%EC%9C%84%EC%B9%98-%EA%B3%84%EC%82%B0" >상세보기 - WIKI 이동</a>
+#### 사용자 위치 계산
 - 삼변측량을 통해 비콘과 사용자 간의 거리를 계산
 - 계산된 사용자 정보를 통해 보안구역 접근을 감지
-#### 보안구역 등록 및 수정, 삭제 - <a href="https://github.com/SW-Capstone-Design/monitoring-server/wiki/%EB%B3%B4%EC%95%88%EA%B5%AC%EC%97%AD-%EB%93%B1%EB%A1%9D-%EB%B0%8F-%EC%88%98%EC%A0%95,-%EC%82%AD%EC%A0%9C" >상세보기 - WIKI 이동</a> 
+  
+#### 보안구역 등록 및 수정, 삭제
 - 비안가된 사용자가 접근할 경우, 경고 알림 생성
 - 인가 및 비인가된 사용자 보안구역 접근 시 보안구역 출입 기록 생성
 - 보안구역 등록, 읽기, 수정, 삭제(CRUD)
 - 보안구역 출입 기록 등록, 읽기, 수정, 삭제(CRUD)
-#### 비콘 등록 및 수정, 삭제 - <a href="https://github.com/SW-Capstone-Design/monitoring-server/wiki/%EB%B9%84%EC%BD%98-%EB%93%B1%EB%A1%9D-%EB%B0%8F-%EC%88%98%EC%A0%95,-%EC%82%AD%EC%A0%9C" >상세보기 - WIKI 이동</a> 
+  
+#### 비콘 등록 및 수정, 삭제
 - 모바일로 등록된 비콘 정보를 서버로 넘겨받아 비콘의 정보 등록
 - 해당 비콘 읽기, 수정, 삭제(CRUD)
-#### 출석 등록 및 수정, 삭제 - <a href="https://github.com/SW-Capstone-Design/monitoring-server/wiki/%EC%B6%9C%EC%84%9D-%EB%93%B1%EB%A1%9D-%EB%B0%8F-%EC%88%98%EC%A0%95,-%EC%82%AD%EC%A0%9C" >상세보기 - WIKI 이동</a> 
+  
+#### 출석 등록 및 수정, 삭제
 - 근로 구역 내 비콘과 모바일 간 위치 계산을 통한 출 / 퇴근 자동화
 - 출/퇴근 등록, 읽기, 수정, 삭제(CRUD)
 
-#### 관리자 페이지  - <a href="https://github.com/SW-Capstone-Design/monitoring-server/wiki/%EA%B4%80%EB%A6%AC%EC%9E%90-%ED%8E%98%EC%9D%B4%EC%A7%80" >상세보기 - WIKI 이동</a> 
+#### 관리자 페이지
 - 사용자 출/퇴근 정보 조회 및 수정, 삭제
 - 등록된 보안구역 정보 조회 및 등록, 수정, 삭제
 - 등록된 비콘 정보 조회 및 등록, 수정, 삭제
